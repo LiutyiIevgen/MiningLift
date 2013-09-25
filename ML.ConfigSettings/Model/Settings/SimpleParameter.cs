@@ -4,9 +4,9 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 
-namespace VisualizationSystem.Model.Settings
+namespace ML.ConfigSettings.Model.Settings
 {
-    class SimpleParameter : ConfigurationElement
+    public class SimpleParameter : ConfigurationElement
     {
 
         [ConfigurationProperty("value", IsRequired = true)]

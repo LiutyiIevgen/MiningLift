@@ -77,13 +77,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Model\RichTextBoxData\RichTextBoxData.cs" />
-    <Compile Include="Model\Settings\MainViewConfigSection.cs" />
-    <Compile Include="Model\Settings\SimpleParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AsyncProvider.cs" />
     <Compile Include="Services\ConfigParameters.cs" />
-    <Compile Include="Services\MineConfig.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\DataBoxVm.cs" />
@@ -133,6 +130,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ML.ConfigSettings\ML.ConfigSettings.csproj">
+      <Project>{DF2BBC87-F5D8-4CEE-8446-83CB50EDC8A3}</Project>
+      <Name>ML.ConfigSettings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ML.DataExchange\ML.DataExchange.csproj">
       <Project>{B4A6B5B6-3E1B-4E8B-9A1B-1C5696888F60}</Project>
       <Name>ML.DataExchange</Name>

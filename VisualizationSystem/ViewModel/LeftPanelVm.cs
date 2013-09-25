@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -69,7 +70,7 @@ namespace VisualizationSystem.ViewModel
             middle_desh_width = panelWidth / 3 / 4;
             small_desh_width = panelWidth / 3 / 6;
             rule_hight = panelHeight - 20;
-            pixel_pro_meter = rule_hight / (ConfigParameters.Distance + 2 * Settings.UpZeroZone);
+            pixel_pro_meter = rule_hight / (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + 2 * Settings.UpZeroZone);
             pixel_pro_ten_santimeter = rule_hight / 20;
         }
         private void SetPointsValue()
@@ -126,7 +127,7 @@ namespace VisualizationSystem.ViewModel
                 FirstPoint = new Point(panelWidth / 2, 0),
                 SecondPoint = new Point(panelWidth / 2, panelHeight)
             });
-            for (int i = Convert.ToInt32(Settings.UpZeroZone * (-1)); i <= (ConfigParameters.Distance + Settings.UpZeroZone); i++)
+            for (int i = Convert.ToInt32(Settings.UpZeroZone * (-1)); i <= (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + Settings.UpZeroZone); i++)
             {
                 if (i % 50 == 0)
                 {
@@ -353,7 +354,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             }
-            if (_parameters.f_ostanov == 1 && _parameters.s > (ConfigParameters.Distance - 0.1) && _parameters.load_state > 0 && _parameters.load_state < 4)
+            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) && _parameters.load_state > 0 && _parameters.load_state < 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
@@ -391,7 +392,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             }
-            else if (_parameters.f_ostanov == 1 && _parameters.s > (ConfigParameters.Distance - 0.1) && _parameters.load_state >= 4)
+            else if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) && _parameters.load_state >= 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
@@ -430,7 +431,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             } 
-            else if ((_parameters.s <= Settings.BorderZero - Settings.BorderRed) || (_parameters.s >= Settings.Border + Settings.BorderRed))
+            else if ((_parameters.s <= IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value) || (_parameters.s >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value))
             {
                 RulePointerLine.Add(new RuleData
                 {

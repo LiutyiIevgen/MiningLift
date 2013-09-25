@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -41,7 +42,7 @@ namespace VisualizationSystem.ViewModel
             middle_desh_width = panelHeight / 5;
             small_desh_width = panelHeight / 8;
             rule_hight = panelWidth - 20;
-            pixel_pro_meter = rule_hight / ConfigParameters.MaxV;
+            pixel_pro_meter = rule_hight / IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value;
         }
 
         private void SetPointsValue()
@@ -62,7 +63,7 @@ namespace VisualizationSystem.ViewModel
                 FirstPoint = new Point(0, panelHeight / 2),
                 SecondPoint = new Point(panelWidth, panelHeight / 2)
             });
-            for (int i = 0; i <= ConfigParameters.MaxV * 10; i++)
+            for (int i = 0; i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value * 10; i++)
             {
                 if (i % 10 == 0)
                 {

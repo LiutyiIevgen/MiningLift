@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -36,7 +37,7 @@ namespace VisualizationSystem.ViewModel
 
         private void SetLength()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 long_desh_width = panelWidth/3/2;
                 middle_desh_width = panelWidth/3/4;
@@ -47,7 +48,7 @@ namespace VisualizationSystem.ViewModel
         }
         private void SetPointsValue()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 x1_long = Convert.ToInt32(panelWidth/2 - long_desh_width/2);
                 x2_long = Convert.ToInt32(panelWidth/2 + long_desh_width/2);
@@ -60,7 +61,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<RuleData> GetDopRuleDatas()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RuleDatas.Add(new RuleData
                     {
@@ -207,7 +208,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<RuleData> GetDopRulePointerLine()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RulePointerLine.Add(new RuleData
                     {
@@ -251,7 +252,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<BorderLine> GetDopRulePanelBorderLine()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 PanelBorderLine.Add(new BorderLine
                     {

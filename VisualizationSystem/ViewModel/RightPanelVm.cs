@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -66,7 +67,7 @@ namespace VisualizationSystem.ViewModel
             middle_desh_width = panelWidth / 3 / 4;
             small_desh_width = panelWidth / 3 / 6;
             rule_hight = panelHeight - 20;
-            pixel_pro_meter = rule_hight / (ConfigParameters.Distance + 2 * Settings.UpZeroZone);
+            pixel_pro_meter = rule_hight / (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + 2 * Settings.UpZeroZone);
             pixel_pro_ten_santimeter = rule_hight / 20;
         }
         private void SetPointsValue()
@@ -123,7 +124,7 @@ namespace VisualizationSystem.ViewModel
                 FirstPoint = new Point(panelWidth / 2, 0),
                 SecondPoint = new Point(panelWidth / 2, panelHeight)
             });
-            for (int i = Convert.ToInt32(Settings.UpZeroZone * (-1)); i <= (ConfigParameters.Distance + Settings.UpZeroZone); i++)
+            for (int i = Convert.ToInt32(Settings.UpZeroZone * (-1)); i <= (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + Settings.UpZeroZone); i++)
             {
                 if (i % 50 == 0)
                 {
@@ -192,7 +193,7 @@ namespace VisualizationSystem.ViewModel
                 {
                     Brush = p_yellow,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (_parameters.s - slowdown_zone)))
                 });
@@ -203,7 +204,7 @@ namespace VisualizationSystem.ViewModel
                 {
                     Brush = p_orange,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (_parameters.s - dot_zone)))
                 });
@@ -214,7 +215,7 @@ namespace VisualizationSystem.ViewModel
                 {
                     Brush = p_yellow,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - slowdown_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - slowdown_zone_back))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (slowdown_zone_back - _parameters.s)))
                 });
@@ -225,7 +226,7 @@ namespace VisualizationSystem.ViewModel
                 {
                     Brush = p_orange,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - dot_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - dot_zone_back))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (dot_zone_back - _parameters.s)))
                 });
@@ -247,11 +248,11 @@ namespace VisualizationSystem.ViewModel
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s)))),
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))))
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -261,15 +262,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -280,15 +281,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -298,7 +299,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -312,11 +313,11 @@ namespace VisualizationSystem.ViewModel
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s)))),
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))))
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -326,15 +327,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -345,15 +346,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     LoadCageWidth += Convert.ToDouble(Convert.ToDouble(panelWidth/2 - panelWidth/6)/(6*20)); //
@@ -363,7 +364,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = panelWidth/2 - panelWidth/6 - Convert.ToInt32(LoadCageWidth),
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = Convert.ToInt32(LoadCageWidth) + 1,
                             Height = 20
                         });
@@ -376,11 +377,11 @@ namespace VisualizationSystem.ViewModel
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s)))),
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))))
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -390,15 +391,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -409,15 +410,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     LoadCageWidth = 0;
@@ -428,12 +429,12 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s > (ConfigParameters.Distance - 0.1) &&
+                if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) &&
                     _parameters.load_state > 0 && _parameters.load_state < 4)
                 {
                     RulePointerLine.Add(new RuleData
@@ -442,11 +443,11 @@ namespace VisualizationSystem.ViewModel
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s)))),
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                           Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))))
+                                           Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -456,15 +457,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -475,15 +476,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     UnLoadCageWidth += Convert.ToDouble(Convert.ToDouble(panelWidth/2 - panelWidth/6)/(6*20)); //
@@ -493,12 +494,12 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = panelWidth/2 - panelWidth/6 - Convert.ToInt32(UnLoadCageWidth),
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = Convert.ToInt32(UnLoadCageWidth) + 1,
                             Height = 20
                         });
                 }
-                else if (_parameters.f_ostanov == 1 && _parameters.s > (ConfigParameters.Distance - 0.1) &&
+                else if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) &&
                          _parameters.load_state >= 4)
                 {
                     RulePointerLine.Add(new RuleData
@@ -508,12 +509,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -523,15 +524,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -542,15 +543,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     UnLoadCageWidth = 0;
@@ -561,13 +562,13 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
                 }
-                else if ((_parameters.s <= Settings.BorderZero - Settings.BorderRed) ||
-                         (_parameters.s >= Settings.Border + Settings.BorderRed))
+                else if ((_parameters.s <= IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value) ||
+                         (_parameters.s >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value))
                 {
                     RulePointerLine.Add(new RuleData
                         {
@@ -576,12 +577,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -591,15 +592,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -610,15 +611,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -628,7 +629,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -644,12 +645,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -659,15 +660,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -678,15 +679,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -696,7 +697,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -712,12 +713,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -727,15 +728,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -746,15 +747,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -764,7 +765,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -778,12 +779,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -793,15 +794,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -812,15 +813,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -830,7 +831,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -844,12 +845,12 @@ namespace VisualizationSystem.ViewModel
                                 new Point(panelWidth/2 - panelWidth/6,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s)))),
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                             SecondPoint =
                                 new Point(x2_long,
                                           (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                            Convert.ToInt32(pixel_pro_meter*
-                                                           (ConfigParameters.Distance - _parameters.s))))
+                                                           (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                         {
@@ -859,15 +860,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     RuleFillPointer.Add(new FillPointer
@@ -878,15 +879,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                         });
                     //клеть
@@ -896,7 +897,7 @@ namespace VisualizationSystem.ViewModel
                             LeftTopX = 1,
                             LeftTopY =
                                 (Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
-                                 Convert.ToInt32(pixel_pro_meter*(ConfigParameters.Distance - _parameters.s))),
+                                 Convert.ToInt32(pixel_pro_meter*(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
@@ -912,11 +913,11 @@ namespace VisualizationSystem.ViewModel
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
                                       (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                                       Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
+                                       Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                         SecondPoint =
                             new Point(x2_long,
                                       (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                                       Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                                       Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                     {
@@ -926,15 +927,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                     });
                     RuleFillPointer.Add(new FillPointer
@@ -945,15 +946,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                     });
                     //клеть
@@ -963,7 +964,7 @@ namespace VisualizationSystem.ViewModel
                         LeftTopX = 1,
                         LeftTopY =
                             (Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                             Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))),
+                             Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
                     });
@@ -976,11 +977,11 @@ namespace VisualizationSystem.ViewModel
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
                                       (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                                       Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
+                                       Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                         SecondPoint =
                             new Point(x2_long,
                                       (10 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                                       Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                                       Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
                     {
@@ -990,15 +991,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                     });
                     RuleFillPointer.Add(new FillPointer
@@ -1009,15 +1010,15 @@ namespace VisualizationSystem.ViewModel
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
                                               (10 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (5 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s)))),
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
                                     new Point(panelWidth/2 - panelWidth/6,
                                               (15 + Convert.ToInt32(pixel_pro_meter*Settings.UpZeroZone) +
                                                Convert.ToInt32(pixel_pro_meter*
-                                                               (ConfigParameters.Distance - _parameters.s))))
+                                                               (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                                 }
                     });
                     //клеть
@@ -1027,7 +1028,7 @@ namespace VisualizationSystem.ViewModel
                         LeftTopX = 1,
                         LeftTopY =
                             (Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) +
-                             Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))),
+                             Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
                     });
@@ -1060,9 +1061,9 @@ namespace VisualizationSystem.ViewModel
                     Pen = green_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1070,9 +1071,9 @@ namespace VisualizationSystem.ViewModel
                     Brush = green,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }
                 });
             }
@@ -1083,9 +1084,9 @@ namespace VisualizationSystem.ViewModel
                     Pen = green_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1093,9 +1094,9 @@ namespace VisualizationSystem.ViewModel
                     Brush = green,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (ConfigParameters.Distance - _parameters.s))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * Settings.UpZeroZone) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s))))
                     }
                 });
             }

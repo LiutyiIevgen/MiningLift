@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
@@ -120,8 +121,8 @@ namespace VisualizationSystem.View
             this.Invoke((MethodInvoker)delegate
             {
                 chartVA.ChartAreas[0].AxisX.Maximum = Settings.UpZeroZone;
-                chartVA.ChartAreas[0].AxisX.Minimum = -(ConfigParameters.Distance + ConfigParameters.Distance / 8 - Settings.UpZeroZone);
-                chartVA.ChartAreas[0].AxisX.Interval = ConfigParameters.Distance / 8;
+                chartVA.ChartAreas[0].AxisX.Minimum = -(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8 - Settings.UpZeroZone);
+                chartVA.ChartAreas[0].AxisX.Interval = IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8;
                 chartVA.ChartAreas[0].AxisY.Minimum = -100;
                 chartVA.ChartAreas[0].AxisY.Maximum = 100;
                 chartVA.ChartAreas[0].AxisY.Interval = 25;
@@ -178,9 +179,9 @@ namespace VisualizationSystem.View
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
-                    chartVA.Series[0].Points.AddXY(-param.s, param.v / (ConfigParameters.MaxV / 100));
-                    chartVA.Series[1].Points.AddXY(-param.s, param.tok_anchor / (ConfigParameters.MaxTokAnchor / 100));
-                    chartVA.Series[2].Points.AddXY(-param.s, param.tok_excitation / (ConfigParameters.MaxTokExcitation / 100));
+                    chartVA.Series[0].Points.AddXY(-param.s, param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                    chartVA.Series[1].Points.AddXY(-param.s, param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
+                    chartVA.Series[2].Points.AddXY(-param.s, param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
                 });
             }
         }
@@ -384,9 +385,9 @@ namespace VisualizationSystem.View
                 }
                 this.Invoke((MethodInvoker)delegate
                     {
-                chartVA.Series[0].Points.AddXY(parameters.s, parameters.v / (ConfigParameters.MaxV / 100));
-                chartVA.Series[1].Points.AddXY(parameters.s, parameters.tok_anchor / (ConfigParameters.MaxTokAnchor / 100));
-                chartVA.Series[2].Points.AddXY(parameters.s, parameters.tok_excitation / (ConfigParameters.MaxTokExcitation / 100));
+                chartVA.Series[0].Points.AddXY(parameters.s, parameters.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                chartVA.Series[1].Points.AddXY(parameters.s, parameters.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
+                chartVA.Series[2].Points.AddXY(parameters.s, parameters.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
                     });
             }
         }

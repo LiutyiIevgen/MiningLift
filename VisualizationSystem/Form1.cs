@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.View;
+using ML.ConfigSettings.Services;
 
 namespace VisualizationSystem
 {
@@ -18,8 +19,7 @@ namespace VisualizationSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //MineConfig mineConfig = IoC.Resolve<MineConfig>();
-            //mineConfig.MainViewConfig.MaxSpeed.Value = 5;
+            //IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value = 5;
 
             ConfigParameters.ReadConfigParameters();
             SetMainView();

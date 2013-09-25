@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.GraphicData;
@@ -28,11 +29,11 @@ namespace VisualizationSystem.ViewModel
             if (_parameters.f_start == 1 || _parameters.f_back == 1)
             {
                 Graphic[0].X = _parameters.s * (-1);
-                Graphic[0].Y = _parameters.v/(ConfigParameters.MaxV/100);
+                Graphic[0].Y = _parameters.v/(IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value/100);
                 Graphic[1].X = _parameters.s * (-1);
-                Graphic[1].Y = _parameters.tok_anchor / (ConfigParameters.MaxTokAnchor / 100);
+                Graphic[1].Y = _parameters.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100);
                 Graphic[2].X = _parameters.s * (-1);
-                Graphic[2].Y = _parameters.tok_excitation / (ConfigParameters.MaxTokExcitation / 100);
+                Graphic[2].Y = _parameters.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100);
             }
         }
 

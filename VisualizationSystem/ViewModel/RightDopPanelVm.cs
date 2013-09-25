@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -36,7 +37,7 @@ namespace VisualizationSystem.ViewModel
 
         private void SetLength()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 long_desh_width = panelWidth / 3 / 2;
                 middle_desh_width = panelWidth / 3 / 4;
@@ -47,7 +48,7 @@ namespace VisualizationSystem.ViewModel
         }
         private void SetPointsValue()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 x1_long = Convert.ToInt32(panelWidth / 2 - long_desh_width / 2);
                 x2_long = Convert.ToInt32(panelWidth / 2 + long_desh_width / 2);
@@ -60,7 +61,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<RuleData> GetDopRuleDatas()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RuleDatas.Add(new RuleData
                     {
@@ -68,8 +69,8 @@ namespace VisualizationSystem.ViewModel
                         FirstPoint = new Point(panelWidth/2, 0),
                         SecondPoint = new Point(panelWidth/2, panelHeight)
                     });
-                for (int i = Convert.ToInt32(Math.Round(ConfigParameters.Distance - _parameters.s, 2) * 100) - 500;
-                     i <= Convert.ToInt32(Math.Round(ConfigParameters.Distance - _parameters.s, 2) * 100) + 500;
+                for (int i = Convert.ToInt32(Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) * 100) - 500;
+                     i <= Convert.ToInt32(Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) * 100) + 500;
                      i++)
                 {
                     if (i%100 == 0)
@@ -78,9 +79,9 @@ namespace VisualizationSystem.ViewModel
                             {
                                 Pen = pen,
                                 FirstPoint =
-                                    new Point(x1_long, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)))),
+                                    new Point(x1_long, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)))),
                                 SecondPoint =
-                                    new Point(x2_long, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5))))
+                                    new Point(x2_long, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5))))
                             });
                         if ((i/100) >= 10 && (i/100) < 100)
                             RuleInscriptions.Add(new RuleInscription
@@ -89,7 +90,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                         else if ((i/100) <= -10)
                             RuleInscriptions.Add(new RuleInscription
@@ -98,7 +99,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                         else if ((i/100) <= 0 && (i/100) > -10)
                             RuleInscriptions.Add(new RuleInscription
@@ -107,7 +108,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                         else if ((i/100) > 0 && (i/100) < 10)
                             RuleInscriptions.Add(new RuleInscription
@@ -116,7 +117,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                         else if ((i/100) >= 100 && (i/100) < 1000)
                             RuleInscriptions.Add(new RuleInscription
@@ -125,7 +126,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                         else if ((i/100) >= 1000)
                             RuleInscriptions.Add(new RuleInscription
@@ -134,7 +135,7 @@ namespace VisualizationSystem.ViewModel
                                     Font = drawFont_two,
                                     Brush = black,
                                     Position =
-                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)) - 2)
+                                        new Point(x2_long - 3, Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)) - 2)
                                 });
                     }
                     else if (i%50 == 0)
@@ -143,9 +144,9 @@ namespace VisualizationSystem.ViewModel
                             {
                                 Pen = pen,
                                 FirstPoint =
-                                    new Point(x1_middle, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)))),
+                                    new Point(x1_middle, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)))),
                                 SecondPoint =
-                                    new Point(x2_middle, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5))))
+                                    new Point(x2_middle, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5))))
                             });
                     }
                     else if (i%10 == 0)
@@ -154,9 +155,9 @@ namespace VisualizationSystem.ViewModel
                             {
                                 Pen = pen,
                                 FirstPoint =
-                                    new Point(x1_small, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5)))),
+                                    new Point(x1_small, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5)))),
                                 SecondPoint =
-                                    new Point(x2_small, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(ConfigParameters.Distance - _parameters.s, 2) - 5))))
+                                    new Point(x2_small, (10 + Convert.ToInt32(pixel_pro_ten_santimeter * i / 100) - Convert.ToInt32(pixel_pro_ten_santimeter * (Math.Round(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s, 2) - 5))))
                             });
                     }
                 }
@@ -171,7 +172,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<RuleData> GetDopRulePointerLine()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RulePointerLine.Add(new RuleData
                     {
@@ -215,7 +216,7 @@ namespace VisualizationSystem.ViewModel
 
         public List<BorderLine> GetDopRulePanelBorderLine()
         {
-            if (_parameters.v <= ConfigParameters.MaxVofDopRule)
+            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 PanelBorderLine.Add(new BorderLine
                     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
@@ -42,7 +43,7 @@ namespace VisualizationSystem.ViewModel
             middle_desh_width = panelHeight / 5;
             small_desh_width = panelHeight / 8;
             rule_hight = panelWidth - 20;
-            pixel_pro_meter = rule_hight / (ConfigParameters.MaxTokExcitation * 2);
+            pixel_pro_meter = rule_hight / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value * 2);
         }
 
         private void SetPointsValue()
@@ -79,15 +80,15 @@ namespace VisualizationSystem.ViewModel
                 FirstPoint = new Point(0, panelHeight / 2),
                 SecondPoint = new Point(panelWidth, panelHeight / 2)
             });
-            for (int i = Convert.ToInt32(ConfigParameters.MaxTokExcitation * (-1)); i <= ConfigParameters.MaxTokExcitation; i++)
+            for (int i = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value * (-1)); i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value; i++)
             {
                 if (i % 50 == 0)
                 {
                     RuleDatas.Add(new RuleData
                     {
                         Pen = pen,
-                        FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * i)), x1_long),
-                        SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * i)), x2_long)
+                        FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * i)), x1_long),
+                        SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * i)), x2_long)
                     });
                     if (i >= 10 && i < 100)
                         RuleInscriptions.Add(new RuleInscription
@@ -95,31 +96,31 @@ namespace VisualizationSystem.ViewModel
                             Text = Convert.ToString(i),
                             Font = drawFont_two,
                             Brush = black,
-                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) - 5, x2_long)
+                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) - 5, x2_long)
                         });
-                    else if (i >= 100 && i < ConfigParameters.MaxTokExcitation)
+                    else if (i >= 100 && i < IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value)
                         RuleInscriptions.Add(new RuleInscription
                         {
                             Text = Convert.ToString(i),
                             Font = drawFont_two,
                             Brush = black,
-                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) - 10, x2_long)
+                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) - 10, x2_long)
                         });
-                    else if (i >= ConfigParameters.MaxTokExcitation)
+                    else if (i >= IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value)
                         RuleInscriptions.Add(new RuleInscription
                         {
                             Text = Convert.ToString(i),
                             Font = drawFont_two,
                             Brush = black,
-                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) - 20, x2_long)
+                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) - 20, x2_long)
                         });
-                    else if (i <= -10 && i > -ConfigParameters.MaxTokExcitation)
+                    else if (i <= -10 && i > -IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value)
                         RuleInscriptions.Add(new RuleInscription
                         {
                             Text = Convert.ToString(i),
                             Font = drawFont_two,
                             Brush = black,
-                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) - 10, x2_long)
+                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) - 10, x2_long)
                         });
                     else
                         RuleInscriptions.Add(new RuleInscription
@@ -127,7 +128,7 @@ namespace VisualizationSystem.ViewModel
                             Text = Convert.ToString(i),
                             Font = drawFont_two,
                             Brush = black,
-                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation), x2_long)
+                            Position = new Point(Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value), x2_long)
                         });
                 }
                 else if (i % 10 == 0)
@@ -135,8 +136,8 @@ namespace VisualizationSystem.ViewModel
                     RuleDatas.Add(new RuleData
                     {
                         Pen = pen,
-                        FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * i)), x1_middle),
-                        SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * i)), x2_middle)
+                        FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * i)), x1_middle),
+                        SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * i)), x2_middle)
                     });
                 }
             }
@@ -153,17 +154,17 @@ namespace VisualizationSystem.ViewModel
                 RulePointerLine.Add(new RuleData
                 {
                     Pen = yellow_pen,
-                    FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x2_long),
-                    SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
+                    FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x2_long),
+                    SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
                 });
                 RulePointer.Add(new Pointer
                 {
                     Pen = yellow_pen,
                     Triangle = new Point[3]
                             {
-                                new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x1_long - 2),
-                                new Point((5 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3),
-                                new Point((15 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
+                                new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x1_long - 2),
+                                new Point((5 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3),
+                                new Point((15 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
                             }
                 });
                 RuleFillPointer.Add(new FillPointer
@@ -171,9 +172,9 @@ namespace VisualizationSystem.ViewModel
                     Brush = yellow,
                     Triangle = new Point[3]
                             {
-                                new Point((10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x1_long - 2),
-                                new Point((5 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3),
-                                new Point((15 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
+                                new Point((10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), x1_long - 2),
+                                new Point((5 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3),
+                                new Point((15 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation)), 3)
                             }
                 });
             return RulePointerLine;
@@ -195,7 +196,7 @@ namespace VisualizationSystem.ViewModel
                 TokExcitationMeaningZone.Add(new CageAndRuleZone
                 {
                     Brush = p_yellow,
-                    LeftTopX = 10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation),
+                    LeftTopX = 10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value),
                     LeftTopY = x1_middle,
                     Width = Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation),
                     Height = Convert.ToInt32(middle_desh_width)
@@ -204,7 +205,7 @@ namespace VisualizationSystem.ViewModel
                 TokExcitationMeaningZone.Add(new CageAndRuleZone
                 {
                     Brush = p_yellow,
-                    LeftTopX = 10 + Convert.ToInt32(pixel_pro_meter * ConfigParameters.MaxTokExcitation) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation),
+                    LeftTopX = 10 + Convert.ToInt32(pixel_pro_meter * IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value) + Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation),
                     LeftTopY = x1_middle,
                     Width = Convert.ToInt32(pixel_pro_meter * _parameters.tok_excitation) * (-1),
                     Height = Convert.ToInt32(middle_desh_width)

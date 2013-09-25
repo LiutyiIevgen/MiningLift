@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
@@ -21,10 +22,10 @@ namespace VisualizationSystem.ViewModel
 
         private void SolveDataBoxes()
         {
-            if (_parameters.v > ConfigParameters.MaxVofDopRule)
+            if (_parameters.v > IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 DataBoxes.Add(Convert.ToString(Math.Round(-_parameters.s, 0), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(-(ConfigParameters.Distance - _parameters.s), 0), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s), 0), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
@@ -32,7 +33,7 @@ namespace VisualizationSystem.ViewModel
             else
             {
                 DataBoxes.Add(Convert.ToString(Math.Round(-_parameters.s, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(-(ConfigParameters.Distance - _parameters.s), 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - _parameters.s), 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));

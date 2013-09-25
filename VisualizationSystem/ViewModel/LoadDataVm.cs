@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.RichTextBoxData;
@@ -50,7 +51,7 @@ namespace VisualizationSystem.ViewModel
                 LoadData[3].Text = "";
             }
             // сообщения загрузки (внизу)
-            if (_parameters.f_ostanov == 1 && _parameters.s > (ConfigParameters.Distance - 0.1) && _parameters.s < (ConfigParameters.Distance + 0.1))
+            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + 0.1))
             {
                 for (int i = 1; i <= 5; i++)
                 {
