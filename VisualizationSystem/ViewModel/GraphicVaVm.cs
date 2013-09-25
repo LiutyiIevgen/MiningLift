@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ML.DataExchange;
+using VisualizationSystem.Model;
+using VisualizationSystem.Model.GraphicData;
+using VisualizationSystem.Services;
+
+namespace VisualizationSystem.ViewModel
+{
+    class GraphicVaVm
+    {
+        public GraphicVaVm(Parameters parameter)
+        {
+            _parameters = parameter;
+            Graphic = new GraphicData[3];
+            for (int i = 0; i < 3; i++)
+                Graphic[i] = new GraphicData();
+
+            SolveNewGraphicPoint();
+        }
+
+        private void SolveNewGraphicPoint()
+        {
+            if (_parameters.f_ostanov == 1)
+                was_ostanov = 1;
+            if (_parameters.f_start == 1 || _parameters.f_back == 1)
+            {
+                Graphic[0].X = _parameters.s * (-1);
+                Graphic[0].Y = _parameters.v/(ConfigParameters.MaxV/100);
+                Graphic[1].X = _parameters.s * (-1);
+                Graphic[1].Y = _parameters.tok_anchor / (ConfigParameters.MaxTokAnchor / 100);
+                Graphic[2].X = _parameters.s * (-1);
+                Graphic[2].Y = _parameters.tok_excitation / (ConfigParameters.MaxTokExcitation / 100);
+            }
+        }
+
+        public GraphicData[] Graphic { get; private set; }
+        private Parameters _parameters;
+        public int was_ostanov { get; set; }
+    }
+}

@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2946C054-91B5-4753-8469-8E102165A358}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VisualizationSystem</RootNamespace>
+    <AssemblyName>VisualizationSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XmlSettings">
+      <HintPath>..\packages\XmlSettings.0.1.3\lib\net40\XmlSettings.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DataListener.cs" />
+    <Compile Include="Model\GraphicData\GraphicData.cs" />
+    <Compile Include="Model\IoC.cs" />
+    <Compile Include="Model\MyRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Model\PanelData\BorderLine.cs" />
+    <Compile Include="Model\PanelData\CageAndRuleZone.cs" />
+    <Compile Include="Model\PanelData\FillPointer.cs" />
+    <Compile Include="Model\PanelData\Pointer.cs" />
+    <Compile Include="Model\PanelData\RuleData.cs" />
+    <Compile Include="Model\PanelData\RuleInscription.cs" />
+    <Compile Include="Model\MyPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Model\RichTextBoxData\RichTextBoxData.cs" />
+    <Compile Include="Model\Settings\MainViewConfigSection.cs" />
+    <Compile Include="Model\Settings\SimpleParameter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AsyncProvider.cs" />
+    <Compile Include="Services\ConfigParameters.cs" />
+    <Compile Include="Services\MineConfig.cs" />
+    <Compile Include="Services\Settings.cs" />
+    <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
+    <Compile Include="ViewModel\DataBoxVm.cs" />
+    <Compile Include="ViewModel\GraphicVaVm.cs" />
+    <Compile Include="ViewModel\LeftDopPanelVm.cs" />
+    <Compile Include="ViewModel\LeftPanelVm.cs" />
+    <Compile Include="ViewModel\LoadDataVm.cs" />
+    <Compile Include="ViewModel\RightDopPanelVm.cs" />
+    <Compile Include="ViewModel\RightPanelVm.cs" />
+    <Compile Include="ViewModel\SpeedPanelVm.cs" />
+    <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
+    <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="View\MainView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\MainView.Designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="View\MainView.resx">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ML.DataExchange\ML.DataExchange.csproj">
+      <Project>{B4A6B5B6-3E1B-4E8B-9A1B-1C5696888F60}</Project>
+      <Name>ML.DataExchange</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
