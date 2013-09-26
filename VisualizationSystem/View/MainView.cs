@@ -56,6 +56,9 @@ namespace VisualizationSystem.View
 
         public void ViewData(Parameters parameters)
         {
+            //
+            Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
+            //
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
             UpdateLeftDopPanel(parameters);
@@ -446,6 +449,12 @@ namespace VisualizationSystem.View
             if (btBac_tok_excitation != null)
                 e.Graphics.DrawImage(btBac_tok_excitation, 0, 0);
         }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            IoC.Resolve<FormSettings>().ShowDialog();
+        }
+
  
     }
 }

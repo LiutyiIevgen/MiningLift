@@ -23,6 +23,7 @@ namespace VisualizationSystem
 
             ConfigParameters.ReadConfigParameters();
             SetMainView();
+            FormSettings f2 = IoC.Resolve<FormSettings>();
         }
 
         private void SetMainView()

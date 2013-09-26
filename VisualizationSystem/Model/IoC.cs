@@ -4,6 +4,7 @@ using Ninject;
 using Ninject.Parameters;
 using ML.DataExchange.Interfaces;
 using VisualizationSystem.Services;
+using VisualizationSystem.View;
 
 namespace VisualizationSystem.Model
 {
@@ -40,6 +41,7 @@ namespace VisualizationSystem.Model
         {
             RegisterInstance<IDataExchange, TransferOverFile>();
             RegisterSingleton<MineConfig, MineConfig>();
+            RegisterSingleton<FormSettings, FormSettings>();
         }
     }
 }

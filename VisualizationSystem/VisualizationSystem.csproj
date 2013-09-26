@@ -93,11 +93,23 @@
     <Compile Include="ViewModel\SpeedPanelVm.cs" />
     <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
     <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="View\FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="View\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainViewSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\MainViewSettings.Designer.cs">
+      <DependentUpon>MainViewSettings.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -112,8 +124,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MainViewSettings.resx">
+      <DependentUpon>MainViewSettings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
