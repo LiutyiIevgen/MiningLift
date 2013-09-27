@@ -16,6 +16,5 @@ namespace ML.ConfigSettings.Model.Settings
             set { this["value"] = value; }
         }
 
-
     }
 }

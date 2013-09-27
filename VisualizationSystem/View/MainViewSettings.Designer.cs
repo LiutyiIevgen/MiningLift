@@ -46,6 +46,10 @@
             this.borderRedTextBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.upZeroZoneTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.leftSosudСomboBox = new System.Windows.Forms.ComboBox();
+            this.rightSosudComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // maxSpeedTextBox
@@ -237,11 +241,63 @@
             this.upZeroZoneTextBox.TextChanged += new System.EventHandler(this.upZeroZoneTextBox_TextChanged);
             this.upZeroZoneTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(12, 336);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(96, 19);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Левый сосуд";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(12, 371);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(105, 19);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Правый сосуд";
+            // 
+            // leftSosudСomboBox
+            // 
+            this.leftSosudСomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.leftSosudСomboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.leftSosudСomboBox.FormattingEnabled = true;
+            this.leftSosudСomboBox.Items.AddRange(new object[] {
+            "Скип",
+            "Противовес"});
+            this.leftSosudСomboBox.Location = new System.Drawing.Point(232, 337);
+            this.leftSosudСomboBox.Name = "leftSosudСomboBox";
+            this.leftSosudСomboBox.Size = new System.Drawing.Size(85, 21);
+            this.leftSosudСomboBox.TabIndex = 22;
+            this.leftSosudСomboBox.SelectedIndexChanged += new System.EventHandler(this.leftSosudСomboBox_SelectedIndexChanged);
+            // 
+            // rightSosudComboBox
+            // 
+            this.rightSosudComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.rightSosudComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rightSosudComboBox.FormattingEnabled = true;
+            this.rightSosudComboBox.Items.AddRange(new object[] {
+            "Скип",
+            "Противовес"});
+            this.rightSosudComboBox.Location = new System.Drawing.Point(232, 369);
+            this.rightSosudComboBox.Name = "rightSosudComboBox";
+            this.rightSosudComboBox.Size = new System.Drawing.Size(85, 21);
+            this.rightSosudComboBox.TabIndex = 23;
+            this.rightSosudComboBox.SelectedIndexChanged += new System.EventHandler(this.rightSosudComboBox_SelectedIndexChanged);
+            // 
             // MainViewSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Controls.Add(this.rightSosudComboBox);
+            this.Controls.Add(this.leftSosudСomboBox);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.upZeroZoneTextBox);
             this.Controls.Add(this.label8);
@@ -288,5 +344,9 @@
         private System.Windows.Forms.TextBox borderRedTextBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox upZeroZoneTextBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox leftSosudСomboBox;
+        private System.Windows.Forms.ComboBox rightSosudComboBox;
     }
 }

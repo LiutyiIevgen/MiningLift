@@ -17,6 +17,8 @@ namespace ML.ConfigSettings.Model.Settings
         private SimpleParameter _upZeroZone = null;
         private SimpleParameter _borderZero = null;
         private SimpleParameter _border = null;
+        private SimpleParameter _leftSosud = null;
+        private SimpleParameter _rightSosud = null;
 
         [ConfigurationProperty("maxSpeed")]
         public SimpleParameter MaxSpeed
@@ -142,6 +144,42 @@ namespace ML.ConfigSettings.Model.Settings
                 this["border"] = value;
                 _border = value;
             }
+        }
+
+        [ConfigurationProperty("leftSosud")]
+        private SimpleParameter leftSosud
+        {
+            get
+            {
+                return _leftSosud = _leftSosud ?? (SimpleParameter)this["leftSosud"];
+            }
+            set
+            {
+                this["leftSosud"] = value;
+                _leftSosud = value;
+            }
+        }
+        public SosudType LeftSosud {
+            get { return (SosudType)leftSosud.Value; }
+            set { leftSosud.Value = (double) value; }
+        }
+        [ConfigurationProperty("rightSosud")]
+        private SimpleParameter rightSosud
+        {
+            get
+            {
+                return _rightSosud = _rightSosud ?? (SimpleParameter)this["rightSosud"];
+            }
+            set
+            {
+                this["rightSosud"] = value;
+                _rightSosud = value;
+            }
+        }
+        public SosudType RightSosud
+        {
+            get { return (SosudType)rightSosud.Value; }
+            set { rightSosud.Value = (double)value; }
         }
     }
 }

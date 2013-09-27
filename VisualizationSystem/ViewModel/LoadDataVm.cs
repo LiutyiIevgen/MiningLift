@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
@@ -36,19 +37,31 @@ namespace VisualizationSystem.ViewModel
                     if (_parameters.unload_state == i)
                     {
                         int i1 = i - 1;
+                        if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+                        {
                             LoadData[0].BackColor = colors[i1];
                             LoadData[0].Text = textFirst[i1];
+                        }
+                        if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
+                        {
                             LoadData[3].BackColor = colors[i1];
                             LoadData[3].Text = textSecod[i1];
+                        }
                     }
                 }
             }
             else
             {
-                LoadData[0].BackColor = Color.Gray;
-                LoadData[0].Text = "";
-                LoadData[3].BackColor = Color.Gray;
-                LoadData[3].Text = "";
+                if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+                {
+                    LoadData[0].BackColor = Color.Gray;
+                    LoadData[0].Text = "";
+                }
+                if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
+                {
+                    LoadData[3].BackColor = Color.Gray;
+                    LoadData[3].Text = "";
+                }
             }
             // сообщения загрузки (внизу)
             if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - 0.1) && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + 0.1))
@@ -58,19 +71,31 @@ namespace VisualizationSystem.ViewModel
                     if (_parameters.load_state == i)
                     {
                         int i1 = i - 1;
-                        LoadData[1].BackColor = colors[i1];
-                        LoadData[1].Text = textSecod[i1];
-                        LoadData[2].BackColor = colors[i1];
-                        LoadData[2].Text = textFirst[i1];
+                        if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+                        {
+                            LoadData[1].BackColor = colors[i1];
+                            LoadData[1].Text = textSecod[i1];
+                        }
+                        if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
+                        {
+                            LoadData[2].BackColor = colors[i1];
+                            LoadData[2].Text = textFirst[i1];
+                        }
                     }
                 }
             }
             else
             {
-                LoadData[1].BackColor = Color.Gray;
-                LoadData[1].Text = "";
-                LoadData[2].BackColor = Color.Gray;
-                LoadData[2].Text = "";
+                if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+                {
+                    LoadData[1].BackColor = Color.Gray;
+                    LoadData[1].Text = "";
+                }
+                if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
+                {
+                    LoadData[2].BackColor = Color.Gray;
+                    LoadData[2].Text = "";
+                }
             }
         }
 

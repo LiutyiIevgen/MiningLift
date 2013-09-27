@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Settings\MainViewConfigSection.cs" />
     <Compile Include="Model\Settings\SimpleParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
