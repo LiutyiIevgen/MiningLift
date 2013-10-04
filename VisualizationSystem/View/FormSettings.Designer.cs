@@ -158,6 +158,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройки";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

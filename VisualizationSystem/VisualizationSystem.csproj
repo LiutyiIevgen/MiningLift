@@ -99,6 +99,12 @@
     <Compile Include="View\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\FormSettingsParol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormSettingsParol.Designer.cs">
+      <DependentUpon>FormSettingsParol.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,6 +132,9 @@
     </Compile>
     <EmbeddedResource Include="View\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormSettingsParol.resx">
+      <DependentUpon>FormSettingsParol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>

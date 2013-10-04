@@ -24,6 +24,7 @@ namespace VisualizationSystem
             ConfigParameters.ReadConfigParameters();
             SetMainView();
             FormSettings f2 = IoC.Resolve<FormSettings>();
+            FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
         }
 
         private void SetMainView()

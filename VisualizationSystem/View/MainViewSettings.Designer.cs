@@ -50,6 +50,15 @@
             this.label11 = new System.Windows.Forms.Label();
             this.leftSosudСomboBox = new System.Windows.Forms.ComboBox();
             this.rightSosudComboBox = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // maxSpeedTextBox
@@ -197,7 +206,7 @@
             this.borderZeroTextBox.TabIndex = 12;
             this.borderZeroTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.borderZeroTextBox.TextChanged += new System.EventHandler(this.borderZeroTextBox_TextChanged);
-            this.borderZeroTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            this.borderZeroTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.borderZeroTextBox_KeyPress);
             // 
             // label8
             // 
@@ -264,36 +273,135 @@
             // leftSosudСomboBox
             // 
             this.leftSosudСomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.leftSosudСomboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.leftSosudСomboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.leftSosudСomboBox.FormattingEnabled = true;
             this.leftSosudСomboBox.Items.AddRange(new object[] {
             "Скип",
             "Противовес"});
             this.leftSosudСomboBox.Location = new System.Drawing.Point(232, 337);
             this.leftSosudСomboBox.Name = "leftSosudСomboBox";
-            this.leftSosudСomboBox.Size = new System.Drawing.Size(85, 21);
+            this.leftSosudСomboBox.Size = new System.Drawing.Size(108, 24);
             this.leftSosudСomboBox.TabIndex = 22;
             this.leftSosudСomboBox.SelectedIndexChanged += new System.EventHandler(this.leftSosudСomboBox_SelectedIndexChanged);
             // 
             // rightSosudComboBox
             // 
             this.rightSosudComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.rightSosudComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rightSosudComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rightSosudComboBox.FormattingEnabled = true;
             this.rightSosudComboBox.Items.AddRange(new object[] {
             "Скип",
             "Противовес"});
             this.rightSosudComboBox.Location = new System.Drawing.Point(232, 369);
             this.rightSosudComboBox.Name = "rightSosudComboBox";
-            this.rightSosudComboBox.Size = new System.Drawing.Size(85, 21);
+            this.rightSosudComboBox.Size = new System.Drawing.Size(108, 24);
             this.rightSosudComboBox.TabIndex = 23;
             this.rightSosudComboBox.SelectedIndexChanged += new System.EventHandler(this.rightSosudComboBox_SelectedIndexChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(306, 27);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(34, 19);
+            this.label12.TabIndex = 24;
+            this.label12.Text = "м/с";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(306, 62);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(34, 19);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "м/с";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(306, 98);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(26, 19);
+            this.label14.TabIndex = 26;
+            this.label14.Text = "кА";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label15.Location = new System.Drawing.Point(306, 133);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(18, 19);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "А";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(306, 168);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(20, 19);
+            this.label16.TabIndex = 28;
+            this.label16.Text = "м";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(306, 271);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(20, 19);
+            this.label17.TabIndex = 29;
+            this.label17.Text = "м";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label18.Location = new System.Drawing.Point(306, 305);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(20, 19);
+            this.label18.TabIndex = 30;
+            this.label18.Text = "м";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label19.Location = new System.Drawing.Point(306, 236);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(20, 19);
+            this.label19.TabIndex = 31;
+            this.label19.Text = "м";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label20.Location = new System.Drawing.Point(306, 202);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(20, 19);
+            this.label20.TabIndex = 32;
+            this.label20.Text = "м";
             // 
             // MainViewSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.rightSosudComboBox);
             this.Controls.Add(this.leftSosudСomboBox);
             this.Controls.Add(this.label11);
@@ -348,5 +456,14 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox leftSosudСomboBox;
         private System.Windows.Forms.ComboBox rightSosudComboBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
     }
 }

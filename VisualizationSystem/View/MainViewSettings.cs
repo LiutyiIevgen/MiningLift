@@ -44,7 +44,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value = 16;
                 maxSpeedTextBox.Text = Convert.ToString(16, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Масштаб скорости не может быть больше 16", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Масштаб скорости не может быть больше 16 м/с", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value = Convert.ToDouble(maxSpeedTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -58,7 +58,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value = 16;
                 maxDopRuleSpeedTextBox.Text = Convert.ToString(16, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Макс. скорость доп. шкалы не может быть больше 16", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Макс. скорость доп. шкалы не может быть больше 16 м/с", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value = Convert.ToDouble(maxDopRuleSpeedTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -72,7 +72,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value = 8;
                 maxTokAnchorTextBox.Text = Convert.ToString(8, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Масштаб тока якоря не может быть больше 8", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Масштаб тока якоря не может быть больше 8 кА", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value = Convert.ToDouble(maxTokAnchorTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -86,7 +86,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value = 400;
                 maxTokExcitationTextBox.Text = Convert.ToString(400, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Масштаб тока возбуждения не может быть больше 400", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Масштаб тока возбуждения не может быть больше 400 А", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value = Convert.ToDouble(maxTokExcitationTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -100,7 +100,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = 1500;
                 distanceTextBox.Text = Convert.ToString(1500, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Глубина не может быть больше 1500", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Глубина не может быть больше 1500 м", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = Convert.ToDouble(distanceTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -122,10 +122,17 @@ namespace VisualizationSystem.View
 
         private void borderZeroTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (borderZeroTextBox.Text == "" || borderZeroTextBox.Text == ".")
-                IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = 0;
-            else
-                IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = Convert.ToDouble(borderZeroTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+            try
+            {
+                if (borderZeroTextBox.Text == "" || borderZeroTextBox.Text == "." || borderZeroTextBox.Text == "-")
+                    IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = 0;
+                else
+                    IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = Convert.ToDouble(borderZeroTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+            }
+            catch (Exception)
+            {
+                borderZeroTextBox.Text = "";
+            }    
         }
 
         private void borderRedTextBox_TextChanged(object sender, EventArgs e)
@@ -136,7 +143,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value = 1;
                 borderRedTextBox.Text = Convert.ToString(1, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Переподъём не может быть больше 1", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Переподъём не может быть больше 1 м", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value = Convert.ToDouble(borderRedTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -150,7 +157,7 @@ namespace VisualizationSystem.View
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value = 25;
                 upZeroZoneTextBox.Text = Convert.ToString(25, CultureInfo.GetCultureInfo("en-US"));
-                MessageBox.Show("Зона переподъёма не может быть больше 25", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Зона переподъёма не может быть больше 25 м", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value = Convert.ToDouble(upZeroZoneTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
@@ -163,26 +170,33 @@ namespace VisualizationSystem.View
             e.Handled = !(char.IsDigit(c) || c == '.' || c == '\b');
         }
 
+        private void borderZeroTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            e.Handled = !(char.IsDigit(c) || c == '.' || c == '\b' || c == '-');
+        }
+
         //
         private void leftSosudСomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rightSosudComboBox.SelectedIndex == 1 && leftSosudСomboBox.SelectedIndex == 1)
+            /*if (rightSosudComboBox.SelectedIndex == 1 && leftSosudСomboBox.SelectedIndex == 1)
             {
                 leftSosudСomboBox.SelectedIndex = 0;
                 MessageBox.Show("Оба сосуда не могут быть противовесом", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
+            } */
             IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud = (SosudType)leftSosudСomboBox.SelectedIndex;
         }
 
         private void rightSosudComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rightSosudComboBox.SelectedIndex == 1 && leftSosudСomboBox.SelectedIndex == 1)
+            /*if (rightSosudComboBox.SelectedIndex == 1 && leftSosudСomboBox.SelectedIndex == 1)
             {
                 rightSosudComboBox.SelectedIndex = 0;
                 MessageBox.Show("Оба сосуда не могут быть противовесом", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
+            }*/
             IoC.Resolve<MineConfig>().MainViewConfig.RightSosud = (SosudType)rightSosudComboBox.SelectedIndex;
         }
+
 
     }
 }

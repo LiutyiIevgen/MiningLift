@@ -465,7 +465,7 @@ namespace VisualizationSystem.View
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            IoC.Resolve<FormSettings>().ShowDialog();
+            IoC.Resolve<FormSettingsParol>().ShowDialog();
         }
 
  
