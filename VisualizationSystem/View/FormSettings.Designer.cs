@@ -32,7 +32,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.MainViewSettingsButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.AuziDButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -115,29 +115,29 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.button1);
+            this.splitContainer3.Panel1.Controls.Add(this.AuziDButton);
             this.splitContainer3.Size = new System.Drawing.Size(218, 389);
             this.splitContainer3.SplitterDistance = 55;
             this.splitContainer3.TabIndex = 0;
             this.splitContainer3.TabStop = false;
             // 
-            // button1
+            // AuziDButton
             // 
-            this.button1.BackColor = System.Drawing.Color.Gainsboro;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(218, 55);
-            this.button1.TabIndex = 1;
-            this.button1.TabStop = false;
-            this.button1.Text = "Другие";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AuziDButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.AuziDButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.AuziDButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AuziDButton.FlatAppearance.BorderSize = 0;
+            this.AuziDButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.AuziDButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AuziDButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AuziDButton.Location = new System.Drawing.Point(0, 0);
+            this.AuziDButton.Name = "AuziDButton";
+            this.AuziDButton.Size = new System.Drawing.Size(218, 55);
+            this.AuziDButton.TabIndex = 1;
+            this.AuziDButton.TabStop = false;
+            this.AuziDButton.Text = "АУЗИ-Д";
+            this.AuziDButton.UseVisualStyleBackColor = false;
+            this.AuziDButton.Click += new System.EventHandler(this.AuziDButton_Click);
             // 
             // panel1
             // 
@@ -160,6 +160,7 @@
             this.Name = "FormSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройки";
+            this.Load += new System.EventHandler(this.FormSettings_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -180,7 +181,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button MainViewSettingsButton;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button AuziDButton;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
     }

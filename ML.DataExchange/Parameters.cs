@@ -7,8 +7,10 @@ namespace ML.DataExchange
         public Parameters(double[] param)
         {
             signal = new int[24];
+            AuziDIOSignalsState = new int[144];
             set_parameters(param);
             GetSignals();
+            GetAuziDIOSignalsState();
         }
 
         private void set_parameters(double[] param)
@@ -35,6 +37,14 @@ namespace ML.DataExchange
             }
         }
 
+        public void GetAuziDIOSignalsState()
+        {
+            for (int i = 0; i < 144; i++)
+            {
+                AuziDIOSignalsState[i] = 2;
+            }
+        }
+
         public double s { get; private set; }//текущее значение пути
         public double v { get; private set; }//текущее значение скорости
         public double a { get; private set; } //текущее значение ускорения
@@ -52,5 +62,7 @@ namespace ML.DataExchange
         public double tok_excitation { get; set; } //ток возбуждения
         //signals in central part of screen
         public int[] signal { get; private set; }
+        // AUZI-D iput and output signals
+        public int[] AuziDIOSignalsState { get; private set; }
     }
 }

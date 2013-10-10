@@ -15,6 +15,11 @@ namespace ML.ConfigSettings.Services
         {
             get { return _mainViewConfig ?? (_mainViewConfig = (MainViewConfigSection)_config.GetSection("MainView")); }
         }
+        private AuziDSignalsConfigSection _auziDSignalsConfig;
+        public AuziDSignalsConfigSection AuziDSignalsConfig
+        {
+            get { return _auziDSignalsConfig ?? (_auziDSignalsConfig = (AuziDSignalsConfigSection)_config.GetSection("AuziDSignals")); }
+        }
         ~MineConfig()
         {
             _config.Save(ConfigurationSaveMode.Modified);

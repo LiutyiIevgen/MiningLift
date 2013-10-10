@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GlacialList1.3">
+      <HintPath>..\GlacialList1.3.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -82,6 +85,7 @@
     <Compile Include="Services\AsyncProvider.cs" />
     <Compile Include="Services\ConfigParameters.cs" />
     <Compile Include="Services\Settings.cs" />
+    <Compile Include="ViewModel\AuziDInOutSignalsVm.cs" />
     <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\DataBoxVm.cs" />
     <Compile Include="ViewModel\GraphicVaVm.cs" />
@@ -93,6 +97,12 @@
     <Compile Include="ViewModel\SpeedPanelVm.cs" />
     <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
     <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="View\AuziDSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\AuziDSettings.Designer.cs">
+      <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +140,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\AuziDSettings.resx">
+      <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>

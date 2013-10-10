@@ -30,6 +30,10 @@ namespace VisualizationSystem.View
         private int was_ostanov = 0;
         private int graphic_counter = 0;
         RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
+        TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
+        Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
+        TextBox[] masOutTextBox = new TextBox[16];//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
+        Label[] masOutLabel = new Label[16];//массив лейблов для вывода выходных сигналов АУЗИ-Д
 
         public MainView()
         {
@@ -52,7 +56,12 @@ namespace VisualizationSystem.View
         private void MainView_Load(object sender, EventArgs e)
         {
             CreateRichTextBoxMassiv();
+            CreateAuziDIOSignalsMassiv();
             SetGraphicInterval();
+
+           // string[] s = IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals;
+           // s[0] = "1";
+           // IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals = s;
         }
 
         public void ViewData(Parameters parameters)
@@ -80,6 +89,7 @@ namespace VisualizationSystem.View
                 updateGraphicThread.Start(parameters);
             }
             UpdateCentralSignalsData(parameters);
+            UpdateAuziDInputOutputSignals(parameters);
         }
 
         public void SetInitControlsFeatures()
@@ -161,6 +171,110 @@ namespace VisualizationSystem.View
                 masRichTextBox[21] = richTextBox26;
                 masRichTextBox[22] = richTextBox27;
                 masRichTextBox[23] = richTextBox28;
+            });
+        }
+
+        private void CreateAuziDIOSignalsMassiv()
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+            masInTextBox[0] = textBox6;
+            masInTextBox[1] = textBox7;
+            masInTextBox[2] = textBox8;
+            masInTextBox[3] = textBox9;
+            masInTextBox[4] = textBox10;
+            masInTextBox[5] = textBox11;
+            masInTextBox[6] = textBox12;
+            masInTextBox[7] = textBox13;
+            masInTextBox[8] = textBox14;
+            masInTextBox[9] = textBox15;
+            masInTextBox[10] = textBox16;
+            masInTextBox[11] = textBox17;
+            masInTextBox[12] = textBox18;
+            masInTextBox[13] = textBox19;
+            masInTextBox[14] = textBox20;
+            masInTextBox[15] = textBox21;
+            masInTextBox[16] = textBox22;
+            masInTextBox[17] = textBox23;
+            masInTextBox[18] = textBox24;
+            masInTextBox[19] = textBox25;
+            masInTextBox[20] = textBox26;
+            masInTextBox[21] = textBox27;
+            masInTextBox[22] = textBox28;
+            masInTextBox[23] = textBox29;
+            masInTextBox[24] = textBox30;
+            masInTextBox[25] = textBox31;
+            masInTextBox[26] = textBox32;
+            masInTextBox[27] = textBox33;
+            masInTextBox[28] = textBox34;
+            masInTextBox[29] = textBox35;
+            masInTextBox[30] = textBox36;
+            masInTextBox[31] = textBox37;
+            masOutTextBox[0] = textBox38;
+            masOutTextBox[1] = textBox39;
+            masOutTextBox[2] = textBox40;
+            masOutTextBox[3] = textBox41;
+            masOutTextBox[4] = textBox42;
+            masOutTextBox[5] = textBox43;
+            masOutTextBox[6] = textBox44;
+            masOutTextBox[7] = textBox45;
+            masOutTextBox[8] = textBox46;
+            masOutTextBox[9] = textBox47;
+            masOutTextBox[10] = textBox48;
+            masOutTextBox[11] = textBox49;
+            masOutTextBox[12] = textBox50;
+            masOutTextBox[13] = textBox51;
+            masOutTextBox[14] = textBox52;
+            masOutTextBox[15] = textBox53;
+
+            masInLabel[0] = label4;
+            masInLabel[1] = label5;
+            masInLabel[2] = label11;
+            masInLabel[3] = label12;
+            masInLabel[4] = label13;
+            masInLabel[5] = label14;
+            masInLabel[6] = label15;
+            masInLabel[7] = label16;
+            masInLabel[8] = label17;
+            masInLabel[9] = label18;
+            masInLabel[10] = label19;
+            masInLabel[11] = label20;
+            masInLabel[12] = label21;
+            masInLabel[13] = label22;
+            masInLabel[14] = label23;
+            masInLabel[15] = label24;
+            masInLabel[16] = label25;
+            masInLabel[17] = label26;
+            masInLabel[18] = label27;
+            masInLabel[19] = label28;
+            masInLabel[20] = label29;
+            masInLabel[21] = label30;
+            masInLabel[22] = label31;
+            masInLabel[23] = label32;
+            masInLabel[24] = label33;
+            masInLabel[25] = label34;
+            masInLabel[26] = label35;
+            masInLabel[27] = label36;
+            masInLabel[28] = label37;
+            masInLabel[29] = label38;
+            masInLabel[30] = label39;
+            masInLabel[31] = label40;
+            masOutLabel[0] = label41;
+            masOutLabel[1] = label42;
+            masOutLabel[2] = label43;
+            masOutLabel[3] = label44;
+            masOutLabel[4] = label45;
+            masOutLabel[5] = label46;
+            masOutLabel[6] = label47;
+            masOutLabel[7] = label48;
+            masOutLabel[8] = label49;
+            masOutLabel[9] = label50;
+            masOutLabel[10] = label51;
+            masOutLabel[11] = label52;
+            masOutLabel[12] = label53;
+            masOutLabel[13] = label54;
+            masOutLabel[14] = label55;
+            masOutLabel[15] = label56;
             });
         }
 
@@ -421,6 +535,24 @@ namespace VisualizationSystem.View
             });
         }
 
+        public void UpdateAuziDInputOutputSignals(Parameters parameters)
+        {
+            var AuziDInOutSignalsVm = new AuziDInOutSignalsVm(parameters);
+            this.Invoke((MethodInvoker)delegate
+            {
+                for (int i = 0; i < 32; i++)
+                {
+                    masInTextBox[i].BackColor = AuziDInOutSignalsVm.InputMeanings[i];
+                    masInLabel[i].Text = AuziDInOutSignalsVm.InputNames[i];
+                }
+                for (int i = 0; i < 16; i++)
+                {
+                    masOutTextBox[i].BackColor = AuziDInOutSignalsVm.OutputMeanings[i];
+                    masOutLabel[i].Text = AuziDInOutSignalsVm.OutputNames[i];
+                }
+            });
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             if (btBac != null)
@@ -467,6 +599,7 @@ namespace VisualizationSystem.View
         {
             IoC.Resolve<FormSettingsParol>().ShowDialog();
         }
+
 
  
     }

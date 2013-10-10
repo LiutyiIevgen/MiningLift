@@ -12,32 +12,41 @@ namespace VisualizationSystem.View
     public partial class FormSettings : Form
     {
         MainViewSettings _mainViewSettings = new MainViewSettings();
+        AuziDSettings _auziDSettings = new AuziDSettings();
         public FormSettings()
         {
             InitializeComponent();
             //start
-            button1.BackColor = Color.Gainsboro;
+            AuziDButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_mainViewSettings);
+        }
+
+        private void FormSettings_Load(object sender, EventArgs e)
+        {
         }
 
         private void MainViewSettingsButton_Click(object sender, EventArgs e)
         {
-            button1.BackColor = Color.Gainsboro;
+            AuziDButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_mainViewSettings);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void AuziDButton_Click(object sender, EventArgs e)
         {
             MainViewSettingsButton.BackColor = Color.Gainsboro;
-            button1.BackColor = SystemColors.ActiveCaption;
+            AuziDButton.BackColor = SystemColors.ActiveCaption;
+            _auziDSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
+            panel1.Controls.Add(_auziDSettings);
         }
+
+
 
     }
 }
