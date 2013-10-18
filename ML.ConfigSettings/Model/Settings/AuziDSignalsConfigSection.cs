@@ -34,6 +34,7 @@ namespace ML.ConfigSettings.Model.Settings
             {
                 string s = "";
                 value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
                 addedSignals = s;
             }
         }
@@ -61,6 +62,7 @@ namespace ML.ConfigSettings.Model.Settings
             {
                 string s = "";
                 value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
                 signalsNames = s;
             }
         }

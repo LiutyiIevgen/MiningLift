@@ -127,6 +127,12 @@
     <Compile Include="View\MainViewSettings.Designer.cs">
       <DependentUpon>MainViewSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ParametersSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\ParametersSettings.Designer.cs">
+      <DependentUpon>ParametersSettings.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainViewSettings.resx">
       <DependentUpon>MainViewSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ParametersSettings.resx">
+      <DependentUpon>ParametersSettings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>

@@ -33,6 +33,8 @@
             this.MainViewSettingsButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.AuziDButton = new System.Windows.Forms.Button();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.ParametersButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -44,7 +46,11 @@
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -116,6 +122,10 @@
             // splitContainer3.Panel1
             // 
             this.splitContainer3.Panel1.Controls.Add(this.AuziDButton);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer3.Size = new System.Drawing.Size(218, 389);
             this.splitContainer3.SplitterDistance = 55;
             this.splitContainer3.TabIndex = 0;
@@ -138,6 +148,40 @@
             this.AuziDButton.Text = "АУЗИ-Д";
             this.AuziDButton.UseVisualStyleBackColor = false;
             this.AuziDButton.Click += new System.EventHandler(this.AuziDButton_Click);
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.IsSplitterFixed = true;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.ParametersButton);
+            this.splitContainer4.Size = new System.Drawing.Size(218, 330);
+            this.splitContainer4.SplitterDistance = 55;
+            this.splitContainer4.TabIndex = 0;
+            this.splitContainer4.TabStop = false;
+            // 
+            // ParametersButton
+            // 
+            this.ParametersButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.ParametersButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ParametersButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ParametersButton.FlatAppearance.BorderSize = 0;
+            this.ParametersButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.ParametersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ParametersButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ParametersButton.Location = new System.Drawing.Point(0, 0);
+            this.ParametersButton.Name = "ParametersButton";
+            this.ParametersButton.Size = new System.Drawing.Size(218, 55);
+            this.ParametersButton.TabIndex = 2;
+            this.ParametersButton.TabStop = false;
+            this.ParametersButton.Text = "Параметры";
+            this.ParametersButton.UseVisualStyleBackColor = false;
+            this.ParametersButton.Click += new System.EventHandler(this.ParametersButton_Click);
             // 
             // panel1
             // 
@@ -170,8 +214,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -184,5 +232,7 @@
         private System.Windows.Forms.Button AuziDButton;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button ParametersButton;
     }
 }

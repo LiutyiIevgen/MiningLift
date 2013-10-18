@@ -20,6 +20,11 @@ namespace ML.ConfigSettings.Services
         {
             get { return _auziDSignalsConfig ?? (_auziDSignalsConfig = (AuziDSignalsConfigSection)_config.GetSection("AuziDSignals")); }
         }
+        private ParametersConfigSection _parametersConfig;
+        public ParametersConfigSection ParametersConfig
+        {
+            get { return _parametersConfig ?? (_parametersConfig = (ParametersConfigSection)_config.GetSection("Parameters")); }
+        }
         ~MineConfig()
         {
             _config.Save(ConfigurationSaveMode.Modified);

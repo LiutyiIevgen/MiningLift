@@ -243,5 +243,21 @@ namespace VisualizationSystem.View
             }
         }
 
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            TextBox tb = (TextBox)e.Control;
+            tb.KeyPress -= tb_KeyPress;
+            tb.KeyPress += new KeyPressEventHandler(tb_KeyPress);
+        }
+        void tb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string vlCell = ((TextBox)sender).Text;
+            //bool temp = (vlCell.IndexOf(".") == -1);
+            //проверка ввода
+            if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[3].IsInEditMode == true)
+                if (e.KeyChar == '/')
+                    e.Handled = true;
+        }
+
     }
 }

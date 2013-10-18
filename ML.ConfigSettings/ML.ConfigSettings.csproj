@@ -44,6 +44,7 @@
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Settings\AuziDSignalsConfigSection.cs" />
     <Compile Include="Model\Settings\MainViewConfigSection.cs" />
+    <Compile Include="Model\Settings\ParametersConfigSection.cs" />
     <Compile Include="Model\Settings\SimpleParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MineConfig.cs" />
