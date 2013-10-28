@@ -14,12 +14,14 @@ namespace VisualizationSystem.View
         MainViewSettings _mainViewSettings = new MainViewSettings();
         AuziDSettings _auziDSettings = new AuziDSettings();
         ParametersSettings _parametersSettings = new ParametersSettings();
+        DefenceDiagramSettings _defenceDiagramSettings;
         public FormSettings()
         {
             InitializeComponent();
             //start
             AuziDButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -34,6 +36,7 @@ namespace VisualizationSystem.View
         {
             AuziDButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -44,6 +47,7 @@ namespace VisualizationSystem.View
         {
             MainViewSettingsButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = Color.Gainsboro;
             AuziDButton.BackColor = SystemColors.ActiveCaption;
             _auziDSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -54,10 +58,23 @@ namespace VisualizationSystem.View
         {
             MainViewSettingsButton.BackColor = Color.Gainsboro;
             AuziDButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = SystemColors.ActiveCaption;
             _parametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_parametersSettings);
+        }
+
+        private void DefenceDiagramButton_Click(object sender, EventArgs e)
+        {
+            MainViewSettingsButton.BackColor = Color.Gainsboro;
+            AuziDButton.BackColor = Color.Gainsboro;
+            ParametersButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = SystemColors.ActiveCaption;
+            _defenceDiagramSettings = new DefenceDiagramSettings();
+            _defenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Controls.Clear();
+            panel1.Controls.Add(_defenceDiagramSettings);
         }
 
 

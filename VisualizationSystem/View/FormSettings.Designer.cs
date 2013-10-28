@@ -35,6 +35,8 @@
             this.AuziDButton = new System.Windows.Forms.Button();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.ParametersButton = new System.Windows.Forms.Button();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.DefenceDiagramButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -50,7 +52,11 @@
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -160,6 +166,10 @@
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.ParametersButton);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer4.Size = new System.Drawing.Size(218, 330);
             this.splitContainer4.SplitterDistance = 55;
             this.splitContainer4.TabIndex = 0;
@@ -182,6 +192,40 @@
             this.ParametersButton.Text = "Параметры";
             this.ParametersButton.UseVisualStyleBackColor = false;
             this.ParametersButton.Click += new System.EventHandler(this.ParametersButton_Click);
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.IsSplitterFixed = true;
+            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.DefenceDiagramButton);
+            this.splitContainer5.Size = new System.Drawing.Size(218, 271);
+            this.splitContainer5.SplitterDistance = 54;
+            this.splitContainer5.TabIndex = 0;
+            this.splitContainer5.TabStop = false;
+            // 
+            // DefenceDiagramButton
+            // 
+            this.DefenceDiagramButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.DefenceDiagramButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DefenceDiagramButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DefenceDiagramButton.FlatAppearance.BorderSize = 0;
+            this.DefenceDiagramButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.DefenceDiagramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DefenceDiagramButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DefenceDiagramButton.Location = new System.Drawing.Point(0, 0);
+            this.DefenceDiagramButton.Name = "DefenceDiagramButton";
+            this.DefenceDiagramButton.Size = new System.Drawing.Size(218, 54);
+            this.DefenceDiagramButton.TabIndex = 3;
+            this.DefenceDiagramButton.TabStop = false;
+            this.DefenceDiagramButton.Text = "Защитная диаграмма";
+            this.DefenceDiagramButton.UseVisualStyleBackColor = false;
+            this.DefenceDiagramButton.Click += new System.EventHandler(this.DefenceDiagramButton_Click);
             // 
             // panel1
             // 
@@ -218,8 +262,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -234,5 +282,7 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.Button ParametersButton;
+        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.Button DefenceDiagramButton;
     }
 }

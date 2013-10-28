@@ -41,6 +41,14 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=2013.2.106.1, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Release\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.WindowsForms, Version=2013.2.106.1, Culture=neutral, PublicKeyToken=245eacd6b5d2d338, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Release\OxyPlot.WindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -88,6 +96,7 @@
     <Compile Include="ViewModel\AuziDInOutSignalsVm.cs" />
     <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\DataBoxVm.cs" />
+    <Compile Include="ViewModel\DefenceDiagramSettingsVm.cs" />
     <Compile Include="ViewModel\GraphicVaVm.cs" />
     <Compile Include="ViewModel\LeftDopPanelVm.cs" />
     <Compile Include="ViewModel\LeftPanelVm.cs" />
@@ -102,6 +111,12 @@
     </Compile>
     <Compile Include="View\AuziDSettings.Designer.cs">
       <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DefenceDiagramSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DefenceDiagramSettings.Designer.cs">
+      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormSettings.cs">
       <SubType>Form</SubType>
@@ -148,6 +163,9 @@
     </Compile>
     <EmbeddedResource Include="View\AuziDSettings.resx">
       <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DefenceDiagramSettings.resx">
+      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
