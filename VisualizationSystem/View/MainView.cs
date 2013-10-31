@@ -29,6 +29,7 @@ namespace VisualizationSystem.View
         private Bitmap btBac_tok_excitation;
         private int was_ostanov = 0;
         private int graphic_counter = 0;
+        private int update_parameters_flag = 0;
         RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
         TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
         Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
@@ -90,6 +91,12 @@ namespace VisualizationSystem.View
             }
             UpdateCentralSignalsData(parameters);
             UpdateAuziDInputOutputSignals(parameters);
+            update_parameters_flag++;
+            if (update_parameters_flag == 10)
+            {
+                UpdateParametersData();
+                update_parameters_flag = 0;
+            }
         }
 
         public void SetInitControlsFeatures()
@@ -138,7 +145,7 @@ namespace VisualizationSystem.View
                 chartVA.ChartAreas[0].AxisX.Minimum = -(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8 - Settings.UpZeroZone);
                 chartVA.ChartAreas[0].AxisX.Interval = IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8;
                 chartVA.ChartAreas[0].AxisY.Minimum = -100;
-                chartVA.ChartAreas[0].AxisY.Maximum = 100;
+                chartVA.ChartAreas[0].AxisY.Maximum = 125;
                 chartVA.ChartAreas[0].AxisY.Interval = 25;
             });
         }
@@ -285,6 +292,7 @@ namespace VisualizationSystem.View
                 was_ostanov = 1;
             if (param.f_start == 1 || param.f_back == 1)
             {
+                var defenceDiagramVm = new DefenceDiagramVm(param);
                 if (was_ostanov == 1)
                 {
                     this.Invoke((MethodInvoker)delegate
@@ -292,6 +300,7 @@ namespace VisualizationSystem.View
                         chartVA.Series[0].Points.Clear();
                         chartVA.Series[1].Points.Clear();
                         chartVA.Series[2].Points.Clear();
+                        chartVA.Series[3].Points.Clear();
                     });
                     was_ostanov = 0;
                 }
@@ -300,6 +309,11 @@ namespace VisualizationSystem.View
                     chartVA.Series[0].Points.AddXY(-param.s, param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
                     chartVA.Series[1].Points.AddXY(-param.s, param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
                     chartVA.Series[2].Points.AddXY(-param.s, param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
+                    chartVA.Series[3].Points.Clear();
+                    for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
+                    {
+                        chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X, defenceDiagramVm.CurrentDiagram[i].Y / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                    }
                 });
             }
         }
@@ -549,6 +563,22 @@ namespace VisualizationSystem.View
                 {
                     masOutTextBox[i].BackColor = AuziDInOutSignalsVm.OutputMeanings[i];
                     masOutLabel[i].Text = AuziDInOutSignalsVm.OutputNames[i];
+                }
+            });
+        }
+
+        public void UpdateParametersData()
+        {
+           string[] variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
+           string[] variableParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue;
+            this.Invoke((MethodInvoker)delegate
+            {
+                dataGridViewParameters.RowCount = variableParametersName.Count();
+                for (int i = 0; i < dataGridViewParameters.RowCount; i++)
+                {
+                    dataGridViewParameters[0, i].Value = i;
+                    dataGridViewParameters[2, i].Value = variableParametersName[i];
+                    dataGridViewParameters[3, i].Value = variableParametersValue[i];
                 }
             });
         }

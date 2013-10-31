@@ -97,6 +97,7 @@
     <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\DataBoxVm.cs" />
     <Compile Include="ViewModel\DefenceDiagramSettingsVm.cs" />
+    <Compile Include="ViewModel\DefenceDiagramVm.cs" />
     <Compile Include="ViewModel\GraphicVaVm.cs" />
     <Compile Include="ViewModel\LeftDopPanelVm.cs" />
     <Compile Include="ViewModel\LeftPanelVm.cs" />

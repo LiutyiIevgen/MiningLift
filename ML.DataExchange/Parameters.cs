@@ -11,6 +11,7 @@ namespace ML.DataExchange
             set_parameters(param);
             GetSignals();
             GetAuziDIOSignalsState();
+            DefenceDiagramRegime = 1;//"груз"
         }
 
         private void set_parameters(double[] param)
@@ -64,5 +65,7 @@ namespace ML.DataExchange
         public int[] signal { get; private set; }
         // AUZI-D iput and output signals
         public int[] AuziDIOSignalsState { get; private set; }
+        //номер режима защитной диаграммы
+        public int DefenceDiagramRegime { get; private set; }
     }
 }
