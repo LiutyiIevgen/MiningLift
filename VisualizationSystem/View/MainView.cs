@@ -30,6 +30,7 @@ namespace VisualizationSystem.View
         private int was_ostanov = 0;
         private int graphic_counter = 0;
         private int update_parameters_flag = 0;
+        private int DefenceDiagramWorking = 0; //срабатывание защитной диаграммы
         RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
         TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
         Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
@@ -547,6 +548,18 @@ namespace VisualizationSystem.View
                     masRichTextBox[i].Text = centralSignalsDataVm.SignalsData[i].Text;
                 }
             });
+            if (centralSignalsDataVm.SignalsData[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
+            {
+                this.Invoke((MethodInvoker)delegate
+            {
+                tabControl1.SelectedIndex = 1;
+            });
+                DefenceDiagramWorking = 1;
+            }
+            if (centralSignalsDataVm.SignalsData[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
+            {
+                DefenceDiagramWorking = 0;
+            }
         }
 
         public void UpdateAuziDInputOutputSignals(Parameters parameters)
