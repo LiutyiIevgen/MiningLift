@@ -68,6 +68,11 @@ namespace VisualizationSystem.View
 
         public void ViewData(Parameters parameters)
         {
+            this.Invoke((MethodInvoker)delegate
+            {
+                labelTime.Text = DateTime.Now.ToLongTimeString();
+                labelDate.Text = DateTime.Now.ToShortDateString();
+            });
             //
             Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
             //
