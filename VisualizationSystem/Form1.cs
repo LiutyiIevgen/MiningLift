@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Windows.Forms;
+using ML.DataRepository.DataAccess;
+using ML.DataRepository.Models.GenericRepository;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.View;
@@ -13,6 +16,7 @@ namespace VisualizationSystem
         public Form1()
         {
             InitializeComponent();
+            //
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
         }
@@ -25,6 +29,10 @@ namespace VisualizationSystem
             SetMainView();
             FormSettings f2 = IoC.Resolve<FormSettings>();
             FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
+            using (var repoUnit = new RepoUnit())
+            {
+                double value = repoUnit.SettingsLog.FindFirstBy(f => f.Name == "MaxCurrentValue").DValue;
+            } 
         }
 
         private void SetMainView()

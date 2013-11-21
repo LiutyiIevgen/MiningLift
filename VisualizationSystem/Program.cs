@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
+using ML.DataRepository.DataAccess;
 
 namespace VisualizationSystem
 {
@@ -13,6 +15,7 @@ namespace VisualizationSystem
         [STAThread]
         static void Main()
         {
+            Database.SetInitializer(new MineDbInitializer());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
