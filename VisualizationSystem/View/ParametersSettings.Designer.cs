@@ -127,7 +127,7 @@
             // 
             this.Column2.HeaderText = "Индекс";
             this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            //this.Column2.ReadOnly = true;
             this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column2.Width = 120;
             // 

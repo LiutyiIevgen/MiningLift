@@ -44,12 +44,12 @@ namespace VisualizationSystem.View
             SetInitControlsFeatures();
             //SetGraphicInterval();
             _dataListener = IoC.Resolve<DataListener>();
-            _dataListener.Init(ViewData,DrawLoad);
+            _dataListener.Init(ViewData);
         }
         public void DrawLoad()
         {
-            int LoadInterval = 9000 / (panel1.Width / 2 - panel1.Width / 6);
-            AsyncProvider.StartTimer(LoadInterval, DrawLoadHandler);
+            //int LoadInterval = 9000 / (panel1.Width / 2 - panel1.Width / 6);
+            //AsyncProvider.StartTimer(LoadInterval, DrawLoadHandler);
         }
         public void DrawLoadHandler(System.Timers.Timer timer)
         {

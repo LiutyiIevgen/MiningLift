@@ -13,7 +13,5 @@ namespace ML.DataExchange.Interfaces
         bool StopExchange();
 
         event ReceiveHandler ReceiveEvent;
-
-        event Action DrawLoad;
     }
 }

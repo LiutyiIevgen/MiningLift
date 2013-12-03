@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CanDriver\AdvCan.cs" />
+    <Compile Include="CanDriver\AdvCANIO.cs" />
+    <Compile Include="CanParser.cs" />
     <Compile Include="Interfaces\IDataExchange.cs" />
     <Compile Include="Parameters.cs" />
+    <Compile Include="TransferOverCan.cs" />
     <Compile Include="TransferOverFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

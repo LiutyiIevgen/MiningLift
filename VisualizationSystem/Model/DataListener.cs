@@ -14,11 +14,10 @@ namespace VisualizationSystem.Model
             _dataExchange = dataExchange;
         }
 
-        public void Init(ReceiveHandler Function, Action DrawLoad)
+        public void Init(ReceiveHandler Function)
         {
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            _dataExchange.StartExchange("CAN1");
             _dataExchange.ReceiveEvent += Function;
-            _dataExchange.DrawLoad += DrawLoad;
         }
     }
 }

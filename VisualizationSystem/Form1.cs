@@ -29,10 +29,10 @@ namespace VisualizationSystem
             SetMainView();
             FormSettings f2 = IoC.Resolve<FormSettings>();
             FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
-            using (var repoUnit = new RepoUnit())
+            /*using (var repoUnit = new RepoUnit())
             {
                 double value = repoUnit.SettingsLog.FindFirstBy(f => f.Name == "MaxCurrentValue").DValue;
-            } 
+            } */
         }
 
         private void SetMainView()
