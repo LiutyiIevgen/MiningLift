@@ -36,7 +36,7 @@ namespace ML.DataExchange
             {
                 signal[i] = 0;
             }
-            signal[11] = 1;
+            //signal[11] = 1;
         }
 
         public void GetAuziDIOSignalsState()

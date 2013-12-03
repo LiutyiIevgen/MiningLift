@@ -32,7 +32,7 @@ namespace ML.DataRepository.DataAccess
         }
 
         protected static string GetConnectionName() {
-            return @"Data Source=.\SQLEXPRESS; Database=MineDb;Integrated Security=True;";
+            return @"Data Source=.\SQLEXPRESS; Database=MineDataBase;Integrated Security=True;";
             //return @"Data Source=.\SQLExpress;Database=MineDb3;Trusted_Connection=True;";
             //return @"Data Source=(localdb)\Projects;Database=MineDb;Trusted_Connection=True;";
 
