@@ -26,7 +26,7 @@ namespace VisualizationSystem.View
             maxDopRuleSpeedTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value, CultureInfo.GetCultureInfo("en-US"));
             maxTokAnchorTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value, CultureInfo.GetCultureInfo("en-US"));
             maxTokExcitationTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value, CultureInfo.GetCultureInfo("en-US"));
-            distanceTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value, CultureInfo.GetCultureInfo("en-US"));
+           // distanceTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value, CultureInfo.GetCultureInfo("en-US"));
             borderTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Border.Value, CultureInfo.GetCultureInfo("en-US"));
             borderZeroTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value, CultureInfo.GetCultureInfo("en-US"));
             borderRedTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value, CultureInfo.GetCultureInfo("en-US"));
@@ -92,7 +92,7 @@ namespace VisualizationSystem.View
                 IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value = Convert.ToDouble(maxTokExcitationTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
         }
 
-        private void distanceTextBox_TextChanged(object sender, EventArgs e)
+      /*  private void distanceTextBox_TextChanged(object sender, EventArgs e)
         {
             if (distanceTextBox.Text == "" || distanceTextBox.Text == ".")
                 IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = 0;
@@ -104,30 +104,36 @@ namespace VisualizationSystem.View
             }
             else
                 IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = Convert.ToDouble(distanceTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
-        }
+        } */
 
         private void borderTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (borderTextBox.Text == "" || borderTextBox.Text == ".")
+            if (borderTextBox.Text == "" || borderTextBox.Text == "." || borderZeroTextBox.Text == "-")
                 IoC.Resolve<MineConfig>().MainViewConfig.Border.Value = 0;
-            else if (Convert.ToDouble(borderTextBox.Text, CultureInfo.GetCultureInfo("en-US")) > IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value)
+                /* else if (Convert.ToDouble(borderTextBox.Text, CultureInfo.GetCultureInfo("en-US")) > IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value)
             {
                 IoC.Resolve<MineConfig>().MainViewConfig.Border.Value = IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value;
                 borderTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value, CultureInfo.GetCultureInfo("en-US"));
                 MessageBox.Show("Точка стопорения внизу не может быть больше глубины", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
+            } */
             else
-                IoC.Resolve<MineConfig>().MainViewConfig.Border.Value = Convert.ToDouble(borderTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+            {
+                IoC.Resolve<MineConfig>().MainViewConfig.Border.Value = -Convert.ToDouble(borderTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+                IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = Math.Abs(IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value) + Math.Abs(IoC.Resolve<MineConfig>().MainViewConfig.Border.Value);
+            }
         }
 
         private void borderZeroTextBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (borderZeroTextBox.Text == "" || borderZeroTextBox.Text == "." || borderZeroTextBox.Text == "-")
+                if (borderZeroTextBox.Text == "" || borderZeroTextBox.Text == ".")
                     IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = 0;
                 else
-                    IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = Convert.ToDouble(borderZeroTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+                {
+                    IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value = -Convert.ToDouble(borderZeroTextBox.Text, CultureInfo.GetCultureInfo("en-US"));
+                    IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value = Math.Abs(IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value) + Math.Abs(IoC.Resolve<MineConfig>().MainViewConfig.Border.Value);
+                }
             }
             catch (Exception)
             {

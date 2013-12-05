@@ -16,7 +16,7 @@ namespace ML.DataExchange
 
         private void set_parameters(double[] param)
         {
-            s = param[0];
+            s = -param[0];
             v = param[1];
             a = param[2];
             f_slowdown_zone = Convert.ToInt32(param[3]);
@@ -28,6 +28,7 @@ namespace ML.DataExchange
             f_ostanov = Convert.ToInt32(param[9]);
             unload_state = Convert.ToInt32(param[10]);
             load_state = Convert.ToInt32(param[11]);
+            s_two = -param[12];
         }
 
         public void GetSignals()
@@ -47,7 +48,7 @@ namespace ML.DataExchange
             }
         }
 
-        public double s { get; private set; }//текущее значение пути
+        public double s { get; private set; }//текущее значение пути клеть 1
         public double v { get; private set; }//текущее значение скорости
         public double a { get; private set; } //текущее значение ускорения
         public int f_slowdown_zone { get; private set; } //флаг зоны замедления
@@ -59,6 +60,7 @@ namespace ML.DataExchange
         public int f_ostanov { get; private set; }
         public int unload_state { get; private set; }
         public int load_state { get; private set; }
+        public double s_two { get; private set; }//текущее значение пути клеть 2
         //
         public double tok_anchor { get; set; } //ток якоря 
         public double tok_excitation { get; set; } //ток возбуждения

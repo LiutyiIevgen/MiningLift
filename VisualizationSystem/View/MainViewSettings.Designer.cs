@@ -36,8 +36,6 @@
             this.maxTokAnchorTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.maxTokExcitationTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.distanceTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.borderTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,7 +52,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -145,27 +142,6 @@
             this.maxTokExcitationTextBox.TextChanged += new System.EventHandler(this.maxTokExcitationTextBox_TextChanged);
             this.maxTokExcitationTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(12, 164);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 19);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Глубина";
-            // 
-            // distanceTextBox
-            // 
-            this.distanceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.distanceTextBox.Location = new System.Drawing.Point(232, 165);
-            this.distanceTextBox.Name = "distanceTextBox";
-            this.distanceTextBox.Size = new System.Drawing.Size(68, 22);
-            this.distanceTextBox.TabIndex = 8;
-            this.distanceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.distanceTextBox.TextChanged += new System.EventHandler(this.distanceTextBox_TextChanged);
-            this.distanceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -185,7 +161,7 @@
             this.borderTextBox.TabIndex = 10;
             this.borderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.borderTextBox.TextChanged += new System.EventHandler(this.borderTextBox_TextChanged);
-            this.borderTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            this.borderTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.borderZeroTextBox_KeyPress);
             // 
             // label7
             // 
@@ -206,7 +182,7 @@
             this.borderZeroTextBox.TabIndex = 12;
             this.borderZeroTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.borderZeroTextBox.TextChanged += new System.EventHandler(this.borderZeroTextBox_TextChanged);
-            this.borderZeroTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.borderZeroTextBox_KeyPress);
+            this.borderZeroTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
             // 
             // label8
             // 
@@ -338,16 +314,6 @@
             this.label15.TabIndex = 27;
             this.label15.Text = "А";
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(306, 168);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(20, 19);
-            this.label16.TabIndex = 28;
-            this.label16.Text = "м";
-            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -397,7 +363,6 @@
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -414,8 +379,6 @@
             this.Controls.Add(this.borderZeroTextBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.borderTextBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.distanceTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.maxTokExcitationTextBox);
             this.Controls.Add(this.label3);
@@ -442,8 +405,6 @@
         private System.Windows.Forms.TextBox maxTokAnchorTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox maxTokExcitationTextBox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox distanceTextBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox borderTextBox;
         private System.Windows.Forms.Label label7;
@@ -460,7 +421,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;

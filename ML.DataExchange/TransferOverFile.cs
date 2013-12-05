@@ -10,8 +10,8 @@ namespace ML.DataExchange
     public class TransferOverFile:IDataExchange
     {
         public bool StartExchange(string strPort)
-        {
-            _fileName = strPort;
+        {                     
+            _fileName = strPort;          
             _timer = new Timer(Interval);
             _timer.Elapsed += (sender, e) => TimerEvent();
             _timer.Enabled = true;
@@ -28,26 +28,32 @@ namespace ML.DataExchange
         private void TimerEvent()
         {
             double[] param;
-                int k;
+                int k;               
                  try
                  {
-                     MemoryMappedFile myNonPersisterMemoryMappedFile = MemoryMappedFile.OpenExisting(_fileName);
-                     Mutex mymutex = Mutex.OpenExisting("NonPersisterMemoryMappedFilemutex");
-                     mymutex.WaitOne();
-
+                     mymutex = Mutex.OpenExisting("NonPersisterMemoryMappedFilemutex");
+                     myNonPersisterMemoryMappedFile = MemoryMappedFile.OpenExisting(_fileName); 
+                     mymutex.WaitOne();                               
                      k = 0;
                      param = new double[30];
                      StreamReader sr = new StreamReader(myNonPersisterMemoryMappedFile.CreateViewStream());
                      while (sr.EndOfStream != true)
                      {
-                         param[k] = Convert.ToDouble(sr.ReadLine());
+                         string s = sr.ReadLine();
+                         double data;
+                         if (double.TryParse(s,out data))
+                             param[k] = data;
+                         else
+                             break;
                          k++;
                      }
                      sr.Close();
                      mymutex.ReleaseMutex();
                  }
                  catch (Exception ex)
-                 {
+                 {    
+                     if(mymutex!=null)
+                       mymutex.ReleaseMutex();
                      return;
                  }
             Parameters parameters = new Parameters(param);
@@ -66,7 +72,8 @@ namespace ML.DataExchange
         private Timer _timer;
         private string _fileName;
         private const int Interval = 50;
+        private Mutex mymutex;
+        private MemoryMappedFile myNonPersisterMemoryMappedFile;
 
-       
     }
 }

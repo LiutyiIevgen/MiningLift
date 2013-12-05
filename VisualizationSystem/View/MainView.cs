@@ -87,6 +87,7 @@ namespace VisualizationSystem.View
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
             //UpdateGraphic(parameters);
+            //SetGraphicInterval();
             graphic_counter++;
             if (graphic_counter == 2)
             {
