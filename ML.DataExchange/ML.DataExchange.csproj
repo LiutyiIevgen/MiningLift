@@ -43,6 +43,7 @@
     <Compile Include="CanDriver\AdvCan.cs" />
     <Compile Include="CanDriver\AdvCANIO.cs" />
     <Compile Include="CanParser.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\IDataExchange.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="TransferOverCan.cs" />

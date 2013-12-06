@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 
 namespace ML.DataExchange
 {
@@ -7,10 +9,10 @@ namespace ML.DataExchange
         public Parameters(double[] param)
         {
             signal = new int[24];
-            AuziDIOSignalsState = new int[144];
+            AuziDIOSignalsState = new List<AuziDState>();
             set_parameters(param);
             GetSignals();
-            GetAuziDIOSignalsState();
+            SetAuziDIOSignalsState();
             DefenceDiagramRegime = 1;//"груз"
         }
 
@@ -40,11 +42,19 @@ namespace ML.DataExchange
             //signal[11] = 1;
         }
 
-        public void GetAuziDIOSignalsState()
+        private void SetAuziDIOSignalsState()
         {
             for (int i = 0; i < 144; i++)
             {
-                AuziDIOSignalsState[i] = 2;
+                AuziDIOSignalsState.Add(AuziDState.Undefind);
+            }
+        }
+
+        public void SetAuziDOSignalsState(List<AuziDState> signals)
+        {
+            for (int i = 0; i < signals.Count && i < 72; i++)
+            {
+                AuziDIOSignalsState[i + 72] = signals[i];
             }
         }
 
@@ -67,7 +77,7 @@ namespace ML.DataExchange
         //signals in central part of screen
         public int[] signal { get; private set; }
         // AUZI-D iput and output signals
-        public int[] AuziDIOSignalsState { get; private set; }
+        public List<AuziDState> AuziDIOSignalsState { get; private set; }
         //номер режима защитной диаграммы
         public int DefenceDiagramRegime { get; private set; }
     }

@@ -27,8 +27,8 @@ namespace VisualizationSystem.View
             maxTokAnchorTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value, CultureInfo.GetCultureInfo("en-US"));
             maxTokExcitationTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value, CultureInfo.GetCultureInfo("en-US"));
            // distanceTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value, CultureInfo.GetCultureInfo("en-US"));
-            borderTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.Border.Value, CultureInfo.GetCultureInfo("en-US"));
-            borderZeroTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value, CultureInfo.GetCultureInfo("en-US"));
+            borderTextBox.Text = (-IoC.Resolve<MineConfig>().MainViewConfig.Border.Value).ToString(CultureInfo.GetCultureInfo("en-US"));
+            borderZeroTextBox.Text = (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value).ToString(CultureInfo.GetCultureInfo("en-US"));
             borderRedTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value, CultureInfo.GetCultureInfo("en-US"));
             upZeroZoneTextBox.Text = Convert.ToString(IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value, CultureInfo.GetCultureInfo("en-US"));
 

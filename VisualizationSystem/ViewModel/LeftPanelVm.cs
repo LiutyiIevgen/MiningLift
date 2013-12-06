@@ -315,7 +315,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             }
-            if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.1) && _parameters.unload_state >= 4)
+            if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state >= 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
@@ -354,7 +354,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             }
-            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.1) && _parameters.load_state > 0 && _parameters.load_state < 4)
+            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.5) && _parameters.load_state > 0 && _parameters.load_state < 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
@@ -392,7 +392,7 @@ namespace VisualizationSystem.ViewModel
                     Height = 20
                 });
             }
-            else if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.1) && _parameters.load_state >= 4)
+            else if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.5) && _parameters.load_state >= 4)
             {
                 RulePointerLine.Add(new RuleData
                 {

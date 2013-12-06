@@ -182,15 +182,15 @@ namespace VisualizationSystem.ViewModel
                     if (index < 72)
                     {
                         InputNames.Add(codes[index] +" "+ IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames[index]);
-                        if (_parameters.AuziDIOSignalsState[index] == 0)
+                        if (_parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
                             InputMeanings.Add(Color.Red);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == 1)
+                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
                             InputMeanings.Add(Color.Green);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == 2)
+                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
                             InputMeanings.Add(Color.Gainsboro);
                         }
@@ -198,15 +198,15 @@ namespace VisualizationSystem.ViewModel
                     else
                     {
                         OutputNames.Add(codes[index] +" "+ IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames[index]);
-                        if (_parameters.AuziDIOSignalsState[index] == 0)
+                        if (_parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
                             OutputMeanings.Add(Color.Red);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == 1)
+                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
                             OutputMeanings.Add(Color.Green);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == 2)
+                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
                             OutputMeanings.Add(Color.Gainsboro);
                         }

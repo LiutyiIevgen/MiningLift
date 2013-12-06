@@ -30,7 +30,7 @@ namespace VisualizationSystem.ViewModel
             string[] textSecod = { "ДОЗАТОР \r\nОТКРЫТ", "СКИП \r\nЗАГРУЖАЕТСЯ", "СКИП \r\nЗАГРУЖЕН", "ДОЗАТОР \r\nЗАКРЫТ", "" };
 
             // сообщения разгрузки (вверху)
-            if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.1) && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - 0.1))
+            if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.5) && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - 0.5))
             {
                 for (int i = 1; i <= 5; i++)
                 {
@@ -64,7 +64,7 @@ namespace VisualizationSystem.ViewModel
                 }
             }
             // сообщения загрузки (внизу)
-            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.1) && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + 0.1))
+            if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.5) && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + 0.5))
             {
                 for (int i = 1; i <= 5; i++)
                 {
