@@ -31,10 +31,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridViewDefenceDiagramDown = new System.Windows.Forms.DataGridView();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dataGridViewDefenceDiagramDown = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +43,7 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dataGridViewDefenceDiagramUp = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,9 +56,9 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).BeginInit();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramUp)).BeginInit();
             this.SuspendLayout();
@@ -95,33 +95,6 @@
             this.tabPage2.Text = "Расчётные значения";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewDefenceDiagramDown
-            // 
-            this.dataGridViewDefenceDiagramDown.AllowUserToAddRows = false;
-            this.dataGridViewDefenceDiagramDown.AllowUserToDeleteRows = false;
-            this.dataGridViewDefenceDiagramDown.AllowUserToResizeColumns = false;
-            this.dataGridViewDefenceDiagramDown.AllowUserToResizeRows = false;
-            this.dataGridViewDefenceDiagramDown.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dataGridViewDefenceDiagramDown.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dataGridViewDefenceDiagramDown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDefenceDiagramDown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column7,
-            this.Column8,
-            this.Column9});
-            this.dataGridViewDefenceDiagramDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewDefenceDiagramDown.Location = new System.Drawing.Point(3, 3);
-            this.dataGridViewDefenceDiagramDown.Name = "dataGridViewDefenceDiagramDown";
-            this.dataGridViewDefenceDiagramDown.ReadOnly = true;
-            this.dataGridViewDefenceDiagramDown.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewDefenceDiagramDown.Size = new System.Drawing.Size(708, 402);
-            this.dataGridViewDefenceDiagramDown.TabIndex = 0;
-            // 
             // tabControl2
             // 
             this.tabControl2.Alignment = System.Windows.Forms.TabAlignment.Left;
@@ -148,17 +121,32 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Вниз";
             // 
-            // tabPage4
+            // dataGridViewDefenceDiagramDown
             // 
-            this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage4.Controls.Add(this.dataGridViewDefenceDiagramUp);
-            this.tabPage4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabPage4.Location = new System.Drawing.Point(26, 4);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(714, 408);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Вверх";
+            this.dataGridViewDefenceDiagramDown.AllowUserToAddRows = false;
+            this.dataGridViewDefenceDiagramDown.AllowUserToDeleteRows = false;
+            this.dataGridViewDefenceDiagramDown.AllowUserToResizeColumns = false;
+            this.dataGridViewDefenceDiagramDown.AllowUserToResizeRows = false;
+            this.dataGridViewDefenceDiagramDown.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dataGridViewDefenceDiagramDown.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dataGridViewDefenceDiagramDown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewDefenceDiagramDown.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9});
+            this.dataGridViewDefenceDiagramDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewDefenceDiagramDown.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewDefenceDiagramDown.Name = "dataGridViewDefenceDiagramDown";
+            this.dataGridViewDefenceDiagramDown.ReadOnly = true;
+            this.dataGridViewDefenceDiagramDown.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataGridViewDefenceDiagramDown.Size = new System.Drawing.Size(708, 402);
+            this.dataGridViewDefenceDiagramDown.TabIndex = 0;
             // 
             // Column1
             // 
@@ -222,6 +210,18 @@
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
             this.Column9.Width = 70;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage4.Controls.Add(this.dataGridViewDefenceDiagramUp);
+            this.tabPage4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tabPage4.Location = new System.Drawing.Point(26, 4);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(714, 408);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "Вверх";
             // 
             // dataGridViewDefenceDiagramUp
             // 
@@ -324,9 +324,9 @@
             this.Load += new System.EventHandler(this.DefenceDiagramSettings_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).EndInit();
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).EndInit();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramUp)).EndInit();
             this.ResumeLayout(false);

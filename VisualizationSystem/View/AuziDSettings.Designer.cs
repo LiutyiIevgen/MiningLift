@@ -56,7 +56,7 @@ namespace VisualizationSystem.View
             this.dataGridView1.Location = new System.Drawing.Point(57, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(644, 396);
+            this.dataGridView1.Size = new System.Drawing.Size(644, 485);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             // 
@@ -98,7 +98,7 @@ namespace VisualizationSystem.View
             this.buttonApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonApply.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonApply.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.buttonApply.Location = new System.Drawing.Point(574, 405);
+            this.buttonApply.Location = new System.Drawing.Point(574, 494);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(127, 40);
             this.buttonApply.TabIndex = 2;
@@ -114,7 +114,7 @@ namespace VisualizationSystem.View
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.dataGridView1);
             this.Name = "AuziDSettings";
-            this.Size = new System.Drawing.Size(758, 448);
+            this.Size = new System.Drawing.Size(758, 541);
             this.Load += new System.EventHandler(this.AuziDSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

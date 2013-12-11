@@ -388,7 +388,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.maxSpeedTextBox);
             this.Name = "MainViewSettings";
-            this.Size = new System.Drawing.Size(758, 448);
+            this.Size = new System.Drawing.Size(758, 541);
             this.Load += new System.EventHandler(this.MainViewSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

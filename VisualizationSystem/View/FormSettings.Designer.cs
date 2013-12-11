@@ -73,7 +73,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(980, 448);
+            this.splitContainer1.Size = new System.Drawing.Size(980, 541);
             this.splitContainer1.SplitterDistance = 218;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.TabStop = false;
@@ -93,8 +93,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(218, 448);
-            this.splitContainer2.SplitterDistance = 55;
+            this.splitContainer2.Size = new System.Drawing.Size(218, 541);
+            this.splitContainer2.SplitterDistance = 66;
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.TabStop = false;
             // 
@@ -109,7 +109,7 @@
             this.MainViewSettingsButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MainViewSettingsButton.Location = new System.Drawing.Point(0, 0);
             this.MainViewSettingsButton.Name = "MainViewSettingsButton";
-            this.MainViewSettingsButton.Size = new System.Drawing.Size(218, 55);
+            this.MainViewSettingsButton.Size = new System.Drawing.Size(218, 66);
             this.MainViewSettingsButton.TabIndex = 0;
             this.MainViewSettingsButton.TabStop = false;
             this.MainViewSettingsButton.Text = "Главное окно";
@@ -132,8 +132,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(218, 389);
-            this.splitContainer3.SplitterDistance = 55;
+            this.splitContainer3.Size = new System.Drawing.Size(218, 471);
+            this.splitContainer3.SplitterDistance = 66;
             this.splitContainer3.TabIndex = 0;
             this.splitContainer3.TabStop = false;
             // 
@@ -148,7 +148,7 @@
             this.AuziDButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AuziDButton.Location = new System.Drawing.Point(0, 0);
             this.AuziDButton.Name = "AuziDButton";
-            this.AuziDButton.Size = new System.Drawing.Size(218, 55);
+            this.AuziDButton.Size = new System.Drawing.Size(218, 66);
             this.AuziDButton.TabIndex = 1;
             this.AuziDButton.TabStop = false;
             this.AuziDButton.Text = "АУЗИ-Д";
@@ -170,8 +170,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer4.Size = new System.Drawing.Size(218, 330);
-            this.splitContainer4.SplitterDistance = 55;
+            this.splitContainer4.Size = new System.Drawing.Size(218, 401);
+            this.splitContainer4.SplitterDistance = 66;
             this.splitContainer4.TabIndex = 0;
             this.splitContainer4.TabStop = false;
             // 
@@ -186,7 +186,7 @@
             this.ParametersButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ParametersButton.Location = new System.Drawing.Point(0, 0);
             this.ParametersButton.Name = "ParametersButton";
-            this.ParametersButton.Size = new System.Drawing.Size(218, 55);
+            this.ParametersButton.Size = new System.Drawing.Size(218, 66);
             this.ParametersButton.TabIndex = 2;
             this.ParametersButton.TabStop = false;
             this.ParametersButton.Text = "Параметры";
@@ -204,8 +204,8 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.Controls.Add(this.DefenceDiagramButton);
-            this.splitContainer5.Size = new System.Drawing.Size(218, 271);
-            this.splitContainer5.SplitterDistance = 54;
+            this.splitContainer5.Size = new System.Drawing.Size(218, 331);
+            this.splitContainer5.SplitterDistance = 65;
             this.splitContainer5.TabIndex = 0;
             this.splitContainer5.TabStop = false;
             // 
@@ -220,7 +220,7 @@
             this.DefenceDiagramButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DefenceDiagramButton.Location = new System.Drawing.Point(0, 0);
             this.DefenceDiagramButton.Name = "DefenceDiagramButton";
-            this.DefenceDiagramButton.Size = new System.Drawing.Size(218, 54);
+            this.DefenceDiagramButton.Size = new System.Drawing.Size(218, 65);
             this.DefenceDiagramButton.TabIndex = 3;
             this.DefenceDiagramButton.TabStop = false;
             this.DefenceDiagramButton.Text = "Защитная диаграмма";
@@ -232,14 +232,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(758, 448);
+            this.panel1.Size = new System.Drawing.Size(758, 541);
             this.panel1.TabIndex = 0;
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(980, 448);
+            this.ClientSize = new System.Drawing.Size(980, 541);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

@@ -39,7 +39,7 @@ namespace VisualizationSystem.Model
 
         public static void SetBindings()
         {
-            RegisterSingleton<IDataExchange, TransferOverCan>();
+            RegisterSingleton<IDataExchange, TransferOverFile>();
             RegisterSingleton<DataListener, DataListener>();
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();

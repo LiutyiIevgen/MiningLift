@@ -10,6 +10,7 @@ namespace ML.ConfigSettings.Model.Settings
     {
         private string _variableParametersName = null;
         private string _variableParametersValue = null;
+        private string _variableParametersType = null;
         private string _readonlyParametersName = null;
         private string _readonlyParametersValue = null;
 
@@ -66,6 +67,34 @@ namespace ML.ConfigSettings.Model.Settings
                 value.ToList().ForEach(f => s += f + '/');
                 s = s.Substring(0, s.Length - 1);
                 variableParametersValue = s;
+            }
+        }
+
+        [ConfigurationProperty("variableParametersType")]
+        private string variableParametersType
+        {
+            get
+            {
+                return _variableParametersType = _variableParametersType ?? this["variableParametersType"].ToString();
+            }
+            set
+            {
+                this["variableParametersType"] = value;
+                _variableParametersType = value;
+            }
+        }
+        public string[] VariableParametersType
+        {
+            get
+            {
+                return variableParametersType.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                variableParametersType = s;
             }
         }
 
