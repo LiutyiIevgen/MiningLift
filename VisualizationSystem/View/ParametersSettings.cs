@@ -24,6 +24,9 @@ namespace VisualizationSystem.View
         double calculatedWayPeople = 0;
         double dotWayVeightAndEquipment = 0;
         double dotWayPeople = 0;
+        //List<int> _indexes = new List<int>();
+        private int _contextMenuClickedRow = 0;
+        int startIndex = 0x2001;//8193;
 
         public ParametersSettings()
         {
@@ -49,6 +52,7 @@ namespace VisualizationSystem.View
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 dataGridViewVariableParameters[0, i].Value = i;
+                dataGridViewVariableParameters[1, i].Value = "0x" + Convert.ToString(startIndex + i, 16);
                 dataGridViewVariableParameters[2, i].Value = variableParametersName[i];
                 dataGridViewVariableParameters[3, i].Value = variableParametersValue[i];
             }
@@ -312,5 +316,32 @@ namespace VisualizationSystem.View
             dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
         }
 
+         private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            LoadParameter(startIndex + _contextMenuClickedRow);
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            UnloadParameter(startIndex + _contextMenuClickedRow);
+        }
+
+        private void LoadParameter(int index) //загрузка
+        {
+            
+        }
+
+        private void UnloadParameter(int index)//выгрузка
+        {
+
+        }
+
+        private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                _contextMenuClickedRow = e.RowIndex;
+            }
+        }
     }
 }
