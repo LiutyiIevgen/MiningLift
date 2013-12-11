@@ -65,7 +65,6 @@ namespace ML.DataExchange
             }
 
 
-
             WriteTimeOutValue = 3000; //Get timeout
             ReadTimeOutValue = WriteTimeOutValue;
             nRet = Device.acSetTimeOut(ReadTimeOutValue, WriteTimeOutValue); //Set timeout
@@ -107,6 +106,70 @@ namespace ML.DataExchange
             {
                 return false;
             }
+            return true;
+        }
+
+        public bool GetParameter(ushort parameterId)
+        {
+            var dataList = new List<AdvCan.canmsg_t>();
+            var msg = new AdvCan.canmsg_t();
+            msg.flags = AdvCan.MSG_BOVR;
+            msg.cob = 0;
+            msg.id = 0x601; //rSdo + id=1
+            msg.length = (short)AdvCan.DATALENGTH;
+            msg.data = new byte[AdvCan.DATALENGTH];
+            msg.data[0] = 0x40;
+            msg.data[1] = (byte)(parameterId);//id low
+            msg.data[2] = (byte)(parameterId>>8);//id high
+            msg.data[3] = 0x02;//subindex
+            dataList.Add(msg);
+            SendData(dataList);
+            return true;
+        }
+
+        private bool SendData(List<AdvCan.canmsg_t> data)
+        {
+            string SendStatus;
+            int nRet;
+            var msgWrite = data; //Package for write   
+            uint pulNumberofWritten = 0;
+            m_bRun = true;
+            SendStatus = "Package ";
+            /**********************************************************************************************
+                  *  NOTE: acCanWrite usage
+                  * 
+                  *    DescriptionЈє
+                  *       Users can use this interface to send data to CAN port which was opened. 
+                  *       One or more frames can be selected each time.
+                  * 
+                  *    Parameters:
+                  *       msgWrite                - managed buffer to write
+                  *       nWriteCount             - CAN frame number want to write each time
+                  *       pulNumberofWritten      - Real number of frames sent to driver.
+                  *    
+                  *    In this example, we send 100 CAN frames defined by 'nMsgCount' each time by default.             
+                  *    If user want to send one or more frames eache time, user can also change it as follows:
+                  *    Firstly, open CAN port and pass the value of 'MsgNumberOfReadBuffer' and 'MsgNumberOfWriteBuffer'arguments.
+                  *    About 'MsgNumberOfReadBuffer' and 'MsgNumberOfWriteBuffer', please see 'acCanPort' usage above.
+                  *    Secondly, define the msgWrite according to the frame number user want to send each time.
+                  *    Thirdly, define the value of 'nWriteCount'according to the frame number user want to send each time.
+                  *    In this examples, user can only change the value of 'nMsgCount' to change the count of frame to send each time. 
+                 /**********************************************************************************************/
+            nRet = Device.acCanWrite(msgWrite.ToArray(), (uint)data.Count, ref pulNumberofWritten); //Send frames
+            if (nRet == AdvCANIO.TIME_OUT)
+            {
+                SendStatus += " sending timeout!";
+            }
+            else if (nRet == AdvCANIO.OPERATION_ERROR)
+            {
+                SendStatus += " sending error!";
+            }
+            else
+            {
+                SendStatus += " sending ok!";
+            }
+
+            //Thread.Sleep(400);
             return true;
         }
 
@@ -168,64 +231,56 @@ namespace ML.DataExchange
                         parameters = ParametersParser(msgRead.ToList());
                         ReceiveEvent(parameters);
                     }
-                    /*for (int j = 0; j < pulNumberofRead; j++)
-                    {
-                        ReceiveStatus = "Package ";
-                        ReceiveStatus += Convert.ToString(ReceiveIndex + j + 1) + " is ";
-                        if (msgRead[j].id == AdvCan.ERRORID)
-                        {
-                            ReceiveStatus += "a incorrect package";
-                        }
-                        else
-                        {
-                            if ((msgRead[j].flags & AdvCan.MSG_RTR) > 0)
-                            {
-                                ReceiveStatus += "a RTR package";
-                            }
-                            else
-                            {
-                               
-                                    //ReceiveStatus += msgRead[j].data[i].ToString();
-                                Parameters parameters = ParametersParser(msgRead.ToList());
-                                    //ReceiveStatus += " ";
-                            }
-                        }
-                    }*/
                 }
                 ReceiveIndex += pulNumberofRead;
-                Thread.Sleep(100);
+                Thread.Sleep(20);
             }
         }
 
-        Parameters ParametersParser(List<AdvCan.canmsg_t> msgData)
+        private Parameters ParametersParser(List<AdvCan.canmsg_t> msgData)
         {
+            Parameters parameters;
             var param = new double[30];
+            var outputSignals = new List<AuziDState>();
+            var inputSignals = new List<AuziDState>();
             for (int i = 0; i < param.Length; i++)
             {
                 param[i] = 0;
             }
             try
             {
-                param[0] = CanParser.GetS(msgData);
+                param[0] = CanParser.GetS1(msgData);
                 double v = CanParser.GetV(msgData);
                 param[1] = Math.Abs(v);
                 param[2] = CanParser.GetA(msgData);
                 param[5] = CanParser.GetStart(v);
                 param[8] = CanParser.GetBack(v);
-                param[9] = CanParser.GetOstanov(v);
+                param[9] = CanParser.GetOstanov(msgData);
+                param[12] = CanParser.GetS2(msgData);
+                inputSignals = CanParser.GetAllInputSignals(msgData);
+                outputSignals = CanParser.GetAllOutputSignals(msgData);
+                var canParameters = CanParser.TryGetParameterValue(msgData);
+                if (canParameters.Count != 0)
+                    ParameterReceive(canParameters);
             }
             catch (Exception)
             {
-                
             }
-            return new Parameters(param);
+            parameters = new Parameters(param);
+            parameters.SetAuziDOSignalsState(outputSignals);
+            parameters.SetAuziDISignalsState(inputSignals);
+            return parameters;
         }
+
+
         public event ReceiveHandler ReceiveEvent;
+
+        public event Action<List<CanParameter>> ParameterReceive;
 
         private readonly AdvCANIO Device;
         private bool m_bRun;
         private bool syncflag;
-        private uint nMsgCount = 50;
+        private uint nMsgCount = 10;
         private Thread ReceiveThread;
         private ThreadStart ReceiveThreadSt;
     }

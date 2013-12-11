@@ -58,6 +58,14 @@ namespace ML.DataExchange
             }
         }
 
+        public void SetAuziDISignalsState(List<AuziDState> signals)
+        {
+            for (int i = 0; i < signals.Count && i < 72; i++)
+            {
+                AuziDIOSignalsState[i] = signals[i];
+            }
+        }
+
         public double s { get; private set; }//текущее значение пути клеть 1
         public double v { get; private set; }//текущее значение скорости
         public double a { get; private set; } //текущее значение ускорения

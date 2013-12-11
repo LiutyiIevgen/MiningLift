@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections.Generic;
 
 namespace ML.DataExchange.Interfaces
 {
@@ -9,9 +10,13 @@ namespace ML.DataExchange.Interfaces
     {
         //server initialization
         bool StartExchange(string strPort);
+
+        bool GetParameter(ushort parameterId);
         //close all connection
         bool StopExchange();
 
-        event ReceiveHandler ReceiveEvent;
+        event ReceiveHandler ReceiveEvent; //visualisation info
+
+        event Action<List<CanParameter>> ParameterReceive; //inner parameters info
     }
 }

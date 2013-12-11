@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
+using ML.DataExchange;
 using VisualizationSystem.Model;
 
 namespace VisualizationSystem.View
@@ -31,6 +32,7 @@ namespace VisualizationSystem.View
         public ParametersSettings()
         {
             InitializeComponent();
+            IoC.Resolve<DataListener>().SetParameterReceive(ParameterReceive);
         }
 
         private void ParametersSettings_Load(object sender, EventArgs e)
@@ -327,15 +329,18 @@ namespace VisualizationSystem.View
         }
 
         private void LoadParameter(int index) //загрузка
-        {
-            
+        {            
         }
 
         private void UnloadParameter(int index)//выгрузка
         {
-
+            IoC.Resolve<DataListener>().GetParameter((ushort)index);
         }
 
+        private void ParameterReceive(List<CanParameter> parametersList)
+        {
+            
+        }
         private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)

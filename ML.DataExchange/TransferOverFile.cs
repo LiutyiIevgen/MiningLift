@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
@@ -75,5 +76,14 @@ namespace ML.DataExchange
         private Mutex mymutex;
         private MemoryMappedFile myNonPersisterMemoryMappedFile;
 
+
+
+        public bool GetParameter(ushort parameterId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public event Action<List<CanParameter>> ParameterReceive;
     }
 }

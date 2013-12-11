@@ -88,14 +88,14 @@ namespace VisualizationSystem.View
             UpdateLoadData(parameters);
             //UpdateGraphic(parameters);
             //SetGraphicInterval();
-            graphic_counter++;
+            /*graphic_counter++;
             if (graphic_counter == 2)
             {
                 graphic_counter = 0;
                 Thread updateGraphicThread = new Thread(updateGraphicHandler);
                 updateGraphicThread.Priority = ThreadPriority.Lowest;
                 updateGraphicThread.Start(parameters);
-            }
+            }*/
             UpdateCentralSignalsData(parameters);
             UpdateAuziDInputOutputSignals(parameters);
             update_parameters_flag++;

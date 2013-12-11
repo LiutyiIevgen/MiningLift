@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ML.DataExchange;
 using ML.DataExchange.Interfaces;
 
 namespace VisualizationSystem.Model
@@ -16,9 +17,19 @@ namespace VisualizationSystem.Model
 
         public void Init(ReceiveHandler Function)
         {
-            //_dataExchange.StartExchange("CAN1");
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            _dataExchange.StartExchange("CAN1");
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             _dataExchange.ReceiveEvent += Function;
+        }
+
+        public void SetParameterReceive(Action<List<CanParameter>> receiveFunction)
+        {
+            _dataExchange.ParameterReceive += receiveFunction;
+        }
+
+        public bool GetParameter(ushort parameterId)
+        {
+           return _dataExchange.GetParameter(parameterId);
         }
     }
 }
