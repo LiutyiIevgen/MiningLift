@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ML.DataExchange.CanDriver;
+using ML.AdvCan;
+using ML.AdvCan.CanDriver;
 using ML.DataExchange.Interfaces;
 
 namespace ML.DataExchange
@@ -84,7 +85,8 @@ namespace ML.DataExchange
             }
             ReceiveThreadSt = ReceiveThreadMethod; //Create a new thread
             ReceiveThread = new Thread(ReceiveThreadSt);
-            ReceiveThread.Priority = ThreadPriority.Normal;
+            ReceiveThread.Priority = ThreadPriority.Highest;
+            ReceiveThread.IsBackground = true;
             ReceiveThread.Start(); //New thread starts
 
             return true;
@@ -109,25 +111,73 @@ namespace ML.DataExchange
             return true;
         }
 
-        public bool GetParameter(ushort parameterId)
+        public bool GetParameter(ushort parameterId, byte subindex)
         {
-            var dataList = new List<AdvCan.canmsg_t>();
-            var msg = new AdvCan.canmsg_t();
-            msg.flags = AdvCan.MSG_BOVR;
+            var dataList = new List<CanDriver.canmsg_t>();
+            var msg = new CanDriver.canmsg_t();
+            msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
             msg.id = 0x601; //rSdo + id=1
-            msg.length = (short)AdvCan.DATALENGTH;
-            msg.data = new byte[AdvCan.DATALENGTH];
-            msg.data[0] = 0x40;
+            msg.length = (short)CanDriver.DATALENGTH;
+            msg.data = new byte[CanDriver.DATALENGTH];
+            msg.data[0] = 0x40;//read data
             msg.data[1] = (byte)(parameterId);//id low
             msg.data[2] = (byte)(parameterId>>8);//id high
-            msg.data[3] = 0x02;//subindex
+            msg.data[3] = subindex;//subindex
+            dataList.Add(msg);
+            SendData(dataList);
+            SendData(dataList);
+            return true;
+        }
+
+        public bool GetSegment(ushort parameterId, byte subindex)
+        {
+            var dataList = new List<CanDriver.canmsg_t>();
+            var msg = new CanDriver.canmsg_t();
+            msg.flags = CanDriver.MSG_BOVR;
+            msg.cob = 0;
+            msg.id = 0x601; //rSdo + id=1
+            msg.length = (short)CanDriver.DATALENGTH;
+            msg.data = new byte[CanDriver.DATALENGTH];
+            msg.data[0] = 0x60;//read segment
+            msg.data[1] = (byte)(parameterId);//id low
+            msg.data[2] = (byte)(parameterId >> 8);//id high
+            msg.data[3] = subindex;//subindex
             dataList.Add(msg);
             SendData(dataList);
             return true;
         }
 
-        private bool SendData(List<AdvCan.canmsg_t> data)
+        public bool SetParameter(CanParameter canParameter)
+        {
+            var msg = new CanDriver.canmsg_t();
+            msg.flags = CanDriver.MSG_BOVR;
+            msg.cob = 0;
+            msg.id = 0x601; //rSdo + id=1
+            msg.length = (short)CanDriver.DATALENGTH;
+            msg.data = new byte[CanDriver.DATALENGTH];
+            msg.data[1] = (byte)(canParameter.ParameterId);//id low
+            msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
+            msg.data[3] = canParameter.ParameterSubIndex;//subindex
+            if (canParameter.Data.Count() == 4)
+            {
+                msg.data[0] = 0x22; //write 4 byte e=1 s=0;
+                msg.data[4] = canParameter.Data[0];
+                msg.data[5] = canParameter.Data[1];
+                msg.data[6] = canParameter.Data[2];
+                msg.data[7] = canParameter.Data[3];
+            }
+            else if (canParameter.Data.Count() == 2)
+            {
+                msg.data[0] = 0x2A; //write 2 byte e=1 s=0;
+                msg.data[4] = canParameter.Data[0];
+                msg.data[5] = canParameter.Data[1];
+            }
+            SendData(new List<CanDriver.canmsg_t> { msg });
+            return true;
+        }
+
+        private bool SendData(List<CanDriver.canmsg_t> data)
         {
             string SendStatus;
             int nRet;
@@ -173,22 +223,75 @@ namespace ML.DataExchange
             return true;
         }
 
-        private void ReceiveThreadMethod()
+        private List<CanDriver.canmsg_t> ReceiveMsgBlock()
         {
             string ReceiveStatus;
             int nRet;
             uint nReadCount = nMsgCount;
             uint pulNumberofRead = 0;
-            uint ReceiveIndex = 0;
 
-            var msgRead = new AdvCan.canmsg_t[nMsgCount];
+            var msgRead = new CanDriver.canmsg_t[nMsgCount];
             for (int i = 0; i < nMsgCount; i++)
             {
                 msgRead[i].data = new byte[8];
             }
 
+            nRet = Device.acCanRead(msgRead, nReadCount, ref pulNumberofRead); //Receiving frames
+                if (nRet == AdvCANIO.TIME_OUT)
+                {
+                    ReceiveStatus = "Package ";
+                    ReceiveStatus += "receiving timeout!";
+                    return null;
+                }
+                else if (nRet == AdvCANIO.OPERATION_ERROR)
+                {
+                    ReceiveStatus = "Package ";
+                    ReceiveStatus += " error!";
+                    return null;
+                }
+                else
+                    return msgRead.ToList();
+                    
+        }
 
-            ReceiveIndex = 0;
+        public List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
+        {
+            var canParameters = new List<CanParameter>();
+            var msgList = msgData.Where(m => m.id == 0x581).ToList();
+            if (msgList.Count != 0)
+            {
+                foreach (var canmsgT in msgList)
+                {
+                    if (canmsgT.data[0] == 0x43)//real32
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3],
+                            Data = new byte[] {canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7]}
+                        });
+                    else if(canmsgT.data[0] == 0x4B)//sint16
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3],
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5]}
+                        });
+                    else if (canmsgT.data[0] == 0x47)//sint16
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3],
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[5] }
+                        });
+                    //else
+                        //GetSegment((ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)), canmsgT.data[3]);
+                }
+            }
+            return canParameters;
+        }
+
+        private void ReceiveThreadMethod()
+        {
             m_bRun = true;
             while (m_bRun)
             {
@@ -212,65 +315,28 @@ namespace ML.DataExchange
                  *    Thirdly, define the value of 'nReadCount'according to the frame number user want to read each time.
                  *    In this examples, user can only change the value of 'nMsgCount' to change the count of frame want to receive each time. 
                 /**********************************************************************************************/
-                nRet = Device.acCanRead(msgRead, nReadCount, ref pulNumberofRead); //Receiving frames
-                if (nRet == AdvCANIO.TIME_OUT)
+                List<CanDriver.canmsg_t> msgRead = ReceiveMsgBlock();
+                Parameters parameters;
+                try
                 {
-                    ReceiveStatus = "Package ";
-                    ReceiveStatus += "receiving timeout!";
-                }
-                else if (nRet == AdvCANIO.OPERATION_ERROR)
-                {
-                    ReceiveStatus = "Package ";
-                    ReceiveStatus += " error!";
-                }
-                else
-                {
-                    Parameters parameters;
-                    if (pulNumberofRead > 4)
+                    if (msgRead.Count > 4)
                     {
-                        parameters = ParametersParser(msgRead.ToList());
+                        parameters = CanParser.GetParameters(msgRead);
                         ReceiveEvent(parameters);
+                        List<CanParameter> canParameters = TryGetParameterValue(msgRead);
+                        if (canParameters.Count != 0)
+                            ParameterReceive(canParameters);
                     }
                 }
-                ReceiveIndex += pulNumberofRead;
+                catch (Exception exception)
+                {
+                }
+                
                 Thread.Sleep(20);
             }
         }
 
-        private Parameters ParametersParser(List<AdvCan.canmsg_t> msgData)
-        {
-            Parameters parameters;
-            var param = new double[30];
-            var outputSignals = new List<AuziDState>();
-            var inputSignals = new List<AuziDState>();
-            for (int i = 0; i < param.Length; i++)
-            {
-                param[i] = 0;
-            }
-            try
-            {
-                param[0] = CanParser.GetS1(msgData);
-                double v = CanParser.GetV(msgData);
-                param[1] = Math.Abs(v);
-                param[2] = CanParser.GetA(msgData);
-                param[5] = CanParser.GetStart(v);
-                param[8] = CanParser.GetBack(v);
-                param[9] = CanParser.GetOstanov(msgData);
-                param[12] = CanParser.GetS2(msgData);
-                inputSignals = CanParser.GetAllInputSignals(msgData);
-                outputSignals = CanParser.GetAllOutputSignals(msgData);
-                var canParameters = CanParser.TryGetParameterValue(msgData);
-                if (canParameters.Count != 0)
-                    ParameterReceive(canParameters);
-            }
-            catch (Exception)
-            {
-            }
-            parameters = new Parameters(param);
-            parameters.SetAuziDOSignalsState(outputSignals);
-            parameters.SetAuziDISignalsState(inputSignals);
-            return parameters;
-        }
+        
 
 
         public event ReceiveHandler ReceiveEvent;
@@ -280,7 +346,7 @@ namespace ML.DataExchange
         private readonly AdvCANIO Device;
         private bool m_bRun;
         private bool syncflag;
-        private uint nMsgCount = 10;
+        private uint nMsgCount = 80;
         private Thread ReceiveThread;
         private ThreadStart ReceiveThreadSt;
     }

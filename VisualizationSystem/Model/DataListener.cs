@@ -17,8 +17,8 @@ namespace VisualizationSystem.Model
 
         public void Init(ReceiveHandler Function)
         {
-            //_dataExchange.StartExchange("CAN1");
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            _dataExchange.StartExchange("CAN1");
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             _dataExchange.ReceiveEvent += Function;
         }
 
@@ -27,9 +27,17 @@ namespace VisualizationSystem.Model
             _dataExchange.ParameterReceive += receiveFunction;
         }
 
-        public bool GetParameter(ushort parameterId)
+        public bool GetParameter(ushort parameterId, byte subindex)
         {
-           return _dataExchange.GetParameter(parameterId);
+            return _dataExchange.GetParameter(parameterId, subindex);
+        }
+
+        public bool SetParameter(ushort parameterId, byte subindex, byte[] data)
+        {
+            return _dataExchange.SetParameter(new CanParameter
+            {
+                ParameterId = parameterId, ParameterSubIndex = subindex, Data = data
+            });
         }
     }
 }

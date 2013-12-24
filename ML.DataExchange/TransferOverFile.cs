@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
+using ML.AdvCan;
 using ML.DataExchange.Interfaces;
 using Timer = System.Timers.Timer;
 
@@ -78,12 +79,18 @@ namespace ML.DataExchange
 
 
 
-        public bool GetParameter(ushort parameterId)
+        public bool GetParameter(ushort parameterId, byte subindex)
         {
             throw new NotImplementedException();
         }
 
 
         public event Action<List<CanParameter>> ParameterReceive;
+
+
+        public bool SetParameter(CanParameter canParameter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CanDriver\AdvCan.cs" />
-    <Compile Include="CanDriver\AdvCANIO.cs" />
     <Compile Include="CanParameter.cs" />
     <Compile Include="CanParser.cs" />
     <Compile Include="Enums.cs" />
@@ -54,6 +52,12 @@
     <Compile Include="TransferOverCan.cs" />
     <Compile Include="TransferOverFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ML.AdvCan\ML.AdvCan.csproj">
+      <Project>{d104c735-fb7b-41b5-8f9d-294b476d58f9}</Project>
+      <Name>ML.AdvCan</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

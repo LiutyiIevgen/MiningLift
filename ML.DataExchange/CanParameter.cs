@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ML.DataExchange
+﻿namespace ML.DataExchange
 {
     public class CanParameter
     {

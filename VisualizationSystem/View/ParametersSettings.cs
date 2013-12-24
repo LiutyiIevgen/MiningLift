@@ -356,15 +356,65 @@ namespace VisualizationSystem.View
 
         private void LoadParameter(int index, int subindex) //загрузка
         {
+            byte[] data=null;
+            try
+            {
+                if (ReadDataFromParametersTable(index, 1) == "codtReal32")
+                {
+                    var nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = ".";
+                    string sf = ReadDataFromParametersTable(index, subindex);
+                    float f = float.Parse(sf, nfi);
+                    data = BitConverter.GetBytes(f);
+                }
+                else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
+                {
+                    string ssh = ReadDataFromParametersTable(index, subindex);
+                    short sh = short.Parse(ssh);
+                    data = BitConverter.GetBytes(sh);
+                }
+                IoC.Resolve<DataListener>().SetParameter((ushort) index, (byte) subindex, data);
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
         private void UnloadParameter(int index,int subindex)//выгрузка
         {
-            IoC.Resolve<DataListener>().GetParameter((ushort)index);
+            IoC.Resolve<DataListener>().GetParameter((ushort)index, (byte)subindex);
         }
 
         private void ParameterReceive(List<CanParameter> parametersList)
         {
+            
+            foreach (var canParameter in parametersList)
+            {
+                if (canParameter.Data.Count() == 4)//real 32
+                {
+                    float myFloat;
+                    myFloat = System.BitConverter.ToSingle(canParameter.Data, 0);
+                    var nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = ".";
+                    string strData = myFloat.ToString(nfi);
+                    WriteDataToParametersTable(canParameter.ParameterId, canParameter.ParameterSubIndex, strData);
+                }
+                else if (canParameter.Data.Count() == 2)//sint16
+                {
+                    short myShort;
+                    myShort = System.BitConverter.ToInt16(canParameter.Data, 0); ;
+                    WriteDataToParametersTable(canParameter.ParameterId, canParameter.ParameterSubIndex, myShort.ToString());
+                }
+                else if (canParameter.Data.Count() == 3)//sint24
+                {
+                    int myShort;
+                    myShort = (canParameter.Data[0] << 8) + (canParameter.Data[1] << 16) + (canParameter.Data[2] << 24);
+                    myShort /= 256;
+                    WriteDataToParametersTable(canParameter.ParameterId, canParameter.ParameterSubIndex, myShort.ToString());
+                }
+                
+            }
             
         }
         private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

@@ -19,24 +19,6 @@ namespace VisualizationSystem.View
 {
     public partial class MainView : UserControl
     {
-        private DataListener _dataListener;
-        private Bitmap btBac;
-        private Bitmap btBac_two;
-        private Bitmap btBac_dop;
-        private Bitmap btBac_two_dop;
-        private Bitmap btBac_speed;
-        private Bitmap btBac_tok_anchor;
-        private Bitmap btBac_tok_excitation;
-        private int was_ostanov = 0;
-        private int graphic_counter = 0;
-        private int update_parameters_flag = 0;
-        private int DefenceDiagramWorking = 0; //срабатывание защитной диаграммы
-        RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
-        TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
-        Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
-        TextBox[] masOutTextBox = new TextBox[16];//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
-        Label[] masOutLabel = new Label[16];//массив лейблов для вывода выходных сигналов АУЗИ-Д
-
         public MainView()
         {
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
@@ -46,28 +28,20 @@ namespace VisualizationSystem.View
             _dataListener = IoC.Resolve<DataListener>();
             _dataListener.Init(ViewData);
         }
-        public void DrawLoad()
-        {
-            //int LoadInterval = 9000 / (panel1.Width / 2 - panel1.Width / 6);
-            //AsyncProvider.StartTimer(LoadInterval, DrawLoadHandler);
-        }
-        public void DrawLoadHandler(System.Timers.Timer timer)
-        {
-            
-        }
         private void MainView_Load(object sender, EventArgs e)
         {
             CreateRichTextBoxMassiv();
             CreateAuziDIOSignalsMassiv();
             SetGraphicInterval();
-
+            updateGraphicThread = new Thread(updateGraphicHandler);
+            updateGraphicThread.IsBackground = true;
            // string[] s = IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals;
            // s[0] = "1";
            // IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals = s;
         }
 
         public void ViewData(Parameters parameters)
-        {
+        {         
             this.Invoke((MethodInvoker)delegate
             {
                 labelTime.Text = DateTime.Now.ToLongTimeString();
@@ -86,18 +60,17 @@ namespace VisualizationSystem.View
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
-            //UpdateGraphic(parameters);
-            //SetGraphicInterval();
-            /*graphic_counter++;
-            if (graphic_counter == 2)
-            {
-                graphic_counter = 0;
-                Thread updateGraphicThread = new Thread(updateGraphicHandler);
-                updateGraphicThread.Priority = ThreadPriority.Lowest;
-                updateGraphicThread.Start(parameters);
-            }*/
+
             UpdateCentralSignalsData(parameters);
             UpdateAuziDInputOutputSignals(parameters);
+            if (update_parameters_flag%5==0)
+            if (!updateGraphicThread.IsAlive)
+            {
+                updateGraphicThread = new Thread(updateGraphicHandler);
+                updateGraphicThread.IsBackground = true;
+                updateGraphicThread.Start(parameters);
+            }
+                
             update_parameters_flag++;
             if (update_parameters_flag == 10)
             {
@@ -294,38 +267,43 @@ namespace VisualizationSystem.View
 
         private void updateGraphicHandler(object parameters)
         {
-            var param = (Parameters) parameters;
-            if (param.f_ostanov == 1)
-                was_ostanov = 1;
-            if (param.f_start == 1 || param.f_back == 1)
-            {
-                var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (was_ostanov == 1)
+                var param = parameters as Parameters;
+                if (param.f_ostanov == 1)
+                    was_ostanov = 1;
+                if (param.f_start == 1 || param.f_back == 1)
                 {
+                    //var defenceDiagramVm = new DefenceDiagramVm(param);
+                    if (chartVA.Series[0].Points.Count==300)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            chartVA.Series[0].Points.Clear();
+                            chartVA.Series[1].Points.Clear();
+                            chartVA.Series[2].Points.Clear();
+                            //chartVA.Series[3].Points.Clear();
+                        });
+                        was_ostanov = 0;
+                    }
                     this.Invoke((MethodInvoker)delegate
                     {
-                        chartVA.Series[0].Points.Clear();
-                        chartVA.Series[1].Points.Clear();
-                        chartVA.Series[2].Points.Clear();
-                        chartVA.Series[3].Points.Clear();
+                        chartVA.Series[0].Points.AddXY(-param.s,
+                            param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                        chartVA.Series[1].Points.AddXY(-param.s,
+                            param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
+                        chartVA.Series[2].Points.AddXY(-param.s,
+                            param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
+                        /*chartVA.Series[3].Points.Clear();
+                        for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
+                        {
+                            chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
+                                defenceDiagramVm.CurrentDiagram[i].Y /
+                                (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                        }*/
                     });
-                    was_ostanov = 0;
-                }
-                this.Invoke((MethodInvoker)delegate
-                {
-                    chartVA.Series[0].Points.AddXY(-param.s, param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
-                    chartVA.Series[1].Points.AddXY(-param.s, param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
-                    chartVA.Series[2].Points.AddXY(-param.s, param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
-                    chartVA.Series[3].Points.Clear();
-                    for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
-                    {
-                        chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X, defenceDiagramVm.CurrentDiagram[i].Y / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
-                    }
-                });
             }
         }
 
-        public void UpdateLeftPanel(Parameters parameters)
+        private void UpdateLeftPanel(Parameters parameters)
         {
             btBac = new Bitmap(panel1.Width, panel1.Height); // панель клети
             Graphics g = Graphics.FromImage(btBac);
@@ -352,7 +330,7 @@ namespace VisualizationSystem.View
             panel1.Invalidate();
         }
 
-        public void UpdateRightPanel(Parameters parameters)
+        private void UpdateRightPanel(Parameters parameters)
         {
             btBac_two = new Bitmap(panel2.Width, panel2.Height); // панель противовеса
             Graphics gr = Graphics.FromImage(btBac_two);
@@ -379,7 +357,7 @@ namespace VisualizationSystem.View
             panel2.Invalidate();
         }
 
-        public void UpdateLeftDopPanel(Parameters parameters)
+        private void UpdateLeftDopPanel(Parameters parameters)
         {
             btBac_dop = new Bitmap(panel6.Width, panel6.Height); // панель дополнительной шккалы клети
             Graphics gd = Graphics.FromImage(btBac_dop);
@@ -397,7 +375,7 @@ namespace VisualizationSystem.View
             panel6.Invalidate();
         }
 
-        public void UpdateRightDopPanel(Parameters parameters)
+        private void UpdateRightDopPanel(Parameters parameters)
         {
             btBac_two_dop = new Bitmap(panel7.Width, panel7.Height); // панель дополнительной шкалы пртивовеса
             Graphics grd = Graphics.FromImage(btBac_two_dop);
@@ -415,7 +393,7 @@ namespace VisualizationSystem.View
             panel7.Invalidate();
         }
 
-        public void UpdateSpeedPanel(Parameters parameters)
+        private void UpdateSpeedPanel(Parameters parameters)
         {
             btBac_speed = new Bitmap(panel3.Width, panel3.Height); // панель скорости
             Graphics gs = Graphics.FromImage(btBac_speed);
@@ -433,7 +411,7 @@ namespace VisualizationSystem.View
             panel3.Invalidate();
         }
 
-        public void UpdateTokAnchorPanel(Parameters parameters)
+        private void UpdateTokAnchorPanel(Parameters parameters)
         {
             btBac_tok_anchor = new Bitmap(panel4.Width, panel4.Height); // панель тока якоря
             Graphics gta = Graphics.FromImage(btBac_tok_anchor);
@@ -451,7 +429,7 @@ namespace VisualizationSystem.View
             panel4.Invalidate();
         }
 
-        public void UpdateTokExitationPanel(Parameters parameters)
+        private void UpdateTokExitationPanel(Parameters parameters)
         {
             btBac_tok_excitation = new Bitmap(panel5.Width, panel5.Height); // панель тока возбуждения
             Graphics gte = Graphics.FromImage(btBac_tok_excitation);
@@ -469,7 +447,7 @@ namespace VisualizationSystem.View
             panel5.Invalidate();
         }
 
-        public void UpdateDataBoxes(Parameters parameters)
+        private void UpdateDataBoxes(Parameters parameters)
         {
             var dataBoxVm = new DataBoxVm(parameters);
             this.Invoke((MethodInvoker)delegate
@@ -482,7 +460,7 @@ namespace VisualizationSystem.View
                 });
         }
 
-        public void UpdateLoadData(Parameters parameters)
+        private void UpdateLoadData(Parameters parameters)
         {
             var loadDataVm = new LoadDataVm(parameters);
             this.Invoke((MethodInvoker)delegate
@@ -498,52 +476,8 @@ namespace VisualizationSystem.View
                 });
         }
 
-        public void UpdateGraphic(Parameters parameters)
-        {
-           /* var graphicVaVm = new GraphicVaVm(parameters);
-            if (parameters.f_start == 1 || parameters.f_back == 1)
-            {
-                if (graphicVaVm.was_ostanov == 1)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        chartVA.Series[0].Points.Clear();
-                        chartVA.Series[1].Points.Clear();
-                        chartVA.Series[2].Points.Clear();
-                    });
-                    graphicVaVm.was_ostanov = 0;
-                }
-                this.Invoke((MethodInvoker)delegate
-                {
-                    chartVA.Series[0].Points.AddXY(graphicVaVm.Graphic[0].X, graphicVaVm.Graphic[0].Y);
-                    chartVA.Series[1].Points.AddXY(graphicVaVm.Graphic[1].X, graphicVaVm.Graphic[1].Y);
-                    chartVA.Series[2].Points.AddXY(graphicVaVm.Graphic[2].X, graphicVaVm.Graphic[2].Y);
-                });
-            } */
-            if (parameters.f_ostanov == 1)
-                was_ostanov = 1;
-            if (parameters.f_start == 1 || parameters.f_back == 1)
-            {
-                if (was_ostanov == 1)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                    chartVA.Series[0].Points.Clear();
-                    chartVA.Series[1].Points.Clear();
-                    chartVA.Series[2].Points.Clear();
-                    });
-                    was_ostanov = 0;
-                }
-                this.Invoke((MethodInvoker)delegate
-                    {
-                chartVA.Series[0].Points.AddXY(parameters.s, parameters.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
-                chartVA.Series[1].Points.AddXY(parameters.s, parameters.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
-                chartVA.Series[2].Points.AddXY(parameters.s, parameters.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
-                    });
-            }
-        }
 
-        public void UpdateCentralSignalsData(Parameters parameters)
+        private void UpdateCentralSignalsData(Parameters parameters)
         {
             var centralSignalsDataVm = new CentralSignalsDataVm(parameters);
             this.Invoke((MethodInvoker)delegate
@@ -568,7 +502,7 @@ namespace VisualizationSystem.View
             }
         }
 
-        public void UpdateAuziDInputOutputSignals(Parameters parameters)
+        private void UpdateAuziDInputOutputSignals(Parameters parameters)
         {
             var AuziDInOutSignalsVm = new AuziDInOutSignalsVm(parameters);
             this.Invoke((MethodInvoker)delegate
@@ -586,7 +520,7 @@ namespace VisualizationSystem.View
             });
         }
 
-        public void UpdateParametersData()
+        private void UpdateParametersData()
         {
            string[] variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
            string[] variableParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue;
@@ -649,7 +583,24 @@ namespace VisualizationSystem.View
             IoC.Resolve<FormSettingsParol>().ShowDialog();
         }
 
+        private DataListener _dataListener;
+        private Bitmap btBac;
+        private Bitmap btBac_two;
+        private Bitmap btBac_dop;
+        private Bitmap btBac_two_dop;
+        private Bitmap btBac_speed;
+        private Bitmap btBac_tok_anchor;
+        private Bitmap btBac_tok_excitation;
+        private int was_ostanov = 0;
+        private int graphic_counter = 0;
+        private int update_parameters_flag = 0;
+        private int DefenceDiagramWorking = 0; //срабатывание защитной диаграммы
+        private RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
+        private TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
+        private Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
+        private TextBox[] masOutTextBox = new TextBox[16];//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
+        private Label[] masOutLabel = new Label[16];//массив лейблов для вывода выходных сигналов АУЗИ-Д
+        private Thread updateGraphicThread;
 
- 
     }
 }
