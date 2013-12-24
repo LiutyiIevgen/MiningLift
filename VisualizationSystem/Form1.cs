@@ -29,6 +29,7 @@ namespace VisualizationSystem
             SetMainView();
             FormSettings f2 = IoC.Resolve<FormSettings>();
             FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
+            FormCodtDomainParamType f4 = IoC.Resolve<FormCodtDomainParamType>();
             /*using (var repoUnit = new RepoUnit())
             {
                 double value = repoUnit.SettingsLog.FindFirstBy(f => f.Name == "MaxCurrentValue").DValue;

@@ -126,6 +126,12 @@
     <Compile Include="View\DefenceDiagramSettings.Designer.cs">
       <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\FormCodtDomainParamType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormCodtDomainParamType.Designer.cs">
+      <DependentUpon>FormCodtDomainParamType.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\DefenceDiagramSettings.resx">
       <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormCodtDomainParamType.resx">
+      <DependentUpon>FormCodtDomainParamType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>

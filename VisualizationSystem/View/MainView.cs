@@ -60,7 +60,6 @@ namespace VisualizationSystem.View
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
-
             UpdateCentralSignalsData(parameters);
             UpdateAuziDInputOutputSignals(parameters);
             if (update_parameters_flag%5==0)

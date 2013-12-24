@@ -44,6 +44,7 @@ namespace VisualizationSystem.Model
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();
             RegisterSingleton<FormSettingsParol, FormSettingsParol>();
+            RegisterSingleton<FormCodtDomainParamType, FormCodtDomainParamType>();
         }
     }
 }
