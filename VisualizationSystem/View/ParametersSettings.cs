@@ -41,6 +41,7 @@ namespace VisualizationSystem.View
         {
             InitData();
             ParamLog.Clear();
+            comboBoxControllerID.SelectedIndex = 0;
         }
 
         private void InitData()
@@ -423,6 +424,10 @@ namespace VisualizationSystem.View
             {
                 _contextMenuClickedRow = e.RowIndex;
                 _contextMenuClickedColumn = e.ColumnIndex;
+                if (dataGridViewVariableParameters[3, _contextMenuClickedRow].Value.ToString() == "codtDomain")
+                    toolStripMenuItem3.Visible = true;
+                else
+                    toolStripMenuItem3.Visible = false;
             }
         }
 
@@ -436,6 +441,13 @@ namespace VisualizationSystem.View
             string value;
             value = dataGridViewVariableParameters[subindex + 2, index - startIndex].Value.ToString();
             return value;
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16) + "\n";
+            FormCodtDomainParamType f4 = new FormCodtDomainParamType(startIndex + _contextMenuClickedRow);
+            f4.ShowDialog();
         }
 
     }
