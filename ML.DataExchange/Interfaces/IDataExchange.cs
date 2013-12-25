@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using ML.AdvCan;
 
 namespace ML.DataExchange.Interfaces
 {

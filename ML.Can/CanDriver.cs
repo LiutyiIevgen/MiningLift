@@ -26,7 +26,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ML.AdvCan.CanDriver
+namespace ML.Can
 {
     public class CanDriver
     {		
@@ -215,13 +215,13 @@ namespace ML.AdvCan.CanDriver
         //DESCRIPTION: Asynchronous OVERLAPPED structure
         //----------------------------------------------------------------------------
         [StructLayout(LayoutKind.Sequential)]
-        internal protected struct OVERLAPPED
+        public struct OVERLAPPED
         {
-            internal UIntPtr internalLow;
-            internal UIntPtr internalHigh;
-            internal uint offset;
-            internal uint offsetHigh;
-            internal IntPtr hEvent;
+            public UIntPtr internalLow;
+            public UIntPtr internalHigh;
+            public uint offset;
+            public uint offsetHigh;
+            public IntPtr hEvent;
         }
         //----------------------------------------------------------------------------
         //DESCRIPTION: COMSTAT  structure

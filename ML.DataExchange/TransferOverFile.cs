@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
-using ML.AdvCan;
 using ML.DataExchange.Interfaces;
 using Timer = System.Timers.Timer;
 

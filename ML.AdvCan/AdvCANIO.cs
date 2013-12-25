@@ -24,15 +24,19 @@
 // -----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using ML.Can;
+using ML.Can.Interfaces;
 
-namespace ML.AdvCan.CanDriver
+namespace ML.AdvCan
 {
     /// <summary>
     /// Summary description for Class1
     /// </summary>
-    public class AdvCANIO
+    public class AdvCANIO : ICanIO
     {
   
         private IntPtr hDevice;                                                           //Device handle
@@ -111,6 +115,159 @@ namespace ML.AdvCan.CanDriver
             }
 
         }
+
+
+
+        public string OpenCAN(string canName, int baundRate)
+        {
+            string CanPortName;
+            string StatusMsg = "";
+            UInt16 BaudRateValue;
+            int nRet = 0;
+            uint WriteTimeOutValue;
+            uint ReadTimeOutValue;
+            CanPortName = canName; //Get CAN port name
+            /**********************************************************************************************
+                 *  NOTE: acCanOpen Usage
+                 * 
+                 *	  Description:
+                 *		 Open can port by name, and indicate the max send and receive Frame number each time.
+                 * 
+                 *    acCanOpen arguments:
+                 *		  PortName			         - port name
+                 *		  synchronization	         - TRUE, synchronization ; FALSE, asynchronous
+                 *		  MsgNumberOfReadBuffer	   - The max frames number to read each time
+                 *		  MsgNumberOfWriteBuffer	- The max frames number to write each time
+                 * 
+                 *    When open port, user must pass the value of 'MsgNumberOfReadBuffer' and 'MsgNumberOfWriteBuffer' 
+                 *    auguments to indicate the max sent and received packages number of each time.
+                 *    In this example, we send 100 CAN frames by default
+                 *    User can change the value of 'nMsgCount' to send different frames each time in this examples.
+                 **********************************************************************************************/
+            nRet = acCanOpen(CanPortName, false, 500, 500); //Open CAN port
+            if (nRet < 0)
+            {
+                StatusMsg = "Failed to open the CAN port, please check the CAN port name!";
+                return StatusMsg;
+            }
+
+            nRet = acEnterResetMode(); //Enter reset mode          
+            if (nRet < 0)
+            {
+                StatusMsg = "Failed to stop opertion!";
+                acCanClose();
+                return StatusMsg;
+            }
+            //Set baud rate
+            BaudRateValue = (ushort)baundRate; //Get baud rate
+            nRet = acSetBaud(BaudRateValue); //Set Baud Rate
+            if (nRet < 0)
+            {
+                StatusMsg = "Failed to set baud!";
+                acCanClose();
+                return StatusMsg;
+            }
+
+
+            WriteTimeOutValue = 3000; //Get timeout
+            ReadTimeOutValue = WriteTimeOutValue;
+            nRet = acSetTimeOut(ReadTimeOutValue, WriteTimeOutValue); //Set timeout
+            if (nRet < 0)
+            {
+                StatusMsg = "Failed to set Timeout!";
+                acCanClose();
+                return StatusMsg;
+            }
+
+            nRet = acEnterWorkMode(); //Enter work mdoe
+            if (nRet < 0)
+            {
+                StatusMsg = "Failed to restart operation!";
+                acCanClose();
+                return StatusMsg;
+            }
+
+
+            return "No_Err";
+        }
+
+        public string CloseCan()
+        {
+            acCanClose();
+            return "No_Err";
+        }
+
+        public void SendData(List<CanDriver.canmsg_t> data)
+        {
+            string SendStatus;
+            int nRet;
+            var msgWrite = data; //Package for write   
+            uint pulNumberofWritten = 0;
+            SendStatus = "Package ";
+            /**********************************************************************************************
+                  *  NOTE: acCanWrite usage
+                  * 
+                  *    Description£º
+                  *       Users can use this interface to send data to CAN port which was opened. 
+                  *       One or more frames can be selected each time.
+                  * 
+                  *    Parameters:
+                  *       msgWrite                - managed buffer to write
+                  *       nWriteCount             - CAN frame number want to write each time
+                  *       pulNumberofWritten      - Real number of frames sent to driver.
+                  *    
+                  *    In this example, we send 100 CAN frames defined by 'nMsgCount' each time by default.             
+                  *    If user want to send one or more frames eache time, user can also change it as follows:
+                  *    Firstly, open CAN port and pass the value of 'MsgNumberOfReadBuffer' and 'MsgNumberOfWriteBuffer'arguments.
+                  *    About 'MsgNumberOfReadBuffer' and 'MsgNumberOfWriteBuffer', please see 'acCanPort' usage above.
+                  *    Secondly, define the msgWrite according to the frame number user want to send each time.
+                  *    Thirdly, define the value of 'nWriteCount'according to the frame number user want to send each time.
+                  *    In this examples, user can only change the value of 'nMsgCount' to change the count of frame to send each time. 
+                 /**********************************************************************************************/
+            nRet = acCanWrite(msgWrite.ToArray(), (uint)data.Count, ref pulNumberofWritten); //Send frames
+            if (nRet == AdvCANIO.TIME_OUT)
+            {
+                SendStatus += " sending timeout!";
+            }
+            else if (nRet == AdvCANIO.OPERATION_ERROR)
+            {
+                SendStatus += " sending error!";
+            }
+            else
+            {
+                SendStatus += " sending ok!";
+            }
+        }
+
+        public List<CanDriver.canmsg_t> ReceiveMsgBlock(int msgCount)
+        {
+            string ReceiveStatus;
+            int nRet;
+            uint nReadCount = (uint)msgCount;
+            uint pulNumberofRead = 0;
+
+            var msgRead = new CanDriver.canmsg_t[msgCount];
+            for (int i = 0; i < msgCount; i++)
+            {
+                msgRead[i].data = new byte[8];
+            }
+
+            nRet = acCanRead(msgRead, nReadCount, ref pulNumberofRead); //Receiving frames
+            if (nRet == AdvCANIO.TIME_OUT)
+            {
+                ReceiveStatus = "Package ";
+                ReceiveStatus += "receiving timeout!";
+                return null;
+            }
+            else if (nRet == AdvCANIO.OPERATION_ERROR)
+            {
+                ReceiveStatus = "Package ";
+                ReceiveStatus += " error!";
+                return null;
+            }
+            else
+                return msgRead.ToList();
+        }
         /*****************************************************************************
    *
    *    acCanOpen
@@ -128,7 +285,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acCanOpen(string CanPortName, bool synchronization, uint MsgNumberOfReadBuffer, uint MsgNumberOfWriteBuffer)
+        private int acCanOpen(string CanPortName, bool synchronization, uint MsgNumberOfReadBuffer, uint MsgNumberOfWriteBuffer)
         {
             CanPortName = "\\\\.\\" + CanPortName;                              
             if ( !synchronization )
@@ -166,7 +323,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acCanClose()
+        private int acCanClose()
         {
             if (hDevice != INVALID_HANDLE_VALUE)
             {
@@ -195,7 +352,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acEnterResetMode()            
+        private int acEnterResetMode()            
         {
             bool flag;
             Command.cmd = CanDriver.CMD_STOP;
@@ -222,7 +379,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acEnterWorkMode()              
+        private int acEnterWorkMode()              
         {
             bool flag;
             Command.cmd = CanDriver.CMD_START;
@@ -249,7 +406,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acClearRxFifo()
+        private int acClearRxFifo()
         {
             bool flag = false;
             Command.cmd = CanDriver.CMD_CLEARBUFFERS;
@@ -292,7 +449,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetBaud(uint BaudRateValue)
+        private int acSetBaud(uint BaudRateValue)
         {
             bool flag;
             Config.target = CanDriver.CONF_TIMING;
@@ -321,7 +478,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetBaudRegister(Byte Btr0, Byte Btr1)
+        private int acSetBaudRegister(Byte Btr0, Byte Btr1)
         {
             uint BaudRateValue = (uint)(Btr0 * 256 + Btr1);
             return acSetBaud(BaudRateValue);
@@ -342,7 +499,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetTimeOut(uint ReadTimeOutValue, uint WriteTimeOutValue)
+        private int acSetTimeOut(uint ReadTimeOutValue, uint WriteTimeOutValue)
         {
             bool flag;
             Config.target = CanDriver.CONF_TIMEOUT;
@@ -371,7 +528,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetSelfReception(bool SelfFlag)
+        private int acSetSelfReception(bool SelfFlag)
         {
             bool flag;
             Config.target = CanDriver.CONF_SELF_RECEPTION;
@@ -402,7 +559,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 succeeded; or <0 Failed 
    *
    *****************************************************************************/
-        public int acSetListenOnlyMode(bool ListenOnly)
+        private int acSetListenOnlyMode(bool ListenOnly)
         {
             bool flag;
             Config.target = CanDriver.CONF_LISTEN_ONLY_MODE;
@@ -433,7 +590,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 succeeded; or <0 Failed 
    *
    *****************************************************************************/
-        public int acSetAcceptanceFilterMode(uint FilterMode)
+        private int acSetAcceptanceFilterMode(uint FilterMode)
         {
             bool flag = false;
             Config.target = CanDriver.CONF_ACC_FILTER;
@@ -461,7 +618,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetAcceptanceFilterMask(uint Mask)
+        private int acSetAcceptanceFilterMask(uint Mask)
         {
             bool flag = false;
             Config.target = CanDriver.CONF_ACCM;
@@ -489,7 +646,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetAcceptanceFilterCode(uint Code)
+        private int acSetAcceptanceFilterCode(uint Code)
         {
             bool flag = false;
             Config.target = CanDriver.CONF_ACCC;
@@ -518,7 +675,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acSetAcceptanceFilter(uint Mask, uint Code)
+        private int acSetAcceptanceFilter(uint Mask, uint Code)
         {
             bool flag = false;
             Config.target = CanDriver.CONF_ACC;
@@ -547,7 +704,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acGetStatus(ref CanDriver.CanStatusPar_t Status)
+        private int acGetStatus(ref Can.CanDriver.CanStatusPar_t Status)
         {
             bool flag = false;
             flag = CanDriver.DeviceIoControl(hDevice, CanDriver.CAN_IOCTL_STATUS, IntPtr.Zero, 0, lpStatusBuffer, CanDriver.CAN_CANSTATUS_LENGTH, ref OutLen, this.ioctlOvr.memPtr);
@@ -577,8 +734,8 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-    
-        public int acCanWrite(CanDriver.canmsg_t[] msgWrite, uint nWriteCount, ref uint pulNumberofWritten)
+
+        private int acCanWrite(Can.CanDriver.canmsg_t[] msgWrite, uint nWriteCount, ref uint pulNumberofWritten)
         {
             bool flag;
             int nRet;
@@ -633,7 +790,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acCanRead(CanDriver.canmsg_t[] msgRead, uint nReadCount, ref uint pulNumberofRead)
+        private int acCanRead(Can.CanDriver.canmsg_t[] msgRead, uint nReadCount, ref uint pulNumberofRead)
         {
             bool flag;
             int nRet;
@@ -702,7 +859,7 @@ namespace ML.AdvCan.CanDriver
    *        true SUCCESS; or false failure 
    *
    *****************************************************************************/
-        public bool acClearCommError(ref uint ErrorCode)
+        private bool acClearCommError(ref uint ErrorCode)
         {
             CanDriver.COMSTAT lpState = new CanDriver.COMSTAT();
             return CanDriver.ClearCommError(hDevice, out ErrorCode, out lpState);
@@ -724,7 +881,7 @@ namespace ML.AdvCan.CanDriver
    *        true SUCCESS; or false failure 
    *
    *****************************************************************************/
-        public bool acSetCommMask(uint EvtMask)
+        private bool acSetCommMask(uint EvtMask)
         {
             if (!CanDriver.SetCommMask(hDevice, EvtMask))
             {
@@ -752,7 +909,7 @@ namespace ML.AdvCan.CanDriver
    *        true SUCCESS; or false failure 
    *
    *****************************************************************************/
-        public bool acGetCommMask(ref uint EvtMask)
+        private bool acGetCommMask(ref uint EvtMask)
         {
             return CanDriver.GetCommMask(hDevice, ref EvtMask);
         }
@@ -775,7 +932,7 @@ namespace ML.AdvCan.CanDriver
    *        =0 SUCCESS; or <0 failure 
    *
    *****************************************************************************/
-        public int acWaitEvent(CanDriver.canmsg_t[] msgRead, uint nReadCount, ref uint pulNumberofRead, ref uint ErrorCode)
+        private int acWaitEvent(Can.CanDriver.canmsg_t[] msgRead, uint nReadCount, ref uint pulNumberofRead, ref uint ErrorCode)
         {
             int nRet = OPERATION_ERROR;
             ErrorCode = 0;
@@ -820,6 +977,8 @@ namespace ML.AdvCan.CanDriver
 
             return nRet;
         }
+
+        
     }
 
     internal class Win32Events
@@ -866,7 +1025,7 @@ namespace ML.AdvCan.CanDriver
         }
 
         public IntPtr memPtr;
-        public CanDriver.OVERLAPPED ol;
+        public Can.CanDriver.OVERLAPPED ol;
 
     }
 }

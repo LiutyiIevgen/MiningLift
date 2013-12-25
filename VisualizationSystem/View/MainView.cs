@@ -41,12 +41,19 @@ namespace VisualizationSystem.View
         }
 
         public void ViewData(Parameters parameters)
-        {         
-            this.Invoke((MethodInvoker)delegate
+        {
+            try
             {
-                labelTime.Text = DateTime.Now.ToLongTimeString();
-                labelDate.Text = DateTime.Now.ToShortDateString();
-            });
+                this.Invoke((MethodInvoker)delegate
+                {
+                    labelTime.Text = DateTime.Now.ToLongTimeString();
+                    labelDate.Text = DateTime.Now.ToShortDateString();
+                });
+            }
+            catch(Exception)
+            {
+                return;
+            }
             //
             Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
             //
@@ -272,7 +279,7 @@ namespace VisualizationSystem.View
                 if (param.f_start == 1 || param.f_back == 1)
                 {
                     //var defenceDiagramVm = new DefenceDiagramVm(param);
-                    if (chartVA.Series[0].Points.Count==300)
+                    if (chartVA.Series[0].Points.Count==1500)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {

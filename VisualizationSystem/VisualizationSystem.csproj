@@ -215,6 +215,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComCan\ML.ComCan.csproj">
+      <Project>{67c27c4e-bc14-4984-8208-3096e3d141d2}</Project>
+      <Name>ML.ComCan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ML.AdvCan\ML.AdvCan.csproj">
+      <Project>{d104c735-fb7b-41b5-8f9d-294b476d58f9}</Project>
+      <Name>ML.AdvCan</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ML.ConfigSettings\ML.ConfigSettings.csproj">
       <Project>{DF2BBC87-F5D8-4CEE-8446-83CB50EDC8A3}</Project>
       <Name>ML.ConfigSettings</Name>

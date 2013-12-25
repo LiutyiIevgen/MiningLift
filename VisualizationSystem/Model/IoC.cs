@@ -1,4 +1,6 @@
-﻿using ML.ConfigSettings.Services;
+﻿using ComCan;
+using ML.AdvCan;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using Ninject;
 using Ninject.Parameters;
@@ -39,12 +41,11 @@ namespace VisualizationSystem.Model
 
         public static void SetBindings()
         {
-            RegisterSingleton<IDataExchange, TransferOverFile>();
+            RegisterSingleton<IDataExchange, TransferOverAdvCan>();
             RegisterSingleton<DataListener, DataListener>();
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();
             RegisterSingleton<FormSettingsParol, FormSettingsParol>();
-           // RegisterSingleton<FormCodtDomainParamType, FormCodtDomainParamType>();
         }
     }
 }

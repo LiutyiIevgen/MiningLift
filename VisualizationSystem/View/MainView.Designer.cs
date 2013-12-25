@@ -1328,7 +1328,7 @@ namespace VisualizationSystem.View
             this.label12.Text = "label12";
             // 
             // label13
-            // 
+            //
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label13.Location = new System.Drawing.Point(26, 84);
@@ -1336,6 +1336,13 @@ namespace VisualizationSystem.View
             this.label13.Size = new System.Drawing.Size(48, 15);
             this.label13.TabIndex = 4;
             this.label13.Text = "label13";
+            this.label58.AutoSize = true;
+            this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label58.Location = new System.Drawing.Point(321, 4);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(44, 15);
+            this.label58.TabIndex = 37;
+            this.label58.Text = "лог \"1\"";
             // 
             // label14
             // 
@@ -1346,6 +1353,14 @@ namespace VisualizationSystem.View
             this.label14.Size = new System.Drawing.Size(48, 15);
             this.label14.TabIndex = 5;
             this.label14.Text = "label14";
+
+            this.label57.AutoSize = true;
+            this.label57.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label57.Location = new System.Drawing.Point(243, 4);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(44, 15);
+            this.label57.TabIndex = 36;
+            this.label57.Text = "лог \"0\"";
             // 
             // label15
             // 
@@ -1356,6 +1371,16 @@ namespace VisualizationSystem.View
             this.label15.Size = new System.Drawing.Size(48, 15);
             this.label15.TabIndex = 6;
             this.label15.Text = "label15";
+
+            this.textBoxNoInf.BackColor = System.Drawing.Color.White;
+            this.textBoxNoInf.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxNoInf.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxNoInf.Location = new System.Drawing.Point(374, 4);
+            this.textBoxNoInf.Name = "textBoxNoInf";
+            this.textBoxNoInf.ReadOnly = true;
+            this.textBoxNoInf.Size = new System.Drawing.Size(17, 15);
+            this.textBoxNoInf.TabIndex = 35;
+            this.textBoxNoInf.TabStop = false;
             // 
             // label16
             // 
@@ -1379,6 +1404,7 @@ namespace VisualizationSystem.View
             // 
             // label18
             // 
+
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label18.Location = new System.Drawing.Point(26, 189);
@@ -1386,6 +1412,15 @@ namespace VisualizationSystem.View
             this.label18.Size = new System.Drawing.Size(48, 15);
             this.label18.TabIndex = 9;
             this.label18.Text = "label18";
+            this.textBoxLogicOne.BackColor = System.Drawing.Color.LightGray;
+            this.textBoxLogicOne.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxLogicOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxLogicOne.Location = new System.Drawing.Point(221, 4);
+            this.textBoxLogicOne.Name = "textBoxLogicOne";
+            this.textBoxLogicOne.ReadOnly = true;
+            this.textBoxLogicOne.Size = new System.Drawing.Size(17, 15);
+            this.textBoxLogicOne.TabIndex = 33;
+            this.textBoxLogicOne.TabStop = false;
             // 
             // label19
             // 
