@@ -19,6 +19,7 @@ namespace VisualizationSystem.View
     public partial class FormCodtDomainParamType : Form
     {
         private int _index;
+        private int startIndex = 0x2001;
         private string[] _coordinate = null;
         private string[] _speed = null;
         private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
@@ -30,6 +31,7 @@ namespace VisualizationSystem.View
         public FormCodtDomainParamType(int index)
         {
             InitializeComponent();
+            this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
             _index = index;
             LoadData(_index);
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
@@ -164,8 +166,13 @@ namespace VisualizationSystem.View
                 var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue };
                 for (int i = 0; i < dataGridView1.RowCount; i++)
                 {
-                    s1.Points.Add(new DataPoint(Convert.ToDouble(dataGridView1[1, i].Value, CultureInfo.GetCultureInfo("en-US")),
+                    if (Convert.ToDouble(dataGridView1[1, i].Value, CultureInfo.GetCultureInfo("en-US")) != 0 ||
+                        Convert.ToDouble(dataGridView1[2, i].Value, CultureInfo.GetCultureInfo("en-US")) != 0)
+                    {
+                        s1.Points.Add(new DataPoint(Convert.ToDouble(dataGridView1[1, i].Value, CultureInfo.GetCultureInfo("en-US")),
                         Convert.ToDouble(dataGridView1[2, i].Value, CultureInfo.GetCultureInfo("en-US"))));
+                    }
+                    
                 }
                 // add Series and Axis to plot model
                 plotDefenceDiagram.Model.Series.Add(s1);
