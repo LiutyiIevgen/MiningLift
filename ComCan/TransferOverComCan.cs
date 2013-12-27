@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
@@ -20,11 +21,16 @@ namespace ComCan
         }
         public bool StartExchange(string strPort)
         {
-            string ret = Device.OpenCAN(strPort, 50);
-            if(ret!="No_Err")
+            _portName = strPort;
+            string ret = Device.OpenCAN(_portName, 50);
+            if (ret != "No_Err")
+            {
+                MessageBox.Show(ret);
                 return false;
+            }
+            Thread.Sleep(500);
             ReceiveThread = new Thread(ReceiveThreadMethod);
-            ReceiveThread.Priority = ThreadPriority.Highest;
+            //ReceiveThread.Priority = ThreadPriority.Highest;
             ReceiveThread.IsBackground = true;
             ReceiveThread.Start(); //New thread starts
             return true;
@@ -110,12 +116,18 @@ namespace ComCan
                 try
                 {
                     List<CanDriver.canmsg_t> msgRead = Device.ReceiveMsgBlock(MsgCount);
+                    if (msgRead == null)
+                    {
+                        Device.OpenCAN(_portName, 50);
+                        Thread.Sleep(5);
+                        continue;              
+                    }
                     parameters = CanParser.GetParameters(msgRead);
                     ReceiveEvent(parameters);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead);
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    Thread.Sleep(10);
+                    Thread.Sleep(20);
                 }
                 catch(Exception)
                 {
@@ -163,5 +175,6 @@ namespace ComCan
         private readonly ComCANIO Device;
         private Thread ReceiveThread;
         private const int MsgCount = 80;
+        private string _portName;
     }
 }

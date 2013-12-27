@@ -21,20 +21,21 @@ namespace VisualizationSystem.View
     {
         public MainView()
         {
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
             InitializeComponent();
             SetInitControlsFeatures();
-            //SetGraphicInterval();
             _dataListener = IoC.Resolve<DataListener>();
-            _dataListener.Init(ViewData);
         }
-        private void MainView_Load(object sender, EventArgs e)
+        public void MainView_Load()
         {
             CreateRichTextBoxMassiv();
             CreateAuziDIOSignalsMassiv();
             SetGraphicInterval();
             updateGraphicThread = new Thread(updateGraphicHandler);
             updateGraphicThread.IsBackground = true;
+            var param = new double[30];
+            ViewData(new Parameters(param));
+            ViewData(new Parameters(param));
+            _dataListener.Init(ViewData);
            // string[] s = IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals;
            // s[0] = "1";
            // IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals = s;
@@ -69,7 +70,7 @@ namespace VisualizationSystem.View
             UpdateLoadData(parameters);
             UpdateCentralSignalsData(parameters);
             UpdateAuziDInputOutputSignals(parameters);
-            if (update_parameters_flag%5==0)
+            if (update_parameters_flag%10==0)
             if (!updateGraphicThread.IsAlive)
             {
                 updateGraphicThread = new Thread(updateGraphicHandler);
@@ -78,7 +79,7 @@ namespace VisualizationSystem.View
             }
                 
             update_parameters_flag++;
-            if (update_parameters_flag == 10)
+            if (update_parameters_flag%10 == 0)
             {
                 UpdateParametersData();
                 update_parameters_flag = 0;
@@ -279,7 +280,7 @@ namespace VisualizationSystem.View
                 if (param.f_start == 1 || param.f_back == 1)
                 {
                     //var defenceDiagramVm = new DefenceDiagramVm(param);
-                    if (chartVA.Series[0].Points.Count==1500)
+                    if (chartVA.Series[0].Points.Count==700)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {

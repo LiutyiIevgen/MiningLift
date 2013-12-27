@@ -57,11 +57,16 @@ namespace ComCan
             CAN_No = 1;
             Mode = RTR = DLC = 0;
             CANID = TH = TL = 0;
+            int ret;
             while (Ret++ < msgCount)
             {
                 Mode = RTR = DLC = 0;
                 CANID = TH = TL = 0;
-                VCI_CAN_DotNET.VCI_SDK.VCI_RecvCANMsg_NoStruct(CAN_No, ref Mode, ref RTR, ref DLC, ref CANID, ref TL, ref TH, Data);
+                ret = VCI_CAN_DotNET.VCI_SDK.VCI_RecvCANMsg_NoStruct(CAN_No, ref Mode, ref RTR, ref DLC, ref CANID, ref TL, ref TH, Data);
+                if ((ret == 14 && Ret==1)||ret==5)
+                {
+                    return null;
+                }
                 var msg = new CanDriver.canmsg_t
                 {
                     id = CANID,

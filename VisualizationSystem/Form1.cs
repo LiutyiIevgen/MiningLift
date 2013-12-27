@@ -12,23 +12,20 @@ namespace VisualizationSystem
 {
     public partial class Form1 : Form
     {
-        MainView _mainView = new MainView();
         public Form1()
-        {
-            InitializeComponent();
-            //
+        { 
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            InitializeComponent();    
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value = 5;
-
-            ConfigParameters.ReadConfigParameters();
+            //ConfigParameters.ReadConfigParameters();
+            
+            //FormSettings f2 = IoC.Resolve<FormSettings>();
+            //FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
             SetMainView();
-            FormSettings f2 = IoC.Resolve<FormSettings>();
-            FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
             /*using (var repoUnit = new RepoUnit())
             {
                 double value = repoUnit.SettingsLog.FindFirstBy(f => f.Name == "MaxCurrentValue").DValue;
@@ -36,11 +33,13 @@ namespace VisualizationSystem
         }
 
         private void SetMainView()
-        {
-            _mainView.Dock = System.Windows.Forms.DockStyle.Fill;
-           // this.Controls.Remove(_mainView);
+        {          
+            _mainView = new MainView{Dock = System.Windows.Forms.DockStyle.Fill};
             panel1.Controls.Add(_mainView);
+            _mainView.MainView_Load();
+           // this.Controls.Remove(_mainView);
+            
         }
-
+        private MainView _mainView;
     }
 }
