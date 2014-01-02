@@ -37,6 +37,8 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonUnLoad = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,7 +72,9 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonSave});
+            this.toolStripButtonSave,
+            this.toolStripButtonLoad,
+            this.toolStripButtonUnLoad});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(930, 25);
@@ -136,6 +140,24 @@
             this.Column3.HeaderText = "Скорость";
             this.Column3.Name = "Column3";
             // 
+            // toolStripButtonLoad
+            // 
+            this.toolStripButtonLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoad.Image")));
+            this.toolStripButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoad.Name = "toolStripButtonLoad";
+            this.toolStripButtonLoad.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonLoad.Text = "Загрузка таблицы";
+            // 
+            // toolStripButtonUnLoad
+            // 
+            this.toolStripButtonUnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonUnLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnLoad.Image")));
+            this.toolStripButtonUnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonUnLoad.Name = "toolStripButtonUnLoad";
+            this.toolStripButtonUnLoad.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonUnLoad.Text = "Выгрузка таблицы";
+            // 
             // FormCodtDomainParamType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,5 +192,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonSave;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLoad;
+        private System.Windows.Forms.ToolStripButton toolStripButtonUnLoad;
     }
 }

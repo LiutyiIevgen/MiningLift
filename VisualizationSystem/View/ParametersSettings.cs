@@ -99,7 +99,7 @@ namespace VisualizationSystem.View
             IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersName = newReadonlyParametersName;
             IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersValue = newReadonlyParametersValue;
             InitData();
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Текущие названия и значения параметров сохранены " + "\n";
+            AddLineToLog("Текущие названия и значения параметров сохранены ");
         }
 
         private void AddRowButton_Click(object sender, EventArgs e)
@@ -111,7 +111,7 @@ namespace VisualizationSystem.View
             dataGridViewVariableParameters[2, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
             dataGridViewVariableParameters[3, dataGridViewVariableParameters.RowCount - 1].Value = " ";
             dataGridViewVariableParameters[4, dataGridViewVariableParameters.RowCount - 1].Value = 0;
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16) + "\n";
+            AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
         }
 
         private void dataGridViewVariableParameters_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -340,18 +340,18 @@ namespace VisualizationSystem.View
             dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
             dotWayPeople = calculatedWayPeople + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
             dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Расчётные параметры пересчитаны " + "\n";
+            AddLineToLog("Расчётные параметры пересчитаны ");
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString()+"   "+DateTime.Now.ToLongTimeString()+"     Загрузка параметра с индексом "+"0x"+Convert.ToString(startIndex + _contextMenuClickedRow, 16)+"\n";
+            AddLineToLog("Загрузка параметра с индексом "+"0x"+Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             LoadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Выгрузка параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16) + "\n";
+            AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             UnloadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
@@ -425,14 +425,23 @@ namespace VisualizationSystem.View
                 _contextMenuClickedRow = e.RowIndex;
                 _contextMenuClickedColumn = e.ColumnIndex;
                 if (dataGridViewVariableParameters[3, _contextMenuClickedRow].Value.ToString() == "codtDomain")
+                {
+                    toolStripMenuItem1.Visible = false;
+                    toolStripMenuItem2.Visible = true;
                     toolStripMenuItem3.Visible = true;
+                }
                 else
-                    toolStripMenuItem3.Visible = false;
+                {
+                    toolStripMenuItem1.Visible = true;
+                    toolStripMenuItem2.Visible = true;
+                    toolStripMenuItem3.Visible = false;   
+                }
             }
         }
 
         private void WriteDataToParametersTable(int index, int subindex, string value)
         {
+            AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             dataGridViewVariableParameters[subindex + 2, index - startIndex].Value = value;
         }
 
@@ -445,10 +454,14 @@ namespace VisualizationSystem.View
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16) + "\n";
+            AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             FormCodtDomainParamType f4 = new FormCodtDomainParamType(startIndex + _contextMenuClickedRow);
             f4.ShowDialog();
         }
 
+        private void AddLineToLog(string text)
+        {
+            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     " + text + "\n";
+        }
     }
 }

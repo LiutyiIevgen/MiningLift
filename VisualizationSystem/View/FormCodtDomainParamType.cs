@@ -33,7 +33,18 @@ namespace VisualizationSystem.View
             InitializeComponent();
             this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
             _index = index;
-            LoadData(_index);
+            LoadDataFromInitFile(_index);
+            plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+            this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
+            MakeGraphic();
+        }
+
+        public FormCodtDomainParamType(int index, List<string> data)
+        {
+            InitializeComponent();
+            this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
+            _index = index;
+            LoadDataFromController(data);
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
@@ -44,7 +55,7 @@ namespace VisualizationSystem.View
 
         }
 
-        private void LoadData(int index)
+        private void LoadDataFromInitFile(int index)
         {
             if (index == 0x2035)
             {
@@ -75,7 +86,18 @@ namespace VisualizationSystem.View
             }
         }
 
-        private void SaveData(int index)
+        private void LoadDataFromController(List<string> data)
+        {
+            dataGridView1.RowCount = data.Count()/2;
+            for (int i = 0; i < dataGridView1.RowCount; i+=2)
+            {
+                dataGridView1[0, i].Value = i/2;
+                dataGridView1[1, i].Value = _coordinate[i];
+                dataGridView1[2, i].Value = _speed[i+1];
+            }
+        }
+
+        private void SaveDataToInitFile(int index)
         {
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
@@ -106,7 +128,7 @@ namespace VisualizationSystem.View
 
         private void toolStripButtonSave_Click(object sender, EventArgs e)
         {
-            SaveData(_index);
+            SaveDataToInitFile(_index);
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
