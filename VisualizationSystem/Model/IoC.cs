@@ -7,6 +7,7 @@ using Ninject.Parameters;
 using ML.DataExchange.Interfaces;
 using VisualizationSystem.Services;
 using VisualizationSystem.View;
+using VisualizationSystem.View.Forms;
 
 namespace VisualizationSystem.Model
 {
@@ -41,7 +42,7 @@ namespace VisualizationSystem.Model
 
         public static void SetBindings()
         {
-            RegisterSingleton<IDataExchange, TransferOverFile>();
+            RegisterSingleton<IDataExchange, TransferOverComCan>();
             RegisterSingleton<DataListener, DataListener>();
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();

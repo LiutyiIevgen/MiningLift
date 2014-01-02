@@ -114,52 +114,52 @@
     <Compile Include="ViewModel\SpeedPanelVm.cs" />
     <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
     <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
-    <Compile Include="View\AuziDSettings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="View\AuziDSettings.Designer.cs">
-      <DependentUpon>AuziDSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\DefenceDiagramSettings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="View\DefenceDiagramSettings.Designer.cs">
-      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormCodtDomainParamType.cs">
+    <Compile Include="View\Forms\FormCodtDomainSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormCodtDomainParamType.Designer.cs">
-      <DependentUpon>FormCodtDomainParamType.cs</DependentUpon>
+    <Compile Include="View\Forms\FormCodtDomainSettings.Designer.cs">
+      <DependentUpon>FormCodtDomainSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FormSettings.cs">
+    <Compile Include="View\Forms\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormSettings.Designer.cs">
+    <Compile Include="View\Forms\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FormSettingsParol.cs">
+    <Compile Include="View\Forms\FormSettingsParol.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormSettingsParol.Designer.cs">
+    <Compile Include="View\Forms\FormSettingsParol.Designer.cs">
       <DependentUpon>FormSettingsParol.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\MainView.cs">
+    <Compile Include="View\UserControls\MainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\MainView.Designer.cs">
+    <Compile Include="View\UserControls\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\MainViewSettings.cs">
+    <Compile Include="View\UserControls\Setting\AuziDSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\MainViewSettings.Designer.cs">
+    <Compile Include="View\UserControls\Setting\AuziDSettings.Designer.cs">
+      <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\DefenceDiagramSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\DefenceDiagramSettings.Designer.cs">
+      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\MainViewSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\MainViewSettings.Designer.cs">
       <DependentUpon>MainViewSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\ParametersSettings.cs">
+    <Compile Include="View\UserControls\Setting\ParametersSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\ParametersSettings.Designer.cs">
+    <Compile Include="View\UserControls\Setting\ParametersSettings.Designer.cs">
       <DependentUpon>ParametersSettings.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
@@ -175,28 +175,28 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="View\AuziDSettings.resx">
-      <DependentUpon>AuziDSettings.cs</DependentUpon>
+    <EmbeddedResource Include="View\Forms\FormCodtDomainSettings.resx">
+      <DependentUpon>FormCodtDomainSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\DefenceDiagramSettings.resx">
-      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormCodtDomainParamType.resx">
-      <DependentUpon>FormCodtDomainParamType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormSettings.resx">
+    <EmbeddedResource Include="View\Forms\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\FormSettingsParol.resx">
+    <EmbeddedResource Include="View\Forms\FormSettingsParol.resx">
       <DependentUpon>FormSettingsParol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\MainView.resx">
+    <EmbeddedResource Include="View\UserControls\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\MainViewSettings.resx">
+    <EmbeddedResource Include="View\UserControls\Setting\AuziDSettings.resx">
+      <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\Setting\DefenceDiagramSettings.resx">
+      <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\Setting\MainViewSettings.resx">
       <DependentUpon>MainViewSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\ParametersSettings.resx">
+    <EmbeddedResource Include="View\UserControls\Setting\ParametersSettings.resx">
       <DependentUpon>ParametersSettings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">

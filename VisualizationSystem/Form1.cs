@@ -7,6 +7,7 @@ using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.View;
 using ML.ConfigSettings.Services;
+using VisualizationSystem.View.UserControls;
 
 namespace VisualizationSystem
 {

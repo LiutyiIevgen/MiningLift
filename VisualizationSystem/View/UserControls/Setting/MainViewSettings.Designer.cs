@@ -1,4 +1,4 @@
-﻿namespace VisualizationSystem.View
+﻿namespace VisualizationSystem.View.UserControls.Setting
 {
     partial class MainViewSettings
     {

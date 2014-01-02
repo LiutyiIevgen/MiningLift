@@ -186,6 +186,7 @@ namespace ComCan
                                 ParameterId = _codtDomainId,
                                 Data = _codtDomainArray.ToArray()
                             });
+                            _codtDomainArray.Clear();
                         }
                     }
                 }

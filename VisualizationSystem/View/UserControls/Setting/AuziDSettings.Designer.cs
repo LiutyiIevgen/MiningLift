@@ -1,6 +1,4 @@
-﻿using GlacialComponents.Controls;
-
-namespace VisualizationSystem.View
+﻿namespace VisualizationSystem.View.UserControls.Setting
 {
     partial class AuziDSettings
     {

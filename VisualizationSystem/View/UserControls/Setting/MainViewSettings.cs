@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
 using VisualizationSystem.Model;
 
-namespace VisualizationSystem.View
+namespace VisualizationSystem.View.UserControls.Setting
 {
     public partial class MainViewSettings : UserControl
     {
