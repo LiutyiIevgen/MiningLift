@@ -32,13 +32,13 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonUnLoad = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonUnLoad = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,6 +91,25 @@
             this.toolStripButtonSave.Text = "Сохранить";
             this.toolStripButtonSave.Click += new System.EventHandler(this.toolStripButtonSave_Click);
             // 
+            // toolStripButtonLoad
+            // 
+            this.toolStripButtonLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoad.Image")));
+            this.toolStripButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoad.Name = "toolStripButtonLoad";
+            this.toolStripButtonLoad.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonLoad.Text = "Загрузка таблицы";
+            this.toolStripButtonLoad.Click += new System.EventHandler(this.toolStripButtonLoad_Click);
+            // 
+            // toolStripButtonUnLoad
+            // 
+            this.toolStripButtonUnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonUnLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnLoad.Image")));
+            this.toolStripButtonUnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonUnLoad.Name = "toolStripButtonUnLoad";
+            this.toolStripButtonUnLoad.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonUnLoad.Text = "Выгрузка таблицы";
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -140,31 +159,13 @@
             this.Column3.HeaderText = "Скорость";
             this.Column3.Name = "Column3";
             // 
-            // toolStripButtonLoad
-            // 
-            this.toolStripButtonLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoad.Image")));
-            this.toolStripButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonLoad.Name = "toolStripButtonLoad";
-            this.toolStripButtonLoad.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonLoad.Text = "Загрузка таблицы";
-            // 
-            // toolStripButtonUnLoad
-            // 
-            this.toolStripButtonUnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonUnLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnLoad.Image")));
-            this.toolStripButtonUnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonUnLoad.Name = "toolStripButtonUnLoad";
-            this.toolStripButtonUnLoad.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonUnLoad.Text = "Выгрузка таблицы";
-            // 
-            // FormCodtDomainParamType
+            // FormCodtDomainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(930, 402);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "FormCodtDomainParamType";
+            this.Name = "FormCodtDomainSettings";
             this.Text = "FormCodtDomainParamType";
             this.Load += new System.EventHandler(this.FormCodtDomainParamType_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);

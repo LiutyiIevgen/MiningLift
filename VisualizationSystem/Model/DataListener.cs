@@ -18,9 +18,9 @@ namespace VisualizationSystem.Model
         public void Init(ReceiveHandler Function)
         {
             _dataExchange.ReceiveEvent += Function;
-            //_dataExchange.StartExchange("CAN1");
+            _dataExchange.StartExchange("CAN1");
             //_dataExchange.StartExchange("COM7");
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
         }
 
@@ -38,7 +38,7 @@ namespace VisualizationSystem.Model
         {
             return _dataExchange.SetParameter(new CanParameter
             {
-                ParameterId = parameterId, Data = data
+                ParameterId = parameterId, ParameterSubIndex = subindex, Data = data
             });
         }
     }

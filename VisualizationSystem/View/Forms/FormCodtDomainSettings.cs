@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
+using ML.DataExchange;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -221,6 +223,25 @@ namespace VisualizationSystem.View.Forms
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
+        }
+
+        private void toolStripButtonLoad_Click(object sender, EventArgs e) //load table
+        {
+            var data = new List<byte>();
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                string firstParamStr = dataGridView1[1, i].Value.ToString();
+                int firstParam = int.Parse(firstParamStr);
+                byte[] firstBytes= BitConverter.GetBytes(firstParam);
+                data.AddRange(firstBytes);
+
+                string secondParamStr = dataGridView1[2, i].Value.ToString();
+                short secondParam = short.Parse(secondParamStr);
+                byte[] secondBytes = BitConverter.GetBytes(secondParam);
+                data.AddRange(secondBytes);
+            }
+            IoC.Resolve<DataListener>()
+                .SetParameter((ushort)_index, 0x02, data.ToArray());
         }
 
     }

@@ -266,7 +266,11 @@ namespace ML.AdvCan
                 return null;
             }
             else
-                return msgRead.ToList();
+            {
+                var ret = msgRead.ToList();
+                ret.RemoveRange((int) pulNumberofRead, (int) (msgRead.Count() - pulNumberofRead));
+                return ret;
+            }
         }
         /*****************************************************************************
    *

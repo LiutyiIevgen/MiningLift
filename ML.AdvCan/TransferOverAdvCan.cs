@@ -13,6 +13,7 @@ namespace ML.AdvCan
         public TransferOverAdvCan()
         {
             Device = new AdvCANIO();
+            _codtDomainArray = new List<byte>();
         }
 
         public bool StartExchange(string strPort)
@@ -61,27 +62,10 @@ namespace ML.AdvCan
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
             Device.SendData(dataList);
-            Device.SendData(dataList);
             return true;
         }
 
-        public bool GetSegment(ushort parameterId, byte subindex)
-        {
-            var dataList = new List<CanDriver.canmsg_t>();
-            var msg = new CanDriver.canmsg_t();
-            msg.flags = CanDriver.MSG_BOVR;
-            msg.cob = 0;
-            msg.id = 0x601; //rSdo + id=1
-            msg.length = (short)CanDriver.DATALENGTH;
-            msg.data = new byte[CanDriver.DATALENGTH];
-            msg.data[0] = 0x60;//read segment
-            msg.data[1] = (byte)(parameterId);//id low
-            msg.data[2] = (byte)(parameterId >> 8);//id high
-            msg.data[3] = subindex;//subindex
-            dataList.Add(msg);
-            Device.SendData(dataList);
-            return true;
-        }
+        
 
         public bool SetParameter(CanParameter canParameter)
         {
@@ -93,7 +77,7 @@ namespace ML.AdvCan
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[1] = (byte)(canParameter.ParameterId);//id low
             msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
-            msg.data[3] = 0x02;//subindex
+            msg.data[3] = canParameter.ParameterSubIndex;//subindex
             if (canParameter.Data.Count() == 4)
             {
                 msg.data[0] = 0x22; //write 4 byte e=1 s=0;
@@ -108,9 +92,19 @@ namespace ML.AdvCan
                 msg.data[4] = canParameter.Data[0];
                 msg.data[5] = canParameter.Data[1];
             }
+            else //codtDomain
+            {
+                var codtDomainThread = new Thread(SetSegment) { IsBackground = true };
+                codtDomainThread.Start(canParameter);
+                return true;
+            }
             Device.SendData(new List<CanDriver.canmsg_t> { msg });
             return true;
         }
+
+        public event ReceiveHandler ReceiveEvent;
+
+        public event Action<List<CanParameter>> ParameterReceive;
 
         public List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
         {
@@ -123,23 +117,49 @@ namespace ML.AdvCan
                     if (canmsgT.data[0] == 0x43)//real32
                         canParameters.Add(new CanParameter
                         {
-                            ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] {canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7]}
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
                         });
-                    else if(canmsgT.data[0] == 0x4B)//sint16
+                    else if (canmsgT.data[0] == 0x4B)//sint16
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5]}
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
                         });
-                    else if (canmsgT.data[0] == 0x47)//sint24
+                    else if (canmsgT.data[0] == 0x47)//sint16
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[5] }
                         });
-                    else if(canmsgT.data[0] == 0x41) //data segment
-                        GetSegment((ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)), canmsgT.data[3]);
+                    else if (canmsgT.data[0] == 0x41) //codtDomain
+                    {
+                        _codtDomainId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8));
+                        var codtDomainThread = new Thread(GetSegment) { IsBackground = true };
+                        codtDomainThread.Start(canmsgT);
+                    }
+                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) // codtDomain Element
+                    {
+                        _codtDomainArray.AddRange(new List<byte>
+                        {
+                            canmsgT.data[1],
+                            canmsgT.data[2],
+                            canmsgT.data[3],
+                            canmsgT.data[4],
+                            canmsgT.data[5],
+                            canmsgT.data[6],
+                            canmsgT.data[7]
+                        });
+                        if (canmsgT.data[0] == 0x1D) //last codtDomain Element
+                        {
+                            canParameters.Add(new CanParameter
+                            {
+                                ParameterId = _codtDomainId,
+                                Data = _codtDomainArray.ToArray()
+                            });
+                            _codtDomainArray.Clear();
+                        }
+                    }
                 }
             }
             return canParameters;
@@ -185,19 +205,93 @@ namespace ML.AdvCan
                 }
                 catch (Exception exception)
                 {
-                    
+
                 }
-                
+
                 Thread.Sleep(20);
             }
         }
 
-        
+        private void GetSegment(object canmsgT)
+        {
+            var msg = (CanDriver.canmsg_t)canmsgT;
+            double byteNumber = msg.data[4];
+            var _sendNumber = (int)Math.Ceiling((double)(byteNumber / 7));
+            for (int i = 0; i < _sendNumber; i++)
+            {
+                if (i % 2 == 0)
+                    Device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                    {
+                        id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        {
+                            0x60,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
+                        }
+                    }});
+                else
+                    Device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                    {
+                        id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        {
+                            0x70,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
+                        }
+                    }});
+                Thread.Sleep(200);
+            }
+        }
 
-
-        public event ReceiveHandler ReceiveEvent;
-
-        public event Action<List<CanParameter>> ParameterReceive;
+        private void SetSegment(object parameter)
+        {
+            var canParameter = parameter as CanParameter;
+            var msg = new CanDriver.canmsg_t();
+            msg.flags = CanDriver.MSG_BOVR;
+            msg.cob = 0;
+            msg.id = 0x601; //rSdo + id=1
+            msg.length = (short)CanDriver.DATALENGTH;
+            msg.data = new byte[CanDriver.DATALENGTH];
+            msg.data[0] = 0x20; //write segment e=0 s=0;
+            msg.data[1] = (byte)(canParameter.ParameterId);//id low
+            msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
+            msg.data[3] = canParameter.ParameterSubIndex;//subindex     
+            msg.data[4] = (byte)canParameter.Data.Count();
+            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            Thread.Sleep(200);
+            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            Thread.Sleep(200);
+            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            Thread.Sleep(200);
+            double byteCount = canParameter.Data.Count();
+            var _sendNumber = (int)Math.Ceiling((double)(byteCount / 7));
+            int i = 0;
+            while (i < _sendNumber)
+            {
+                var block = new byte[8];
+                for (int j = 0; j < 7; j++)
+                {
+                    if (i * 7 + j >= canParameter.Data.Count())
+                        block[j + 1] = 0;
+                    else
+                        block[j + 1] = canParameter.Data[i * 7 + j];
+                }
+                if (i == _sendNumber - 1)
+                    block[0] = 0x1D;
+                else if (i % 2 == 0)
+                    block[0] = 0;
+                else
+                    block[0] = 0x10;
+                Device.SendData(new List<CanDriver.canmsg_t>
+                {
+                    new CanDriver.canmsg_t
+                    {
+                        id = 0x601,
+                        length = 8,
+                        flags = CanDriver.MSG_BOVR,
+                        data = block
+                    }
+                });
+                i++;
+                Thread.Sleep(200);
+            }
+        }
 
         private readonly AdvCANIO Device;
         private bool m_bRun;
@@ -205,5 +299,7 @@ namespace ML.AdvCan
         private int nMsgCount = 80;
         private Thread ReceiveThread;
         private ThreadStart ReceiveThreadSt;
+        private List<byte> _codtDomainArray;
+        private ushort _codtDomainId;
     }
 }
