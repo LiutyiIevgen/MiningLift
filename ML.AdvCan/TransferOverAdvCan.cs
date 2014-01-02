@@ -93,7 +93,7 @@ namespace ML.AdvCan
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[1] = (byte)(canParameter.ParameterId);//id low
             msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
-            msg.data[3] = canParameter.ParameterSubIndex;//subindex
+            msg.data[3] = 0x02;//subindex
             if (canParameter.Data.Count() == 4)
             {
                 msg.data[0] = 0x22; //write 4 byte e=1 s=0;
@@ -124,25 +124,22 @@ namespace ML.AdvCan
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            ParameterSubIndex = canmsgT.data[3],
                             Data = new byte[] {canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7]}
                         });
                     else if(canmsgT.data[0] == 0x4B)//sint16
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            ParameterSubIndex = canmsgT.data[3],
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5]}
                         });
-                    else if (canmsgT.data[0] == 0x47)//sint16
+                    else if (canmsgT.data[0] == 0x47)//sint24
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            ParameterSubIndex = canmsgT.data[3],
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[5] }
                         });
-                    //else
-                        //GetSegment((ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)), canmsgT.data[3]);
+                    else if(canmsgT.data[0] == 0x41) //data segment
+                        GetSegment((ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)), canmsgT.data[3]);
                 }
             }
             return canParameters;

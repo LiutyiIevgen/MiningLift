@@ -41,7 +41,6 @@ namespace VisualizationSystem.View
         {
             InitData();
             ParamLog.Clear();
-            comboBoxControllerID.SelectedIndex = 0;
         }
 
         private void InitData()
@@ -414,7 +413,22 @@ namespace VisualizationSystem.View
                     myShort /= 256;
                     WriteDataToParametersTable(canParameter.ParameterId, canParameter.ParameterSubIndex, myShort.ToString());
                 }
-                
+                else //codtDomain
+                {
+                    var dataList = new List<string>();
+                    int i = 0;
+                    while (i < 20)
+                    {
+                        dataList.Add(BitConverter.ToInt32(canParameter.Data, i*6).ToString());
+                        dataList.Add(BitConverter.ToUInt16(canParameter.Data, i*6 + 4).ToString());
+                        i++;
+                    }
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        var formDomain = new FormCodtDomainParamType(canParameter.ParameterId);
+                        formDomain.Show();
+                    });  
+                } 
             }
             
         }
@@ -439,10 +453,10 @@ namespace VisualizationSystem.View
             }
         }
 
-        private void WriteDataToParametersTable(int index, int subindex, string value)
+        private void WriteDataToParametersTable(int index, string value)
         {
             AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            dataGridViewVariableParameters[subindex + 2, index - startIndex].Value = value;
+            dataGridViewVariableParameters[4, index - startIndex].Value = value;
         }
 
         private string ReadDataFromParametersTable(int index, int subindex)

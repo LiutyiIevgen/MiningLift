@@ -38,7 +38,7 @@ namespace VisualizationSystem.Model
         {
             return _dataExchange.SetParameter(new CanParameter
             {
-                ParameterId = parameterId, ParameterSubIndex = subindex, Data = data
+                ParameterId = parameterId, Data = data
             });
         }
     }
