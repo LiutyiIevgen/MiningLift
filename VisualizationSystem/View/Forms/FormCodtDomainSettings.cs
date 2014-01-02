@@ -126,6 +126,7 @@ namespace VisualizationSystem.View.Forms
         private void toolStripButtonSave_Click(object sender, EventArgs e)
         {
             SaveDataToInitFile(_index);
+            MessageBox.Show("Запись параметров в config файл успешно завершена!", "Сохранение параметров", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

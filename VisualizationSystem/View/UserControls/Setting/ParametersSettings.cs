@@ -13,12 +13,9 @@ namespace VisualizationSystem.View.UserControls.Setting
     public partial class ParametersSettings : UserControl
     {
         static int variableParametersCount = 0;
-        static int readonlyParametersCount = 0;
         string[] variableParametersName = null;
         string[] variableParametersValue = null;
         string[] variableParametersType = null;
-        string[] readonlyParametersName = null;
-        string[] readonlyParametersValue = null;
         double calculatedWayVeightAndEquipment = 0;
         double calculatedWayPeople = 0;
         double dotWayVeightAndEquipment = 0;
@@ -45,13 +42,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
             variableParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue;
             variableParametersType = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType;
-            readonlyParametersName = IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersName;
-            readonlyParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersValue;
 
             variableParametersCount = variableParametersName.Count();
-            readonlyParametersCount = readonlyParametersName.Count();
             dataGridViewVariableParameters.RowCount = variableParametersCount;
-            dataGridViewReadOnlyParameters.RowCount = readonlyParametersCount;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 dataGridViewVariableParameters[0, i].Value = i;
@@ -59,12 +52,6 @@ namespace VisualizationSystem.View.UserControls.Setting
                 dataGridViewVariableParameters[2, i].Value = variableParametersName[i];
                 dataGridViewVariableParameters[3, i].Value = variableParametersType[i];
                 dataGridViewVariableParameters[4, i].Value = variableParametersValue[i];
-            }
-            for (int i = 0; i < dataGridViewReadOnlyParameters.RowCount; i++)
-            {
-                dataGridViewReadOnlyParameters[0, i].Value = i;
-                dataGridViewReadOnlyParameters[2, i].Value = readonlyParametersName[i];
-                dataGridViewReadOnlyParameters[3, i].Value = readonlyParametersValue[i];
             }
             CalculateParameters();
         }
@@ -74,32 +61,24 @@ namespace VisualizationSystem.View.UserControls.Setting
             string[] newVariableParametersName = new string[variableParametersCount];
             string[] newVariableParametersValue = new string[variableParametersCount];
             string[] newVariableParametersType = new string[variableParametersCount];
-            string[] newReadonlyParametersName = new string[readonlyParametersCount];
-            string[] newReadonlyParametersValue = new string[readonlyParametersCount];
-
+        
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 newVariableParametersName[i] = dataGridViewVariableParameters[2, i].Value.ToString();
                 newVariableParametersType[i] = dataGridViewVariableParameters[3, i].Value.ToString();
                 newVariableParametersValue[i] = Convert.ToDouble(dataGridViewVariableParameters[4, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
             }
-            for (int i = 0; i < dataGridViewReadOnlyParameters.RowCount; i++)
-            {
-                newReadonlyParametersName[i] = dataGridViewReadOnlyParameters[2, i].Value.ToString();
-                newReadonlyParametersValue[i] = Convert.ToDouble(dataGridViewReadOnlyParameters[3, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
-            }
-
             IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName = newVariableParametersName;
             IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType = newVariableParametersType;
             IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue = newVariableParametersValue;
-            IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersName = newReadonlyParametersName;
-            IoC.Resolve<MineConfig>().ParametersConfig.ReadonlyParametersValue = newReadonlyParametersValue;
             InitData();
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Текущие названия и значения параметров сохранены " + "\n";
+            AddLineToLog("Текущие названия и значения параметров сохранены ");
         }
 
         private void AddRowButton_Click(object sender, EventArgs e)
         {
+            FormAddParameterSettings f5 = new FormAddParameterSettings();
+            f5.ShowDialog();
             variableParametersCount++;
             dataGridViewVariableParameters.RowCount = variableParametersCount;
             dataGridViewVariableParameters[0, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
@@ -107,7 +86,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             dataGridViewVariableParameters[2, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
             dataGridViewVariableParameters[3, dataGridViewVariableParameters.RowCount - 1].Value = " ";
             dataGridViewVariableParameters[4, dataGridViewVariableParameters.RowCount - 1].Value = 0;
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16) + "\n";
+            AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
         }
 
         private void dataGridViewVariableParameters_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -327,27 +306,27 @@ namespace VisualizationSystem.View.UserControls.Setting
             calculatedWayVeightAndEquipment = Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
             calculatedWayVeightAndEquipment += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
             calculatedWayVeightAndEquipment += (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 11].Value, CultureInfo.GetCultureInfo("en-US")));
-            dataGridViewReadOnlyParameters[3, 0].Value = Math.Round(calculatedWayVeightAndEquipment, 2);
+            //dataGridViewReadOnlyParameters[3, 0].Value = Math.Round(calculatedWayVeightAndEquipment, 2);
             calculatedWayPeople = Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
             calculatedWayPeople += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
             calculatedWayPeople += (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 12].Value, CultureInfo.GetCultureInfo("en-US")));
-            dataGridViewReadOnlyParameters[3, 1].Value = Math.Round(calculatedWayPeople, 2);
+            //dataGridViewReadOnlyParameters[3, 1].Value = Math.Round(calculatedWayPeople, 2);
             dotWayVeightAndEquipment = calculatedWayVeightAndEquipment + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
+            //dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
             dotWayPeople = calculatedWayPeople + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Расчётные параметры пересчитаны " + "\n";
+            //dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
+            AddLineToLog("Расчётные параметры пересчитаны ");
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString()+"   "+DateTime.Now.ToLongTimeString()+"     Загрузка параметра с индексом "+"0x"+Convert.ToString(startIndex + _contextMenuClickedRow, 16)+"\n";
+            AddLineToLog("Загрузка параметра с индексом "+"0x"+Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             LoadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Выгрузка параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16) + "\n";
+            AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             UnloadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
@@ -452,6 +431,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void WriteDataToParametersTable(int index, string value)
         {
+            AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             dataGridViewVariableParameters[4, index - startIndex].Value = value;
         }
 
@@ -464,9 +444,14 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16) + "\n";
+            AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow);
             f4.ShowDialog();
+        }
+
+        private void AddLineToLog(string text)
+        {
+            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     " + text + "\n";
         }
     }
 }

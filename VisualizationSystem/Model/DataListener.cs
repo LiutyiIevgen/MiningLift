@@ -19,8 +19,8 @@ namespace VisualizationSystem.Model
         {
             _dataExchange.ReceiveEvent += Function;
             //_dataExchange.StartExchange("CAN1");
-            _dataExchange.StartExchange("COM7");
-            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            //_dataExchange.StartExchange("COM7");
+            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
         }
 

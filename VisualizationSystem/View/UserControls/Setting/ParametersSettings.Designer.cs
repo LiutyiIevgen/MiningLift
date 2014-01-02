@@ -31,7 +31,6 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParametersSettings));
             this.dataGridViewVariableParameters = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,11 +42,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridViewReadOnlyParameters = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddRowButton = new System.Windows.Forms.Button();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.ParamLog = new System.Windows.Forms.RichTextBox();
@@ -59,7 +53,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReadOnlyParameters)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,10 +72,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.Column5,
             this.Column4});
             this.dataGridViewVariableParameters.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewVariableParameters.Location = new System.Drawing.Point(20, 60);
+            this.dataGridViewVariableParameters.Location = new System.Drawing.Point(20, 52);
             this.dataGridViewVariableParameters.Name = "dataGridViewVariableParameters";
             this.dataGridViewVariableParameters.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewVariableParameters.Size = new System.Drawing.Size(719, 252);
+            this.dataGridViewVariableParameters.Size = new System.Drawing.Size(719, 356);
             this.dataGridViewVariableParameters.TabIndex = 0;
             this.dataGridViewVariableParameters.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewVariableParameters_CellMouseDown);
             this.dataGridViewVariableParameters.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewVariableParameters_EditingControlShowing);
@@ -153,68 +146,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripMenuItem3.Text = "Развернуть";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // dataGridViewReadOnlyParameters
-            // 
-            this.dataGridViewReadOnlyParameters.AllowUserToAddRows = false;
-            this.dataGridViewReadOnlyParameters.AllowUserToDeleteRows = false;
-            this.dataGridViewReadOnlyParameters.AllowUserToResizeColumns = false;
-            this.dataGridViewReadOnlyParameters.AllowUserToResizeRows = false;
-            this.dataGridViewReadOnlyParameters.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.dataGridViewReadOnlyParameters.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dataGridViewReadOnlyParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewReadOnlyParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewReadOnlyParameters.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewReadOnlyParameters.Location = new System.Drawing.Point(20, 345);
-            this.dataGridViewReadOnlyParameters.Name = "dataGridViewReadOnlyParameters";
-            this.dataGridViewReadOnlyParameters.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewReadOnlyParameters.Size = new System.Drawing.Size(719, 89);
-            this.dataGridViewReadOnlyParameters.TabIndex = 1;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "№";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Индекс";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Название";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn3.Width = 400;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Значение";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn4.Width = 105;
-            // 
             // AddRowButton
             // 
-            this.AddRowButton.Location = new System.Drawing.Point(570, 318);
+            this.AddRowButton.Location = new System.Drawing.Point(570, 414);
             this.AddRowButton.Name = "AddRowButton";
             this.AddRowButton.Size = new System.Drawing.Size(79, 23);
             this.AddRowButton.TabIndex = 2;
@@ -224,7 +158,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             // 
             // ApplyButton
             // 
-            this.ApplyButton.Location = new System.Drawing.Point(655, 318);
+            this.ApplyButton.Location = new System.Drawing.Point(655, 414);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(84, 23);
             this.ApplyButton.TabIndex = 3;
@@ -308,14 +242,12 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.Controls.Add(this.ParamLog);
             this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.AddRowButton);
-            this.Controls.Add(this.dataGridViewReadOnlyParameters);
             this.Controls.Add(this.dataGridViewVariableParameters);
             this.Name = "ParametersSettings";
             this.Size = new System.Drawing.Size(758, 541);
             this.Load += new System.EventHandler(this.ParametersSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReadOnlyParameters)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -326,17 +258,12 @@ namespace VisualizationSystem.View.UserControls.Setting
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridViewVariableParameters;
-        private System.Windows.Forms.DataGridView dataGridViewReadOnlyParameters;
         private System.Windows.Forms.Button AddRowButton;
         private System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItem2;
         private RichTextBox ParamLog;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private ToolStrip toolStrip1;
         private ToolStripButton toolStripButton1;
         private ToolStripButton toolStripButton2;
