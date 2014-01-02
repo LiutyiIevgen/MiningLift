@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -53,7 +54,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 dataGridViewVariableParameters[3, i].Value = variableParametersType[i];
                 dataGridViewVariableParameters[4, i].Value = variableParametersValue[i];
             }
-            CalculateParameters();
+           // CalculateParameters();
         }
 
         private void ApplyButton_Click(object sender, EventArgs e)
@@ -79,14 +80,17 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             FormAddParameterSettings f5 = new FormAddParameterSettings();
             f5.ShowDialog();
-            variableParametersCount++;
+            /*variableParametersCount++;
             dataGridViewVariableParameters.RowCount = variableParametersCount;
             dataGridViewVariableParameters[0, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
             dataGridViewVariableParameters[1, dataGridViewVariableParameters.RowCount - 1].Value = "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16);
             dataGridViewVariableParameters[2, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
             dataGridViewVariableParameters[3, dataGridViewVariableParameters.RowCount - 1].Value = " ";
-            dataGridViewVariableParameters[4, dataGridViewVariableParameters.RowCount - 1].Value = 0;
+            dataGridViewVariableParameters[4, dataGridViewVariableParameters.RowCount - 1].Value = 0; */
+            InitData();
             AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
+            //f5.Closed += F5OnClosed;
+            //AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
         }
 
         private void dataGridViewVariableParameters_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -297,7 +301,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
             if (e.ColumnIndex == 4)
             {
-                CalculateParameters();
+                //CalculateParameters();
             }
         }
 
