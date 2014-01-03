@@ -185,9 +185,9 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
-            string[] newVariableParametersName = new string[variableParametersCount];
-            string[] newVariableParametersValue = new string[variableParametersCount];
-            string[] newVariableParametersType = new string[variableParametersCount];
+            string[] newVariableParametersName = new string[dataGridViewVariableParameters.RowCount];
+            string[] newVariableParametersValue = new string[dataGridViewVariableParameters.RowCount];
+            string[] newVariableParametersType = new string[dataGridViewVariableParameters.RowCount];
             double value;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
@@ -273,6 +273,26 @@ namespace VisualizationSystem.View.UserControls.Setting
                 }
 
             }
+        }
+
+        private void DeleteRowButton_Click(object sender, EventArgs e)
+        {
+            dataGridViewVariableParameters.RowCount = dataGridViewVariableParameters.RowCount - 1;
+            string[] newVariableParametersName = new string[dataGridViewVariableParameters.RowCount];
+            string[] newVariableParametersValue = new string[dataGridViewVariableParameters.RowCount];
+            string[] newVariableParametersType = new string[dataGridViewVariableParameters.RowCount];
+            double value;
+            for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
+            {
+                newVariableParametersName[i] = dataGridViewVariableParameters[2, i].Value.ToString();
+                newVariableParametersType[i] = dataGridViewVariableParameters[3, i].Value.ToString();
+                newVariableParametersValue[i] = dataGridViewVariableParameters[4, i].Value.ToString();
+            }
+            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName = newVariableParametersName;
+            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType = newVariableParametersType;
+            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue = newVariableParametersValue;
+            InitData();
+            AddLineToLog("Удалён параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
         }
 
         private void dataGridViewVariableParameters_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -477,6 +497,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         //List<int> _indexes = new List<int>();
         private int _contextMenuClickedRow = 0;
         private int _contextMenuClickedColumn = 0;
-        int startIndex = 0x2001;//8193;
+        int startIndex = 0x2001;
+
     }
 }

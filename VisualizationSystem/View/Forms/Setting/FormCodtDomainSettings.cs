@@ -72,6 +72,46 @@ namespace VisualizationSystem.View.Forms.Setting
                 coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeople;
                 speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeople;
             }
+            else if (index == 0x2051)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionV;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionV;
+            }
+            else if (index == 0x2052)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionN;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionN;
+            }
+            else if (index == 0x2053)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightV;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightV;
+            }
+            else if (index == 0x2054)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightN;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightN;
+            }
+            else if (index == 0x2055)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentV;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentV;
+            }
+            else if (index == 0x2056)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentN;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentN;
+            }
+            else if (index == 0x2057)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN;
+            }
+            else if (index == 0x2058)
+            {
+                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN;
+                speed = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV;
+            }
             dataGridView1.RowCount = coordinate.Count();
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
@@ -120,6 +160,46 @@ namespace VisualizationSystem.View.Forms.Setting
             {
                 IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeople = coordinate;
                 IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeople = speed;
+            }
+            else if (index == 0x2051)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionV = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionV = speed;
+            }
+            else if (index == 0x2052)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionN = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionN = speed;
+            }
+            else if (index == 0x2053)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightV = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightV = speed;
+            }
+            else if (index == 0x2054)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightN = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightN = speed;
+            }
+            else if (index == 0x2055)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentV = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentV = speed;
+            }
+            else if (index == 0x2056)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentN = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentN = speed;
+            }
+            else if (index == 0x2057)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeopleV = speed;
+            }
+            else if (index == 0x2058)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN = coordinate;
+                IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeopleN = speed;
             }
         }
 

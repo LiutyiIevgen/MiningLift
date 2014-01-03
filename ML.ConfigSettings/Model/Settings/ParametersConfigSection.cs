@@ -19,6 +19,22 @@ namespace ML.ConfigSettings.Model.Settings
         private string _speedEquipment = null;
         private string _coordinateRevision = null;
         private string _speedRevision = null;
+        private string _speedRevisionV = null;
+        private string _speedRevisionN = null;
+        private string _speedVeightV = null;
+        private string _speedVeightN = null;
+        private string _speedPeopleV= null;
+        private string _speedPeopleN = null;
+        private string _speedEquipmentV = null;
+        private string _speedEquipmentN = null;
+        private string _coordinateRevisionV = null;
+        private string _coordinateRevisionN = null;
+        private string _coordinateVeightV = null;
+        private string _coordinateVeightN = null;
+        private string _coordinatePeopleV = null;
+        private string _coordinatePeopleN = null;
+        private string _coordinateEquipmentV = null;
+        private string _coordinateEquipmentN = null;
 
         [ConfigurationProperty("variableParametersName")]
         private string variableParametersName
@@ -325,6 +341,454 @@ namespace ML.ConfigSettings.Model.Settings
                 value.ToList().ForEach(f => s += f + '/');
                 s = s.Substring(0, s.Length - 1);
                 speedRevision = s;
+            }
+        }
+
+        [ConfigurationProperty("speedRevisionV")]
+        private string speedRevisionV
+        {
+            get
+            {
+                return _speedRevisionV = _speedRevisionV ?? this["speedRevisionV"].ToString();
+            }
+            set
+            {
+                this["speedRevisionV"] = value;
+                _speedRevisionV = value;
+            }
+        }
+        public string[] SpeedRevisionV
+        {
+            get
+            {
+                return speedRevisionV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedRevisionV = s;
+            }
+        }
+
+        [ConfigurationProperty("speedRevisionN")]
+        private string speedRevisionN
+        {
+            get
+            {
+                return _speedRevisionN = _speedRevisionN ?? this["speedRevisionN"].ToString();
+            }
+            set
+            {
+                this["speedRevisionN"] = value;
+                _speedRevisionN = value;
+            }
+        }
+        public string[] SpeedRevisionN
+        {
+            get
+            {
+                return speedRevisionV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedRevisionN = s;
+            }
+        }
+
+        [ConfigurationProperty("speedPeopleV")]
+        private string speedPeopleV
+        {
+            get
+            {
+                return _speedPeopleV = _speedPeopleV ?? this["speedPeopleV"].ToString();
+            }
+            set
+            {
+                this["speedPeopleV"] = value;
+                _speedPeopleV = value;
+            }
+        }
+        public string[] SpeedPeopleV
+        {
+            get
+            {
+                return speedPeopleV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedPeopleV = s;
+            }
+        }
+
+        [ConfigurationProperty("speedPeopleN")]
+        private string speedPeopleN
+        {
+            get
+            {
+                return _speedPeopleN = _speedPeopleN ?? this["speedPeopleN"].ToString();
+            }
+            set
+            {
+                this["speedPeopleN"] = value;
+                _speedPeopleN = value;
+            }
+        }
+        public string[] SpeedPeopleN
+        {
+            get
+            {
+                return speedPeopleN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedPeopleN = s;
+            }
+        }
+
+        [ConfigurationProperty("speedEquipmentV")]
+        private string speedEquipmentV
+        {
+            get
+            {
+                return _speedEquipmentV = _speedEquipmentV ?? this["speedEquipmentV"].ToString();
+            }
+            set
+            {
+                this["speedEquipmentV"] = value;
+                _speedEquipmentV = value;
+            }
+        }
+        public string[] SpeedEquipmentV
+        {
+            get
+            {
+                return speedEquipmentN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedEquipmentV = s;
+            }
+        }
+
+        [ConfigurationProperty("speedEquipmentN")]
+        private string speedEquipmentN
+        {
+            get
+            {
+                return _speedEquipmentN = _speedEquipmentN ?? this["speedEquipmentN"].ToString();
+            }
+            set
+            {
+                this["speedEquipmentN"] = value;
+                _speedEquipmentN = value;
+            }
+        }
+        public string[] SpeedEquipmentN
+        {
+            get
+            {
+                return speedEquipmentN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedEquipmentN = s;
+            }
+        }
+
+        [ConfigurationProperty("speedVeightV")]
+        private string speedVeightV
+        {
+            get
+            {
+                return _speedVeightV = _speedVeightV ?? this["speedVeightV"].ToString();
+            }
+            set
+            {
+                this["speedVeightV"] = value;
+                _speedVeightV = value;
+            }
+        }
+        public string[] SpeedVeightV
+        {
+            get
+            {
+                return speedVeightN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedVeightV = s;
+            }
+        }
+
+        [ConfigurationProperty("speedVeightN")]
+        private string speedVeightN
+        {
+            get
+            {
+                return _speedVeightN = _speedVeightN ?? this["speedVeightN"].ToString();
+            }
+            set
+            {
+                this["speedVeightN"] = value;
+                _speedVeightN = value;
+            }
+        }
+        public string[] SpeedVeightN
+        {
+            get
+            {
+                return speedVeightN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                speedVeightN = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateRevisionV")]
+        private string coordinateRevisionV
+        {
+            get
+            {
+                return _coordinateRevisionV = _coordinateRevisionV ?? this["coordinateRevisionV"].ToString();
+            }
+            set
+            {
+                this["coordinateRevisionV"] = value;
+                _coordinateRevisionV = value;
+            }
+        }
+        public string[] CoordinateRevisionV
+        {
+            get
+            {
+                return coordinateRevisionV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateRevisionV = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateRevisionN")]
+        private string coordinateRevisionN
+        {
+            get
+            {
+                return _coordinateRevisionN = _coordinateRevisionN ?? this["coordinateRevisionN"].ToString();
+            }
+            set
+            {
+                this["coordinateRevisionN"] = value;
+                _coordinateRevisionN = value;
+            }
+        }
+        public string[] CoordinateRevisionN
+        {
+            get
+            {
+                return coordinateRevisionN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateRevisionN = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinatePeopleV")]
+        private string coordinatePeopleV
+        {
+            get
+            {
+                return _coordinatePeopleV = _coordinatePeopleV ?? this["coordinatePeopleV"].ToString();
+            }
+            set
+            {
+                this["coordinatePeopleV"] = value;
+                _coordinatePeopleV = value;
+            }
+        }
+        public string[] CoordinatePeopleV
+        {
+            get
+            {
+                return coordinatePeopleV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinatePeopleV = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinatePeopleN")]
+        private string coordinatePeopleN
+        {
+            get
+            {
+                return _coordinatePeopleN = _coordinatePeopleN ?? this["coordinatePeopleN"].ToString();
+            }
+            set
+            {
+                this["coordinatePeopleN"] = value;
+                _coordinatePeopleN = value;
+            }
+        }
+        public string[] CoordinatePeopleN
+        {
+            get
+            {
+                return coordinatePeopleN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinatePeopleN = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateEquipmentV")]
+        private string coordinateEquipmentV
+        {
+            get
+            {
+                return _coordinateEquipmentV = _coordinateEquipmentV ?? this["coordinateEquipmentV"].ToString();
+            }
+            set
+            {
+                this["coordinateEquipmentV"] = value;
+                _coordinateEquipmentV = value;
+            }
+        }
+        public string[] CoordinateEquipmentV
+        {
+            get
+            {
+                return coordinateEquipmentV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateEquipmentV = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateEquipmentN")]
+        private string coordinateEquipmentN
+        {
+            get
+            {
+                return _coordinateEquipmentN = _coordinateEquipmentN ?? this["coordinateEquipmentN"].ToString();
+            }
+            set
+            {
+                this["coordinateEquipmentN"] = value;
+                _coordinateEquipmentN = value;
+            }
+        }
+        public string[] CoordinateEquipmentN
+        {
+            get
+            {
+                return coordinateEquipmentN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateEquipmentV = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateVeightV")]
+        private string coordinateVeightV
+        {
+            get
+            {
+                return _coordinateVeightV = _coordinateVeightV ?? this["coordinateVeightV"].ToString();
+            }
+            set
+            {
+                this["coordinateVeightV"] = value;
+                _coordinateVeightV = value;
+            }
+        }
+        public string[] CoordinateVeightV
+        {
+            get
+            {
+                return coordinateVeightV.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateVeightV = s;
+            }
+        }
+
+        [ConfigurationProperty("coordinateVeightN")]
+        private string coordinateVeightN
+        {
+            get
+            {
+                return _coordinateVeightN = _coordinateVeightN ?? this["coordinateVeightN"].ToString();
+            }
+            set
+            {
+                this["coordinateVeightN"] = value;
+                _coordinateVeightN = value;
+            }
+        }
+        public string[] CoordinateVeightN
+        {
+            get
+            {
+                return coordinateVeightN.Split('/');
+            }
+            set
+            {
+                string s = "";
+                value.ToList().ForEach(f => s += f + '/');
+                s = s.Substring(0, s.Length - 1);
+                coordinateVeightN = s;
             }
         }
     }

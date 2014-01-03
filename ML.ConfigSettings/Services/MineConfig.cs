@@ -14,12 +14,20 @@ namespace ML.ConfigSettings.Services
         public string CanName
         {
             get { return _config.AppSettings.Settings["CanName"].Value; }
-            set { _config.AppSettings.Settings["CanName"].Value = value; }
+            set
+            {
+               _config.AppSettings.Settings["CanName"].Value = value; 
+                _config.Save(ConfigurationSaveMode.Modified);
+            }
         }
         public int CanSpeed
         {
             get { return int.Parse(_config.AppSettings.Settings["CanSpeed"].Value); }
-            set { _config.AppSettings.Settings["CanSpeed"].Value = value.ToString(); }
+            set
+            {
+                _config.AppSettings.Settings["CanSpeed"].Value = value.ToString();
+                _config.Save(ConfigurationSaveMode.Modified);
+            }
         }
         private MainViewConfigSection _mainViewConfig;
         public MainViewConfigSection MainViewConfig
