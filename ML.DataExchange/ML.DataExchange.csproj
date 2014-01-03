@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,12 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CanParameter.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="CanParser.cs" />
+    <Compile Include="DataExchangeCan.cs" />
     <Compile Include="Interfaces\IDataExchange.cs" />
-    <Compile Include="Parameters.cs" />
-    <Compile Include="TransferOverFile.cs" />
+    <Compile Include="Model\CanParameter.cs" />
+    <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\Parameters.cs" />
+    <Compile Include="DataExchangeFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComCan\ML.ComCan.csproj">
+      <Project>{67c27c4e-bc14-4984-8208-3096e3d141d2}</Project>
+      <Name>ML.ComCan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ML.AdvCan\ML.AdvCan.csproj">
+      <Project>{d104c735-fb7b-41b5-8f9d-294b476d58f9}</Project>
+      <Name>ML.AdvCan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ML.Can\ML.Can.csproj">
+      <Project>{d52d9682-ae12-4759-a0fc-bc3a42c5c954}</Project>
+      <Name>ML.Can</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

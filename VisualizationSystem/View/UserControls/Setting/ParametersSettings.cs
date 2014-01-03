@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
+using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
@@ -14,19 +15,6 @@ namespace VisualizationSystem.View.UserControls.Setting
 {
     public partial class ParametersSettings : UserControl
     {
-        static int variableParametersCount = 0;
-        string[] variableParametersName = null;
-        string[] variableParametersValue = null;
-        string[] variableParametersType = null;
-        double calculatedWayVeightAndEquipment = 0;
-        double calculatedWayPeople = 0;
-        double dotWayVeightAndEquipment = 0;
-        double dotWayPeople = 0;
-        //List<int> _indexes = new List<int>();
-        private int _contextMenuClickedRow = 0;
-        private int _contextMenuClickedColumn = 0;
-        int startIndex = 0x2001;//8193;
-
         public ParametersSettings()
         {
             InitializeComponent();
@@ -477,5 +465,18 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
         #endregion
+
+        static int variableParametersCount = 0;
+        string[] variableParametersName = null;
+        string[] variableParametersValue = null;
+        string[] variableParametersType = null;
+        double calculatedWayVeightAndEquipment = 0;
+        double calculatedWayPeople = 0;
+        double dotWayVeightAndEquipment = 0;
+        double dotWayPeople = 0;
+        //List<int> _indexes = new List<int>();
+        private int _contextMenuClickedRow = 0;
+        private int _contextMenuClickedColumn = 0;
+        int startIndex = 0x2001;//8193;
     }
 }

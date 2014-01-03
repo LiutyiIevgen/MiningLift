@@ -41,16 +41,11 @@
   <ItemGroup>
     <Compile Include="AdvCANIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransferOverAdvCan.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ML.Can\ML.Can.csproj">
       <Project>{d52d9682-ae12-4759-a0fc-bc3a42c5c954}</Project>
       <Name>ML.Can</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ML.DataExchange\ML.DataExchange.csproj">
-      <Project>{b4a6b5b6-3e1b-4e8b-9a1b-1c5696888f60}</Project>
-      <Name>ML.DataExchange</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

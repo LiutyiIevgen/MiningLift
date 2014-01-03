@@ -6,6 +6,7 @@ using System.Text;
 using System.Timers;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
+using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
 using VisualizationSystem.Services;

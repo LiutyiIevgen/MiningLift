@@ -2,6 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using ML.AdvCan;
+using ML.Can.Interfaces;
+using ML.DataExchange.Model;
 
 namespace ML.DataExchange.Interfaces
 {
@@ -9,10 +12,10 @@ namespace ML.DataExchange.Interfaces
     public interface IDataExchange
     {
         //server initialization
-        bool StartExchange(string strPort);
+        bool StartExchange(string strPort, int portSpeed = 50, ICanIO device = null);
 
-        bool GetParameter(ushort parameterId, byte subindex);
-        bool SetParameter(CanParameter canParameter);
+        bool GetParameter(ushort controllerId, ushort parameterId, byte subindex);
+        bool SetParameter(ushort controllerId, CanParameter canParameter);
         //close all connection
         bool StopExchange();
 

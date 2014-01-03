@@ -108,6 +108,12 @@
     <Compile Include="ViewModel\SpeedPanelVm.cs" />
     <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
     <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="View\Forms\FormCanId.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\FormCanId.Designer.cs">
+      <DependentUpon>FormCanId.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Forms\FormStart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,6 +190,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\Forms\FormCanId.resx">
+      <DependentUpon>FormCanId.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Forms\FormStart.resx">
       <DependentUpon>FormStart.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +249,10 @@
     <ProjectReference Include="..\ML.AdvCan\ML.AdvCan.csproj">
       <Project>{d104c735-fb7b-41b5-8f9d-294b476d58f9}</Project>
       <Name>ML.AdvCan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ML.Can\ML.Can.csproj">
+      <Project>{D52D9682-AE12-4759-A0FC-BC3A42C5C954}</Project>
+      <Name>ML.Can</Name>
     </ProjectReference>
     <ProjectReference Include="..\ML.ConfigSettings\ML.ConfigSettings.csproj">
       <Project>{DF2BBC87-F5D8-4CEE-8446-83CB50EDC8A3}</Project>

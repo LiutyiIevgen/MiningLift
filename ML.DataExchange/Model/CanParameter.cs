@@ -1,4 +1,4 @@
-﻿namespace ML.DataExchange
+﻿namespace ML.DataExchange.Model
 {
     public class CanParameter
     {

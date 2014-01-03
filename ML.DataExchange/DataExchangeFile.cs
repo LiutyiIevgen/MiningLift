@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
+using ML.Can.Interfaces;
 using ML.DataExchange.Interfaces;
+using ML.DataExchange.Model;
 using Timer = System.Timers.Timer;
 
 namespace ML.DataExchange
 {
-    public class TransferOverFile:IDataExchange
+    public class DataExchangeFile:IDataExchange
     {
-        public bool StartExchange(string strPort)
+        public bool StartExchange(string strPort, int portSpeed, ICanIO device)
         {                     
             _fileName = strPort;          
             _timer = new Timer(Interval);
@@ -67,18 +69,8 @@ namespace ML.DataExchange
                 DrawLoad = null;
             }
         }
-        public event ReceiveHandler ReceiveEvent;
-        public event Action DrawLoad;
-        private event Action _drawLoad;
-        private Timer _timer;
-        private string _fileName;
-        private const int Interval = 50;
-        private Mutex mymutex;
-        private MemoryMappedFile myNonPersisterMemoryMappedFile;
-
-
-
-        public bool GetParameter(ushort parameterId, byte subindex)
+        
+        public bool GetParameter(ushort controllerId, ushort parameterId, byte subindex)
         {
             throw new NotImplementedException();
         }
@@ -87,9 +79,18 @@ namespace ML.DataExchange
         public event Action<List<CanParameter>> ParameterReceive;
 
 
-        public bool SetParameter(CanParameter canParameter)
+        public bool SetParameter(ushort controllerId, CanParameter canParameter)
         {
             throw new NotImplementedException();
         }
+
+        public event ReceiveHandler ReceiveEvent;
+        public event Action DrawLoad;
+        private event Action _drawLoad;
+        private Timer _timer;
+        private string _fileName;
+        private const int Interval = 50;
+        private Mutex mymutex;
+        private MemoryMappedFile myNonPersisterMemoryMappedFile;
     }
 }

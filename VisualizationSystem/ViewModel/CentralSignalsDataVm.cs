@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using ML.DataExchange;
+using ML.DataExchange.Model;
 using VisualizationSystem.Model.RichTextBoxData;
 
 namespace VisualizationSystem.ViewModel

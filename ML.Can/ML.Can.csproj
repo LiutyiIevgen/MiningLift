@@ -40,15 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CanDriver.cs" />
-    <Compile Include="CanParser.cs" />
     <Compile Include="Interfaces\ICanIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ML.DataExchange\ML.DataExchange.csproj">
-      <Project>{b4a6b5b6-3e1b-4e8b-9a1b-1c5696888f60}</Project>
-      <Name>ML.DataExchange</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

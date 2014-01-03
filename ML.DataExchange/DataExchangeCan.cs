@@ -1,64 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using System.Threading;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using ML.AdvCan;
 using ML.Can;
-using ML.DataExchange;
+using ML.Can.Interfaces;
 using ML.DataExchange.Interfaces;
+using ML.DataExchange.Model;
 
-namespace ComCan
+namespace ML.DataExchange
 {
-    public class TransferOverComCan : IDataExchange
+    public class DataExchangeCan : IDataExchange
     {
-        public TransferOverComCan()
+        public DataExchangeCan()
         {
-            Device = new ComCANIO();
             _codtDomainArray = new List<byte>();
         }
-        public bool StartExchange(string strPort)
+
+        public bool StartExchange(string strPort,int portSpeed, ICanIO device)
         {
             _portName = strPort;
-            string ret = Device.OpenCAN(_portName, 50);
+            _portSpeed = portSpeed;
+            _device = device;
+            string ret = _device.OpenCAN(strPort, portSpeed);
             if (ret != "No_Err")
             {
                 MessageBox.Show(ret);
                 return false;
             }
-            Thread.Sleep(500);
+            Thread.Sleep(200);
             ReceiveThread = new Thread(ReceiveThreadMethod);
-            //ReceiveThread.Priority = ThreadPriority.Highest;
+            ReceiveThread.Priority = ThreadPriority.Highest;
             ReceiveThread.IsBackground = true;
             ReceiveThread.Start(); //New thread starts
             return true;
         }
 
-        public bool GetParameter(ushort parameterId, byte subindex)
+        public bool StopExchange()
+        {
+            m_bRun = false;
+            _device.CloseCan();
+            try
+            {
+                if ((ReceiveThread.ThreadState & (ThreadState.Stopped | ThreadState.Unstarted)) == 0)
+                {
+                    ReceiveThread.Abort();
+                    ReceiveThread.Join(); //Thread stops
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool GetParameter(ushort controllerId, ushort parameterId, byte subindex)
         {
             var dataList = new List<CanDriver.canmsg_t>();
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
-            msg.id = 0x601; //rSdo + id=1
+            msg.id = (uint)(0x600 + controllerId); //rSdo + id=1
             msg.length = (short)CanDriver.DATALENGTH;
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[0] = 0x40;//read data
             msg.data[1] = (byte)(parameterId);//id low
-            msg.data[2] = (byte)(parameterId >> 8);//id high
+            msg.data[2] = (byte)(parameterId>>8);//id high
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
-            Device.SendData(dataList);
+            _device.SendData(dataList);
             return true;
         }
 
-        public bool SetParameter(CanParameter canParameter)
+
+
+        public bool SetParameter(ushort controllerId, CanParameter canParameter)
         {
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
-            msg.id = 0x601; //rSdo + id=1
+            msg.id = (uint)(0x600 + controllerId); //rSdo + id=1
             msg.length = (short)CanDriver.DATALENGTH;
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[1] = (byte)(canParameter.ParameterId);//id low
@@ -80,29 +105,11 @@ namespace ComCan
             }
             else //codtDomain
             {
-                var codtDomainThread = new Thread(SetSegment) { IsBackground = true };
-                codtDomainThread.Start(canParameter);
+                _codtDomainThread = new Thread(SetSegment) { IsBackground = true };
+                _codtDomainThread.Start(canParameter);
                 return true;
             }
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });
-            return true;
-        }
-
-        public bool StopExchange()
-        {
-            Device.CloseCan();
-            try
-            {
-                if ((ReceiveThread.ThreadState & (ThreadState.Stopped | ThreadState.Unstarted)) == 0)
-                {
-                    ReceiveThread.Abort();
-                    ReceiveThread.Join(); //Thread stops
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            _device.SendData(new List<CanDriver.canmsg_t> { msg });
             return true;
         }
 
@@ -110,9 +117,78 @@ namespace ComCan
 
         public event Action<List<CanParameter>> ParameterReceive;
 
+        private List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
+        {
+            var canParameters = new List<CanParameter>();
+            var msgList = msgData.Where(m => (m.id & 0xF80) == 0x580).ToList();
+            if (msgList.Count != 0)
+            {
+                foreach (var canmsgT in msgList)
+                {
+                    if (canmsgT.data[0] == 0x43)//get real32
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
+                        });
+                    else if (canmsgT.data[0] == 0x4B)//get sint16
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
+                        });
+                    else if (canmsgT.data[0] == 0x47)//get sint24
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6] }
+                        });
+                    else if (canmsgT.data[0] == 0x41) //get codtDomain
+                    {
+                        _codtDomainId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8));
+                        _codtDomainThread = new Thread(GetSegment) { IsBackground = true };
+                        _codtDomainThread.Start(canmsgT);
+                    }
+                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) //get codtDomain block
+                    {
+                        _codtDomainArray.AddRange(new List<byte>
+                        {
+                            canmsgT.data[1],
+                            canmsgT.data[2],
+                            canmsgT.data[3],
+                            canmsgT.data[4],
+                            canmsgT.data[5],
+                            canmsgT.data[6],
+                            canmsgT.data[7]
+                        });
+                        if (canmsgT.data[0] == 0x1D) //last codtDomain Element
+                        {
+                            canParameters.Add(new CanParameter
+                            {
+                                ParameterId = _codtDomainId,
+                                Data = _codtDomainArray.ToArray()
+                            });
+                            _codtDomainArray.Clear();
+                        }
+                    }
+                    else if (canmsgT.data[0] == 0x60) //parameter was seted
+                    {
+                        if (_codtDomainThread != null)
+                            if (_codtDomainThread.IsAlive)
+                                continue;
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3]
+                        });
+                    }
+                }
+            }
+            return canParameters;
+        }
+
         private void ReceiveThreadMethod()
         {
-            
             Parameters parameters;
             var param = new double[30];
             while (true)
@@ -120,10 +196,10 @@ namespace ComCan
 
                 try
                 {
-                    List<CanDriver.canmsg_t> msgRead = Device.ReceiveMsgBlock(MsgCount);
+                    List<CanDriver.canmsg_t> msgRead = _device.ReceiveMsgBlock(MsgCount);
                     if (msgRead == null)
                     {
-                        Device.OpenCAN(_portName, 50);
+                        _device.OpenCAN(_portName, _portSpeed);
                         Thread.Sleep(5);
                         continue;              
                     }
@@ -141,65 +217,6 @@ namespace ComCan
             }
         }
 
-        private List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
-        {
-            var canParameters = new List<CanParameter>();
-            var msgList = msgData.Where(m => m.id == 0x581).ToList();
-            if (msgList.Count != 0)
-            {
-                foreach (var canmsgT in msgList)
-                {
-                    if (canmsgT.data[0] == 0x43)//real32
-                        canParameters.Add(new CanParameter
-                        {
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
-                        });
-                    else if (canmsgT.data[0] == 0x4B)//sint16
-                        canParameters.Add(new CanParameter
-                        {
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
-                        });
-                    else if (canmsgT.data[0] == 0x47)//sint16
-                        canParameters.Add(new CanParameter
-                        {
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[5] }
-                        });
-                    else if (canmsgT.data[0] == 0x41) //codtDomain
-                    {
-                        _codtDomainId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8));
-                        var codtDomainThread = new Thread(GetSegment) {IsBackground = true};
-                        codtDomainThread.Start(canmsgT);
-                    }
-                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) // codtDomain Element
-                    {
-                        _codtDomainArray.AddRange(new List<byte>
-                        {
-                            canmsgT.data[1],
-                            canmsgT.data[2],
-                            canmsgT.data[3],
-                            canmsgT.data[4],
-                            canmsgT.data[5],
-                            canmsgT.data[6],
-                            canmsgT.data[7]
-                        });
-                        if (canmsgT.data[0] == 0x1D) //last codtDomain Element
-                        {     
-                            canParameters.Add(new CanParameter
-                            {
-                                ParameterId = _codtDomainId,
-                                Data = _codtDomainArray.ToArray()
-                            });
-                            _codtDomainArray.Clear();
-                        }
-                    }
-                }
-            }
-            return canParameters;
-        }
-
         private void GetSegment(object canmsgT)
         {
             var msg = (CanDriver.canmsg_t)canmsgT;
@@ -207,8 +224,8 @@ namespace ComCan
             var _sendNumber = (int)Math.Ceiling((double)(byteNumber / 7));
             for (int i = 0; i < _sendNumber; i++)
             {
-                if(i%2 == 0)
-                    Device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                if (i % 2 == 0)
+                    _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
                     {
                         id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
                         {
@@ -216,7 +233,7 @@ namespace ComCan
                         }
                     }});
                 else
-                    Device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                    _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
                     {
                         id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
                         {
@@ -225,7 +242,6 @@ namespace ComCan
                     }});
                 Thread.Sleep(200);
             }
-
         }
 
         private void SetSegment(object parameter)
@@ -242,11 +258,9 @@ namespace ComCan
             msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
             msg.data[3] = canParameter.ParameterSubIndex;//subindex     
             msg.data[4] = (byte)canParameter.Data.Count();
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(200);
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(200);
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            //Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            Thread.Sleep(20);
+            _device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
             Thread.Sleep(200);
             double byteCount = canParameter.Data.Count();
             var _sendNumber = (int)Math.Ceiling((double)(byteCount / 7));
@@ -256,18 +270,28 @@ namespace ComCan
                 var block = new byte[8];
                 for (int j = 0; j < 7; j++)
                 {
-                    if (i*7 + j >= canParameter.Data.Count())
+                    if (i * 7 + j >= canParameter.Data.Count())
                         block[j + 1] = 0;
                     else
-                        block[j + 1] = canParameter.Data[i*7 + j];
+                        block[j + 1] = canParameter.Data[i * 7 + j];
                 }
                 if (i == _sendNumber - 1)
+                {
                     block[0] = 0x1D;
+                    ParameterReceive(new List<CanParameter> //parameter was seted
+                    {
+                        new CanParameter
+                        {
+                            ParameterId = canParameter.ParameterId,
+                            ParameterSubIndex = canParameter.ParameterSubIndex
+                        }
+                    });
+                }
                 else if (i%2 == 0)
                     block[0] = 0;
                 else
                     block[0] = 0x10;
-                Device.SendData(new List<CanDriver.canmsg_t>
+                _device.SendData(new List<CanDriver.canmsg_t>
                 {
                     new CanDriver.canmsg_t
                     {
@@ -278,14 +302,18 @@ namespace ComCan
                     }
                 });
                 i++;
-                Thread.Sleep(200);
+                Thread.Sleep(170);
             }
         }
 
-        private readonly ComCANIO Device;
-        private Thread ReceiveThread;
-        private const int MsgCount = 80;
+        private ICanIO _device;
+        private bool m_bRun;
+        private bool syncflag;
+        private int MsgCount = 80;
         private string _portName;
+        private int _portSpeed;
+        private Thread ReceiveThread;
+        private Thread _codtDomainThread;
         private List<byte> _codtDomainArray;
         private ushort _codtDomainId;
     }
