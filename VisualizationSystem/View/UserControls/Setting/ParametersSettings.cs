@@ -277,22 +277,27 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void DeleteRowButton_Click(object sender, EventArgs e)
         {
-            dataGridViewVariableParameters.RowCount = dataGridViewVariableParameters.RowCount - 1;
-            string[] newVariableParametersName = new string[dataGridViewVariableParameters.RowCount];
-            string[] newVariableParametersValue = new string[dataGridViewVariableParameters.RowCount];
-            string[] newVariableParametersType = new string[dataGridViewVariableParameters.RowCount];
-            double value;
-            for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить последний параметр?", "Удаление параметра", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
             {
-                newVariableParametersName[i] = dataGridViewVariableParameters[2, i].Value.ToString();
-                newVariableParametersType[i] = dataGridViewVariableParameters[3, i].Value.ToString();
-                newVariableParametersValue[i] = dataGridViewVariableParameters[4, i].Value.ToString();
+                dataGridViewVariableParameters.RowCount = dataGridViewVariableParameters.RowCount - 1;
+                string[] newVariableParametersName = new string[dataGridViewVariableParameters.RowCount];
+                string[] newVariableParametersValue = new string[dataGridViewVariableParameters.RowCount];
+                string[] newVariableParametersType = new string[dataGridViewVariableParameters.RowCount];
+                double value;
+                for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
+                {
+                    newVariableParametersName[i] = dataGridViewVariableParameters[2, i].Value.ToString();
+                    newVariableParametersType[i] = dataGridViewVariableParameters[3, i].Value.ToString();
+                    newVariableParametersValue[i] = dataGridViewVariableParameters[4, i].Value.ToString();
+                }
+                IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName = newVariableParametersName;
+                IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType = newVariableParametersType;
+                IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue = newVariableParametersValue;
+                InitData();
+                AddLineToLog("Удалён параметр с индексом " + "0x" +
+                             Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
             }
-            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName = newVariableParametersName;
-            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType = newVariableParametersType;
-            IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue = newVariableParametersValue;
-            InitData();
-            AddLineToLog("Удалён параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
         }
 
         private void dataGridViewVariableParameters_CellEndEdit(object sender, DataGridViewCellEventArgs e)
