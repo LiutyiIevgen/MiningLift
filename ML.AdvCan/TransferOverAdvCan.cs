@@ -94,8 +94,8 @@ namespace ML.AdvCan
             }
             else //codtDomain
             {
-                var codtDomainThread = new Thread(SetSegment) { IsBackground = true };
-                codtDomainThread.Start(canParameter);
+                _codtDomainThread = new Thread(SetSegment) { IsBackground = true };
+                _codtDomainThread.Start(canParameter);
                 return true;
             }
             Device.SendData(new List<CanDriver.canmsg_t> { msg });
@@ -106,7 +106,7 @@ namespace ML.AdvCan
 
         public event Action<List<CanParameter>> ParameterReceive;
 
-        public List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
+        private List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
         {
             var canParameters = new List<CanParameter>();
             var msgList = msgData.Where(m => m.id == 0x581).ToList();
@@ -114,31 +114,31 @@ namespace ML.AdvCan
             {
                 foreach (var canmsgT in msgList)
                 {
-                    if (canmsgT.data[0] == 0x43)//real32
+                    if (canmsgT.data[0] == 0x43)//get real32
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
                         });
-                    else if (canmsgT.data[0] == 0x4B)//sint16
+                    else if (canmsgT.data[0] == 0x4B)//get sint16
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
                         });
-                    else if (canmsgT.data[0] == 0x47)//sint16
+                    else if (canmsgT.data[0] == 0x47)//get sint16
                         canParameters.Add(new CanParameter
                         {
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[5] }
                         });
-                    else if (canmsgT.data[0] == 0x41) //codtDomain
+                    else if (canmsgT.data[0] == 0x41) //get codtDomain
                     {
                         _codtDomainId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8));
-                        var codtDomainThread = new Thread(GetSegment) { IsBackground = true };
-                        codtDomainThread.Start(canmsgT);
+                        _codtDomainThread = new Thread(GetSegment) { IsBackground = true };
+                        _codtDomainThread.Start(canmsgT);
                     }
-                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) // codtDomain Element
+                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) //get codtDomain block
                     {
                         _codtDomainArray.AddRange(new List<byte>
                         {
@@ -159,6 +159,17 @@ namespace ML.AdvCan
                             });
                             _codtDomainArray.Clear();
                         }
+                    }
+                    else if (canmsgT.data[0] == 0x60) //parameter was seted
+                    {
+                        if (_codtDomainThread != null)
+                            if (_codtDomainThread.IsAlive)
+                                continue;
+                        canParameters.Add(new CanParameter
+                        {
+                            ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3]
+                        });
                     }
                 }
             }
@@ -253,10 +264,8 @@ namespace ML.AdvCan
             msg.data[2] = (byte)(canParameter.ParameterId >> 8);//id high
             msg.data[3] = canParameter.ParameterSubIndex;//subindex     
             msg.data[4] = (byte)canParameter.Data.Count();
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(200);
-            Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(200);
+            //Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+            Thread.Sleep(20);
             Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
             Thread.Sleep(200);
             double byteCount = canParameter.Data.Count();
@@ -273,8 +282,18 @@ namespace ML.AdvCan
                         block[j + 1] = canParameter.Data[i * 7 + j];
                 }
                 if (i == _sendNumber - 1)
+                {
                     block[0] = 0x1D;
-                else if (i % 2 == 0)
+                    ParameterReceive(new List<CanParameter> //parameter was seted
+                    {
+                        new CanParameter
+                        {
+                            ParameterId = canParameter.ParameterId,
+                            ParameterSubIndex = canParameter.ParameterSubIndex
+                        }
+                    });
+                }
+                else if (i%2 == 0)
                     block[0] = 0;
                 else
                     block[0] = 0x10;
@@ -289,7 +308,7 @@ namespace ML.AdvCan
                     }
                 });
                 i++;
-                Thread.Sleep(200);
+                Thread.Sleep(170);
             }
         }
 
@@ -298,7 +317,7 @@ namespace ML.AdvCan
         private bool syncflag;
         private int nMsgCount = 80;
         private Thread ReceiveThread;
-        private ThreadStart ReceiveThreadSt;
+        private Thread _codtDomainThread;
         private List<byte> _codtDomainArray;
         private ushort _codtDomainId;
     }

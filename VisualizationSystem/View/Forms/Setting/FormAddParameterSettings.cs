@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using VisualizationSystem.Model;
 
-namespace VisualizationSystem.View.Forms
+namespace VisualizationSystem.View.Forms.Setting
 {
     public partial class FormAddParameterSettings : Form
     {

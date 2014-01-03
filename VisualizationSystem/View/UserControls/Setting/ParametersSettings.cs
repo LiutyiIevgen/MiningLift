@@ -8,6 +8,7 @@ using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.View.Forms;
+using VisualizationSystem.View.Forms.Setting;
 
 namespace VisualizationSystem.View.UserControls.Setting
 {
@@ -55,19 +56,156 @@ namespace VisualizationSystem.View.UserControls.Setting
                 dataGridViewVariableParameters[4, i].Value = variableParametersValue[i];
             }
            // CalculateParameters();
+        }   
+
+        private void CalculateParameters()
+        {
+            calculatedWayVeightAndEquipment = Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
+            calculatedWayVeightAndEquipment += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
+            calculatedWayVeightAndEquipment += (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 11].Value, CultureInfo.GetCultureInfo("en-US")));
+            //dataGridViewReadOnlyParameters[3, 0].Value = Math.Round(calculatedWayVeightAndEquipment, 2);
+            calculatedWayPeople = Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
+            calculatedWayPeople += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
+            calculatedWayPeople += (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 12].Value, CultureInfo.GetCultureInfo("en-US")));
+            //dataGridViewReadOnlyParameters[3, 1].Value = Math.Round(calculatedWayPeople, 2);
+            dotWayVeightAndEquipment = calculatedWayVeightAndEquipment + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
+            //dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
+            dotWayPeople = calculatedWayPeople + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
+            //dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
+            AddLineToLog("Расчётные параметры пересчитаны ");
+        }  
+
+        private void LoadParameter(int index, int subindex) //загрузка
+        {
+            byte[] data=null;
+            try
+            {
+                if (ReadDataFromParametersTable(index, 1) == "codtReal32")
+                {
+                    var nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = ".";
+                    string sf = ReadDataFromParametersTable(index, subindex);
+                    float f = float.Parse(sf, nfi);
+                    data = BitConverter.GetBytes(f);
+                }
+                else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
+                {
+                    string ssh = ReadDataFromParametersTable(index, subindex);
+                    short sh = short.Parse(ssh);
+                    data = BitConverter.GetBytes(sh);
+                }
+                IoC.Resolve<DataListener>().SetParameter((ushort) index, (byte) subindex, data);
+            }
+            catch (Exception)
+            {
+                
+            }
         }
+
+        private void UnloadParameter(int index,int subindex)//выгрузка
+        {
+            IoC.Resolve<DataListener>().GetParameter((ushort)index, (byte)subindex);
+        }
+
+        private void ParameterReceive(List<CanParameter> parametersList)
+        {            
+            foreach (var canParameter in parametersList)
+            {
+                if (canParameter.Data == null)//parameter was seted
+                {
+                    CanParameter parameter = canParameter;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        AddLineToLog("Загружен параметр с индексом " + "0x" + Convert.ToString(parameter.ParameterId, 16));
+                    });
+                    continue;
+                }
+                if (canParameter.Data.Count() == 4)//real 32
+                {
+                    float myFloat;
+                    myFloat = System.BitConverter.ToSingle(canParameter.Data, 0);
+                    var nfi = new NumberFormatInfo();
+                    nfi.NumberDecimalSeparator = ".";
+                    string strData = myFloat.ToString(nfi);
+                    WriteDataToParametersTable(canParameter.ParameterId, strData);
+                }
+                else if (canParameter.Data.Count() == 2)//sint16
+                {
+                    short myShort;
+                    myShort = BitConverter.ToInt16(canParameter.Data, 0);
+                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
+                }
+                else if (canParameter.Data.Count() == 3) //sint24
+                {
+                    int myShort;
+                    myShort = (canParameter.Data[0] << 8) + (canParameter.Data[1] << 16) + (canParameter.Data[2] << 24);
+                    myShort /= 256;
+                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
+                }
+                else //codtDomain
+                {
+                    var dataList = new List<string>();
+                    int i = 0;
+                    while (i < 20)
+                    {
+                        dataList.Add(BitConverter.ToInt32(canParameter.Data, i*6).ToString());
+                        dataList.Add(BitConverter.ToInt16(canParameter.Data, i*6 + 4).ToString());
+                        i++;
+                    }
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, dataList);
+                        formDomain.Show();
+                    });  
+                }
+                this.Invoke((MethodInvoker)delegate
+                    {
+                        AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
+                    });  
+            }
+            
+        }
+
+        private void AddLineToLog(string text)
+        {
+            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     " + text + "\n";
+            ParamLog.SelectionStart = ParamLog.Text.Length; //Set the current caret position at the end
+            ParamLog.ScrollToCaret(); //Now scroll it automatically
+        }
+
+        #region Handlers
+        private void WriteDataToParametersTable(int index, string value)
+        {
+            dataGridViewVariableParameters[4, index - startIndex].Value = value;
+        }
+
+        private string ReadDataFromParametersTable(int index, int subindex)
+        {
+            string value;
+            value = dataGridViewVariableParameters[subindex + 2, index - startIndex].Value.ToString();
+            return value;
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
+            FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow);
+            f4.ShowDialog();
+        }
+
+        
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
             string[] newVariableParametersName = new string[variableParametersCount];
             string[] newVariableParametersValue = new string[variableParametersCount];
             string[] newVariableParametersType = new string[variableParametersCount];
-        
+            double value;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 newVariableParametersName[i] = dataGridViewVariableParameters[2, i].Value.ToString();
                 newVariableParametersType[i] = dataGridViewVariableParameters[3, i].Value.ToString();
-                newVariableParametersValue[i] = Convert.ToDouble(dataGridViewVariableParameters[4, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
+                newVariableParametersValue[i] = dataGridViewVariableParameters[4, i].Value.ToString();
             }
             IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName = newVariableParametersName;
             IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersType = newVariableParametersType;
@@ -113,6 +251,40 @@ namespace VisualizationSystem.View.UserControls.Setting
             if (dataGridViewVariableParameters.Rows[dataGridViewVariableParameters.CurrentRow.Index].Cells[4].IsInEditMode == true)
                 if (!Char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '\b'))
                     e.Handled = true;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddLineToLog("Загрузка параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
+            LoadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
+            UnloadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+        }
+
+        private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                _contextMenuClickedRow = e.RowIndex;
+                _contextMenuClickedColumn = e.ColumnIndex;
+                if (dataGridViewVariableParameters[3, _contextMenuClickedRow].Value.ToString() == "codtDomain")
+                {
+                    toolStripMenuItem1.Visible = false;
+                    toolStripMenuItem2.Visible = true;
+                    toolStripMenuItem3.Visible = true;
+                }
+                else
+                {
+                    toolStripMenuItem1.Visible = true;
+                    toolStripMenuItem2.Visible = true;
+                    toolStripMenuItem3.Visible = false;
+                }
+
+            }
         }
 
         private void dataGridViewVariableParameters_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -304,158 +476,6 @@ namespace VisualizationSystem.View.UserControls.Setting
                 //CalculateParameters();
             }
         }
-
-        private void CalculateParameters()
-        {
-            calculatedWayVeightAndEquipment = Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
-            calculatedWayVeightAndEquipment += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
-            calculatedWayVeightAndEquipment += (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 11].Value, CultureInfo.GetCultureInfo("en-US")));
-            //dataGridViewReadOnlyParameters[3, 0].Value = Math.Round(calculatedWayVeightAndEquipment, 2);
-            calculatedWayPeople = Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
-            calculatedWayPeople += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
-            calculatedWayPeople += (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 12].Value, CultureInfo.GetCultureInfo("en-US")));
-            //dataGridViewReadOnlyParameters[3, 1].Value = Math.Round(calculatedWayPeople, 2);
-            dotWayVeightAndEquipment = calculatedWayVeightAndEquipment + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            //dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
-            dotWayPeople = calculatedWayPeople + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            //dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
-            AddLineToLog("Расчётные параметры пересчитаны ");
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AddLineToLog("Загрузка параметра с индексом "+"0x"+Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            LoadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            UnloadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
-        }
-
-        private void LoadParameter(int index, int subindex) //загрузка
-        {
-            byte[] data=null;
-            try
-            {
-                if (ReadDataFromParametersTable(index, 1) == "codtReal32")
-                {
-                    var nfi = new NumberFormatInfo();
-                    nfi.NumberDecimalSeparator = ".";
-                    string sf = ReadDataFromParametersTable(index, subindex);
-                    float f = float.Parse(sf, nfi);
-                    data = BitConverter.GetBytes(f);
-                }
-                else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
-                {
-                    string ssh = ReadDataFromParametersTable(index, subindex);
-                    short sh = short.Parse(ssh);
-                    data = BitConverter.GetBytes(sh);
-                }
-                IoC.Resolve<DataListener>().SetParameter((ushort) index, (byte) subindex, data);
-            }
-            catch (Exception)
-            {
-                
-            }
-        }
-
-        private void UnloadParameter(int index,int subindex)//выгрузка
-        {
-            IoC.Resolve<DataListener>().GetParameter((ushort)index, (byte)subindex);
-        }
-
-        private void ParameterReceive(List<CanParameter> parametersList)
-        {            
-            foreach (var canParameter in parametersList)
-            {
-                if (canParameter.Data.Count() == 4)//real 32
-                {
-                    float myFloat;
-                    myFloat = System.BitConverter.ToSingle(canParameter.Data, 0);
-                    var nfi = new NumberFormatInfo();
-                    nfi.NumberDecimalSeparator = ".";
-                    string strData = myFloat.ToString(nfi);
-                    WriteDataToParametersTable(canParameter.ParameterId, strData);
-                }
-                else if (canParameter.Data.Count() == 2)//sint16
-                {
-                    short myShort;
-                    myShort = BitConverter.ToInt16(canParameter.Data, 0);
-                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
-                }
-                else if (canParameter.Data.Count() == 3) //sint24
-                {
-                    int myShort;
-                    myShort = (canParameter.Data[0] << 8) + (canParameter.Data[1] << 16) + (canParameter.Data[2] << 24);
-                    myShort /= 256;
-                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
-                }
-                else //codtDomain
-                {
-                    var dataList = new List<string>();
-                    int i = 0;
-                    while (i < 20)
-                    {
-                        dataList.Add(BitConverter.ToInt32(canParameter.Data, i*6).ToString());
-                        dataList.Add(BitConverter.ToInt16(canParameter.Data, i*6 + 4).ToString());
-                        i++;
-                    }
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, dataList);
-                        formDomain.Show();
-                    });  
-                } 
-            }
-            
-        }
-        private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                _contextMenuClickedRow = e.RowIndex;
-                _contextMenuClickedColumn = e.ColumnIndex;
-                if (dataGridViewVariableParameters[3, _contextMenuClickedRow].Value.ToString() == "codtDomain")
-                {
-                    toolStripMenuItem1.Visible = false;
-                    toolStripMenuItem2.Visible = true;
-                    toolStripMenuItem3.Visible = true;
-                }
-                else
-                {
-                    toolStripMenuItem1.Visible = true;
-                    toolStripMenuItem2.Visible = true;
-                    toolStripMenuItem3.Visible = false;
-                }
-                    
-            }
-        }
-
-        private void WriteDataToParametersTable(int index, string value)
-        {
-            AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            dataGridViewVariableParameters[4, index - startIndex].Value = value;
-        }
-
-        private string ReadDataFromParametersTable(int index, int subindex)
-        {
-            string value;
-            value = dataGridViewVariableParameters[subindex + 2, index - startIndex].Value.ToString();
-            return value;
-        }
-
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow);
-            f4.ShowDialog();
-        }
-
-        private void AddLineToLog(string text)
-        {
-            ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     " + text + "\n";
-        }
+        #endregion
     }
 }

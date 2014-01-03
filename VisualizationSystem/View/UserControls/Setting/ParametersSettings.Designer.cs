@@ -144,6 +144,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             // 
             this.ParamLog.Location = new System.Drawing.Point(20, 440);
             this.ParamLog.Name = "ParamLog";
+            this.ParamLog.ReadOnly = true;
             this.ParamLog.Size = new System.Drawing.Size(719, 96);
             this.ParamLog.TabIndex = 4;
             this.ParamLog.Text = "";

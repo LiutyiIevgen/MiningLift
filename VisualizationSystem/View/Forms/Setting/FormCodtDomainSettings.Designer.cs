@@ -1,4 +1,4 @@
-﻿namespace VisualizationSystem.View.Forms
+﻿namespace VisualizationSystem.View.Forms.Setting
 {
     partial class FormCodtDomainSettings
     {

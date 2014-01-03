@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using VisualizationSystem.Model;
 
-namespace VisualizationSystem.View.Forms
+namespace VisualizationSystem.View.Forms.Setting
 {
     public partial class FormSettingsParol : Form
     {

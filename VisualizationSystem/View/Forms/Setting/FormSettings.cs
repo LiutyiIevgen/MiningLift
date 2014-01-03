@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using VisualizationSystem.View.UserControls;
 using VisualizationSystem.View.UserControls.Setting;
 
-namespace VisualizationSystem.View.Forms
+namespace VisualizationSystem.View.Forms.Setting
 {
     public partial class FormSettings : Form
     {

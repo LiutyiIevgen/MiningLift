@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using VisualizationSystem.Model;
 
-namespace VisualizationSystem.View.Forms
+namespace VisualizationSystem.View.Forms.Setting
 {
     public partial class FormCodtDomainSettings : Form
     {

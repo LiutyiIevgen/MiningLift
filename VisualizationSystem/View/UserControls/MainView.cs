@@ -10,6 +10,7 @@ using ML.DataExchange;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.View.Forms;
+using VisualizationSystem.View.Forms.Setting;
 using VisualizationSystem.ViewModel;
 
 namespace VisualizationSystem.View.UserControls

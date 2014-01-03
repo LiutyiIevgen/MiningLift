@@ -8,6 +8,7 @@ using ML.DataExchange.Interfaces;
 using VisualizationSystem.Services;
 using VisualizationSystem.View;
 using VisualizationSystem.View.Forms;
+using VisualizationSystem.View.Forms.Setting;
 
 namespace VisualizationSystem.Model
 {
