@@ -13,13 +13,13 @@ namespace ML.ConfigSettings.Services
 
         public string CanName
         {
-            get { return ConfigurationManager.AppSettings["CanName"]; }
-            set { ConfigurationManager.AppSettings["CanName"] = value; }
+            get { return _config.AppSettings.Settings["CanName"].Value; }
+            set { _config.AppSettings.Settings["CanName"].Value = value; }
         }
         public int CanSpeed
         {
-            get { return int.Parse(ConfigurationManager.AppSettings["CanSpeed"]); }
-            set { ConfigurationManager.AppSettings["CanSpeed"] = value.ToString(); }
+            get { return int.Parse(_config.AppSettings.Settings["CanSpeed"].Value); }
+            set { _config.AppSettings.Settings["CanSpeed"].Value = value.ToString(); }
         }
         private MainViewConfigSection _mainViewConfig;
         public MainViewConfigSection MainViewConfig

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ComCan;
 using ML.AdvCan;
+using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using ML.DataExchange.Interfaces;
 using ML.DataExchange.Model;
@@ -21,7 +22,12 @@ namespace VisualizationSystem.Model
         public void Init(ReceiveHandler Function)
         {
             _dataExchange.ReceiveEvent += Function;
-            _dataExchange.StartExchange("CAN1",50, new AdvCANIO());
+            if(IoC.Resolve<MineConfig>().CanName.Contains("CAN"))
+                _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName, 
+                    IoC.Resolve<MineConfig>().CanSpeed, new AdvCANIO());
+            else if (IoC.Resolve<MineConfig>().CanName.Contains("COM"))
+                _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName,
+                    IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO());
             //_dataExchange.StartExchange("COM7",50, new ComCANIO());
             //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
