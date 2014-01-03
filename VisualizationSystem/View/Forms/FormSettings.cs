@@ -12,6 +12,7 @@ namespace VisualizationSystem.View.Forms
         AuziDSettings _auziDSettings = new AuziDSettings();
         ParametersSettings _parametersSettings = new ParametersSettings();
         DefenceDiagramSettings _defenceDiagramSettings;
+        CanSettings _canSettings = new CanSettings();
         public FormSettings()
         {
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace VisualizationSystem.View.Forms
             AuziDButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
             DefenceDiagramButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -34,6 +36,7 @@ namespace VisualizationSystem.View.Forms
             AuziDButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
             DefenceDiagramButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = Color.Gainsboro;
             MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -45,6 +48,7 @@ namespace VisualizationSystem.View.Forms
             MainViewSettingsButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
             DefenceDiagramButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = Color.Gainsboro;
             AuziDButton.BackColor = SystemColors.ActiveCaption;
             _auziDSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -56,6 +60,7 @@ namespace VisualizationSystem.View.Forms
             MainViewSettingsButton.BackColor = Color.Gainsboro;
             AuziDButton.BackColor = Color.Gainsboro;
             DefenceDiagramButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = SystemColors.ActiveCaption;
             _parametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -67,11 +72,24 @@ namespace VisualizationSystem.View.Forms
             MainViewSettingsButton.BackColor = Color.Gainsboro;
             AuziDButton.BackColor = Color.Gainsboro;
             ParametersButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = Color.Gainsboro;
             DefenceDiagramButton.BackColor = SystemColors.ActiveCaption;
-            _defenceDiagramSettings = new DefenceDiagramSettings();
+           /* _defenceDiagramSettings = new DefenceDiagramSettings();
             _defenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
-            panel1.Controls.Add(_defenceDiagramSettings);
+            panel1.Controls.Add(_defenceDiagramSettings); */
+        }
+
+        private void CanSettingsButton_Click(object sender, EventArgs e)
+        {
+            MainViewSettingsButton.BackColor = Color.Gainsboro;
+            AuziDButton.BackColor = Color.Gainsboro;
+            ParametersButton.BackColor = Color.Gainsboro;
+            DefenceDiagramButton.BackColor = Color.Gainsboro;
+            CanSettingsButton.BackColor = SystemColors.ActiveCaption;
+            _canSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Controls.Clear();
+            panel1.Controls.Add(_canSettings);
         }
 
 

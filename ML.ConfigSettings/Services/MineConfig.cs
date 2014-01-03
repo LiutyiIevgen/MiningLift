@@ -10,6 +10,17 @@ namespace ML.ConfigSettings.Services
     public class MineConfig
     {
         private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+        public string CanName
+        {
+            get { return ConfigurationManager.AppSettings["CanName"]; }
+            set { ConfigurationManager.AppSettings["CanName"] = value; }
+        }
+        public int CanSpeed
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["CanSpeed"]); }
+            set { ConfigurationManager.AppSettings["CanSpeed"] = value.ToString(); }
+        }
         private MainViewConfigSection _mainViewConfig;
         public MainViewConfigSection MainViewConfig
         {

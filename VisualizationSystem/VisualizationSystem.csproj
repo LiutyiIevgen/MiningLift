@@ -150,6 +150,12 @@
     <Compile Include="View\UserControls\Setting\AuziDSettings.Designer.cs">
       <DependentUpon>AuziDSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Setting\CanSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\CanSettings.Designer.cs">
+      <DependentUpon>CanSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Setting\DefenceDiagramSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\Setting\AuziDSettings.resx">
       <DependentUpon>AuziDSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\Setting\CanSettings.resx">
+      <DependentUpon>CanSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\Setting\DefenceDiagramSettings.resx">
       <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>

@@ -56,12 +56,14 @@
             // 
             // buttonSettingsParol
             // 
-            this.buttonSettingsParol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.buttonSettingsParol.BackColor = System.Drawing.Color.RoyalBlue;
             this.buttonSettingsParol.FlatAppearance.BorderSize = 0;
             this.buttonSettingsParol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSettingsParol.Location = new System.Drawing.Point(47, 82);
+            this.buttonSettingsParol.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSettingsParol.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonSettingsParol.Location = new System.Drawing.Point(60, 80);
             this.buttonSettingsParol.Name = "buttonSettingsParol";
-            this.buttonSettingsParol.Size = new System.Drawing.Size(75, 23);
+            this.buttonSettingsParol.Size = new System.Drawing.Size(57, 31);
             this.buttonSettingsParol.TabIndex = 2;
             this.buttonSettingsParol.Text = "OK";
             this.buttonSettingsParol.UseVisualStyleBackColor = false;

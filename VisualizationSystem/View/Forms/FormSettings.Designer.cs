@@ -38,6 +38,8 @@
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.DefenceDiagramButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
+            this.CanSettingsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -56,7 +58,11 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
+            this.splitContainer6.Panel1.SuspendLayout();
+            this.splitContainer6.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -204,6 +210,10 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.Controls.Add(this.DefenceDiagramButton);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
             this.splitContainer5.Size = new System.Drawing.Size(218, 331);
             this.splitContainer5.SplitterDistance = 65;
             this.splitContainer5.TabIndex = 0;
@@ -234,6 +244,39 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(758, 541);
             this.panel1.TabIndex = 0;
+            // 
+            // splitContainer6
+            // 
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer6.Name = "splitContainer6";
+            this.splitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer6.Panel1
+            // 
+            this.splitContainer6.Panel1.Controls.Add(this.CanSettingsButton);
+            this.splitContainer6.Size = new System.Drawing.Size(218, 262);
+            this.splitContainer6.SplitterDistance = 72;
+            this.splitContainer6.TabIndex = 0;
+            this.splitContainer6.TabStop = false;
+            // 
+            // CanSettingsButton
+            // 
+            this.CanSettingsButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.CanSettingsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CanSettingsButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CanSettingsButton.FlatAppearance.BorderSize = 0;
+            this.CanSettingsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.CanSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CanSettingsButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CanSettingsButton.Location = new System.Drawing.Point(0, 0);
+            this.CanSettingsButton.Name = "CanSettingsButton";
+            this.CanSettingsButton.Size = new System.Drawing.Size(218, 72);
+            this.CanSettingsButton.TabIndex = 4;
+            this.CanSettingsButton.TabStop = false;
+            this.CanSettingsButton.Text = "Параметры CAN";
+            this.CanSettingsButton.UseVisualStyleBackColor = false;
+            this.CanSettingsButton.Click += new System.EventHandler(this.CanSettingsButton_Click);
             // 
             // FormSettings
             // 
@@ -266,8 +309,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
+            this.splitContainer6.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
+            this.splitContainer6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -284,5 +331,7 @@
         private System.Windows.Forms.Button ParametersButton;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.Button DefenceDiagramButton;
+        private System.Windows.Forms.SplitContainer splitContainer6;
+        private System.Windows.Forms.Button CanSettingsButton;
     }
 }

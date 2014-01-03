@@ -72,10 +72,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.Column5,
             this.Column4});
             this.dataGridViewVariableParameters.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridViewVariableParameters.Location = new System.Drawing.Point(20, 52);
+            this.dataGridViewVariableParameters.Location = new System.Drawing.Point(20, 40);
             this.dataGridViewVariableParameters.Name = "dataGridViewVariableParameters";
             this.dataGridViewVariableParameters.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewVariableParameters.Size = new System.Drawing.Size(719, 356);
+            this.dataGridViewVariableParameters.Size = new System.Drawing.Size(719, 357);
             this.dataGridViewVariableParameters.TabIndex = 0;
             this.dataGridViewVariableParameters.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewVariableParameters_CellMouseDown);
             this.dataGridViewVariableParameters.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewVariableParameters_EditingControlShowing);
@@ -112,22 +112,32 @@ namespace VisualizationSystem.View.UserControls.Setting
             // 
             // AddRowButton
             // 
-            this.AddRowButton.Location = new System.Drawing.Point(570, 414);
+            this.AddRowButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.AddRowButton.FlatAppearance.BorderSize = 0;
+            this.AddRowButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddRowButton.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AddRowButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.AddRowButton.Location = new System.Drawing.Point(487, 402);
             this.AddRowButton.Name = "AddRowButton";
-            this.AddRowButton.Size = new System.Drawing.Size(79, 23);
+            this.AddRowButton.Size = new System.Drawing.Size(113, 34);
             this.AddRowButton.TabIndex = 2;
             this.AddRowButton.Text = "Добавить";
-            this.AddRowButton.UseVisualStyleBackColor = true;
+            this.AddRowButton.UseVisualStyleBackColor = false;
             this.AddRowButton.Click += new System.EventHandler(this.AddRowButton_Click);
             // 
             // ApplyButton
             // 
-            this.ApplyButton.Location = new System.Drawing.Point(655, 414);
+            this.ApplyButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ApplyButton.FlatAppearance.BorderSize = 0;
+            this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ApplyButton.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ApplyButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.ApplyButton.Location = new System.Drawing.Point(606, 402);
             this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(84, 23);
+            this.ApplyButton.Size = new System.Drawing.Size(133, 34);
             this.ApplyButton.TabIndex = 3;
             this.ApplyButton.Text = "Применить";
-            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.UseVisualStyleBackColor = false;
             this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
             // ParamLog
