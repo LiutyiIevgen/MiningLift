@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using ComCan;
 using ML.AdvCan;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using ML.DataExchange.Interfaces;
 using ML.DataExchange.Model;
+using VisualizationSystem.View.Forms;
 
 namespace VisualizationSystem.Model
 {
@@ -40,15 +42,28 @@ namespace VisualizationSystem.Model
 
         public bool GetParameter(ushort parameterId, byte subindex)
         {
-            return _dataExchange.GetParameter(1,parameterId, subindex);
+            var dialog = new FormCanId {StartPosition = FormStartPosition.CenterScreen};
+            dialog.ShowDialog();
+            ushort value;
+            if(ushort.TryParse(dialog.textBoxAddress.Text, out value))
+                return _dataExchange.GetParameter(value, parameterId, subindex);
+            return false;
         }
 
         public bool SetParameter(ushort parameterId, byte subindex, byte[] data)
         {
-            return _dataExchange.SetParameter(1,new CanParameter
-            {
-                ParameterId = parameterId, ParameterSubIndex = subindex, Data = data
-            });
+            var dialog = new FormCanId {StartPosition = FormStartPosition.CenterScreen};
+            dialog.ShowDialog();
+            ushort value;
+            if (ushort.TryParse(dialog.textBoxAddress.Text, out value))
+                return _dataExchange.SetParameter(new CanParameter
+                {
+                    ControllerId = value,
+                    ParameterId = parameterId,
+                    ParameterSubIndex = subindex,
+                    Data = data
+                });
+            return false;
         }
     }
 }

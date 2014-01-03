@@ -29,6 +29,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             IoC.Resolve<MineConfig>().CanName = textBox1.Text;
             IoC.Resolve<MineConfig>().CanSpeed = Convert.ToInt32(comboBoxCanSpeed.Text);
+            IoC.Resolve<DataListener>().Init(null);
         }
     }
 }

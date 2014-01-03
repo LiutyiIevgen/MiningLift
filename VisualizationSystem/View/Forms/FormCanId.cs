@@ -16,5 +16,14 @@ namespace VisualizationSystem.View.Forms
         {
             InitializeComponent();
         }
+
+        private void buttonAddress_Click(object sender, EventArgs e)
+        {
+            Int16 value;
+            if(!Int16.TryParse(textBoxAddress.Text, out value))
+                MessageBox.Show(@"Неверный формат адреса");
+            else
+                this.Close();
+        }
     }
 }

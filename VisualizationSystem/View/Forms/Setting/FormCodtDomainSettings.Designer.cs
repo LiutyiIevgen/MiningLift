@@ -33,7 +33,6 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonUnLoad = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,8 +72,7 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonSave,
-            this.toolStripButtonLoad,
-            this.toolStripButtonUnLoad});
+            this.toolStripButtonLoad});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(930, 25);
@@ -98,17 +96,8 @@
             this.toolStripButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonLoad.Name = "toolStripButtonLoad";
             this.toolStripButtonLoad.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonLoad.Text = "Загрузка таблицы";
+            this.toolStripButtonLoad.Text = "Загрузка таблицы в контроллер";
             this.toolStripButtonLoad.Click += new System.EventHandler(this.toolStripButtonLoad_Click);
-            // 
-            // toolStripButtonUnLoad
-            // 
-            this.toolStripButtonUnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonUnLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnLoad.Image")));
-            this.toolStripButtonUnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonUnLoad.Name = "toolStripButtonUnLoad";
-            this.toolStripButtonUnLoad.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonUnLoad.Text = "Выгрузка таблицы";
             // 
             // splitContainer2
             // 
@@ -194,6 +183,5 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonSave;
         private System.Windows.Forms.ToolStripButton toolStripButtonLoad;
-        private System.Windows.Forms.ToolStripButton toolStripButtonUnLoad;
     }
 }

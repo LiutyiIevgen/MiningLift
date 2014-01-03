@@ -15,7 +15,7 @@ namespace ML.DataExchange.Interfaces
         bool StartExchange(string strPort, int portSpeed = 50, ICanIO device = null);
 
         bool GetParameter(ushort controllerId, ushort parameterId, byte subindex);
-        bool SetParameter(ushort controllerId, CanParameter canParameter);
+        bool SetParameter(CanParameter canParameter);
         //close all connection
         bool StopExchange();
 

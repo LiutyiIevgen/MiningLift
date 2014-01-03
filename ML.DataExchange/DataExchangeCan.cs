@@ -78,12 +78,12 @@ namespace ML.DataExchange
 
 
 
-        public bool SetParameter(ushort controllerId, CanParameter canParameter)
+        public bool SetParameter(CanParameter canParameter)
         {
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
-            msg.id = (uint)(0x600 + controllerId); //rSdo + id=1
+            msg.id = (uint)(0x600 + canParameter.ControllerId); //rSdo + id=1
             msg.length = (short)CanDriver.DATALENGTH;
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[1] = (byte)(canParameter.ParameterId);//id low
@@ -128,18 +128,21 @@ namespace ML.DataExchange
                     if (canmsgT.data[0] == 0x43)//get real32
                         canParameters.Add(new CanParameter
                         {
+                            ControllerId = (ushort)(canmsgT.id & 0x7F),
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
                         });
                     else if (canmsgT.data[0] == 0x4B)//get sint16
                         canParameters.Add(new CanParameter
                         {
+                            ControllerId = (ushort)(canmsgT.id & 0x7F),
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
                         });
                     else if (canmsgT.data[0] == 0x47)//get sint24
                         canParameters.Add(new CanParameter
                         {
+                            ControllerId = (ushort)(canmsgT.id & 0x7F),
                             ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6] }
                         });
@@ -165,6 +168,7 @@ namespace ML.DataExchange
                         {
                             canParameters.Add(new CanParameter
                             {
+                                ControllerId = (ushort)(canmsgT.id & 0x7F),
                                 ParameterId = _codtDomainId,
                                 Data = _codtDomainArray.ToArray()
                             });
@@ -178,6 +182,7 @@ namespace ML.DataExchange
                                 continue;
                         canParameters.Add(new CanParameter
                         {
+                            ControllerId = (ushort)(canmsgT.id&0x7F),
                             ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             ParameterSubIndex = canmsgT.data[3]
                         });
@@ -227,7 +232,7 @@ namespace ML.DataExchange
                 if (i % 2 == 0)
                     _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
                     {
-                        id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        id = 0x600 + (msg.id&0x07F),length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
                         {
                             0x60,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
                         }
@@ -235,7 +240,7 @@ namespace ML.DataExchange
                 else
                     _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
                     {
-                        id = 0x601,length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        id = 0x600 + (msg.id&0x07F),length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
                         {
                             0x70,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
                         }
@@ -250,7 +255,7 @@ namespace ML.DataExchange
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
-            msg.id = 0x601; //rSdo + id=1
+            msg.id = (ushort)(0x600 + canParameter.ControllerId); //rSdo + id=1
             msg.length = (short)CanDriver.DATALENGTH;
             msg.data = new byte[CanDriver.DATALENGTH];
             msg.data[0] = 0x20; //write segment e=0 s=0;
@@ -282,6 +287,7 @@ namespace ML.DataExchange
                     {
                         new CanParameter
                         {
+                            ControllerId = canParameter.ControllerId,
                             ParameterId = canParameter.ParameterId,
                             ParameterSubIndex = canParameter.ParameterSubIndex
                         }
@@ -295,7 +301,7 @@ namespace ML.DataExchange
                 {
                     new CanDriver.canmsg_t
                     {
-                        id = 0x601,
+                        id = (ushort)(0x600 + canParameter.ControllerId),
                         length = 8,
                         flags = CanDriver.MSG_BOVR,
                         data = block

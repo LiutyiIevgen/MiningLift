@@ -79,7 +79,7 @@ namespace ML.DataExchange
         public event Action<List<CanParameter>> ParameterReceive;
 
 
-        public bool SetParameter(ushort controllerId, CanParameter canParameter)
+        public bool SetParameter(CanParameter canParameter)
         {
             throw new NotImplementedException();
         }

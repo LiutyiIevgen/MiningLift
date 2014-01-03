@@ -46,6 +46,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.ParamLog = new System.Windows.Forms.RichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.DeleteRowButton = new System.Windows.Forms.Button();
+
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -203,6 +204,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.DeleteRowButton.UseVisualStyleBackColor = false;
             this.DeleteRowButton.Click += new System.EventHandler(this.DeleteRowButton_Click);
             // 
+
             // ParametersSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

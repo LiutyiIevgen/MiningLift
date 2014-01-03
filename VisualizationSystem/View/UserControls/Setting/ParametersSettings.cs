@@ -104,7 +104,9 @@ namespace VisualizationSystem.View.UserControls.Setting
                     CanParameter parameter = canParameter;
                     this.Invoke((MethodInvoker)delegate
                     {
-                        AddLineToLog("Загружен параметр с индексом " + "0x" + Convert.ToString(parameter.ParameterId, 16));
+                        AddLineToLog("Загружен параметр с индексом " + "0x" +
+                            Convert.ToString(parameter.ParameterId, 16) + ", address = " + 
+                            Convert.ToString(parameter.ControllerId, 16));
                     });
                     continue;
                 }
@@ -146,9 +148,12 @@ namespace VisualizationSystem.View.UserControls.Setting
                         formDomain.Show();
                     });  
                 }
+                CanParameter param = canParameter;
                 this.Invoke((MethodInvoker)delegate
                     {
-                        AddLineToLog("Выгружен параметр с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
+                        AddLineToLog("Выгружен параметр с индексом " + "0x" +
+                            Convert.ToString(param.ParameterId, 16) + ", address = " +
+                            Convert.ToString(param.ControllerId, 16));
                     });  
             }
             
@@ -161,7 +166,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             ParamLog.ScrollToCaret(); //Now scroll it automatically
         }
 
-        #region Handlers
         private void WriteDataToParametersTable(int index, string value)
         {
             dataGridViewVariableParameters[4, index - startIndex].Value = value;
@@ -174,14 +178,14 @@ namespace VisualizationSystem.View.UserControls.Setting
             return value;
         }
 
+        #region Handlers
+      
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
             FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow);
             f4.ShowDialog();
-        }
-
-        
+        }       
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
@@ -271,7 +275,6 @@ namespace VisualizationSystem.View.UserControls.Setting
                     toolStripMenuItem2.Visible = true;
                     toolStripMenuItem3.Visible = false;
                 }
-
             }
         }
 
