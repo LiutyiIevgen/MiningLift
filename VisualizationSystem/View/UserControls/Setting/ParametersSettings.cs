@@ -247,7 +247,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
-        #region Handlers
         private void WriteDataToParametersTable(int index, byte subindex, string value)
         {
             dataGridViewVariableParameters[2+subindex, index - startIndex].Value = value;
