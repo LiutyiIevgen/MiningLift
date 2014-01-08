@@ -56,6 +56,7 @@
             this.textBoxAddress.Name = "textBoxAddress";
             this.textBoxAddress.Size = new System.Drawing.Size(100, 22);
             this.textBoxAddress.TabIndex = 4;
+            this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSettingsParol_KeyPress);
             // 
             // label1
             // 

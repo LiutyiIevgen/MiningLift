@@ -208,7 +208,7 @@ namespace ML.DataExchange
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead);
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    Thread.Sleep(20);
+                    //Thread.Sleep(20);
                 }
                 catch(Exception)
                 {

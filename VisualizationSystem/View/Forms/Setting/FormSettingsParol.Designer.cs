@@ -52,6 +52,7 @@
             this.textBoxSettingsParol.PasswordChar = '*';
             this.textBoxSettingsParol.Size = new System.Drawing.Size(100, 22);
             this.textBoxSettingsParol.TabIndex = 1;
+            this.textBoxSettingsParol.TextChanged += new System.EventHandler(this.textBoxSettingsParol_TextChanged);
             this.textBoxSettingsParol.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSettingsParol_KeyPress);
             // 
             // buttonSettingsParol

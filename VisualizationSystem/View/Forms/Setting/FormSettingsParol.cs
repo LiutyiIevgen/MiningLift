@@ -35,6 +35,13 @@ namespace VisualizationSystem.View.Forms.Setting
         {
             char c = e.KeyChar;
             e.Handled = !(char.IsDigit(c) || c == '\b');
+            if(c == 0xd)//enter
+                buttonSettingsParol_Click(new object(), new EventArgs());
+        }
+
+        private void textBoxSettingsParol_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

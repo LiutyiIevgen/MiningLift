@@ -37,9 +37,9 @@
             this.ParametersButton = new System.Windows.Forms.Button();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.DefenceDiagramButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.CanSettingsButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -117,7 +117,6 @@
             this.MainViewSettingsButton.Name = "MainViewSettingsButton";
             this.MainViewSettingsButton.Size = new System.Drawing.Size(218, 66);
             this.MainViewSettingsButton.TabIndex = 0;
-            this.MainViewSettingsButton.TabStop = false;
             this.MainViewSettingsButton.Text = "Главное окно";
             this.MainViewSettingsButton.UseVisualStyleBackColor = false;
             this.MainViewSettingsButton.Click += new System.EventHandler(this.MainViewSettingsButton_Click);
@@ -156,7 +155,6 @@
             this.AuziDButton.Name = "AuziDButton";
             this.AuziDButton.Size = new System.Drawing.Size(218, 66);
             this.AuziDButton.TabIndex = 1;
-            this.AuziDButton.TabStop = false;
             this.AuziDButton.Text = "АУЗИ-Д";
             this.AuziDButton.UseVisualStyleBackColor = false;
             this.AuziDButton.Click += new System.EventHandler(this.AuziDButton_Click);
@@ -194,7 +192,6 @@
             this.ParametersButton.Name = "ParametersButton";
             this.ParametersButton.Size = new System.Drawing.Size(218, 66);
             this.ParametersButton.TabIndex = 2;
-            this.ParametersButton.TabStop = false;
             this.ParametersButton.Text = "Параметры";
             this.ParametersButton.UseVisualStyleBackColor = false;
             this.ParametersButton.Click += new System.EventHandler(this.ParametersButton_Click);
@@ -232,18 +229,9 @@
             this.DefenceDiagramButton.Name = "DefenceDiagramButton";
             this.DefenceDiagramButton.Size = new System.Drawing.Size(218, 65);
             this.DefenceDiagramButton.TabIndex = 3;
-            this.DefenceDiagramButton.TabStop = false;
             this.DefenceDiagramButton.Text = "Защитная диаграмма";
             this.DefenceDiagramButton.UseVisualStyleBackColor = false;
             this.DefenceDiagramButton.Click += new System.EventHandler(this.DefenceDiagramButton_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(758, 541);
-            this.panel1.TabIndex = 0;
             // 
             // splitContainer6
             // 
@@ -273,10 +261,17 @@
             this.CanSettingsButton.Name = "CanSettingsButton";
             this.CanSettingsButton.Size = new System.Drawing.Size(218, 72);
             this.CanSettingsButton.TabIndex = 4;
-            this.CanSettingsButton.TabStop = false;
             this.CanSettingsButton.Text = "Параметры CAN";
             this.CanSettingsButton.UseVisualStyleBackColor = false;
             this.CanSettingsButton.Click += new System.EventHandler(this.CanSettingsButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(758, 541);
+            this.panel1.TabIndex = 0;
             // 
             // FormSettings
             // 

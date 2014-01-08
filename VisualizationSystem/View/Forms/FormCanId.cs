@@ -25,5 +25,13 @@ namespace VisualizationSystem.View.Forms
             else
                 this.Close();
         }
+
+        private void textBoxSettingsParol_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            e.Handled = !(char.IsDigit(c) || c == '\b');
+            if (c == 0xd)//enter
+                buttonAddress_Click(new object(), new EventArgs());
+        }
     }
 }
