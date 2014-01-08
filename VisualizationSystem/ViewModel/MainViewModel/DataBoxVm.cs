@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
-using VisualizationSystem.Services;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class DataBoxVm
     {
         public DataBoxVm(Parameters parameter)
         {
             _parameters = parameter;
-            DataBoxes = new List<String>();
+            DataBoxes = new List<string>();
 
             SolveDataBoxes();
         }
@@ -41,12 +37,12 @@ namespace VisualizationSystem.ViewModel
             }
         }
 
-        public List<String> GetDataBoxes()
+        public List<string> GetDataBoxes()
         {
             return DataBoxes;
         }
 
-        public List<String> DataBoxes { get; private set; }
+        public List<string> DataBoxes { get; private set; }
         private Parameters _parameters;
     }
 }

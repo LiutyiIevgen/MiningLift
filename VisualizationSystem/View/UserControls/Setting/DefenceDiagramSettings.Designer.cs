@@ -321,7 +321,7 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "DefenceDiagramSettings";
             this.Size = new System.Drawing.Size(758, 448);
-            this.Load += new System.EventHandler(this.DefenceDiagramSettings_Load);
+            //this.Load += new System.EventHandler(this.DefenceDiagramSettings_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);

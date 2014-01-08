@@ -7,26 +7,34 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using VisualizationSystem.Model;
+using VisualizationSystem.Model.Settings;
+using VisualizationSystem.ViewModel;
 
 namespace VisualizationSystem.View.Forms.Setting
 {
-    public partial class FormCodtDomainSettings : Form
+    public partial class FormCodtDomainSettings : Form, IDisposable
     {
         private int _index;
         private int startIndex = 0x2001;
         private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
         private const int EndOfArray = 2147483647;
+        private List<ParametersSettingsData> _parametersSettings;
         public FormCodtDomainSettings()
         {
             InitializeComponent();
         }
 
-        public FormCodtDomainSettings(int index)
+        public void Dispose()
+        {
+            SaveDataToList();
+        }
+        public FormCodtDomainSettings(int index, List<ParametersSettingsData> parametersSettings )
         {
             InitializeComponent();
-            this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
+            _parametersSettings = parametersSettings;
+            this.Text = "0x" + Convert.ToString(index, 16) + "  " + parametersSettings[index - startIndex].Name;
             _index = index;
-            LoadDataFromInitFile(_index);
+            LoadDataFromList(parametersSettings[index - startIndex].CodtDomainArray);
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
@@ -35,89 +43,23 @@ namespace VisualizationSystem.View.Forms.Setting
         public FormCodtDomainSettings(int index, List<string> data)
         {
             InitializeComponent();
-            this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
-            _index = index;
+            //this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
+            //_index = index;
             LoadDataFromController(data);
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
         }
 
-        private void FormCodtDomainParamType_Load(object sender, EventArgs e)
+        private void LoadDataFromList(CodtDomainData[] codtDomainDatas )
         {
-
-        }
-
-        private void LoadDataFromInitFile(int index)
-        {
-            string[] coordinate = null;
-            string[] speed = null;
-            if (index == 0x2035)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevision;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevision;
-            }
-            else if (index == 0x2036)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeight;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeight;
-            }
-            else if (index == 0x2037)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipment;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipment;
-            }
-            else if (index == 0x2038)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeople;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeople;
-            }
-            else if (index == 0x2051)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionV;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionV;
-            }
-            else if (index == 0x2052)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionN;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionN;
-            }
-            else if (index == 0x2053)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightV;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightV;
-            }
-            else if (index == 0x2054)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightN;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightN;
-            }
-            else if (index == 0x2055)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentV;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentV;
-            }
-            else if (index == 0x2056)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentN;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentN;
-            }
-            else if (index == 0x2057)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN;
-            }
-            else if (index == 0x2058)
-            {
-                coordinate = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN;
-                speed = IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV;
-            }
-            dataGridView1.RowCount = coordinate.Count();
+            dataGridView1.RowCount = codtDomainDatas.Count();
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 dataGridView1[0, i].Value = i;
-                dataGridView1[1, i].Value = coordinate[i];
-                dataGridView1[2, i].Value = speed[i];
+                dataGridView1[1, i].Value = codtDomainDatas[i].Coordinate;
+                dataGridView1[2, i].Value = codtDomainDatas[i].Speed;
+
             }
         }
 
@@ -132,81 +74,15 @@ namespace VisualizationSystem.View.Forms.Setting
             }
         }
 
-        private void SaveDataToInitFile(int index)
+        private void SaveDataToList()
         {
-            var coordinate = new string[dataGridView1.RowCount];
-            var speed = new string[dataGridView1.RowCount];
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                coordinate[i] = dataGridView1[1, i].Value.ToString();
-                speed[i] = dataGridView1[2, i].Value.ToString();
+                _parametersSettings[_index - startIndex].CodtDomainArray[i].Coordinate = 
+                    int.Parse(dataGridView1[1, i].Value.ToString());
+                _parametersSettings[_index - startIndex].CodtDomainArray[i].Speed = 
+                    int.Parse(dataGridView1[2, i].Value.ToString());
             }
-            if (index == 0x2035)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevision = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevision = speed;
-            }
-            else if (index == 0x2036)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeight = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeight = speed;
-            }
-            else if (index == 0x2037)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipment = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipment = speed;
-            }
-            else if (index == 0x2038)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeople = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeople = speed;
-            }
-            else if (index == 0x2051)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionV = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionV = speed;
-            }
-            else if (index == 0x2052)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateRevisionN = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedRevisionN = speed;
-            }
-            else if (index == 0x2053)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightV = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightV = speed;
-            }
-            else if (index == 0x2054)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateVeightN = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedVeightN = speed;
-            }
-            else if (index == 0x2055)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentV = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentV = speed;
-            }
-            else if (index == 0x2056)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinateEquipmentN = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedEquipmentN = speed;
-            }
-            else if (index == 0x2057)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleV = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeopleV = speed;
-            }
-            else if (index == 0x2058)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.CoordinatePeopleN = coordinate;
-                IoC.Resolve<MineConfig>().ParametersConfig.SpeedPeopleN = speed;
-            }
-        }
-
-        private void toolStripButtonSave_Click(object sender, EventArgs e)
-        {
-            SaveDataToInitFile(_index);
-            MessageBox.Show("Запись параметров в config файл успешно завершена!", "Сохранение параметров", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

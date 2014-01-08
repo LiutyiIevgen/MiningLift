@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ML.ConfigSettings.Services;
-using ML.DataExchange;
+﻿using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.GraphicData;
-using VisualizationSystem.Services;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class GraphicVaVm
     {

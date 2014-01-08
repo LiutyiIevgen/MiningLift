@@ -168,7 +168,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(133, 34);
             this.ApplyButton.TabIndex = 3;
-            this.ApplyButton.Text = "Применить";
+            this.ApplyButton.Text = "Сохранить";
             this.ApplyButton.UseVisualStyleBackColor = false;
             this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 

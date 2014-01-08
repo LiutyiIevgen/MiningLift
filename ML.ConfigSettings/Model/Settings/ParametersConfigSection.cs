@@ -8,7 +8,23 @@ namespace ML.ConfigSettings.Model.Settings
 {
     public class ParametersConfigSection : ConfigurationSection
     {
-        private string _variableParametersName = null;
+        private string _parametersFileName = null;
+
+        [ConfigurationProperty("parametersFileName")]
+        public string ParametersFileName
+        {
+            get
+            {
+                return _parametersFileName = _parametersFileName ?? (string)this["parametersFileName"];
+            }
+            set
+            {
+                this["parametersFileName"] = value;
+                _parametersFileName = value;
+            }
+        }
+
+       /* private string _variableParametersName = null;
         private string _variableParametersValue = null;
         private string _variableParametersType = null;
         private string _coordinatePeople = null;
@@ -791,5 +807,6 @@ namespace ML.ConfigSettings.Model.Settings
                 coordinateVeightN = s;
             }
         }
+        */
     }
 }

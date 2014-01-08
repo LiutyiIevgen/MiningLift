@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class AuziDInOutSignalsVm
     {
         public AuziDInOutSignalsVm(Parameters parameter)
         {
             _parameters = parameter;
-            InputNames = new List<String>();
+            InputNames = new List<string>();
             InputMeanings = new List<Color>();
-            OutputNames = new List<String>();
+            OutputNames = new List<string>();
             OutputMeanings = new List<Color>();
             codes = new string[144];
 
@@ -229,9 +226,9 @@ namespace VisualizationSystem.ViewModel
             }
         }
 
-        public List<String> InputNames { get; private set; }
+        public List<string> InputNames { get; private set; }
         public List<Color> InputMeanings { get; private set; }
-        public List<String> OutputNames { get; private set; }
+        public List<string> OutputNames { get; private set; }
         public List<Color> OutputMeanings { get; private set; }
         private Parameters _parameters;
         string[] codes;

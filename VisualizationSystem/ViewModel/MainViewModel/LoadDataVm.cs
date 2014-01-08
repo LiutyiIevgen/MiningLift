@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.RichTextBoxData;
-using VisualizationSystem.Services;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class LoadDataVm
     {

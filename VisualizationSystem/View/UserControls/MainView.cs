@@ -13,6 +13,7 @@ using VisualizationSystem.Services;
 using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
 using VisualizationSystem.ViewModel;
+using VisualizationSystem.ViewModel.MainViewModel;
 
 namespace VisualizationSystem.View.UserControls
 {
@@ -387,7 +388,7 @@ namespace VisualizationSystem.View.UserControls
 
         private void UpdateParametersData()
         {
-           string[] variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
+           /*string[] variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
            string[] variableParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue;
             this.Invoke((MethodInvoker)delegate
             {
@@ -398,7 +399,7 @@ namespace VisualizationSystem.View.UserControls
                     dataGridViewParameters[2, i].Value = variableParametersName[i];
                     dataGridViewParameters[3, i].Value = variableParametersValue[i];
                 }
-            });
+            });*/
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

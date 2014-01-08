@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
-using VisualizationSystem.Services;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class RightDopPanelVm
     {

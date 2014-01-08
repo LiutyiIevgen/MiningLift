@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
-using VisualizationSystem.Services;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
-    class SpeedPanelVm
+    class TokAnchorPanelVm
     {
-        public SpeedPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public TokAnchorPanelVm(int panelWidth, int panelHeight, Parameters parameter)
         {
             _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             SetLength();
             SetPointsValue();
+            SolveTokAnchor();
 
             pen = new Pen(Color.Black, 2);
-            green_pen = new Pen(Color.FromArgb(255, 0, 255, 0), 1);
+            orange_pen = new Pen(Color.Orange, 1);
             drawFont_two = new Font("Arial", 16);
             black = new SolidBrush(Color.Black);
-            green = new SolidBrush(Color.FromArgb(255, 0, 255, 0));
-            p_green = new SolidBrush(Color.FromArgb(125, 0, 255, 0));
+            orange = new SolidBrush(Color.Orange);
+            p_orange = new SolidBrush(Color.FromArgb(150, 255, 165, 0));
 
             RuleDatas = new List<RuleData>();
             RuleInscriptions = new List<RuleInscription>();
             RulePointerLine = new List<RuleData>();
             RulePointer = new List<Pointer>();
             RuleFillPointer = new List<FillPointer>();
-            SpeedMeaningZone = new List<CageAndRuleZone>();
+            TokAnchorMeaningZone = new List<CageAndRuleZone>();
         }
 
         private void SetLength()
@@ -43,7 +40,7 @@ namespace VisualizationSystem.ViewModel
             middle_desh_width = panelHeight / 5;
             small_desh_width = panelHeight / 8;
             rule_hight = panelWidth - 20;
-            pixel_pro_meter = rule_hight / IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value;
+            pixel_pro_meter = rule_hight / IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value;
         }
 
         private void SetPointsValue()
@@ -56,7 +53,16 @@ namespace VisualizationSystem.ViewModel
             x2_small = Convert.ToInt32(panelHeight / 2 + small_desh_width / 2);
         }
 
-        public List<RuleData> GetSpeedRuleDatas()
+        private void SolveTokAnchor()
+        {
+            _parameters.tok_anchor = _parameters.a + 1;
+            if (_parameters.f_ostanov == 1)
+            {
+                _parameters.tok_anchor = 0;
+            }
+        }
+
+        public List<RuleData> GetTokAnchorRuleDatas()
         {
             RuleDatas.Add(new RuleData
             {
@@ -64,7 +70,7 @@ namespace VisualizationSystem.ViewModel
                 FirstPoint = new Point(0, panelHeight / 2),
                 SecondPoint = new Point(panelWidth, panelHeight / 2)
             });
-            for (int i = 0; i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value * 10; i++)
+            for (int i = 0; i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value * 10; i++)
             {
                 if (i % 10 == 0)
                 {
@@ -113,73 +119,73 @@ namespace VisualizationSystem.ViewModel
             return RuleDatas;
         }
 
-        public List<RuleInscription> GetSpeedRuleInscription()
+        public List<RuleInscription> GetTokAnchorRuleInscription()
         {
             return RuleInscriptions;
         }
 
-        public List<RuleData> GetSpeedRulePointerLine()
+        public List<RuleData> GetTokAnchorRulePointerLine()
         {
                 RulePointerLine.Add(new RuleData
                 {
-                    Pen = green_pen,
-                    FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), x2_long),
-                    SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), 3)
+                    Pen = orange_pen,
+                    FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), x2_long),
+                    SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), 3)
                 });
                 RulePointer.Add(new Pointer
                 {
-                    Pen = green_pen,
+                    Pen = orange_pen,
                     Triangle = new Point[3]
                             {
-                                new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), x1_long - 2),
-                                new Point((5 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), 3),
-                                new Point((15 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), 3)
+                                new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), x1_long - 2),
+                                new Point((5 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), 3),
+                                new Point((15 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), 3)
                             }
                 });
                 RuleFillPointer.Add(new FillPointer
                 {
-                    Brush = green,
+                    Brush = orange,
                     Triangle = new Point[3]
                             {
-                                new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), x1_long - 2),
-                                new Point((5 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), 3),
-                                new Point((15 + Convert.ToInt32(pixel_pro_meter * _parameters.v)), 3)
+                                new Point((10 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), x1_long - 2),
+                                new Point((5 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), 3),
+                                new Point((15 + Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor)), 3)
                             }
                 });
             return RulePointerLine;
         }
 
-        public List<Pointer> GetSpeedRulePointer()
+        public List<Pointer> GetTokAnchorRulePointer()
         {
             return RulePointer;
         }
 
-        public List<FillPointer> GetSpeedRuleFillPointer()
+        public List<FillPointer> GetTokAnchorRuleFillPointer()
         {
             return RuleFillPointer;
         }
 
-        public List<CageAndRuleZone> GetSpeedRuleSpeedMeaningZone()
+        public List<CageAndRuleZone> GetTokAnchorRuleTokAnchorMeaningZone()
         {
-                SpeedMeaningZone.Add(new CageAndRuleZone
+            TokAnchorMeaningZone.Add(new CageAndRuleZone
                 {
-                    Brush = p_green,
+                    Brush = p_orange,
                     LeftTopX = 10,
                     LeftTopY = x1_middle,
-                    Width = Convert.ToInt32(pixel_pro_meter * _parameters.v),
+                    Width = Convert.ToInt32(pixel_pro_meter * _parameters.tok_anchor),
                     Height = Convert.ToInt32(middle_desh_width)
                 });
-                return SpeedMeaningZone;
+                return TokAnchorMeaningZone;
         }
 
         public void DisposeDrawingAttributes()
         {
             pen.Dispose();
-            green_pen.Dispose();
+            orange_pen.Dispose();
             drawFont_two.Dispose();
             black.Dispose();
-            green.Dispose();
-            p_green.Dispose();
+            orange.Dispose();
+            p_orange.Dispose();
         }
 
         public List<RuleData> RuleDatas { get; private set; }
@@ -187,7 +193,7 @@ namespace VisualizationSystem.ViewModel
         public List<RuleData> RulePointerLine { get; private set; }
         public List<Pointer> RulePointer { get; private set; }
         public List<FillPointer> RuleFillPointer { get; private set; }
-        public List<CageAndRuleZone> SpeedMeaningZone { get; private set; }
+        public List<CageAndRuleZone> TokAnchorMeaningZone { get; private set; }
         private Parameters _parameters;
         private int panelWidth;
         private int panelHeight;
@@ -204,11 +210,10 @@ namespace VisualizationSystem.ViewModel
         private int x1_small;
         private int x2_small;
         private Pen pen;
-        private Pen green_pen;
+        private Pen orange_pen;
         private Font drawFont_two;
         private SolidBrush black;
-        private SolidBrush green;
-        SolidBrush p_green;
-
+        private SolidBrush orange;
+        SolidBrush p_orange;
     }
 }

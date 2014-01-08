@@ -90,25 +90,27 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Model\RichTextBoxData\RichTextBoxData.cs" />
+    <Compile Include="Model\Settings\ParametersSettingsData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AsyncProvider.cs" />
     <Compile Include="Services\ConfigParameters.cs" />
     <Compile Include="Services\Settings.cs" />
-    <Compile Include="ViewModel\AuziDInOutSignalsVm.cs" />
-    <Compile Include="ViewModel\CentralSignalsDataVm.cs" />
-    <Compile Include="ViewModel\DataBoxVm.cs" />
     <Compile Include="ViewModel\DefenceDiagramSettingsVm.cs" />
-    <Compile Include="ViewModel\DefenceDiagramVm.cs" />
-    <Compile Include="ViewModel\GraphicVaVm.cs" />
-    <Compile Include="ViewModel\LeftDopPanelVm.cs" />
-    <Compile Include="ViewModel\LeftPanelVm.cs" />
-    <Compile Include="ViewModel\LoadDataVm.cs" />
-    <Compile Include="ViewModel\RightDopPanelVm.cs" />
-    <Compile Include="ViewModel\RightPanelVm.cs" />
-    <Compile Include="ViewModel\SpeedPanelVm.cs" />
-    <Compile Include="ViewModel\TokAnchorPanelVm.cs" />
-    <Compile Include="ViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\AuziDInOutSignalsVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\CentralSignalsDataVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\DataBoxVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\DefenceDiagramVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\GraphicVaVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\LeftDopPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\LeftPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\LoadDataVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\RightDopPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\RightPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\SpeedPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\TokAnchorPanelVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\TokExcitationPanelVm.cs" />
+    <Compile Include="ViewModel\ParametersSettingsVm.cs" />
     <Compile Include="View\Forms\FormCanId.cs">
       <SubType>Form</SubType>
     </Compile>

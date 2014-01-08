@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using ML.DataExchange;
+﻿using System.Drawing;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model.RichTextBoxData;
 
-namespace VisualizationSystem.ViewModel
+namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class CentralSignalsDataVm
     {
