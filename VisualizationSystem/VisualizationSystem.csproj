@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DataListener.cs" />
+    <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\GraphicData\GraphicData.cs" />
     <Compile Include="Model\IoC.cs" />
     <Compile Include="Model\MyRichTextBox.cs">

@@ -97,6 +97,13 @@ namespace ML.DataExchange
                 msg.data[6] = canParameter.Data[2];
                 msg.data[7] = canParameter.Data[3];
             }
+            else if (canParameter.Data.Count() == 3)
+            {
+                msg.data[0] = 0x26; //write 3 byte e=1 s=0;
+                msg.data[4] = canParameter.Data[0];
+                msg.data[5] = canParameter.Data[1];
+                msg.data[6] = canParameter.Data[2];
+            }
             else if (canParameter.Data.Count() == 2)
             {
                 msg.data[0] = 0x2A; //write 2 byte e=1 s=0;
@@ -125,51 +132,39 @@ namespace ML.DataExchange
             {
                 foreach (var canmsgT in msgList)
                 {
-                    if (canmsgT.data[0] == 0x43)//get real32
-                        canParameters.Add(new CanParameter
+                    if ((canmsgT.data[0] & 0x73) == 0x43) // value block
+                    {
+                        var canParameter = new CanParameter()
                         {
-                            ControllerId = (ushort)(canmsgT.id & 0x7F),
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6], canmsgT.data[7] }
-                        });
-                    else if (canmsgT.data[0] == 0x4B)//get sint16
-                        canParameters.Add(new CanParameter
-                        {
-                            ControllerId = (ushort)(canmsgT.id & 0x7F),
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5] }
-                        });
-                    else if (canmsgT.data[0] == 0x47)//get sint24
-                        canParameters.Add(new CanParameter
-                        {
-                            ControllerId = (ushort)(canmsgT.id & 0x7F),
-                            ParameterId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8)),
-                            Data = new byte[] { canmsgT.data[4], canmsgT.data[5], canmsgT.data[6] }
-                        });
+                            ControllerId = (ushort) (canmsgT.id & 0x7F),
+                            ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
+                            ParameterSubIndex = canmsgT.data[3]
+                        };
+                        int unusedBytes = (canmsgT.data[0] & 0x0C) >> 2;
+                        canParameter.Data = new byte[4 - unusedBytes];
+                        for (int j = 0; j < 4 - unusedBytes; j++)
+                            canParameter.Data[j] = canmsgT.data[4 + j];
+                        canParameters.Add(canParameter);
+                    }
                     else if (canmsgT.data[0] == 0x41) //get codtDomain
                     {
                         _codtDomainId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8));
+                        _codtDomainSubIndex = canmsgT.data[3];
                         _codtDomainThread = new Thread(GetSegment) { IsBackground = true };
                         _codtDomainThread.Start(canmsgT);
                     }
-                    else if (canmsgT.data[0] == 0x0 || canmsgT.data[0] == 0x10 || canmsgT.data[0] == 0x1D) //get codtDomain block
+                    else if ((canmsgT.data[0]&0xE0) == 0) //get codtDomain block
                     {
-                        _codtDomainArray.AddRange(new List<byte>
-                        {
-                            canmsgT.data[1],
-                            canmsgT.data[2],
-                            canmsgT.data[3],
-                            canmsgT.data[4],
-                            canmsgT.data[5],
-                            canmsgT.data[6],
-                            canmsgT.data[7]
-                        });
-                        if (canmsgT.data[0] == 0x1D) //last codtDomain Element
+                        int unusedBytes = (canmsgT.data[0] & 0x0E) >> 1;
+                        for (int j = 0; j < 7 - unusedBytes; j++)
+                            _codtDomainArray.Add(canmsgT.data[j+1]);
+                        if ((canmsgT.data[0]&0x01) == 1)//last codtDomain Element
                         {
                             canParameters.Add(new CanParameter
                             {
                                 ControllerId = (ushort)(canmsgT.id & 0x7F),
                                 ParameterId = _codtDomainId,
+                                ParameterSubIndex = _codtDomainSubIndex,
                                 Data = _codtDomainArray.ToArray()
                             });
                             _codtDomainArray.Clear();
@@ -208,7 +203,7 @@ namespace ML.DataExchange
                         Thread.Sleep(5);
                         continue;              
                     }
-                    parameters = CanParser.GetParameters(msgRead);
+                    parameters = CanParser.GetParameters(msgRead,1);
                     ReceiveEvent(parameters);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead);
                     if (canParameters.Count != 0)
@@ -322,5 +317,6 @@ namespace ML.DataExchange
         private Thread _codtDomainThread;
         private List<byte> _codtDomainArray;
         private ushort _codtDomainId;
+        private byte _codtDomainSubIndex;
     }
 }

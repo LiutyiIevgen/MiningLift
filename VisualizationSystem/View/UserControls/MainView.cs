@@ -21,7 +21,6 @@ namespace VisualizationSystem.View.UserControls
         public MainView()
         {
             InitializeComponent();
-            SetInitControlsFeatures();
             _dataListener = IoC.Resolve<DataListener>();
         }
         public void MainView_Load()
@@ -33,7 +32,7 @@ namespace VisualizationSystem.View.UserControls
             updateGraphicThread.IsBackground = true;
             var param = new double[30];
             ViewData(new Parameters(param));
-            ViewData(new Parameters(param));
+            //ViewData(new Parameters(param));
             _dataListener.Init(ViewData);
            // string[] s = IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals;
            // s[0] = "1";
@@ -85,44 +84,6 @@ namespace VisualizationSystem.View.UserControls
             }
         }
 
-        public void SetInitControlsFeatures()
-        {
-            label3.ForeColor = Color.FromArgb(150, 0, 255, 0);
-            label7.ForeColor = Color.FromArgb(150, 255, 165, 0);
-            label10.ForeColor = Color.FromArgb(125, 255, 255, 0);
-            textBox3.ForeColor = Color.FromArgb(150, 0, 255, 0);
-            textBox4.ForeColor = Color.FromArgb(150, 255, 165, 0);
-            textBox5.ForeColor = Color.FromArgb(125, 255, 255, 0);
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox7.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox8.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox9.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox10.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox11.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox12.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox13.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox14.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox15.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox16.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox17.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox18.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox19.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox20.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox21.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox22.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox23.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox24.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox25.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox26.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox27.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox28.SelectionAlignment = HorizontalAlignment.Center;
-        }
-
         private void SetGraphicInterval()
         {
             this.Invoke((MethodInvoker)delegate
@@ -138,137 +99,35 @@ namespace VisualizationSystem.View.UserControls
 
         private void CreateRichTextBoxMassiv()
         {
-            this.Invoke((MethodInvoker)delegate
-            {
-                masRichTextBox[0] = richTextBox5;
-                masRichTextBox[1] = richTextBox6;
-                masRichTextBox[2] = richTextBox7;
-                masRichTextBox[3] = richTextBox8;
-                masRichTextBox[4] = richTextBox9;
-                masRichTextBox[5] = richTextBox10;
-                masRichTextBox[6] = richTextBox11;
-                masRichTextBox[7] = richTextBox12;
-                masRichTextBox[8] = richTextBox13;
-                masRichTextBox[9] = richTextBox14;
-                masRichTextBox[10] = richTextBox15;
-                masRichTextBox[11] = richTextBox16;
-                masRichTextBox[12] = richTextBox17;
-                masRichTextBox[13] = richTextBox18;
-                masRichTextBox[14] = richTextBox19;
-                masRichTextBox[15] = richTextBox20;
-                masRichTextBox[16] = richTextBox21;
-                masRichTextBox[17] = richTextBox22;
-                masRichTextBox[18] = richTextBox23;
-                masRichTextBox[19] = richTextBox24;
-                masRichTextBox[20] = richTextBox25;
-                masRichTextBox[21] = richTextBox26;
-                masRichTextBox[22] = richTextBox27;
-                masRichTextBox[23] = richTextBox28;
-            });
+            masRichTextBox = new RichTextBox[] { richTextBox5, richTextBox6, richTextBox7, richTextBox8, 
+                richTextBox9, richTextBox10, richTextBox11, richTextBox12,
+                richTextBox13, richTextBox14, richTextBox15, richTextBox16,
+                richTextBox17, richTextBox18, richTextBox19, richTextBox20, richTextBox21,
+                richTextBox22, richTextBox23, richTextBox24, richTextBox25, richTextBox26, 
+                richTextBox27, richTextBox28};
         }
 
         private void CreateAuziDIOSignalsMassiv()
         {
-            this.Invoke((MethodInvoker)delegate
-            {
-            masInTextBox[0] = textBox6;
-            masInTextBox[1] = textBox7;
-            masInTextBox[2] = textBox8;
-            masInTextBox[3] = textBox9;
-            masInTextBox[4] = textBox10;
-            masInTextBox[5] = textBox11;
-            masInTextBox[6] = textBox12;
-            masInTextBox[7] = textBox13;
-            masInTextBox[8] = textBox14;
-            masInTextBox[9] = textBox15;
-            masInTextBox[10] = textBox16;
-            masInTextBox[11] = textBox17;
-            masInTextBox[12] = textBox18;
-            masInTextBox[13] = textBox19;
-            masInTextBox[14] = textBox20;
-            masInTextBox[15] = textBox21;
-            masInTextBox[16] = textBox22;
-            masInTextBox[17] = textBox23;
-            masInTextBox[18] = textBox24;
-            masInTextBox[19] = textBox25;
-            masInTextBox[20] = textBox26;
-            masInTextBox[21] = textBox27;
-            masInTextBox[22] = textBox28;
-            masInTextBox[23] = textBox29;
-            masInTextBox[24] = textBox30;
-            masInTextBox[25] = textBox31;
-            masInTextBox[26] = textBox32;
-            masInTextBox[27] = textBox33;
-            masInTextBox[28] = textBox34;
-            masInTextBox[29] = textBox35;
-            masInTextBox[30] = textBox36;
-            masInTextBox[31] = textBox37;
-            masOutTextBox[0] = textBox38;
-            masOutTextBox[1] = textBox39;
-            masOutTextBox[2] = textBox40;
-            masOutTextBox[3] = textBox41;
-            masOutTextBox[4] = textBox42;
-            masOutTextBox[5] = textBox43;
-            masOutTextBox[6] = textBox44;
-            masOutTextBox[7] = textBox45;
-            masOutTextBox[8] = textBox46;
-            masOutTextBox[9] = textBox47;
-            masOutTextBox[10] = textBox48;
-            masOutTextBox[11] = textBox49;
-            masOutTextBox[12] = textBox50;
-            masOutTextBox[13] = textBox51;
-            masOutTextBox[14] = textBox52;
-            masOutTextBox[15] = textBox53;
+            masInTextBox = new TextBox[] { textBox6, textBox7, textBox8, textBox9, 
+                textBox10, textBox11, textBox12, textBox13, textBox14, textBox15,
+                textBox16, textBox17, textBox18, textBox19, textBox20, textBox21,
+                textBox22, textBox23, textBox24, textBox25, textBox26, textBox27,
+                textBox28, textBox29, textBox30, textBox31, textBox32, textBox33,
+                textBox34, textBox35, textBox36, textBox37 };
 
-            masInLabel[0] = label4;
-            masInLabel[1] = label5;
-            masInLabel[2] = label11;
-            masInLabel[3] = label12;
-            masInLabel[4] = label13;
-            masInLabel[5] = label14;
-            masInLabel[6] = label15;
-            masInLabel[7] = label16;
-            masInLabel[8] = label17;
-            masInLabel[9] = label18;
-            masInLabel[10] = label19;
-            masInLabel[11] = label20;
-            masInLabel[12] = label21;
-            masInLabel[13] = label22;
-            masInLabel[14] = label23;
-            masInLabel[15] = label24;
-            masInLabel[16] = label25;
-            masInLabel[17] = label26;
-            masInLabel[18] = label27;
-            masInLabel[19] = label28;
-            masInLabel[20] = label29;
-            masInLabel[21] = label30;
-            masInLabel[22] = label31;
-            masInLabel[23] = label32;
-            masInLabel[24] = label33;
-            masInLabel[25] = label34;
-            masInLabel[26] = label35;
-            masInLabel[27] = label36;
-            masInLabel[28] = label37;
-            masInLabel[29] = label38;
-            masInLabel[30] = label39;
-            masInLabel[31] = label40;
-            masOutLabel[0] = label41;
-            masOutLabel[1] = label42;
-            masOutLabel[2] = label43;
-            masOutLabel[3] = label44;
-            masOutLabel[4] = label45;
-            masOutLabel[5] = label46;
-            masOutLabel[6] = label47;
-            masOutLabel[7] = label48;
-            masOutLabel[8] = label49;
-            masOutLabel[9] = label50;
-            masOutLabel[10] = label51;
-            masOutLabel[11] = label52;
-            masOutLabel[12] = label53;
-            masOutLabel[13] = label54;
-            masOutLabel[14] = label55;
-            masOutLabel[15] = label56;
-            });
+            masOutTextBox = new TextBox[] { textBox38, textBox39, textBox40, textBox41, 
+                textBox42, textBox43, textBox44, textBox45, textBox46, textBox47, textBox48,
+                textBox49, textBox50, textBox51, textBox52, textBox53 };
+
+
+            masInLabel = new Label[] { label4, label5, label11, label12, label13, label14, label15,
+                label16, label17, label18, label19, label20, label21, label22, label23, label24,
+                label25, label26, label27, label28, label29, label30, label31, label32, label33,
+                label34, label35, label36, label37, label38, label39, label40};
+
+            masOutLabel = new Label[] { label41, label42, label43, label44, label45, label46,
+                label47, label48, label49, label50, label51, label52, label53, label54, label55, label56 };
         }
 
         private void updateGraphicHandler(object parameters)
@@ -601,11 +460,11 @@ namespace VisualizationSystem.View.UserControls
         private int graphic_counter = 0;
         private int update_parameters_flag = 0;
         private int DefenceDiagramWorking = 0; //срабатывание защитной диаграммы
-        private RichTextBox[] masRichTextBox = new RichTextBox[24];//массив текстбоксов для вывода сигналов цунтральной части экрана
-        private TextBox[] masInTextBox = new TextBox[32];//массив текстбоксов для вывода входных сигналов АУЗИ-Д
-        private Label[] masInLabel = new Label[32];//массив лейблов для вывода входных сигналов АУЗИ-Д
-        private TextBox[] masOutTextBox = new TextBox[16];//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
-        private Label[] masOutLabel = new Label[16];//массив лейблов для вывода выходных сигналов АУЗИ-Д
+        private RichTextBox[] masRichTextBox;//массив текстбоксов для вывода сигналов цунтральной части экрана
+        private TextBox[] masInTextBox;//массив текстбоксов для вывода входных сигналов АУЗИ-Д
+        private Label[] masInLabel;//массив лейблов для вывода входных сигналов АУЗИ-Д
+        private TextBox[] masOutTextBox;//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
+        private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
         private Thread updateGraphicThread;
 
     }

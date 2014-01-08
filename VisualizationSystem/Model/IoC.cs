@@ -43,7 +43,7 @@ namespace VisualizationSystem.Model
 
         public static void SetBindings()
         {
-            RegisterSingleton<IDataExchange, DataExchangeFile>();
+            RegisterSingleton<IDataExchange, DataExchangeCan>();
             RegisterSingleton<DataListener, DataListener>();
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();

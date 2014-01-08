@@ -16,7 +16,7 @@ namespace VisualizationSystem
         [STAThread]
         static void Main()
         {
-            Database.SetInitializer(new MineDbInitializer());
+            //Database.SetInitializer(new MineDbInitializer());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormStart());

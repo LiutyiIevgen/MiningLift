@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
@@ -68,21 +69,32 @@ namespace VisualizationSystem.View.UserControls.Setting
             byte[] data=null;
             try
             {
-                if (ReadDataFromParametersTable(index, 1) == "codtReal32")
+                if (subindex == 2) // you can write only value
                 {
-                    var nfi = new NumberFormatInfo();
-                    nfi.NumberDecimalSeparator = ".";
-                    string sf = ReadDataFromParametersTable(index, subindex);
-                    float f = float.Parse(sf, nfi);
-                    data = BitConverter.GetBytes(f);
-                }
-                else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
-                {
-                    string ssh = ReadDataFromParametersTable(index, subindex);
-                    short sh = short.Parse(ssh);
-                    data = BitConverter.GetBytes(sh);
-                }
-                IoC.Resolve<DataListener>().SetParameter((ushort) index, (byte) subindex, data);
+                    if (ReadDataFromParametersTable(index, 1) == "codtReal32")
+                    {
+                        var nfi = new NumberFormatInfo();
+                        nfi.NumberDecimalSeparator = ".";
+                        string sf = ReadDataFromParametersTable(index, subindex);
+                        float f = float.Parse(sf, nfi);
+                        data = BitConverter.GetBytes(f);
+                    }
+                    if (ReadDataFromParametersTable(index, 1) == "codtSInt24")
+                    {
+                        string ssh = ReadDataFromParametersTable(index, subindex);
+                        int sh = int.Parse(ssh);
+                        var listData = BitConverter.GetBytes(sh).ToList();
+                        listData.RemoveAt(listData.Count - 1);
+                        data = listData.ToArray();
+                    }
+                    else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
+                    {
+                        string ssh = ReadDataFromParametersTable(index, subindex);
+                        short sh = short.Parse(ssh);
+                        data = BitConverter.GetBytes(sh);
+                    }
+                    IoC.Resolve<DataListener>().SetParameter((ushort)index, (byte)subindex, data);
+                }               
             }
             catch (Exception)
             {
@@ -92,6 +104,18 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void UnloadParameter(int index,int subindex)//выгрузка
         {
+            switch (subindex)
+            {
+                case 2:
+                    subindex = (int)CanSubindexes.Value;
+                    break;
+                case 1:
+                    subindex = (int)CanSubindexes.Type;
+                    break;
+                case 0:
+                    subindex = (int) CanSubindexes.Name;
+                    break;
+            }
             IoC.Resolve<DataListener>().GetParameter((ushort)index, (byte)subindex);
         }
 
@@ -110,27 +134,52 @@ namespace VisualizationSystem.View.UserControls.Setting
                     });
                     continue;
                 }
-                if (canParameter.Data.Count() == 4)//real 32
+                switch (canParameter.ParameterSubIndex)
+                {
+                    case (byte)CanSubindexes.Value:
+                        ValueParser(canParameter);
+                        break;
+                    case (byte)CanSubindexes.Name:
+                        NamePareser(canParameter);
+                        break;
+                    case (byte)CanSubindexes.Type:
+                        TypeParser(canParameter);
+                        break;
+                }
+                CanParameter param = canParameter;
+                this.Invoke((MethodInvoker)delegate
+                    {
+                        AddLineToLog("Выгружен параметр с индексом " + "0x" +
+                            Convert.ToString(param.ParameterId, 16) + ", address = " +
+                            Convert.ToString(param.ControllerId, 16));
+                    });  
+            }
+            
+        }
+
+        private void ValueParser(CanParameter canParameter)
+        {
+            if (canParameter.Data.Count() == 4)//real 32
                 {
                     float myFloat;
                     myFloat = System.BitConverter.ToSingle(canParameter.Data, 0);
                     var nfi = new NumberFormatInfo();
                     nfi.NumberDecimalSeparator = ".";
                     string strData = myFloat.ToString(nfi);
-                    WriteDataToParametersTable(canParameter.ParameterId, strData);
+                    WriteDataToParametersTable(canParameter.ParameterId,2, strData);
                 }
                 else if (canParameter.Data.Count() == 2)//sint16
                 {
                     short myShort;
                     myShort = BitConverter.ToInt16(canParameter.Data, 0);
-                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
+                    WriteDataToParametersTable(canParameter.ParameterId,2, myShort.ToString());
                 }
                 else if (canParameter.Data.Count() == 3) //sint24
                 {
                     int myShort;
                     myShort = (canParameter.Data[0] << 8) + (canParameter.Data[1] << 16) + (canParameter.Data[2] << 24);
                     myShort /= 256;
-                    WriteDataToParametersTable(canParameter.ParameterId, myShort.ToString());
+                    WriteDataToParametersTable(canParameter.ParameterId,2, myShort.ToString());
                 }
                 else //codtDomain
                 {
@@ -148,15 +197,34 @@ namespace VisualizationSystem.View.UserControls.Setting
                         formDomain.Show();
                     });  
                 }
-                CanParameter param = canParameter;
-                this.Invoke((MethodInvoker)delegate
-                    {
-                        AddLineToLog("Выгружен параметр с индексом " + "0x" +
-                            Convert.ToString(param.ParameterId, 16) + ", address = " +
-                            Convert.ToString(param.ControllerId, 16));
-                    });  
+        }
+
+        private void NamePareser(CanParameter canParameter)
+        {
+            Encoding ansiCyrillic = Encoding.GetEncoding(1251);
+            string name = ansiCyrillic.GetString(canParameter.Data, 0, canParameter.Data.Count());
+            WriteDataToParametersTable(canParameter.ParameterId, 0, name);
+        }
+
+        private void TypeParser(CanParameter canParameter)
+        {
+            short myShort;
+            myShort = BitConverter.ToInt16(canParameter.Data, 0);
+            switch (myShort)
+            {
+                case 0x10:
+                    WriteDataToParametersTable(canParameter.ParameterId, 1, "codtSInt24");
+                    break;
+                case 0xF:
+                    WriteDataToParametersTable(canParameter.ParameterId, 1, "codtDomain");
+                    break;
+                case 8:
+                    WriteDataToParametersTable(canParameter.ParameterId,1,"codtReal32");
+                    break;
+                case 3:
+                    WriteDataToParametersTable(canParameter.ParameterId, 1, "codtSInt16");
+                    break;
             }
-            
         }
 
         private void AddLineToLog(string text)
@@ -166,9 +234,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             ParamLog.ScrollToCaret(); //Now scroll it automatically
         }
 
-        private void WriteDataToParametersTable(int index, string value)
+        private void WriteDataToParametersTable(int index, byte subindex, string value)
         {
-            dataGridViewVariableParameters[4, index - startIndex].Value = value;
+            dataGridViewVariableParameters[2+subindex, index - startIndex].Value = value;
         }
 
         private string ReadDataFromParametersTable(int index, int subindex)

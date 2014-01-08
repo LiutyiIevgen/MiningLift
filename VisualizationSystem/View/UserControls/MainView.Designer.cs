@@ -1,4 +1,6 @@
-﻿using VisualizationSystem.Model;
+﻿using System.Drawing;
+using System.Windows.Forms;
+using VisualizationSystem.Model;
 
 namespace VisualizationSystem.View.UserControls
 {
@@ -2976,7 +2978,42 @@ namespace VisualizationSystem.View.UserControls
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // MainView
-            // 
+            //
+            label3.ForeColor = Color.FromArgb(150, 0, 255, 0);
+            label7.ForeColor = Color.FromArgb(150, 255, 165, 0);
+            label10.ForeColor = Color.FromArgb(125, 255, 255, 0);
+            textBox3.ForeColor = Color.FromArgb(150, 0, 255, 0);
+            textBox4.ForeColor = Color.FromArgb(150, 255, 165, 0);
+            textBox5.ForeColor = Color.FromArgb(125, 255, 255, 0);
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox7.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox8.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox9.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox10.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox11.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox12.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox13.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox14.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox15.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox16.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox17.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox18.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox19.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox20.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox21.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox22.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox23.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox24.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox25.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox26.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox27.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox28.SelectionAlignment = HorizontalAlignment.Center;
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
