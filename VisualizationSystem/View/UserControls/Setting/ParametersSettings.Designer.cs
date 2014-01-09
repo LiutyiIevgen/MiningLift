@@ -48,9 +48,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.unloadAll = new System.Windows.Forms.ToolStripButton();
-            this.DeleteRowButton = new System.Windows.Forms.Button();
-
             this.loadAll = new System.Windows.Forms.ToolStripButton();
+            this.DeleteRowButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -180,7 +179,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButtonOpen,
             this.unloadAll,
             this.loadAll});
-
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(758, 25);
@@ -217,6 +215,16 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.unloadAll.Text = "Выгрузить все";
             this.unloadAll.Click += new System.EventHandler(this.unloadAll_Click);
             // 
+            // loadAll
+            // 
+            this.loadAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.loadAll.Image = ((System.Drawing.Image)(resources.GetObject("loadAll.Image")));
+            this.loadAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.loadAll.Name = "loadAll";
+            this.loadAll.Size = new System.Drawing.Size(23, 22);
+            this.loadAll.Text = "загрузить все";
+            this.loadAll.Click += new System.EventHandler(this.loadAll_Click);
+            // 
             // DeleteRowButton
             // 
             this.DeleteRowButton.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
@@ -231,18 +239,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.DeleteRowButton.Text = "Удалить";
             this.DeleteRowButton.UseVisualStyleBackColor = false;
             this.DeleteRowButton.Click += new System.EventHandler(this.DeleteRowButton_Click);
-
-            // 
-            // loadAll
-            // 
-            this.loadAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.loadAll.Image = ((System.Drawing.Image)(resources.GetObject("loadAll.Image")));
-            this.loadAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.loadAll.Name = "loadAll";
-            this.loadAll.Size = new System.Drawing.Size(23, 22);
-            this.loadAll.Text = "загрузить все";
-            this.loadAll.Click += new System.EventHandler(this.loadAll_Click);
-
             // 
             // ParametersSettings
             // 

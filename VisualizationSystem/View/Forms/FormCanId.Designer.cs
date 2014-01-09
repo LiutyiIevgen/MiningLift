@@ -35,11 +35,11 @@
             // 
             // buttonAddress
             // 
-            this.buttonAddress.BackColor = System.Drawing.Color.RoyalBlue;
+            this.buttonAddress.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.buttonAddress.FlatAppearance.BorderSize = 0;
             this.buttonAddress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonAddress.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddress.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonAddress.ForeColor = System.Drawing.Color.Silver;
             this.buttonAddress.Location = new System.Drawing.Point(60, 90);
             this.buttonAddress.Name = "buttonAddress";
             this.buttonAddress.Size = new System.Drawing.Size(57, 31);
@@ -50,7 +50,7 @@
             // 
             // textBoxAddress
             // 
-            this.textBoxAddress.BackColor = System.Drawing.Color.White;
+            this.textBoxAddress.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBoxAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxAddress.Location = new System.Drawing.Point(39, 47);
             this.textBoxAddress.Name = "textBoxAddress";
@@ -62,6 +62,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(23, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 22);
@@ -72,7 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(174, 138);
             this.Controls.Add(this.buttonAddress);
             this.Controls.Add(this.textBoxAddress);
