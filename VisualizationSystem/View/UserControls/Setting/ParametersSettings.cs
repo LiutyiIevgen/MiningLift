@@ -27,21 +27,25 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void ParametersSettings_Load(object sender, EventArgs e)
         {
-            //List<ParametersSettingsData> parametersSettingsDatas = new List<ParametersSettingsData>();
-            //parametersSettingsDatas = parametersSettingsVm.ReadFromFile("c:\\Users\\Женя\\Documents\\Work\\MiningLift\\ParametersFiles\\param2.prm");
-            //parametersSettingsVm.WriteToFile("c:\\Users\\Женя\\Documents\\Work\\MiningLift\\ParametersFiles\\param1.prm", parametersSettingsDatas);
             InitData();
             ParamLog.Clear();
         }
 
         private void InitData()
         {
-            _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+            try
+            {
+                _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+            }
+            catch (Exception)
+            {
+                OpenFileFunction();
+            }
             dataGridViewVariableParameters.RowCount = _parametersSettingsDatas.Count;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 dataGridViewVariableParameters[0, i].Value = i;
-                dataGridViewVariableParameters[1, i].Value = _parametersSettingsDatas[i].Id;
+                dataGridViewVariableParameters[1, i].Value = "0x"+Convert.ToString(_parametersSettingsDatas[i].Id, 16);
                 dataGridViewVariableParameters[2, i].Value = _parametersSettingsDatas[i].Name;
                 dataGridViewVariableParameters[3, i].Value = _parametersSettingsDatas[i].Type;
                 dataGridViewVariableParameters[4, i].Value = _parametersSettingsDatas[i].Value;
@@ -240,7 +244,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
-                _parametersSettingsDatas[i].Id = int.Parse(dataGridViewVariableParameters[1, i].Value.ToString());
+                _parametersSettingsDatas[i].Id = Convert.ToInt32(dataGridViewVariableParameters[1, i].Value.ToString().Substring(2), 16);
                 _parametersSettingsDatas[i].Name = dataGridViewVariableParameters[2, i].Value.ToString();
                 _parametersSettingsDatas[i].Type = dataGridViewVariableParameters[3, i].Value.ToString();
                 _parametersSettingsDatas[i].Value = dataGridViewVariableParameters[4, i].Value.ToString();
@@ -259,6 +263,20 @@ namespace VisualizationSystem.View.UserControls.Setting
             return value;
         }
 
+        private void OpenFileFunction()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = @"prm files (*.prm)|*.prm";
+            string dir = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            dir = dir.Substring(0, dir.LastIndexOf('\\'));
+            openFileDialog1.InitialDirectory = dir;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName = openFileDialog1.FileName;
+                InitData();
+            }
+        }
+
         #region Handlers
       
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -267,25 +285,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow, _parametersSettingsDatas);
             f4.ShowDialog();
             f4.Dispose();
-        }
-
-        private void ApplyButton_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = @"prm files (*.prm)|*.prm";
-            string dir = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
-            dir = dir.Substring(0, dir.LastIndexOf('\\'));
-            string name = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
-            name = name.Substring(name.LastIndexOf('\\') + 1, name.Length - name.LastIndexOf('\\') - 1);
-            saveFileDialog.FileName = name;
-            saveFileDialog.InitialDirectory = dir;
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName = saveFileDialog.FileName;
-                SaveParametersData();
-                _parametersSettingsVm.WriteToFile(saveFileDialog.FileName, _parametersSettingsDatas);
-            }
-            AddLineToLog("Текущие названия и значения параметров сохранены ");
         }
 
         private void AddRowButton_Click(object sender, EventArgs e)
@@ -370,6 +369,30 @@ namespace VisualizationSystem.View.UserControls.Setting
                 AddLineToLog("Удалён параметр с индексом " + "0x" +
                              Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
             }
+        }
+
+        private void toolStripButtonSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = @"prm files (*.prm)|*.prm";
+            string dir = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            dir = dir.Substring(0, dir.LastIndexOf('\\'));
+            string name = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            name = name.Substring(name.LastIndexOf('\\') + 1, name.Length - name.LastIndexOf('\\') - 1);
+            saveFileDialog.FileName = name;
+            saveFileDialog.InitialDirectory = dir;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName = saveFileDialog.FileName;
+                SaveParametersData();
+                _parametersSettingsVm.WriteToFile(saveFileDialog.FileName, _parametersSettingsDatas);
+            }
+            AddLineToLog("Текущие названия и значения параметров сохранены ");
+        }
+
+        private void toolStripButtonOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileFunction();
         }
 
         #endregion

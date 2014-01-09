@@ -15,8 +15,8 @@ namespace VisualizationSystem.ViewModel
         public List<ParametersSettingsData> ReadFromFile(string path)
         {
             List<ParametersSettingsData> parametersSettingsDatas = new List<ParametersSettingsData>();
-            try
-            {
+           // try
+           // {
                 string Line;
                 string[] strArr;
                 //char[] charArr = new char[] { '' };
@@ -79,8 +79,8 @@ namespace VisualizationSystem.ViewModel
                     //k++;
                 }
                 sr.Close();
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            //}
+           // catch (Exception ex) { MessageBox.Show(ex.Message); }
             return parametersSettingsDatas;
         }
 

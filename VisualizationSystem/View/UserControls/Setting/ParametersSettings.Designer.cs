@@ -31,6 +31,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParametersSettings));
             this.dataGridViewVariableParameters = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,13 +43,14 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRowButton = new System.Windows.Forms.Button();
-            this.ApplyButton = new System.Windows.Forms.Button();
             this.ParamLog = new System.Windows.Forms.RichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.DeleteRowButton = new System.Windows.Forms.Button();
-
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewVariableParameters
@@ -149,28 +151,13 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.AddRowButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddRowButton.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddRowButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.AddRowButton.Location = new System.Drawing.Point(487, 402);
+            this.AddRowButton.Location = new System.Drawing.Point(623, 402);
             this.AddRowButton.Name = "AddRowButton";
             this.AddRowButton.Size = new System.Drawing.Size(113, 34);
             this.AddRowButton.TabIndex = 2;
             this.AddRowButton.Text = "Добавить";
             this.AddRowButton.UseVisualStyleBackColor = false;
             this.AddRowButton.Click += new System.EventHandler(this.AddRowButton_Click);
-            // 
-            // ApplyButton
-            // 
-            this.ApplyButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ApplyButton.FlatAppearance.BorderSize = 0;
-            this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ApplyButton.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ApplyButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.ApplyButton.Location = new System.Drawing.Point(606, 402);
-            this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(133, 34);
-            this.ApplyButton.TabIndex = 3;
-            this.ApplyButton.Text = "Сохранить";
-            this.ApplyButton.UseVisualStyleBackColor = false;
-            this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
             // ParamLog
             // 
@@ -183,11 +170,34 @@ namespace VisualizationSystem.View.UserControls.Setting
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonSave,
+            this.toolStripButtonOpen});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(758, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonSave
+            // 
+            this.toolStripButtonSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSave.Image")));
+            this.toolStripButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSave.Name = "toolStripButtonSave";
+            this.toolStripButtonSave.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSave.Text = "Сохранить";
+            this.toolStripButtonSave.Click += new System.EventHandler(this.toolStripButtonSave_Click);
+            // 
+            // toolStripButtonOpen
+            // 
+            this.toolStripButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOpen.Image")));
+            this.toolStripButtonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpen.Name = "toolStripButtonOpen";
+            this.toolStripButtonOpen.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonOpen.Text = "Открыть";
+            this.toolStripButtonOpen.Click += new System.EventHandler(this.toolStripButtonOpen_Click);
             // 
             // DeleteRowButton
             // 
@@ -196,7 +206,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.DeleteRowButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteRowButton.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DeleteRowButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.DeleteRowButton.Location = new System.Drawing.Point(368, 402);
+            this.DeleteRowButton.Location = new System.Drawing.Point(504, 402);
             this.DeleteRowButton.Name = "DeleteRowButton";
             this.DeleteRowButton.Size = new System.Drawing.Size(113, 34);
             this.DeleteRowButton.TabIndex = 6;
@@ -204,7 +214,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.DeleteRowButton.UseVisualStyleBackColor = false;
             this.DeleteRowButton.Click += new System.EventHandler(this.DeleteRowButton_Click);
             // 
-
             // ParametersSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +222,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.Controls.Add(this.DeleteRowButton);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.ParamLog);
-            this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.AddRowButton);
             this.Controls.Add(this.dataGridViewVariableParameters);
             this.Name = "ParametersSettings";
@@ -221,6 +229,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.Load += new System.EventHandler(this.ParametersSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,7 +240,6 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private System.Windows.Forms.DataGridView dataGridViewVariableParameters;
         private System.Windows.Forms.Button AddRowButton;
-        private System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItem2;
@@ -243,5 +252,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         private DataGridViewTextBoxColumn Column5;
         private DataGridViewTextBoxColumn Column4;
         private Button DeleteRowButton;
+        private ToolStripButton toolStripButtonSave;
+        private ToolStripButton toolStripButtonOpen;
     }
 }
