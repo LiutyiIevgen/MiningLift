@@ -48,6 +48,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.DeleteRowButton = new System.Windows.Forms.Button();
+            this.unloadAll = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -172,7 +173,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonSave,
-            this.toolStripButtonOpen});
+            this.toolStripButtonOpen, this.unloadAll});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(758, 25);
@@ -213,6 +214,16 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.DeleteRowButton.Text = "Удалить";
             this.DeleteRowButton.UseVisualStyleBackColor = false;
             this.DeleteRowButton.Click += new System.EventHandler(this.DeleteRowButton_Click);
+            //
+            // unloadAll
+            // 
+            this.unloadAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.unloadAll.Image = ((System.Drawing.Image)(resources.GetObject("unloadAll.Image")));
+            this.unloadAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.unloadAll.Name = "unloadAll";
+            this.unloadAll.Size = new System.Drawing.Size(23, 22);
+            this.unloadAll.Text = "Выгрузить все";
+            this.unloadAll.Click += new System.EventHandler(this.unloadAll_Click);
             // 
             // ParametersSettings
             // 
@@ -254,5 +265,6 @@ namespace VisualizationSystem.View.UserControls.Setting
         private Button DeleteRowButton;
         private ToolStripButton toolStripButtonSave;
         private ToolStripButton toolStripButtonOpen;
+        private ToolStripButton unloadAll;
     }
 }

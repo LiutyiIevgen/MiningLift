@@ -40,11 +40,12 @@ namespace VisualizationSystem.View.Forms.Setting
             MakeGraphic();
         }
 
-        public FormCodtDomainSettings(int index, List<string> data)
+        public FormCodtDomainSettings(int index, List<string> data, List<ParametersSettingsData> parametersSettings)
         {
             InitializeComponent();
-            //this.Text = "0x" + Convert.ToString(index, 16) + "  " + IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName[index - startIndex];
-            //_index = index;
+            _parametersSettings = parametersSettings;
+            this.Text = "0x" + Convert.ToString(index, 16) + "  " + parametersSettings[index - startIndex].Name;
+            _index = index;
             LoadDataFromController(data);
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
@@ -36,11 +37,18 @@ namespace VisualizationSystem.View.UserControls.Setting
             try
             {
                 _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+                RefreshGrid();
             }
             catch (Exception)
             {
                 OpenFileFunction();
             }
+            
+            // CalculateParameters();
+        }
+
+        private void RefreshGrid()
+        {
             dataGridViewVariableParameters.RowCount = _parametersSettingsDatas.Count;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
@@ -50,25 +58,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 dataGridViewVariableParameters[3, i].Value = _parametersSettingsDatas[i].Type;
                 dataGridViewVariableParameters[4, i].Value = _parametersSettingsDatas[i].Value;
             }
-           // CalculateParameters();
-        }   
-
-        private void CalculateParameters()
-        {
-            calculatedWayVeightAndEquipment = Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
-            calculatedWayVeightAndEquipment += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
-            calculatedWayVeightAndEquipment += (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 4].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 11].Value, CultureInfo.GetCultureInfo("en-US")));
-            //dataGridViewReadOnlyParameters[3, 0].Value = Math.Round(calculatedWayVeightAndEquipment, 2);
-            calculatedWayPeople = Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) * (Convert.ToDouble(dataGridViewVariableParameters[4, 7].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")));
-            calculatedWayPeople += Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US")) * Convert.ToDouble(dataGridViewVariableParameters[4, 8].Value, CultureInfo.GetCultureInfo("en-US")) / 2;
-            calculatedWayPeople += (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) * (Convert.ToDouble(dataGridViewVariableParameters[4, 5].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 15].Value, CultureInfo.GetCultureInfo("en-US"))) / (2 * Convert.ToDouble(dataGridViewVariableParameters[4, 12].Value, CultureInfo.GetCultureInfo("en-US")));
-            //dataGridViewReadOnlyParameters[3, 1].Value = Math.Round(calculatedWayPeople, 2);
-            dotWayVeightAndEquipment = calculatedWayVeightAndEquipment + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            //dataGridViewReadOnlyParameters[3, 2].Value = Math.Round(dotWayVeightAndEquipment, 2);
-            dotWayPeople = calculatedWayPeople + Convert.ToDouble(dataGridViewVariableParameters[4, 9].Value, CultureInfo.GetCultureInfo("en-US")) + Convert.ToDouble(dataGridViewVariableParameters[4, 10].Value, CultureInfo.GetCultureInfo("en-US"));
-            //dataGridViewReadOnlyParameters[3, 3].Value = Math.Round(dotWayPeople, 2);
-            AddLineToLog("Расчётные параметры пересчитаны ");
-        }  
+        }
 
         private void LoadParameter(int index, int subindex) //загрузка
         {
@@ -108,7 +98,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
-        private void UnloadParameter(int index,int subindex)//выгрузка
+        private void UnloadParameter(ushort? controllerId, int index,int subindex)//выгрузка
         {
             switch (subindex)
             {
@@ -122,7 +112,44 @@ namespace VisualizationSystem.View.UserControls.Setting
                     subindex = (int) CanSubindexes.Name;
                     break;
             }
-            IoC.Resolve<DataListener>().GetParameter((ushort)index, (byte)subindex);
+            if (controllerId == null) //get Id from user
+            {
+                var dialog = new FormCanId {StartPosition = FormStartPosition.CenterScreen};
+                dialog.ShowDialog();
+                ushort id;
+                ushort.TryParse(dialog.textBoxAddress.Text, out id);
+                controllerId = id;
+            }
+            IoC.Resolve<DataListener>().GetParameter((ushort)controllerId, (ushort)index, (byte)subindex);
+        }
+
+        private void UnloadAllParameters()
+        {
+            var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
+            dialog.ShowDialog();
+            ushort controllerId;
+            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
+            int i = 0;
+            if (_parametersSettingsDatas!=null)
+                _parametersSettingsDatas.Clear();
+            else
+                _parametersSettingsDatas = new List<ParametersSettingsData>();
+            int index = startIndex;
+            while (i < 92)
+            {
+                _parametersSettingsDatas.Add(new ParametersSettingsData());
+                for (int j = 0; j < 3; j++)
+                {
+                    _isUnloaded = false;
+                    UnloadParameter(controllerId, index, j);
+                    while (!_isUnloaded)
+                    {
+                        Thread.Sleep(10);
+                    }
+                }
+                index++;
+                i++;
+            }
         }
 
         private void ParameterReceive(List<CanParameter> parametersList)
@@ -144,21 +171,19 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     case (byte)CanSubindexes.Value:
                         ValueParser(canParameter);
+                        _isUnloaded = true;
                         break;
                     case (byte)CanSubindexes.Name:
                         NamePareser(canParameter);
+                        _isUnloaded = true;
                         break;
                     case (byte)CanSubindexes.Type:
                         TypeParser(canParameter);
+                        _isUnloaded = true;
                         break;
                 }
-                CanParameter param = canParameter;
-                this.Invoke((MethodInvoker)delegate
-                    {
-                        AddLineToLog("Выгружен параметр с индексом " + "0x" +
-                            Convert.ToString(param.ParameterId, 16) + ", address = " +
-                            Convert.ToString(param.ControllerId, 16));
-                    });  
+                
+                
             }
             
         }
@@ -189,20 +214,31 @@ namespace VisualizationSystem.View.UserControls.Setting
                 }
                 else //codtDomain
                 {
-                    var dataList = new List<string>();
                     int i = 0;
+                    var codtDomainDatas = new CodtDomainData[20];
                     while (i < 20)
-                    {
-                        dataList.Add(BitConverter.ToInt32(canParameter.Data, i*6).ToString());
-                        dataList.Add(BitConverter.ToInt16(canParameter.Data, i*6 + 4).ToString());
+                    {  
+                        codtDomainDatas[i] = new CodtDomainData()
+                        {
+                            Coordinate = BitConverter.ToInt32(canParameter.Data, i * 6),
+                            Speed = BitConverter.ToInt16(canParameter.Data, i * 6 + 4)
+                        };
                         i++;
                     }
+                    _parametersSettingsDatas[canParameter.ParameterId - startIndex].CodtDomainArray = codtDomainDatas;
                     this.Invoke((MethodInvoker)delegate
                     {
-                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, dataList);
+                        WriteDataToParametersTable(canParameter.ParameterId, 2, "Двоичные данные");
+                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, _parametersSettingsDatas);
                         formDomain.Show();
                     });  
                 }
+            this.Invoke((MethodInvoker)delegate
+            {
+                AddLineToLog("Выгружено значение параметра с индексом " + "0x" +
+                    Convert.ToString(canParameter.ParameterId, 16) + ", address = " +
+                    Convert.ToString(canParameter.ControllerId, 16));
+            });
         }
 
         private void NamePareser(CanParameter canParameter)
@@ -210,6 +246,12 @@ namespace VisualizationSystem.View.UserControls.Setting
             Encoding ansiCyrillic = Encoding.GetEncoding(1251);
             string name = ansiCyrillic.GetString(canParameter.Data, 0, canParameter.Data.Count());
             WriteDataToParametersTable(canParameter.ParameterId, 0, name);
+            this.Invoke((MethodInvoker)delegate
+            {
+                AddLineToLog("Выгружено имя параметра с индексом " + "0x" +
+                    Convert.ToString(canParameter.ParameterId, 16) + ", address = " +
+                    Convert.ToString(canParameter.ControllerId, 16));
+            });
         }
 
         private void TypeParser(CanParameter canParameter)
@@ -230,7 +272,16 @@ namespace VisualizationSystem.View.UserControls.Setting
                 case 3:
                     WriteDataToParametersTable(canParameter.ParameterId, 1, "codtSInt16");
                     break;
+                case 6:
+                    WriteDataToParametersTable(canParameter.ParameterId, 1, "codtSInt16");
+                    break;
             }
+            this.Invoke((MethodInvoker)delegate
+            {
+                AddLineToLog("Выгружен тип параметра с индексом " + "0x" +
+                    Convert.ToString(canParameter.ParameterId, 16) + ", address = " +
+                    Convert.ToString(canParameter.ControllerId, 16));
+            });
         }
 
         private void AddLineToLog(string text)
@@ -253,7 +304,20 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void WriteDataToParametersTable(int index, byte subindex, string value)
         {
-            dataGridViewVariableParameters[2+subindex, index - startIndex].Value = value;
+            this.Invoke((MethodInvoker) delegate
+            {
+                if ((index - startIndex) == dataGridViewVariableParameters.RowCount)
+                {
+                    dataGridViewVariableParameters.RowCount = dataGridViewVariableParameters.RowCount + 1;
+                    dataGridViewVariableParameters[0, index - startIndex].Value = Convert.ToString(index - startIndex);
+                    dataGridViewVariableParameters[1, index - startIndex].Value = "0x" + Convert.ToString(index, 16);
+                    dataGridViewVariableParameters[2, index - startIndex].Value = "";
+                    dataGridViewVariableParameters[3, index - startIndex].Value = "";
+                    dataGridViewVariableParameters[4, index - startIndex].Value = "";
+
+                }
+                dataGridViewVariableParameters[2 + subindex, index - startIndex].Value = value;
+            });
         }
 
         private string ReadDataFromParametersTable(int index, int subindex)
@@ -262,6 +326,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             value = dataGridViewVariableParameters[subindex + 2, index - startIndex].Value.ToString();
             return value;
         }
+
 
         private void OpenFileFunction()
         {
@@ -289,19 +354,10 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void AddRowButton_Click(object sender, EventArgs e)
         {
-            FormAddParameterSettings f5 = new FormAddParameterSettings();
+            FormAddParameterSettings f5 = new FormAddParameterSettings(_parametersSettingsDatas);
             f5.ShowDialog();
-            /*variableParametersCount++;
-            dataGridViewVariableParameters.RowCount = variableParametersCount;
-            dataGridViewVariableParameters[0, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
-            dataGridViewVariableParameters[1, dataGridViewVariableParameters.RowCount - 1].Value = "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16);
-            dataGridViewVariableParameters[2, dataGridViewVariableParameters.RowCount - 1].Value = dataGridViewVariableParameters.RowCount - 1;
-            dataGridViewVariableParameters[3, dataGridViewVariableParameters.RowCount - 1].Value = " ";
-            dataGridViewVariableParameters[4, dataGridViewVariableParameters.RowCount - 1].Value = 0; */
-            InitData();
+            RefreshGrid();
             AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
-            //f5.Closed += F5OnClosed;
-            //AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
         }
 
         private void dataGridViewVariableParameters_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -335,7 +391,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            UnloadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+            UnloadParameter(null,startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
         private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -364,8 +420,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             DialogResult result = MessageBox.Show("Вы действительно хотите удалить последний параметр?", "Удаление параметра", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
-                dataGridViewVariableParameters.RowCount = dataGridViewVariableParameters.RowCount - 1;
-                InitData();
+                _parametersSettingsDatas.RemoveAt(_parametersSettingsDatas.Count-1);
+                RefreshGrid();
                 AddLineToLog("Удалён параметр с индексом " + "0x" +
                              Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
             }
@@ -407,6 +463,13 @@ namespace VisualizationSystem.View.UserControls.Setting
         private int startIndex = 0x2001;
         private ParametersSettingsVm _parametersSettingsVm;
         private List<ParametersSettingsData> _parametersSettingsDatas;
+        private volatile bool _isUnloaded = false;
+
+        private void unloadAll_Click(object sender, EventArgs e)
+        {
+            Thread unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
+            unloadThread.Start();
+        }//use for automaticly unload all parameters
 
     }
 }

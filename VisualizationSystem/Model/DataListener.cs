@@ -23,15 +23,15 @@ namespace VisualizationSystem.Model
 
         public void Init(ReceiveHandler Function)
         {
-            /*_dataExchange.ReceiveEvent += Function;
+            _dataExchange.ReceiveEvent += Function;
             if(IoC.Resolve<MineConfig>().CanName.Contains("CAN"))
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName, 
                     IoC.Resolve<MineConfig>().CanSpeed, new AdvCANIO());
             else if (IoC.Resolve<MineConfig>().CanName.Contains("COM"))
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName,
-                    IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO());*/ 
+                    IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO());
             //_dataExchange.StartExchange("COM7",50, new ComCANIO());
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
         }
 
@@ -40,14 +40,9 @@ namespace VisualizationSystem.Model
             _dataExchange.ParameterReceive += receiveFunction;
         }
 
-        public bool GetParameter(ushort parameterId, byte subindex)
+        public bool GetParameter(ushort controllerId, ushort parameterId, byte subindex)
         {
-            var dialog = new FormCanId {StartPosition = FormStartPosition.CenterScreen};
-            dialog.ShowDialog();
-            ushort value;
-            if(ushort.TryParse(dialog.textBoxAddress.Text, out value))
-                return _dataExchange.GetParameter(value, parameterId, subindex);
-            return false;
+            return _dataExchange.GetParameter(controllerId, parameterId, subindex);
         }
 
         public bool SetParameter(ushort parameterId, byte subindex, byte[] data)
