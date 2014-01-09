@@ -43,7 +43,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -91,11 +91,11 @@
             // 
             // buttonApply
             // 
-            this.buttonApply.BackColor = System.Drawing.Color.RoyalBlue;
+            this.buttonApply.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.buttonApply.FlatAppearance.BorderSize = 0;
             this.buttonApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonApply.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonApply.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonApply.ForeColor = System.Drawing.Color.Silver;
             this.buttonApply.Location = new System.Drawing.Point(574, 494);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(127, 40);
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.dataGridView1);
             this.Name = "AuziDSettings";

@@ -39,6 +39,8 @@
             this.DefenceDiagramButton = new System.Windows.Forms.Button();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.CanSettingsButton = new System.Windows.Forms.Button();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.DebugParametersButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -62,7 +64,11 @@
             this.splitContainer5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
+            this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -106,13 +112,14 @@
             // 
             // MainViewSettingsButton
             // 
-            this.MainViewSettingsButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.MainViewSettingsButton.BackColor = System.Drawing.Color.Silver;
             this.MainViewSettingsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MainViewSettingsButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainViewSettingsButton.FlatAppearance.BorderSize = 0;
             this.MainViewSettingsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainViewSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.MainViewSettingsButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MainViewSettingsButton.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.MainViewSettingsButton.Location = new System.Drawing.Point(0, 0);
             this.MainViewSettingsButton.Name = "MainViewSettingsButton";
             this.MainViewSettingsButton.Size = new System.Drawing.Size(218, 66);
@@ -144,13 +151,14 @@
             // 
             // AuziDButton
             // 
-            this.AuziDButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.AuziDButton.BackColor = System.Drawing.Color.Silver;
             this.AuziDButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AuziDButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AuziDButton.FlatAppearance.BorderSize = 0;
             this.AuziDButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.AuziDButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AuziDButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AuziDButton.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.AuziDButton.Location = new System.Drawing.Point(0, 0);
             this.AuziDButton.Name = "AuziDButton";
             this.AuziDButton.Size = new System.Drawing.Size(218, 66);
@@ -181,13 +189,14 @@
             // 
             // ParametersButton
             // 
-            this.ParametersButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.ParametersButton.BackColor = System.Drawing.Color.Silver;
             this.ParametersButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ParametersButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ParametersButton.FlatAppearance.BorderSize = 0;
             this.ParametersButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.ParametersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ParametersButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ParametersButton.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.ParametersButton.Location = new System.Drawing.Point(0, 0);
             this.ParametersButton.Name = "ParametersButton";
             this.ParametersButton.Size = new System.Drawing.Size(218, 66);
@@ -218,13 +227,14 @@
             // 
             // DefenceDiagramButton
             // 
-            this.DefenceDiagramButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.DefenceDiagramButton.BackColor = System.Drawing.Color.Silver;
             this.DefenceDiagramButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DefenceDiagramButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DefenceDiagramButton.FlatAppearance.BorderSize = 0;
             this.DefenceDiagramButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.DefenceDiagramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DefenceDiagramButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DefenceDiagramButton.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.DefenceDiagramButton.Location = new System.Drawing.Point(0, 0);
             this.DefenceDiagramButton.Name = "DefenceDiagramButton";
             this.DefenceDiagramButton.Size = new System.Drawing.Size(218, 65);
@@ -243,6 +253,10 @@
             // splitContainer6.Panel1
             // 
             this.splitContainer6.Panel1.Controls.Add(this.CanSettingsButton);
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.splitContainer7);
             this.splitContainer6.Size = new System.Drawing.Size(218, 262);
             this.splitContainer6.SplitterDistance = 72;
             this.splitContainer6.TabIndex = 0;
@@ -250,20 +264,53 @@
             // 
             // CanSettingsButton
             // 
-            this.CanSettingsButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.CanSettingsButton.BackColor = System.Drawing.Color.Silver;
             this.CanSettingsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CanSettingsButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CanSettingsButton.FlatAppearance.BorderSize = 0;
             this.CanSettingsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.CanSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CanSettingsButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CanSettingsButton.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.CanSettingsButton.Location = new System.Drawing.Point(0, 0);
             this.CanSettingsButton.Name = "CanSettingsButton";
             this.CanSettingsButton.Size = new System.Drawing.Size(218, 72);
             this.CanSettingsButton.TabIndex = 4;
-            this.CanSettingsButton.Text = "Параметры CAN";
+            this.CanSettingsButton.Text = "Параметры обмена";
             this.CanSettingsButton.UseVisualStyleBackColor = false;
             this.CanSettingsButton.Click += new System.EventHandler(this.CanSettingsButton_Click);
+            // 
+            // splitContainer7
+            // 
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer7.Name = "splitContainer7";
+            this.splitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer7.Panel1
+            // 
+            this.splitContainer7.Panel1.Controls.Add(this.DebugParametersButton);
+            this.splitContainer7.Size = new System.Drawing.Size(218, 186);
+            this.splitContainer7.SplitterDistance = 72;
+            this.splitContainer7.TabIndex = 0;
+            // 
+            // DebugParametersButton
+            // 
+            this.DebugParametersButton.BackColor = System.Drawing.Color.Silver;
+            this.DebugParametersButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DebugParametersButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DebugParametersButton.FlatAppearance.BorderSize = 0;
+            this.DebugParametersButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.DebugParametersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DebugParametersButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DebugParametersButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.DebugParametersButton.Location = new System.Drawing.Point(0, 0);
+            this.DebugParametersButton.Name = "DebugParametersButton";
+            this.DebugParametersButton.Size = new System.Drawing.Size(218, 72);
+            this.DebugParametersButton.TabIndex = 5;
+            this.DebugParametersButton.Text = "Параметры отладки";
+            this.DebugParametersButton.UseVisualStyleBackColor = false;
+            this.DebugParametersButton.Click += new System.EventHandler(this.DebugParametersButton_Click);
             // 
             // panel1
             // 
@@ -308,8 +355,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
             this.splitContainer6.Panel1.ResumeLayout(false);
+            this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -328,5 +379,7 @@
         private System.Windows.Forms.Button DefenceDiagramButton;
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.Button CanSettingsButton;
+        private System.Windows.Forms.SplitContainer splitContainer7;
+        private System.Windows.Forms.Button DebugParametersButton;
     }
 }

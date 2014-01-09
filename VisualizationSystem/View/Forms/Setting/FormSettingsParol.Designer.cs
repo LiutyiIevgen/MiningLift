@@ -37,6 +37,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(146, 22);
@@ -45,7 +46,7 @@
             // 
             // textBoxSettingsParol
             // 
-            this.textBoxSettingsParol.BackColor = System.Drawing.Color.White;
+            this.textBoxSettingsParol.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBoxSettingsParol.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxSettingsParol.Location = new System.Drawing.Point(35, 46);
             this.textBoxSettingsParol.Name = "textBoxSettingsParol";
@@ -57,11 +58,11 @@
             // 
             // buttonSettingsParol
             // 
-            this.buttonSettingsParol.BackColor = System.Drawing.Color.RoyalBlue;
+            this.buttonSettingsParol.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.buttonSettingsParol.FlatAppearance.BorderSize = 0;
             this.buttonSettingsParol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSettingsParol.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSettingsParol.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonSettingsParol.ForeColor = System.Drawing.Color.Silver;
             this.buttonSettingsParol.Location = new System.Drawing.Point(60, 80);
             this.buttonSettingsParol.Name = "buttonSettingsParol";
             this.buttonSettingsParol.Size = new System.Drawing.Size(57, 31);
@@ -74,7 +75,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(175, 117);
             this.Controls.Add(this.buttonSettingsParol);
             this.Controls.Add(this.textBoxSettingsParol);

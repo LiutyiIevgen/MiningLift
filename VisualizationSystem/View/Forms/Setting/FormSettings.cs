@@ -12,15 +12,17 @@ namespace VisualizationSystem.View.Forms.Setting
         ParametersSettings _parametersSettings = new ParametersSettings();
         DefenceDiagramSettings _defenceDiagramSettings;
         CanSettings _canSettings = new CanSettings();
+        DebugParametersSettings _debugParametersSettings = new DebugParametersSettings();
         public FormSettings()
         {
             InitializeComponent();
             //start
-            AuziDButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = Color.Gainsboro;
-            MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            MainViewSettingsButton.BackColor = SystemColors.ControlDark;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_mainViewSettings);
@@ -32,11 +34,12 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void MainViewSettingsButton_Click(object sender, EventArgs e)
         {
-            AuziDButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = Color.Gainsboro;
-            MainViewSettingsButton.BackColor = SystemColors.ActiveCaption;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            MainViewSettingsButton.BackColor = SystemColors.ControlDark;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_mainViewSettings);
@@ -44,11 +47,12 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void AuziDButton_Click(object sender, EventArgs e)
         {
-            MainViewSettingsButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = Color.Gainsboro;
-            AuziDButton.BackColor = SystemColors.ActiveCaption;
+            MainViewSettingsButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = SystemColors.ControlDark;
             _auziDSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_auziDSettings);
@@ -56,11 +60,12 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void ParametersButton_Click(object sender, EventArgs e)
         {
-            MainViewSettingsButton.BackColor = Color.Gainsboro;
-            AuziDButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = SystemColors.ActiveCaption;
+            MainViewSettingsButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = SystemColors.ControlDark;
             _parametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_parametersSettings);
@@ -68,11 +73,12 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void DefenceDiagramButton_Click(object sender, EventArgs e)
         {
-            MainViewSettingsButton.BackColor = Color.Gainsboro;
-            AuziDButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = SystemColors.ActiveCaption;
+            MainViewSettingsButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = SystemColors.ControlDark;
            /* _defenceDiagramSettings = new DefenceDiagramSettings();
             _defenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -81,14 +87,28 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void CanSettingsButton_Click(object sender, EventArgs e)
         {
-            MainViewSettingsButton.BackColor = Color.Gainsboro;
-            AuziDButton.BackColor = Color.Gainsboro;
-            ParametersButton.BackColor = Color.Gainsboro;
-            DefenceDiagramButton.BackColor = Color.Gainsboro;
-            CanSettingsButton.BackColor = SystemColors.ActiveCaption;
+            MainViewSettingsButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = SystemColors.ControlDark;
             _canSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_canSettings);
+        }
+
+        private void DebugParametersButton_Click(object sender, EventArgs e)
+        {
+            MainViewSettingsButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = SystemColors.ControlDark;
+            _debugParametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Controls.Clear();
+            panel1.Controls.Add(_debugParametersSettings);
         }
 
 
