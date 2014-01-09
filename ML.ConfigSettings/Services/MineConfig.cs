@@ -29,6 +29,15 @@ namespace ML.ConfigSettings.Services
                 _config.Save(ConfigurationSaveMode.Modified);
             }
         }
+        public int LeadingController
+        {
+            get { return int.Parse(_config.AppSettings.Settings["LeadingController"].Value); }
+            set
+            {
+                _config.AppSettings.Settings["LeadingController"].Value = value.ToString();
+                _config.Save(ConfigurationSaveMode.Modified);
+            }
+        }
         private MainViewConfigSection _mainViewConfig;
         public MainViewConfigSection MainViewConfig
         {
