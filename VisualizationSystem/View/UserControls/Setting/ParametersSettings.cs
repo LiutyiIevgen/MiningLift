@@ -60,9 +60,17 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
-        private void LoadParameter(int index, int subindex) //загрузка
+        private void LoadParameter(ushort? controllerId, int index, int subindex) //загрузка
         {
-            byte[] data=null;
+            if (controllerId == null) //get Id from user
+            {
+                var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
+                dialog.ShowDialog();
+                ushort id;
+                ushort.TryParse(dialog.textBoxAddress.Text, out id);
+                controllerId = id;
+            }
+            List<byte> data=new List<byte>();
             try
             {
                 if (subindex == 2) // you can write only value
@@ -73,23 +81,39 @@ namespace VisualizationSystem.View.UserControls.Setting
                         nfi.NumberDecimalSeparator = ".";
                         string sf = ReadDataFromParametersTable(index, subindex);
                         float f = float.Parse(sf, nfi);
-                        data = BitConverter.GetBytes(f);
+                        data.AddRange(BitConverter.GetBytes(f));
                     }
-                    if (ReadDataFromParametersTable(index, 1) == "codtSInt24")
+                    else if (ReadDataFromParametersTable(index, 1) == "codtSInt24")
                     {
                         string ssh = ReadDataFromParametersTable(index, subindex);
                         int sh = int.Parse(ssh);
                         var listData = BitConverter.GetBytes(sh).ToList();
                         listData.RemoveAt(listData.Count - 1);
-                        data = listData.ToArray();
+                        data.AddRange(listData.ToArray());
                     }
                     else if (ReadDataFromParametersTable(index, 1) == "codtSInt16")
                     {
                         string ssh = ReadDataFromParametersTable(index, subindex);
                         short sh = short.Parse(ssh);
-                        data = BitConverter.GetBytes(sh);
+                        data.AddRange(BitConverter.GetBytes(sh));
                     }
-                    IoC.Resolve<DataListener>().SetParameter((ushort)index, (byte)subindex, data);
+                    else if (ReadDataFromParametersTable(index, 1) == "codtDomain")
+                    {
+                        var codtDomainArray = _parametersSettingsDatas[index - startIndex].CodtDomainArray;
+                        for (int i = 0; i < codtDomainArray.Count(); i++)
+                        {
+                            string firstParamStr = codtDomainArray[i].Coordinate.ToString();
+                            int firstParam = int.Parse(firstParamStr);
+                            byte[] firstBytes = BitConverter.GetBytes(firstParam);
+                            data.AddRange(firstBytes);
+
+                            string secondParamStr = codtDomainArray[i].Speed.ToString();
+                            short secondParam = short.Parse(secondParamStr);
+                            byte[] secondBytes = BitConverter.GetBytes(secondParam);
+                            data.AddRange(secondBytes);
+                        }
+                    }
+                    IoC.Resolve<DataListener>().SetParameter((ushort)controllerId, (ushort)index, (byte)subindex, data.ToArray());
                 }               
             }
             catch (Exception)
@@ -152,12 +176,34 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
+        private void LoadAllParameters()
+        {
+            var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
+            dialog.ShowDialog();
+            ushort controllerId;
+            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
+            int i = 0;
+            int index = startIndex;
+            while (i < 88)
+            {
+                _isLoaded = false;
+                LoadParameter(controllerId, index, 2);
+                while (!_isLoaded)
+                {
+                    Thread.Sleep(10);
+                }
+                index++;
+                i++;
+            }
+        }
+
         private void ParameterReceive(List<CanParameter> parametersList)
         {            
             foreach (var canParameter in parametersList)
             {
                 if (canParameter.Data == null)//parameter was seted
                 {
+                    _isLoaded = true;
                     CanParameter parameter = canParameter;
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -385,7 +431,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AddLineToLog("Загрузка параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            LoadParameter(startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+            LoadParameter(null,startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -464,11 +510,18 @@ namespace VisualizationSystem.View.UserControls.Setting
         private ParametersSettingsVm _parametersSettingsVm;
         private List<ParametersSettingsData> _parametersSettingsDatas;
         private volatile bool _isUnloaded = false;
+        private volatile bool _isLoaded = false;
 
         private void unloadAll_Click(object sender, EventArgs e)
         {
             Thread unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
             unloadThread.Start();
+        }
+
+        private void loadAll_Click(object sender, EventArgs e)
+        {
+            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true };
+            loadThread.Start();
         }//use for automaticly unload all parameters
 
     }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ML.AdvCan;
 using ML.Can;
 using ML.Can.Interfaces;
+using ML.ConfigSettings.Services;
 using ML.DataExchange.Interfaces;
 using ML.DataExchange.Model;
 
@@ -191,6 +192,7 @@ namespace ML.DataExchange
         {
             Parameters parameters;
             var param = new double[30];
+            var config = new MineConfig();
             while (true)
             {
 
@@ -203,16 +205,17 @@ namespace ML.DataExchange
                         Thread.Sleep(5);
                         continue;              
                     }
-                    parameters = CanParser.GetParameters(msgRead,1);
+                    parameters = CanParser.GetParameters(msgRead, (byte)config.LeadingController); //путевая информация
                     ReceiveEvent(parameters);
-                    List<CanParameter> canParameters = TryGetParameterValue(msgRead);
+                    List<CanParameter> canParameters = TryGetParameterValue(msgRead);//параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
                     //Thread.Sleep(20);
                 }
                 catch(Exception)
                 {
-                    continue;
+                    Thread.Sleep(500);
+                    continue; 
                 }
             }
         }

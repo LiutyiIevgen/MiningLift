@@ -29,12 +29,19 @@ namespace ML.ConfigSettings.Services
                 _config.Save(ConfigurationSaveMode.Modified);
             }
         }
+
+        private int? _leadingController = null;
         public int LeadingController
         {
-            get { return int.Parse(_config.AppSettings.Settings["LeadingController"].Value); }
+            get
+            {
+                _leadingController = _leadingController ?? int.Parse(_config.AppSettings.Settings["LeadingController"].Value);
+                return (int) _leadingController;
+            }
             set
             {
                 _config.AppSettings.Settings["LeadingController"].Value = value.ToString();
+                _leadingController = value;
                 _config.Save(ConfigurationSaveMode.Modified);
             }
         }

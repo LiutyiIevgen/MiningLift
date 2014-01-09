@@ -40,18 +40,6 @@ namespace VisualizationSystem.View.Forms.Setting
             MakeGraphic();
         }
 
-        public FormCodtDomainSettings(int index, List<string> data, List<ParametersSettingsData> parametersSettings)
-        {
-            InitializeComponent();
-            _parametersSettings = parametersSettings;
-            this.Text = "0x" + Convert.ToString(index, 16) + "  " + parametersSettings[index - startIndex].Name;
-            _index = index;
-            LoadDataFromController(data);
-            plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
-            this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
-            MakeGraphic();
-        }
-
         private void LoadDataFromList(CodtDomainData[] codtDomainDatas )
         {
             dataGridView1.RowCount = codtDomainDatas.Count();
@@ -61,17 +49,6 @@ namespace VisualizationSystem.View.Forms.Setting
                 dataGridView1[1, i].Value = codtDomainDatas[i].Coordinate;
                 dataGridView1[2, i].Value = codtDomainDatas[i].Speed;
 
-            }
-        }
-
-        private void LoadDataFromController(List<string> data)
-        {
-            dataGridView1.RowCount = data.Count()/2;
-            for (int i = 0; i < dataGridView1.RowCount; i++)
-            {
-                dataGridView1[0, i].Value = i;
-                dataGridView1[1, i].Value = data[i*2];
-                dataGridView1[2, i].Value = data[i*2 + 1];
             }
         }
 
@@ -182,6 +159,10 @@ namespace VisualizationSystem.View.Forms.Setting
 
         private void toolStripButtonLoad_Click(object sender, EventArgs e) //load table
         {
+            var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
+            dialog.ShowDialog();
+            ushort controllerId;
+            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
             var data = new List<byte>();
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
@@ -196,7 +177,7 @@ namespace VisualizationSystem.View.Forms.Setting
                 data.AddRange(secondBytes);
             }
             IoC.Resolve<DataListener>()
-                .SetParameter((ushort)_index, 0x02, data.ToArray());
+                .SetParameter(controllerId,(ushort)_index, 0x02, data.ToArray());
         }
 
     }

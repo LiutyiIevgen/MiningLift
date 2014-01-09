@@ -67,6 +67,10 @@
       <Project>{d52d9682-ae12-4759-a0fc-bc3a42c5c954}</Project>
       <Name>ML.Can</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ML.ConfigSettings\ML.ConfigSettings.csproj">
+      <Project>{df2bbc87-f5d8-4cee-8446-83cb50edc8a3}</Project>
+      <Name>ML.ConfigSettings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

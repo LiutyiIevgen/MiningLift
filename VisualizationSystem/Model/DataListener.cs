@@ -23,15 +23,15 @@ namespace VisualizationSystem.Model
 
         public void Init(ReceiveHandler Function)
         {
-            /*_dataExchange.ReceiveEvent += Function;
+            _dataExchange.ReceiveEvent += Function;
             if(IoC.Resolve<MineConfig>().CanName.Contains("CAN"))
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName, 
                     IoC.Resolve<MineConfig>().CanSpeed, new AdvCANIO());
             else if (IoC.Resolve<MineConfig>().CanName.Contains("COM"))
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName,
-                    IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO()); */
+                    IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO()); 
             //_dataExchange.StartExchange("COM7",50, new ComCANIO());
-            _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+           // _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
         }
 
@@ -45,20 +45,17 @@ namespace VisualizationSystem.Model
             return _dataExchange.GetParameter(controllerId, parameterId, subindex);
         }
 
-        public bool SetParameter(ushort parameterId, byte subindex, byte[] data)
+        public bool SetParameter(ushort controllerId, ushort parameterId, byte subindex, byte[] data)
         {
-            var dialog = new FormCanId {StartPosition = FormStartPosition.CenterScreen};
-            dialog.ShowDialog();
-            ushort value;
-            if (ushort.TryParse(dialog.textBoxAddress.Text, out value))
-                return _dataExchange.SetParameter(new CanParameter
-                {
-                    ControllerId = value,
-                    ParameterId = parameterId,
-                    ParameterSubIndex = subindex,
-                    Data = data
-                });
-            return false;
+
+            return _dataExchange.SetParameter(new CanParameter
+            {
+                ControllerId = controllerId,
+                ParameterId = parameterId,
+                ParameterSubIndex = subindex,
+                Data = data
+            });
+
         }
     }
 }
