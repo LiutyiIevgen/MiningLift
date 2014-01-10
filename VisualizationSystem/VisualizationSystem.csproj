@@ -117,6 +117,12 @@
     <Compile Include="View\Forms\FormCanId.Designer.cs">
       <DependentUpon>FormCanId.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Forms\FormHardwareInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\FormHardwareInformation.Designer.cs">
+      <DependentUpon>FormHardwareInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Forms\FormStart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,6 +207,9 @@
     </Compile>
     <EmbeddedResource Include="View\Forms\FormCanId.resx">
       <DependentUpon>FormCanId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\FormHardwareInformation.resx">
+      <DependentUpon>FormHardwareInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Forms\FormStart.resx">
       <DependentUpon>FormStart.cs</DependentUpon>

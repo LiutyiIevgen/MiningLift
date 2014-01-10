@@ -49,6 +49,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.unloadAll = new System.Windows.Forms.ToolStripButton();
             this.loadAll = new System.Windows.Forms.ToolStripButton();
+            this.getInformationButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteRowButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariableParameters)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -178,7 +179,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripButtonSave,
             this.toolStripButtonOpen,
             this.unloadAll,
-            this.loadAll});
+            this.loadAll,
+            this.getInformationButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(758, 25);
@@ -224,6 +226,16 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.loadAll.Size = new System.Drawing.Size(23, 22);
             this.loadAll.Text = "загрузить все";
             this.loadAll.Click += new System.EventHandler(this.loadAll_Click);
+            // 
+            // getInformationButton
+            // 
+            this.getInformationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.getInformationButton.Image = ((System.Drawing.Image)(resources.GetObject("getInformationButton.Image")));
+            this.getInformationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.getInformationButton.Name = "getInformationButton";
+            this.getInformationButton.Size = new System.Drawing.Size(23, 22);
+            this.getInformationButton.Text = "получить информацию об аппаратуре";
+            this.getInformationButton.Click += new System.EventHandler(this.getInformationButton_Click);
             // 
             // DeleteRowButton
             // 
@@ -282,5 +294,6 @@ namespace VisualizationSystem.View.UserControls.Setting
         private ToolStripButton toolStripButtonOpen;
         private ToolStripButton unloadAll;
         private ToolStripButton loadAll;
+        private ToolStripButton getInformationButton;
     }
 }

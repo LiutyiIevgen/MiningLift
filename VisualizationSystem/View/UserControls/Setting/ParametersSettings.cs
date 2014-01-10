@@ -24,6 +24,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             InitializeComponent();
             IoC.Resolve<DataListener>().SetParameterReceive(ParameterReceive);
             _parametersSettingsVm = new ParametersSettingsVm();
+            _deviceInformation = new List<string>();
         }
 
         private void ParametersSettings_Load(object sender, EventArgs e)
@@ -159,7 +160,12 @@ namespace VisualizationSystem.View.UserControls.Setting
             else
                 _parametersSettingsDatas = new List<ParametersSettingsData>();
             int index = startIndex;
-            while (i < 92)
+            UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
+            while (!_isUnloaded)
+            {
+                Thread.Sleep(10);
+            }
+            while (i < _parametersNumber - 1)
             {
                 _parametersSettingsDatas.Add(new ParametersSettingsData());
                 for (int j = 0; j < 3; j++)
@@ -197,6 +203,26 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
+        private void UnloadDeviceInformation()
+        {
+            var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
+            dialog.ShowDialog();
+            ushort controllerId;
+            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
+            _deviceInformation.Clear();
+            for (int j = 1; j < 7; j++)
+            {
+                _isUnloaded = false;
+                UnloadParameter(controllerId, 0x2000, j);
+                while (!_isUnloaded)
+                {
+                    Thread.Sleep(10);
+                }
+            }
+            var formDomain = new FormHardwareInformation(_deviceInformation);
+            formDomain.ShowDialog();
+        }
+
         private void ParameterReceive(List<CanParameter> parametersList)
         {            
             foreach (var canParameter in parametersList)
@@ -212,6 +238,12 @@ namespace VisualizationSystem.View.UserControls.Setting
                             Convert.ToString(parameter.ControllerId, 16));
                     });
                     continue;
+                }
+                if (canParameter.ParameterId == 0x2000)
+                {
+                    DeviceInformationParser(canParameter);
+                    _isUnloaded = true;
+                    return;
                 }
                 switch (canParameter.ParameterSubIndex)
                 {
@@ -330,6 +362,23 @@ namespace VisualizationSystem.View.UserControls.Setting
             });
         }
 
+        private void DeviceInformationParser(CanParameter canParameter)
+        {
+            if (canParameter.ParameterSubIndex == 1) //number of parameters
+            {
+                short myShort;
+                myShort = BitConverter.ToInt16(canParameter.Data, 0);
+                _deviceInformation.Add(myShort.ToString());
+                _parametersNumber = myShort;
+            }
+            else // other string information
+            {
+                Encoding ansiCyrillic = Encoding.GetEncoding(1251);
+                string name = ansiCyrillic.GetString(canParameter.Data, 0, canParameter.Data.Count());
+                _deviceInformation.Add(name);
+            }
+        }
+
         private void AddLineToLog(string text)
         {
             ParamLog.Text += DateTime.Now.ToShortDateString() + "   " + DateTime.Now.ToLongTimeString() + "     " + text + "\n";
@@ -372,7 +421,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             value = dataGridViewVariableParameters[subindex + 2, index - startIndex].Value.ToString();
             return value;
         }
-
 
         private void OpenFileFunction()
         {
@@ -497,6 +545,18 @@ namespace VisualizationSystem.View.UserControls.Setting
             OpenFileFunction();
         }
 
+        private void unloadAll_Click(object sender, EventArgs e)
+        {
+            Thread unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
+            unloadThread.Start();
+        }
+
+        private void loadAll_Click(object sender, EventArgs e)
+        {
+            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true };
+            loadThread.Start();
+        }
+
         #endregion
 
         double calculatedWayVeightAndEquipment = 0;
@@ -509,20 +569,19 @@ namespace VisualizationSystem.View.UserControls.Setting
         private int startIndex = 0x2001;
         private ParametersSettingsVm _parametersSettingsVm;
         private List<ParametersSettingsData> _parametersSettingsDatas;
+        private List<string> _deviceInformation;
         private volatile bool _isUnloaded = false;
         private volatile bool _isLoaded = false;
+        private int _parametersNumber = 0;
 
-        private void unloadAll_Click(object sender, EventArgs e)
+        private void getInformationButton_Click(object sender, EventArgs e)
         {
-            Thread unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
-            unloadThread.Start();
+            Thread loadThread = new Thread(UnloadDeviceInformation) { IsBackground = true };
+            loadThread.Start();
         }
 
-        private void loadAll_Click(object sender, EventArgs e)
-        {
-            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true };
-            loadThread.Start();
-        }//use for automaticly unload all parameters
+
+
 
     }
 }
