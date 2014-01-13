@@ -11,12 +11,10 @@ namespace ML.DataRepository.Models
     {
         public int Id { get; set; }
 
-        public int MainDigitSignalTypeId { get; set; }
-        public int MainDigitSignalStateId { get; set; }
         public int BlockLogId { get; set; }
-
-        public virtual IOsignalType MainDigitSignalType { get; set; }
-        public virtual IOsignalState MainDigitSignalState { get; set; }
         public virtual BlockLog BlockLog { get; set; }
+
+        public int MainDigitSignalStateId { get; set; }
+        public virtual IOSignalState MainDigitSignalState { get; set; }        
     }
 }

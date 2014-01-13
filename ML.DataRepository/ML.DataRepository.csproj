@@ -53,9 +53,8 @@
     <Compile Include="DataAccess\MineDbInitializer.cs" />
     <Compile Include="Models\AnalogSignal.cs" />
     <Compile Include="Models\AnalogSignalLog.cs" />
-    <Compile Include="Models\IOsignalsLog.cs" />
-    <Compile Include="Models\IOsignalState.cs" />
-    <Compile Include="Models\IOsignalType.cs" />
+    <Compile Include="Models\InputSignalsLog.cs" />
+    <Compile Include="Models\IOSignalState.cs" />
     <Compile Include="Models\BlockLog.cs" />
     <Compile Include="Models\GenericRepository\DataRepository.cs" />
     <Compile Include="Models\GenericRepository\IDataRepository.cs" />
@@ -64,9 +63,7 @@
     <Compile Include="Models\MainDigitSignalsLog.cs" />
     <Compile Include="Models\MainDigitSignalState.cs" />
     <Compile Include="Models\MainDigitSignalType.cs" />
-    <Compile Include="Models\RemoteLog.cs" />
-    <Compile Include="Models\RemoteState.cs" />
-    <Compile Include="Models\SettingsLog.cs" />
+    <Compile Include="Models\OutputSignalsLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace ML.DataRepository.Models
 {
-    public class IOsignalState : IEntityId 
+    public class IOSignalState : IEntityId 
     {
         public int Id { get; set; }
 

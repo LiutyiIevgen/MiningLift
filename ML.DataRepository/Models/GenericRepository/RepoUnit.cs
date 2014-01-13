@@ -9,9 +9,6 @@ namespace ML.DataRepository.Models.GenericRepository
         private MineContext _context;
         private IDataRepository<BlockLog> _BlockLog;
         private IDataRepository<AnalogSignal> _analogSignal;
-        private IDataRepository<IOsignalType> _IOsignalType;
-        private IDataRepository<SettingsLog> _settingsLog;
-        private IDataRepository<RemoteLog> _remoteLog;
 
         private MineContext getContext()
         {
@@ -29,20 +26,6 @@ namespace ML.DataRepository.Models.GenericRepository
             get { return _analogSignal ?? (_analogSignal = getRepository<AnalogSignal>()); }
         }
 
-        public IDataRepository<IOsignalType> IOsignalType
-        {
-            get { return _IOsignalType ?? (_IOsignalType = getRepository<IOsignalType>()); }
-        }
-
-        public IDataRepository<SettingsLog> SettingsLog
-        {
-            get { return _settingsLog ?? (_settingsLog = getRepository<SettingsLog>()); }
-        }
-
-        public IDataRepository<RemoteLog> RemoteLog
-        {
-            get { return _remoteLog ?? (_remoteLog = getRepository<RemoteLog>()); }
-        }
 
         public void Commit() {
             try {
