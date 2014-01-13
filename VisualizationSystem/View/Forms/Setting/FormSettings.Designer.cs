@@ -42,6 +42,8 @@
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.DebugParametersButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.KalibrovkaButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,7 +70,11 @@
             this.splitContainer6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -112,7 +118,7 @@
             // 
             // MainViewSettingsButton
             // 
-            this.MainViewSettingsButton.BackColor = System.Drawing.Color.Silver;
+            this.MainViewSettingsButton.BackColor = System.Drawing.SystemColors.ControlDark;
             this.MainViewSettingsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MainViewSettingsButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainViewSettingsButton.FlatAppearance.BorderSize = 0;
@@ -290,6 +296,10 @@
             // splitContainer7.Panel1
             // 
             this.splitContainer7.Panel1.Controls.Add(this.DebugParametersButton);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.splitContainer8);
             this.splitContainer7.Size = new System.Drawing.Size(218, 186);
             this.splitContainer7.SplitterDistance = 72;
             this.splitContainer7.TabIndex = 0;
@@ -319,6 +329,38 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(758, 541);
             this.panel1.TabIndex = 0;
+            // 
+            // splitContainer8
+            // 
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.KalibrovkaButton);
+            this.splitContainer8.Size = new System.Drawing.Size(218, 110);
+            this.splitContainer8.SplitterDistance = 72;
+            this.splitContainer8.TabIndex = 0;
+            // 
+            // KalibrovkaButton
+            // 
+            this.KalibrovkaButton.BackColor = System.Drawing.Color.Silver;
+            this.KalibrovkaButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.KalibrovkaButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KalibrovkaButton.FlatAppearance.BorderSize = 0;
+            this.KalibrovkaButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.KalibrovkaButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.KalibrovkaButton.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.KalibrovkaButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.KalibrovkaButton.Location = new System.Drawing.Point(0, 0);
+            this.KalibrovkaButton.Name = "KalibrovkaButton";
+            this.KalibrovkaButton.Size = new System.Drawing.Size(218, 72);
+            this.KalibrovkaButton.TabIndex = 6;
+            this.KalibrovkaButton.Text = "Калибровка и синхронизация";
+            this.KalibrovkaButton.UseVisualStyleBackColor = false;
+            this.KalibrovkaButton.Click += new System.EventHandler(this.KalibrovkaButton_Click);
             // 
             // FormSettings
             // 
@@ -359,8 +401,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
             this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -381,5 +427,7 @@
         private System.Windows.Forms.Button CanSettingsButton;
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.Button DebugParametersButton;
+        private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.Button KalibrovkaButton;
     }
 }

@@ -13,17 +13,19 @@ namespace VisualizationSystem.View.Forms.Setting
         DefenceDiagramSettings _defenceDiagramSettings;
         CanSettings _canSettings = new CanSettings();
         DebugParametersSettings _debugParametersSettings = new DebugParametersSettings();
+        KalibrovkaSettings _kalibrovkaSettings = new KalibrovkaSettings();
         public FormSettings()
         {
             InitializeComponent();
             //start
-            AuziDButton.BackColor = Color.Silver;
+           /* AuziDButton.BackColor = Color.Silver;
             ParametersButton.BackColor = Color.Silver;
             DefenceDiagramButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
-            MainViewSettingsButton.BackColor = SystemColors.ControlDark;
-            _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            KalibrovkaButton.BackColor = Color.Silver;
+            MainViewSettingsButton.BackColor = SystemColors.ControlDark; */
+            _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill; 
             panel1.Controls.Clear();
             panel1.Controls.Add(_mainViewSettings);
         }
@@ -39,6 +41,7 @@ namespace VisualizationSystem.View.Forms.Setting
             DefenceDiagramButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             MainViewSettingsButton.BackColor = SystemColors.ControlDark;
             _mainViewSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -52,6 +55,7 @@ namespace VisualizationSystem.View.Forms.Setting
             DefenceDiagramButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             AuziDButton.BackColor = SystemColors.ControlDark;
             _auziDSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -65,6 +69,7 @@ namespace VisualizationSystem.View.Forms.Setting
             DefenceDiagramButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             ParametersButton.BackColor = SystemColors.ControlDark;
             _parametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -78,6 +83,7 @@ namespace VisualizationSystem.View.Forms.Setting
             ParametersButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             DefenceDiagramButton.BackColor = SystemColors.ControlDark;
            /* _defenceDiagramSettings = new DefenceDiagramSettings();
             _defenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -92,6 +98,7 @@ namespace VisualizationSystem.View.Forms.Setting
             ParametersButton.BackColor = Color.Silver;
             DefenceDiagramButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = SystemColors.ControlDark;
             _canSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
@@ -105,10 +112,25 @@ namespace VisualizationSystem.View.Forms.Setting
             ParametersButton.BackColor = Color.Silver;
             DefenceDiagramButton.BackColor = Color.Silver;
             CanSettingsButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = Color.Silver;
             DebugParametersButton.BackColor = SystemColors.ControlDark;
             _debugParametersSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
             panel1.Controls.Add(_debugParametersSettings);
+        }
+
+        private void KalibrovkaButton_Click(object sender, EventArgs e)
+        {
+            MainViewSettingsButton.BackColor = Color.Silver;
+            AuziDButton.BackColor = Color.Silver;
+            ParametersButton.BackColor = Color.Silver;
+            DefenceDiagramButton.BackColor = Color.Silver;
+            CanSettingsButton.BackColor = Color.Silver;
+            DebugParametersButton.BackColor = Color.Silver;
+            KalibrovkaButton.BackColor = SystemColors.ControlDark;
+            _kalibrovkaSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Controls.Clear();
+            panel1.Controls.Add(_kalibrovkaSettings);
         }
 
 

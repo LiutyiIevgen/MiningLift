@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -9,6 +10,7 @@ using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
+using VisualizationSystem.Model.Settings;
 using VisualizationSystem.Services;
 using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
@@ -388,18 +390,30 @@ namespace VisualizationSystem.View.UserControls
 
         private void UpdateParametersData()
         {
-           /*string[] variableParametersName = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersName;
-           string[] variableParametersValue = IoC.Resolve<MineConfig>().ParametersConfig.VariableParametersValue;
+            ParametersSettingsVm parametersSettingsVm = new ParametersSettingsVm();
+            List<ParametersSettingsData> parametersSettingsDatas = null;
+            try
+            {
+                parametersSettingsDatas =
+                    parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+            }
+            catch (Exception)
+            {
+                dataGridViewParameters.RowCount = 0;
+                return;
+            }
             this.Invoke((MethodInvoker)delegate
             {
-                dataGridViewParameters.RowCount = variableParametersName.Count();
+                dataGridViewParameters.RowCount = parametersSettingsDatas.Count;
                 for (int i = 0; i < dataGridViewParameters.RowCount; i++)
                 {
                     dataGridViewParameters[0, i].Value = i;
-                    dataGridViewParameters[2, i].Value = variableParametersName[i];
-                    dataGridViewParameters[3, i].Value = variableParametersValue[i];
+                    dataGridViewParameters[1, i].Value = "0x" + Convert.ToString(parametersSettingsDatas[i].Id, 16); ;
+                    dataGridViewParameters[2, i].Value = parametersSettingsDatas[i].Name;
+                    dataGridViewParameters[3, i].Value = parametersSettingsDatas[i].Type;
+                    dataGridViewParameters[4, i].Value = parametersSettingsDatas[i].Value;
                 }
-            });*/
+            });
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

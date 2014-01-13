@@ -23,8 +23,8 @@ namespace VisualizationSystem.Model
 
         public void Init(ReceiveHandler Function)
         {
-            /*_dataExchange.ReceiveEvent += Function;
-            if(IoC.Resolve<MineConfig>().CanName.Contains("CAN"))
+            _dataExchange.ReceiveEvent += Function;
+            /*if(IoC.Resolve<MineConfig>().CanName.Contains("CAN"))
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName, 
                     IoC.Resolve<MineConfig>().CanSpeed, new AdvCANIO());
             else if (IoC.Resolve<MineConfig>().CanName.Contains("COM"))

@@ -220,10 +220,6 @@ namespace VisualizationSystem.View.UserControls
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridViewParameters = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.labelDate = new System.Windows.Forms.Label();
@@ -236,6 +232,11 @@ namespace VisualizationSystem.View.UserControls
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -577,6 +578,7 @@ namespace VisualizationSystem.View.UserControls
             this.label3.AutoSize = true;
             this.label3.ContextMenuStrip = this.contextMenuStrip1;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
             this.label3.Location = new System.Drawing.Point(4, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 33);
@@ -589,7 +591,7 @@ namespace VisualizationSystem.View.UserControls
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox3.ContextMenuStrip = this.contextMenuStrip1;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.ForeColor = System.Drawing.Color.Gainsboro;
+            this.textBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
             this.textBox3.Location = new System.Drawing.Point(39, 3);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(110, 47);
@@ -662,6 +664,7 @@ namespace VisualizationSystem.View.UserControls
             this.label7.AutoSize = true;
             this.label7.ContextMenuStrip = this.contextMenuStrip1;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(255)))), ((int)(((byte)(165)))), ((int)(((byte)(0)))));
             this.label7.Location = new System.Drawing.Point(1, 9);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(39, 33);
@@ -674,7 +677,7 @@ namespace VisualizationSystem.View.UserControls
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox4.ContextMenuStrip = this.contextMenuStrip1;
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox4.ForeColor = System.Drawing.Color.Gainsboro;
+            this.textBox4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(255)))), ((int)(((byte)(165)))), ((int)(((byte)(0)))));
             this.textBox4.Location = new System.Drawing.Point(40, 2);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(110, 47);
@@ -747,6 +750,7 @@ namespace VisualizationSystem.View.UserControls
             this.label10.AutoSize = true;
             this.label10.ContextMenuStrip = this.contextMenuStrip1;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
             this.label10.Location = new System.Drawing.Point(1, 10);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(38, 33);
@@ -759,7 +763,7 @@ namespace VisualizationSystem.View.UserControls
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox5.ContextMenuStrip = this.contextMenuStrip1;
             this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox5.ForeColor = System.Drawing.Color.Gainsboro;
+            this.textBox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
             this.textBox5.Location = new System.Drawing.Point(40, 3);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(110, 47);
@@ -2748,6 +2752,7 @@ namespace VisualizationSystem.View.UserControls
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
+            this.Column1,
             this.dataGridViewTextBoxColumn4});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
@@ -2773,37 +2778,6 @@ namespace VisualizationSystem.View.UserControls
             this.dataGridViewParameters.Size = new System.Drawing.Size(724, 373);
             this.dataGridViewParameters.TabIndex = 2;
             this.dataGridViewParameters.TabStop = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "№";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Индекс";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn2.Width = 120;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Название";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn3.Width = 400;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Значение";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // tabPage7
             // 
@@ -2977,43 +2951,46 @@ namespace VisualizationSystem.View.UserControls
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "№";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn1.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Индекс";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn2.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Название";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn3.Width = 250;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Тип";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "Значение";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn4.Width = 150;
+            // 
             // MainView
-            //
-            label3.ForeColor = Color.FromArgb(150, 0, 255, 0);
-            label7.ForeColor = Color.FromArgb(150, 255, 165, 0);
-            label10.ForeColor = Color.FromArgb(125, 255, 255, 0);
-            textBox3.ForeColor = Color.FromArgb(150, 0, 255, 0);
-            textBox4.ForeColor = Color.FromArgb(150, 255, 165, 0);
-            textBox5.ForeColor = Color.FromArgb(125, 255, 255, 0);
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox7.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox8.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox9.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox10.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox11.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox12.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox13.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox14.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox15.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox16.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox17.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox18.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox19.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox20.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox21.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox22.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox23.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox24.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox25.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox26.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox27.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox28.SelectionAlignment = HorizontalAlignment.Center;
-
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
@@ -3315,11 +3292,12 @@ namespace VisualizationSystem.View.UserControls
         private System.Windows.Forms.TextBox textBoxLogicZero;
         private System.Windows.Forms.TextBox textBoxLogicOne;
         private System.Windows.Forms.DataGridView dataGridViewParameters;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Label labelDate;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
     }
 }

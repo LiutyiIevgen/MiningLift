@@ -183,6 +183,12 @@
     <Compile Include="View\UserControls\Setting\DefenceDiagramSettings.Designer.cs">
       <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Setting\KalibrovkaSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\Setting\KalibrovkaSettings.Designer.cs">
+      <DependentUpon>KalibrovkaSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Setting\MainViewSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\Setting\DefenceDiagramSettings.resx">
       <DependentUpon>DefenceDiagramSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\Setting\KalibrovkaSettings.resx">
+      <DependentUpon>KalibrovkaSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\Setting\MainViewSettings.resx">
       <DependentUpon>MainViewSettings.cs</DependentUpon>
