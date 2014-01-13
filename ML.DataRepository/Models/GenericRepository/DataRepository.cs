@@ -27,6 +27,7 @@ namespace ML.DataRepository.Models.GenericRepository
 
         public virtual void Add(TEntity entity) {
             _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual void Delete(TEntity entity) {

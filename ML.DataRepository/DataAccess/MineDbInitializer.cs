@@ -64,9 +64,8 @@ namespace ML.DataRepository.DataAccess
             var analogSignalType = new List<AnalogSignal>
                 {
                     new AnalogSignal {Type = "Путь s1(м)"},
-                    new AnalogSignal {Type = "Путь s1(м)"},
-                    new AnalogSignal {Type = "Скорость V1(м/с)"},
-                    new AnalogSignal {Type = "Скорость V2(м/с)"},
+                    new AnalogSignal {Type = "Путь s2(м)"},
+                    new AnalogSignal {Type = "Скорость V(м/с)"},
                     new AnalogSignal {Type = "Ускорение (м/с2)"},
                     new AnalogSignal {Type = "Ток якоря (кА)"},
                     new AnalogSignal {Type = "Ток возбуждения (А)"}

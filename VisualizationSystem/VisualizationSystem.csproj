@@ -73,6 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DataBase\ParameterData.cs" />
     <Compile Include="Model\DataListener.cs" />
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\GraphicData\GraphicData.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Services\DataBaseService.cs" />
     <Compile Include="Services\Settings.cs" />
     <Compile Include="ViewModel\DefenceDiagramSettingsVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\ArhivVm.cs" />
     <Compile Include="ViewModel\MainViewModel\AuziDInOutSignalsVm.cs" />
     <Compile Include="ViewModel\MainViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\MainViewModel\DataBoxVm.cs" />

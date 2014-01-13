@@ -12,7 +12,8 @@ namespace ML.DataRepository.Models
         public DateTime Date { get; set; }
 
         public virtual ICollection<MainDigitSignalsLog> MainDigitSignalsLogs { get; set; }
-        public virtual ICollection<InputSignalsLog> IOsignalsLogs { get; set; }
+        public virtual ICollection<InputSignalsLog> InputSignalsLogs { get; set; }
+        public virtual ICollection<OutputSignalsLog> OutputSignalsLogs { get; set; }
         public virtual ICollection<AnalogSignalLog> AnalogSignalLogs { get; set; }
     }
 }

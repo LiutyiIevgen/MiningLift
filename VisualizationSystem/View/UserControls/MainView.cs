@@ -37,9 +37,6 @@ namespace VisualizationSystem.View.UserControls
             ViewData(new Parameters(param));
             //ViewData(new Parameters(param));
             _dataListener.Init(ViewData);
-           // string[] s = IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals;
-           // s[0] = "1";
-           // IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals = s;
         }
 
         public void ViewData(Parameters parameters)
@@ -85,6 +82,9 @@ namespace VisualizationSystem.View.UserControls
                 UpdateParametersData();
                 update_parameters_flag = 0;
             }
+            //IoC.Resolve<DataBaseService>().GetAnalogSignals(DateTime.Now - new TimeSpan(2,0,0), DateTime.Now);
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetNodesList());
         }
 
         private void SetGraphicInterval()

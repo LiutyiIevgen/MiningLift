@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ML.DataRepository.Models
 {
-    class OutputSignalsLog
+    public class OutputSignalsLog
     {
         public int Id { get; set; }
 
