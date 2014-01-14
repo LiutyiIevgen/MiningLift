@@ -11,16 +11,6 @@ namespace ML.DataRepository.DataAccess
             if (context == null)
                 context = new MineContext();
 
-
-            //Init IOsignalState table
-            var IOsignalState = new List<IOSignalState>
-                {
-                    new IOSignalState {State = "лог '0'"},
-                    new IOSignalState {State = "лог '1'"},
-                    new IOSignalState {State = "нет данных"}
-                };
-            IOsignalState.ForEach(d => context.IOsignalState.Add(d));
-
             //Init MainDigitSignalType table
             var MainDigitSignalType = new List<MainDigitSignalType>
                 {

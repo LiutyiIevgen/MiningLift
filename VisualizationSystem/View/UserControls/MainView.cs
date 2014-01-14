@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
@@ -31,31 +32,24 @@ namespace VisualizationSystem.View.UserControls
             CreateRichTextBoxMassiv();
             CreateAuziDIOSignalsMassiv();
             SetGraphicInterval();
-            updateGraphicThread = new Thread(updateGraphicHandler);
-            updateGraphicThread.IsBackground = true;
+            updateGraphicThread = new Thread(updateGraphicHandler){IsBackground = true};
             var param = new double[30];
             ViewData(new Parameters(param));
-            //ViewData(new Parameters(param));
             _dataListener.Init(ViewData);
+            var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true};
+            arhivWriterThread.Start();
+            var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
+            timeThread.Start();
         }
 
         public void ViewData(Parameters parameters)
         {
-            try
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    labelTime.Text = DateTime.Now.ToLongTimeString();
-                    labelDate.Text = DateTime.Now.ToShortDateString();
-                });
-            }
-            catch(Exception)
-            {
-                return;
-            }
+            _parameters = parameters;
+            
             //
             Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
             //
+
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
             UpdateLeftDopPanel(parameters);
@@ -66,8 +60,8 @@ namespace VisualizationSystem.View.UserControls
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
-            UpdateCentralSignalsData(parameters);
-            UpdateAuziDInputOutputSignals(parameters);
+            
+            
             if (update_parameters_flag%10==0)
             if (!updateGraphicThread.IsAlive)
             {
@@ -80,13 +74,76 @@ namespace VisualizationSystem.View.UserControls
             if (update_parameters_flag%10 == 0)
             {
                 UpdateParametersData();
+                UpdateCentralSignalsData(parameters);
+                UpdateAuziDInputOutputSignals(parameters);
                 update_parameters_flag = 0;
             }
-            //IoC.Resolve<DataBaseService>().GetAnalogSignals(DateTime.Now - new TimeSpan(2,0,0), DateTime.Now);
-            treeView1.Nodes.Clear();
-            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetNodesList());
+
         }
 
+        #region Threads
+        private void ArhivWriterThread()
+        {
+            while (true)
+            {
+                IoC.Resolve<DataBaseService>().FillDataBase(_parameters);
+                Thread.Sleep(500);
+            } 
+        }
+
+        private void TimeThread()
+        {
+            while (true)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    labelTime.Text = DateTime.Now.ToLongTimeString();
+                    labelDate.Text = DateTime.Now.ToShortDateString();
+                });
+                Thread.Sleep(1000);
+            }    
+        }
+
+        private void updateGraphicHandler(object parameters)
+        {
+            var param = parameters as Parameters;
+            if (param.f_ostanov == 1)
+                was_ostanov = 1;
+            if (param.f_start == 1 || param.f_back == 1)
+            {
+                //var defenceDiagramVm = new DefenceDiagramVm(param);
+                if (chartVA.Series[0].Points.Count == 700)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        chartVA.Series[0].Points.Clear();
+                        chartVA.Series[1].Points.Clear();
+                        chartVA.Series[2].Points.Clear();
+                        //chartVA.Series[3].Points.Clear();
+                    });
+                    was_ostanov = 0;
+                }
+                this.Invoke((MethodInvoker)delegate
+                {
+                    chartVA.Series[0].Points.AddXY(-param.s,
+                        param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                    chartVA.Series[1].Points.AddXY(-param.s,
+                        param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
+                    chartVA.Series[2].Points.AddXY(-param.s,
+                        param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
+                    /*chartVA.Series[3].Points.Clear();
+                    for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
+                    {
+                        chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
+                            defenceDiagramVm.CurrentDiagram[i].Y /
+                            (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                    }*/
+                });
+            }
+        }
+        #endregion
+
+        #region ViewModel binding
         private void SetGraphicInterval()
         {
             this.Invoke((MethodInvoker)delegate
@@ -133,43 +190,7 @@ namespace VisualizationSystem.View.UserControls
                 label47, label48, label49, label50, label51, label52, label53, label54, label55, label56 };
         }
 
-        private void updateGraphicHandler(object parameters)
-        {
-                var param = parameters as Parameters;
-                if (param.f_ostanov == 1)
-                    was_ostanov = 1;
-                if (param.f_start == 1 || param.f_back == 1)
-                {
-                    //var defenceDiagramVm = new DefenceDiagramVm(param);
-                    if (chartVA.Series[0].Points.Count==700)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            chartVA.Series[0].Points.Clear();
-                            chartVA.Series[1].Points.Clear();
-                            chartVA.Series[2].Points.Clear();
-                            //chartVA.Series[3].Points.Clear();
-                        });
-                        was_ostanov = 0;
-                    }
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        chartVA.Series[0].Points.AddXY(-param.s,
-                            param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
-                        chartVA.Series[1].Points.AddXY(-param.s,
-                            param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
-                        chartVA.Series[2].Points.AddXY(-param.s,
-                            param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
-                        /*chartVA.Series[3].Points.Clear();
-                        for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
-                        {
-                            chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
-                                defenceDiagramVm.CurrentDiagram[i].Y /
-                                (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
-                        }*/
-                    });
-            }
-        }
+        
 
         private void UpdateLeftPanel(Parameters parameters)
         {
@@ -415,53 +436,122 @@ namespace VisualizationSystem.View.UserControls
                 }
             });
         }
+        #endregion
 
+        #region Handlers
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac != null)
-                e.Graphics.DrawImage(btBac, 0, 0);
+            try
+            {
+                if (btBac != null)
+                    e.Graphics.DrawImage(btBac, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_two != null)
-                e.Graphics.DrawImage(btBac_two, 0, 0);
+            try
+            {
+                if (btBac_two != null)
+                    e.Graphics.DrawImage(btBac_two, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void panel6_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_dop != null)
-                e.Graphics.DrawImage(btBac_dop, 0, 0);
+            try
+            {
+                if (btBac_dop != null)
+                    e.Graphics.DrawImage(btBac_dop, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         private void panel7_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_two_dop != null)
-                e.Graphics.DrawImage(btBac_two_dop, 0, 0);
+            try
+            {
+                if (btBac_two_dop != null)
+                    e.Graphics.DrawImage(btBac_two_dop, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_speed != null)
-                e.Graphics.DrawImage(btBac_speed, 0, 0);
+            try
+            {
+                if (btBac_speed != null)
+                    e.Graphics.DrawImage(btBac_speed, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_tok_anchor != null)
-                e.Graphics.DrawImage(btBac_tok_anchor, 0, 0);
+            try
+            {
+                if (btBac_tok_anchor != null)
+                    e.Graphics.DrawImage(btBac_tok_anchor, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
-            if (btBac_tok_excitation != null)
-                e.Graphics.DrawImage(btBac_tok_excitation, 0, 0);
+            try
+            {
+                if (btBac_tok_excitation != null)
+                    e.Graphics.DrawImage(btBac_tok_excitation, 0, 0);
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             IoC.Resolve<FormSettingsParol>().ShowDialog();
         }
+        private void buttonFind_Click(object sender, EventArgs e)
+        {
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetNodesList(dateTimePicker1.Value, dateTimePicker2.Value));
+            textBoxRecordsCount.Text = IoC.Resolve<ArhivVm>().RecordsNum.ToString();
+            if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
+                textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+        }
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetNextNodesList());
+            if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
+                textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+        }
+        private void buttonPrevious_Click(object sender, EventArgs e)
+        {
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetPrevNodesList());
+            if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
+                textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+        }
+        #endregion
 
         private DataListener _dataListener;
         private Bitmap btBac;
@@ -481,6 +571,12 @@ namespace VisualizationSystem.View.UserControls
         private TextBox[] masOutTextBox;//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
         private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
         private Thread updateGraphicThread;
+        private volatile Parameters _parameters = new Parameters();
+
+
+
+
+
 
     }
 }

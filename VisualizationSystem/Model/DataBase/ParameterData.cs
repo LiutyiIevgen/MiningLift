@@ -9,6 +9,6 @@ namespace VisualizationSystem.Model.DataBase
     public class ParameterData
     {
         public string Name { get; set; }
-        public double Value { get; set; }
+        public string Value { get; set; }
     }
 }

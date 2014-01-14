@@ -10,7 +10,6 @@ namespace ML.DataRepository.DataAccess
         public IDbSet<AnalogSignal> AnalogSignals { get; set; } 
         public IDbSet<InputSignalsLog> IOsignalsLog { get; set; }
 
-        public IDbSet<IOSignalState> IOsignalState { get; set; }
         public IDbSet<MainDigitSignalsLog> MainDigitSignalsLog { get; set; }
 
         public IDbSet<MainDigitSignalType> MainDigitSignalType { get; set; }

@@ -12,8 +12,8 @@ namespace ML.DataExchange
         {
             Parameters parameters;
             var param = new double[30];
-            var outputSignals = new List<AuziDState>();
-            var inputSignals = new List<AuziDState>();
+            var outputSignals = new List<byte>();
+            var inputSignals = new List<byte>();
             for (int i = 0; i < param.Length; i++)
             {
                 param[i] = 0;
@@ -41,38 +41,18 @@ namespace ML.DataExchange
             return parameters;
         }
 
-        private static List<AuziDState> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private static List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
-            List<AuziDState> signals = new List<AuziDState>();
             byte[] tpdo3 = msgData.FirstOrDefault(p => p.id == (0x380 + controllerId)).data;
             byte tpdo1 = msgData.FirstOrDefault(p => p.id == (0x180 + controllerId)).data[6];
             var byteList = new List<byte> {tpdo3[4], tpdo3[5], tpdo3[6], tpdo3[7], tpdo1};
-            foreach (var _byte in byteList)
-            {
-                byte b = _byte;
-                for (int i = 0; i < 8; i++)
-                {
-                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
-                    b = (byte)(b >> 1);
-                }
-            }
-            return signals;
+            return byteList;
         }
-        private static List<AuziDState> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private static List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
-            List<AuziDState> signals = new List<AuziDState>();
             byte[] tpdo3 = msgData.FirstOrDefault(p => p.id == (0x380+controllerId)).data;
             var byteList = new List<byte> {tpdo3[0], tpdo3[1], tpdo3[2], tpdo3[3]};
-            foreach (var _byte in byteList)
-            {
-                byte b = _byte;
-                for (int i = 0; i < 8; i++)
-                {
-                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
-                    b = (byte)(b >> 1);
-                }
-            }
-            return signals;
+            return byteList;
         }
         private static double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {

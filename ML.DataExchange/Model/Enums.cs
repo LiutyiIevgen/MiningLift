@@ -2,6 +2,6 @@
 {
     public enum AuziDState
     {
-        Off = 0, On, Undefind
+        Off = 1, On, Undefind
     }
 }

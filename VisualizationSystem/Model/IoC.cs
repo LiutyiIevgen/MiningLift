@@ -9,6 +9,7 @@ using VisualizationSystem.Services;
 using VisualizationSystem.View;
 using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
+using VisualizationSystem.ViewModel.MainViewModel;
 
 namespace VisualizationSystem.Model
 {
@@ -45,6 +46,7 @@ namespace VisualizationSystem.Model
         {
             RegisterSingleton<IDataExchange, DataExchangeFile>();
             RegisterSingleton<DataListener, DataListener>();
+            RegisterSingleton<ArhivVm, ArhivVm>();
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();
             RegisterSingleton<FormSettingsParol, FormSettingsParol>();

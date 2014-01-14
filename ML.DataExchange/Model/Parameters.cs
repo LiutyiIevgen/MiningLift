@@ -5,6 +5,10 @@ namespace ML.DataExchange.Model
 {
     public class Parameters
     {
+        public Parameters()
+        {
+            
+        }
         public Parameters(double[] param)
         {
             signal = new int[24];
@@ -47,21 +51,50 @@ namespace ML.DataExchange.Model
             {
                 AuziDIOSignalsState.Add(AuziDState.Undefind);
             }
+            AuziDIByteList = new List<byte>();
+            AuziDOByteList = new List<byte>();
+            for (int i = 0; i < 9; i++)
+            {
+                AuziDIByteList.Add(new byte());
+                AuziDOByteList.Add(new byte());
+            }
         }
 
-        public void SetAuziDOSignalsState(List<AuziDState> signals)
+        public void SetAuziDOSignalsState(List<byte> byteList)
         {
+            AuziDOByteList = byteList;
+            var signals = new List<AuziDState>();
+            foreach (var _byte in byteList)
+            {
+                byte b = _byte;
+                for (int i = 0; i < 8; i++)
+                {
+                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
+                    b = (byte)(b >> 1);
+                }
+            }
             for (int i = 0; i < signals.Count && i < 72; i++)
             {
                 AuziDIOSignalsState[i + 72] = signals[i];
             }
         }
 
-        public void SetAuziDISignalsState(List<AuziDState> signals)
+        public void SetAuziDISignalsState(List<byte> byteList)
         {
+            AuziDIByteList = byteList;
+            var signals = new List<AuziDState>();
+            foreach (var _byte in byteList)
+            {
+                byte b = _byte;
+                for (int i = 0; i < 8; i++)
+                {
+                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
+                    b = (byte)(b >> 1);
+                }
+            }
             for (int i = 0; i < signals.Count && i < 72; i++)
             {
-                AuziDIOSignalsState[i] = signals[i];
+                AuziDIOSignalsState[i + 72] = signals[i];
             }
         }
 
@@ -85,6 +118,8 @@ namespace ML.DataExchange.Model
         public int[] signal { get; private set; }
         // AUZI-D iput and output signals
         public List<AuziDState> AuziDIOSignalsState { get; private set; }
+        public List<byte> AuziDIByteList { get; private set; }
+        public List<byte> AuziDOByteList { get; private set; }
         //номер режима защитной диаграммы
         public int DefenceDiagramRegime { get; private set; }
     }
