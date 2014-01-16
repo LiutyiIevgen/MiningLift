@@ -40,6 +40,11 @@ namespace VisualizationSystem.View.Forms.Setting
             MakeGraphic();
         }
 
+        private void FormCodtDomainSettings_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void LoadDataFromList(CodtDomainData[] codtDomainDatas )
         {
             dataGridView1.RowCount = codtDomainDatas.Count();
@@ -179,6 +184,7 @@ namespace VisualizationSystem.View.Forms.Setting
             IoC.Resolve<DataListener>()
                 .SetParameter(controllerId,(ushort)_index, 0x02, data.ToArray());
         }
+
 
     }
 }

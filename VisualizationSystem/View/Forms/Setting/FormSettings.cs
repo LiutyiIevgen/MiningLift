@@ -85,10 +85,10 @@ namespace VisualizationSystem.View.Forms.Setting
             DebugParametersButton.BackColor = Color.Silver;
             KalibrovkaButton.BackColor = Color.Silver;
             DefenceDiagramButton.BackColor = SystemColors.ControlDark;
-           /* _defenceDiagramSettings = new DefenceDiagramSettings();
+            _defenceDiagramSettings = new DefenceDiagramSettings();
             _defenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             panel1.Controls.Clear();
-            panel1.Controls.Add(_defenceDiagramSettings); */
+            panel1.Controls.Add(_defenceDiagramSettings);
         }
 
         private void CanSettingsButton_Click(object sender, EventArgs e)

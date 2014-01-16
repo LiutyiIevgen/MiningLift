@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,24 +8,102 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using VisualizationSystem.Model;
+using VisualizationSystem.Model.Settings;
 using VisualizationSystem.ViewModel;
 
 namespace VisualizationSystem.View.UserControls.Setting
 {
     public partial class DefenceDiagramSettings : UserControl
     {
-       // public DefenceDiagramSettings()
-       // {
-       //     InitializeComponent();
-       // }
+        public DefenceDiagramSettings()
+        {
+            InitializeComponent();
+            _parametersSettingsVm = new ParametersSettingsVm();
+            _index = new List<int>();
+        }
 
-       // private void DefenceDiagramSettings_Load(object sender, EventArgs e)
-       // {
-       //     //SetGraphicInterval();
-       //     //UpdateData();
-       //     MakeGraphic();
-       //     UpdateDiagramData();
-       // }
+        private void DefenceDiagramSettings_Load(object sender, EventArgs e)
+        {
+            InitData();
+            CodtDomainComboBox.SelectedIndex = 0;
+        }
+
+        private void InitData()
+        {
+            try
+            {
+                _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+                AddCodtDomainParametersToList();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
+        private void AddCodtDomainParametersToList()
+        {
+            for (int i = 0; i < _parametersSettingsDatas.Count; i++)
+            {
+                if (_parametersSettingsDatas[i].Type == "codtDomain")
+                {
+                    CodtDomainComboBox.Items.Add(_parametersSettingsDatas[i].Name);
+                    _index.Add(i);
+                }
+            }
+        }
+
+        private void CodtDomainComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (plotDefenceDiagram != null)
+                plotDefenceDiagram.Dispose();
+            plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+            this.splitContainer1.Panel2.Controls.Add(plotDefenceDiagram);
+            MakeGraphic();
+        }
+
+        private void MakeGraphic()
+        {
+            //Legend
+            plotDefenceDiagram.Model.PlotType = PlotType.XY;
+            var xList = new List<int>();
+            var yList = new List<int>();
+            for (int i = 0; i < _parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray.Count(); i++)
+            {
+                xList.Add(_parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Coordinate);
+                yList.Add(_parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Speed);
+            }
+            //Axis
+            var xAxis = new LinearAxis(AxisPosition.Bottom, 0)
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Title = "Путь (м)",
+                Maximum = -IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value,
+                Minimum = xList.Min() / 1000 + 1
+            };
+            plotDefenceDiagram.Model.Axes.Add(xAxis);
+            var yAxis = new LinearAxis(AxisPosition.Left, 0)
+            {
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                Title = "Скорость (м/с)",
+            };
+            plotDefenceDiagram.Model.Axes.Add(yAxis);
+            // Create Line series
+            var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue };
+            for (int i = 0; i < xList.Count; i++)
+            {
+                if (xList[i] == 0 && yList[i] == 0)
+                {
+                    break;
+                }
+                s1.Points.Add(new DataPoint(xList[i]/1000, yList[i]/1000));
+            }
+            // add Series and Axis to plot model
+            plotDefenceDiagram.Model.Series.Add(s1);
+            plotDefenceDiagram.RefreshPlot(true);
+        }
 
        // private void MakeGraphic()
        // {
@@ -153,5 +232,11 @@ namespace VisualizationSystem.View.UserControls.Setting
        //         chartDefenceDiagram.Series[3].Points.AddXY(-defenceDiagramSettingsVm.DiagramRevision[i].X, defenceDiagramSettingsVm.DiagramRevision[i].Y);
        //     }
        // } */
+
+        private ParametersSettingsVm _parametersSettingsVm;
+        private List<ParametersSettingsData> _parametersSettingsDatas;
+        private List<int> _index;
+        private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
+
     }
 }
