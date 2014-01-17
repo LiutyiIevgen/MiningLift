@@ -25,7 +25,6 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void DefenceDiagramSettings_Load(object sender, EventArgs e)
         {
             InitData();
-            CodtDomainComboBox.SelectedIndex = 0;
         }
 
         private void InitData()
@@ -34,6 +33,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
                 AddCodtDomainParametersToList();
+                CodtDomainComboBox.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
