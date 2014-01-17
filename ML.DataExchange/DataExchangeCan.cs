@@ -23,6 +23,7 @@ namespace ML.DataExchange
 
         public bool StartExchange(string strPort,int portSpeed, ICanIO device)
         {
+            
             _portName = strPort;
             _portSpeed = portSpeed;
             _device = device;
@@ -204,6 +205,11 @@ namespace ML.DataExchange
                         _device.OpenCAN(_portName, _portSpeed);
                         Thread.Sleep(5);
                         continue;              
+                    }
+                    if (msgRead.Count == 0)
+                    {
+                        Thread.Sleep(50);
+                        continue;
                     }
                     parameters = CanParser.GetParameters(msgRead, (byte)config.LeadingController); //путевая информация
                     ReceiveEvent(parameters);

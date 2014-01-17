@@ -257,7 +257,7 @@ namespace ML.AdvCan
             {
                 ReceiveStatus = "Package ";
                 ReceiveStatus += "receiving timeout!";
-                return null;
+                return new List<CanDriver.canmsg_t>();
             }
             else if (nRet == AdvCANIO.OPERATION_ERROR)
             {

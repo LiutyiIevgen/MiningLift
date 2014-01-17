@@ -124,20 +124,20 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.toolStripMenuItem2,
             this.toolStripMenuItem3});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(136, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 92);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem1.Text = "Загрузить";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "Записать";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(135, 22);
-            this.toolStripMenuItem2.Text = "Выгрузить";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "Читать";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
@@ -214,7 +214,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.unloadAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.unloadAll.Name = "unloadAll";
             this.unloadAll.Size = new System.Drawing.Size(23, 22);
-            this.unloadAll.Text = "Выгрузить все";
+            this.unloadAll.Text = "Прочитать все";
             this.unloadAll.Click += new System.EventHandler(this.unloadAll_Click);
             // 
             // loadAll
@@ -224,7 +224,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             this.loadAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.loadAll.Name = "loadAll";
             this.loadAll.Size = new System.Drawing.Size(23, 22);
-            this.loadAll.Text = "загрузить все";
+            this.loadAll.Text = "Записать все";
             this.loadAll.Click += new System.EventHandler(this.loadAll_Click);
             // 
             // getInformationButton
