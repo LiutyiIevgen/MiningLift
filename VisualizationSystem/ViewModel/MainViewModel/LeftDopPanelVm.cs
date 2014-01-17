@@ -14,7 +14,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-
+            _mineConfig = IoC.Resolve<MineConfig>();
             pen = new Pen(Color.Black, 2);
             red_pen = new Pen(Color.Red, 1);
             drawFont_two = new Font("Arial", 16);
@@ -45,7 +45,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         private void SetLength()
         {
-            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            if (_parameters.v <= _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 long_desh_width = panelWidth/3/2;
                 middle_desh_width = panelWidth/3/4;
@@ -56,7 +56,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         }
         private void SetPointsValue()
         {
-            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            if (_parameters.v <= _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 x1_long = Convert.ToInt32(panelWidth/2 - long_desh_width/2);
                 x2_long = Convert.ToInt32(panelWidth/2 + long_desh_width/2);
@@ -69,7 +69,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         public List<RuleData> GetDopRuleDatas()
         {
-            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            if (_parameters.v <= _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RuleDatas.Add(new RuleData
                     {
@@ -216,7 +216,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         public List<RuleData> GetDopRulePointerLine()
         {
-            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            if (_parameters.v <= _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 RulePointerLine.Add(new RuleData
                     {
@@ -260,7 +260,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         public List<BorderLine> GetDopRulePanelBorderLine()
         {
-            if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            if (_parameters.v <= _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
                 PanelBorderLine.Add(new BorderLine
                     {
@@ -289,7 +289,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<Pointer> RulePointer { get; private set; }
         public List<FillPointer> RuleFillPointer { get; private set; }
         public List<BorderLine> PanelBorderLine { get; private set; }
+
         private Parameters _parameters;
+        private MineConfig _mineConfig;
         private int panelWidth;
         private int panelHeight;
         private double long_desh_width;

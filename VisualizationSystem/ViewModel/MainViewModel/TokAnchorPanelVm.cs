@@ -15,10 +15,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-            SetLength();
-            SetPointsValue();
-            
-
+            _mineConfig = IoC.Resolve<MineConfig>();
             pen = new Pen(Color.Black, 2);
             orange_pen = new Pen(Color.Orange, 1);
             drawFont_two = new Font("Arial", 16);
@@ -44,6 +41,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             TokAnchorMeaningZone.Clear();
 
             _parameters = parameters;
+            SetLength();
+            SetPointsValue();
             SolveTokAnchor();
         }
         private void SetLength()
@@ -52,7 +51,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             middle_desh_width = panelHeight / 5;
             small_desh_width = panelHeight / 8;
             rule_hight = panelWidth - 20;
-            pixel_pro_meter = rule_hight / IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value;
+            pixel_pro_meter = rule_hight / _mineConfig.MainViewConfig.MaxTokAnchor.Value;
         }
 
         private void SetPointsValue()
@@ -82,7 +81,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 FirstPoint = new Point(0, panelHeight / 2),
                 SecondPoint = new Point(panelWidth, panelHeight / 2)
             });
-            for (int i = 0; i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value * 10; i++)
+            for (int i = 0; i <= _mineConfig.MainViewConfig.MaxTokAnchor.Value * 10; i++)
             {
                 if (i % 10 == 0)
                 {
@@ -207,6 +206,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<FillPointer> RuleFillPointer { get; private set; }
         public List<CageAndRuleZone> TokAnchorMeaningZone { get; private set; }
         private Parameters _parameters;
+        private MineConfig _mineConfig;
         private int panelWidth;
         private int panelHeight;
         private double long_desh_width;

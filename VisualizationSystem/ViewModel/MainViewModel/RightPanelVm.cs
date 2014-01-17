@@ -15,8 +15,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-            SetLength();
-            SetPointsValue();
+            _mineConfig = IoC.Resolve<MineConfig>();
+            
 
             pen = new Pen(Color.Black, 2);
             pen_zero = new Pen(Color.Black, 1);
@@ -60,6 +60,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             DirectionFillPointer.Clear();
 
             _parameters = parameters;
+            SetLength();
+            SetPointsValue();
             SolveZones();
             SolveDirection();
         }
@@ -78,7 +80,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             middle_desh_width = panelWidth / 3 / 4;
             small_desh_width = panelWidth / 3 / 6;
             rule_hight = panelHeight - 20;
-            pixel_pro_meter = rule_hight / (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + 2 * Settings.UpZeroZone);
+            pixel_pro_meter = rule_hight / (_mineConfig.MainViewConfig.Distance.Value + 2 * Settings.UpZeroZone);
             pixel_pro_ten_santimeter = rule_hight / 20;
         }
         private void SetPointsValue()
@@ -135,14 +137,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 FirstPoint = new Point(panelWidth / 2, 0),
                 SecondPoint = new Point(panelWidth / 2, panelHeight)
             });
-            for (int i = Convert.ToInt32(-Settings.UpZeroZone + IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value); i <= (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + Settings.UpZeroZone); i++)
+            for (int i = Convert.ToInt32(-Settings.UpZeroZone + _mineConfig.MainViewConfig.BorderZero.Value); i <= (_mineConfig.MainViewConfig.Border.Value + Settings.UpZeroZone); i++)
             {
                 if (i % 50 == 0)
                 {
                     RuleDatas.Add(new RuleData
                     {Pen = pen,
-                     FirstPoint = new Point(x1_long, (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i))),
-                     SecondPoint = new Point(x2_long, (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i)))
+                     FirstPoint = new Point(x1_long, (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i))),
+                     SecondPoint = new Point(x2_long, (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i)))
                     });
                     
                     if (i >= 1000)
@@ -151,7 +153,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                                 Text = Convert.ToString(i * (-1)),
                                 Font = drawFont,
                                 Brush = black,
-                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
+                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
                             });
                     else if (i >= 100 && i < 1000)
                         RuleInscriptions.Add(new RuleInscription
@@ -159,7 +161,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                                 Text = Convert.ToString(i * (-1)),
                                 Font = drawFont,
                                 Brush = black,
-                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
+                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
                             });
                     else if (i >= 10 && i < 100)
                         RuleInscriptions.Add(new RuleInscription
@@ -167,7 +169,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                                 Text = Convert.ToString(i * (-1)),
                                 Font = drawFont,
                                 Brush = black,
-                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
+                                Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
                             });
                     else
                         RuleInscriptions.Add(new RuleInscription
@@ -175,7 +177,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Text = Convert.ToString(i * (-1)),
                             Font = drawFont,
                             Brush = black,
-                            Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
+                            Position = new Point(x2_long + 2, Convert.ToInt32(pixel_pro_meter * i) + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) - 5)
                         });
                 }
                 else if (i % 10 == 0)
@@ -183,8 +185,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     RuleDatas.Add(new RuleData
                     {
                         Pen = pen,
-                        FirstPoint = new Point(x1_small, (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i))),
-                        SecondPoint = new Point(x2_small, (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i)))
+                        FirstPoint = new Point(x1_small, (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i))),
+                        SecondPoint = new Point(x2_small, (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * i)))
                     });
                 }
             }
@@ -204,7 +206,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_yellow,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (_parameters.s - slowdown_zone)))
                 });
@@ -215,7 +217,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_orange,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (_parameters.s - dot_zone)))
                 });
@@ -226,7 +228,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_yellow,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - slowdown_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Distance.Value - slowdown_zone_back))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (slowdown_zone_back - _parameters.s)))
                 });
@@ -237,7 +239,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_orange,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value - dot_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Distance.Value - dot_zone_back))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (dot_zone_back - _parameters.s)))
                 });
@@ -258,11 +260,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = green_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -271,15 +273,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -290,15 +292,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -309,13 +311,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = green,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state > 0 &&
+                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state > 0 &&
                     _parameters.unload_state < 4)
                 {
                     RulePointerLine.Add(new RuleData
@@ -323,11 +325,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = pen,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -336,15 +338,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -355,15 +357,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -374,24 +376,24 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = black,
                             LeftTopX = panelWidth/2 - panelWidth/6 - Convert.ToInt32(LoadCageWidth),
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = Convert.ToInt32(LoadCageWidth) + 1,
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s < (IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state >= 4)
+                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state >= 4)
                 {
                     RulePointerLine.Add(new RuleData
                         {
                             Pen = pen,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -400,15 +402,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -419,15 +421,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -439,13 +441,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = black,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.5) &&
+                if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) &&
                     _parameters.load_state > 0 && _parameters.load_state < 4)
                 {
                     RulePointerLine.Add(new RuleData
@@ -453,11 +455,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = lightgray_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))))
                         }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -466,15 +468,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -485,15 +487,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -504,13 +506,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = lightgray,
                             LeftTopX = panelWidth/2 - panelWidth/6 - Convert.ToInt32(UnLoadCageWidth),
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = Convert.ToInt32(UnLoadCageWidth) + 1,
                             Height = 20
                         });
                 }
-                else if (_parameters.f_ostanov == 1 && _parameters.s > (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - 0.5) &&
+                else if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) &&
                          _parameters.load_state >= 4)
                 {
                     RulePointerLine.Add(new RuleData
@@ -518,12 +520,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = lightgray_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -533,15 +535,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -552,15 +554,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -572,26 +574,26 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = lightgray,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
                         });
                 }
-                else if ((_parameters.s <= IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value) ||
-                         (_parameters.s >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value))
+                else if ((_parameters.s <= _mineConfig.MainViewConfig.BorderZero.Value - _mineConfig.MainViewConfig.BorderRed.Value) ||
+                         (_parameters.s >= _mineConfig.MainViewConfig.Border.Value + _mineConfig.MainViewConfig.BorderRed.Value))
                 {
                     RulePointerLine.Add(new RuleData
                         {
                             Pen = red_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -601,15 +603,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -620,15 +622,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -639,7 +641,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = red,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
@@ -654,12 +656,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = pen,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -669,15 +671,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -688,15 +690,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -707,7 +709,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = black,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
@@ -722,12 +724,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = lightgray_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -737,15 +739,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -756,15 +758,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -775,7 +777,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = lightgray,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
@@ -788,12 +790,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = lightgray_pen_two,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -803,15 +805,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -822,15 +824,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -841,7 +843,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = lightgray,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
@@ -854,12 +856,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Pen = pen,
                             FirstPoint =
                                 new Point(panelWidth/2 - panelWidth/6,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two)))),
                             SecondPoint =
                                 new Point(x2_long,
-                                          (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                          (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                            Convert.ToInt32(pixel_pro_meter*
                                                            (_parameters.s_two))))
                         }); //отрисовка текущего значения пути
@@ -869,15 +871,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -888,15 +890,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -907,7 +909,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Brush = black,
                             LeftTopX = 1,
                             LeftTopY =
-                                (Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                (Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                  Convert.ToInt32(pixel_pro_meter*(_parameters.s_two))),
                             Width = panelWidth/2 - panelWidth/6,
                             Height = 20
@@ -923,11 +925,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Pen = green_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -936,15 +938,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -955,15 +957,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -974,26 +976,26 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = green,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
                     });
                 }
-                else if ((_parameters.s <= IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value) ||
-                         (_parameters.s >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value))
+                else if ((_parameters.s <= _mineConfig.MainViewConfig.BorderZero.Value - _mineConfig.MainViewConfig.BorderRed.Value) ||
+                         (_parameters.s >= _mineConfig.MainViewConfig.Border.Value + _mineConfig.MainViewConfig.BorderRed.Value))
                 {
                     RulePointerLine.Add(new RuleData
                     {
                         Pen = red_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
@@ -1003,15 +1005,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1022,15 +1024,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1041,7 +1043,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = red,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
@@ -1054,11 +1056,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Pen = lightgray_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -1067,15 +1069,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1086,15 +1088,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1105,7 +1107,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = lightgray,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
@@ -1124,11 +1126,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Pen = green_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
                     RulePointer.Add(new Pointer
@@ -1137,15 +1139,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1156,15 +1158,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1175,26 +1177,26 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = green,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
                     });
                 }
-                else if ((_parameters.s <= IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value) ||
-                         (_parameters.s >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value + IoC.Resolve<MineConfig>().MainViewConfig.BorderRed.Value))
+                else if ((_parameters.s <= _mineConfig.MainViewConfig.BorderZero.Value - _mineConfig.MainViewConfig.BorderRed.Value) ||
+                         (_parameters.s >= _mineConfig.MainViewConfig.Border.Value + _mineConfig.MainViewConfig.BorderRed.Value))
                 {
                     RulePointerLine.Add(new RuleData
                     {
                         Pen = red_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
@@ -1204,15 +1206,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1223,15 +1225,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1242,7 +1244,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = red,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
@@ -1255,12 +1257,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Pen = blue_pen_two,
                         FirstPoint =
                             new Point(panelWidth / 2 - panelWidth / 6,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two)))),
                         SecondPoint =
                             new Point(x2_long,
-                                      (10 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                      (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                        Convert.ToInt32(pixel_pro_meter *
                                                        (_parameters.s_two))))
                     }); //отрисовка текущего значения пути
@@ -1270,15 +1272,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1289,15 +1291,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Triangle = new Point[3]
                                 {
                                     new Point(panelWidth/2 - panelWidth/6 + 10,
-                                              (10 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (10 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (5 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (5 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two)))),
                                     new Point(panelWidth/2 - panelWidth/6,
-                                              (15 + Convert.ToInt32(pixel_pro_meter*(-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                                              (15 + Convert.ToInt32(pixel_pro_meter*(-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                                                Convert.ToInt32(pixel_pro_meter*
                                                                (_parameters.s_two))))
                                 }
@@ -1308,7 +1310,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         Brush = blue,
                         LeftTopX = 1,
                         LeftTopY =
-                            (Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
+                            (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) +
                              Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))),
                         Width = panelWidth / 2 - panelWidth / 6,
                         Height = 20
@@ -1341,9 +1343,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Pen = green_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1351,9 +1353,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Brush = green,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
             }
@@ -1364,9 +1366,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Pen = green_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1374,9 +1376,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Brush = green,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
             }
@@ -1392,9 +1394,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Pen = lightgray_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1402,9 +1404,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Brush = lightgray,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
             }
@@ -1415,9 +1417,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Pen = lightgray_pen,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
                 DirectionFillPointer.Add(new FillPointer
@@ -1425,9 +1427,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Brush = lightgray,
                     Triangle = new Point[3]
                     {
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
-                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2, (18 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 - 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two)))),
+                        new Point(1 + (panelWidth / 2 - panelWidth / 6) / 2 + 9, (2 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_parameters.s_two))))
                     }
                 });
             }
@@ -1470,7 +1472,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<CageAndRuleZone> Cage { get; private set; }
         public List<Pointer> DirectionPointer { get; private set; }
         public List<FillPointer> DirectionFillPointer { get; private set; }
+
         private Parameters _parameters;
+        private MineConfig _mineConfig;
         private double long_desh_width;
         private double middle_desh_width;
         private double small_desh_width;

@@ -68,7 +68,7 @@ namespace ML.DataExchange
                     _drawLoad = DrawLoad;
                     DrawLoad = null;
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(30);
             }
         }
         

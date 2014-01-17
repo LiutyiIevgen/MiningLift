@@ -14,10 +14,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-
-            SetLength();
-            SetPointsValue();
-
+            _mineConfig = IoC.Resolve<MineConfig>();
             pen = new Pen(Color.Black, 2);
             green_pen = new Pen(Color.FromArgb(255, 0, 255, 0), 1);
             drawFont_two = new Font("Arial", 16);
@@ -43,6 +40,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             SpeedMeaningZone.Clear();
 
             _parameters = parameters;
+            SetLength();
+            SetPointsValue();
         }
         private void SetLength()
         {
@@ -50,7 +49,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             middle_desh_width = panelHeight / 5;
             small_desh_width = panelHeight / 8;
             rule_hight = panelWidth - 20;
-            pixel_pro_meter = rule_hight / IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value;
+            pixel_pro_meter = rule_hight / _mineConfig.MainViewConfig.MaxSpeed.Value;
         }
 
         private void SetPointsValue()
@@ -71,7 +70,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 FirstPoint = new Point(0, panelHeight / 2),
                 SecondPoint = new Point(panelWidth, panelHeight / 2)
             });
-            for (int i = 0; i <= IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value * 10; i++)
+            for (int i = 0; i <= _mineConfig.MainViewConfig.MaxSpeed.Value * 10; i++)
             {
                 if (i % 10 == 0)
                 {
@@ -196,6 +195,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<FillPointer> RuleFillPointer { get; private set; }
         public List<CageAndRuleZone> SpeedMeaningZone { get; private set; }
         private Parameters _parameters;
+        private MineConfig _mineConfig;
         private int panelWidth;
         private int panelHeight;
         private double long_desh_width;

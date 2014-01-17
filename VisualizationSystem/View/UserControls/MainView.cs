@@ -48,7 +48,7 @@ namespace VisualizationSystem.View.UserControls
 
             _dataListener.Init(ViewData);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true};
-            //arhivWriterThread.Start();
+            arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
         }
