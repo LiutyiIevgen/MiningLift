@@ -10,14 +10,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class TokExcitationPanelVm
     {
-        public TokExcitationPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public TokExcitationPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             SetLength();
             SetPointsValue();
-            SolveTokExcitation();
+            
 
             pen = new Pen(Color.Black, 2);
             yellow_pen = new Pen(Color.Yellow, 1);
@@ -34,6 +33,18 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             TokExcitationMeaningZone = new List<CageAndRuleZone>();
         }
 
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            TokExcitationMeaningZone.Clear();
+
+            _parameters = parameters;
+            SolveTokExcitation();
+        }
         private void SetLength()
         {
             long_desh_width = panelHeight / 3;

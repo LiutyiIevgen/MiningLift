@@ -10,11 +10,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class SpeedPanelVm
     {
-        public SpeedPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public SpeedPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
+
             SetLength();
             SetPointsValue();
 
@@ -33,6 +33,17 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             SpeedMeaningZone = new List<CageAndRuleZone>();
         }
 
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            SpeedMeaningZone.Clear();
+
+            _parameters = parameters;
+        }
         private void SetLength()
         {
             long_desh_width = panelHeight / 3;

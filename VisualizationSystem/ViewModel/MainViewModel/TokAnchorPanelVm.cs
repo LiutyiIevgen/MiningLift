@@ -10,14 +10,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class TokAnchorPanelVm
     {
-        public TokAnchorPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public TokAnchorPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
+            
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             SetLength();
             SetPointsValue();
-            SolveTokAnchor();
+            
 
             pen = new Pen(Color.Black, 2);
             orange_pen = new Pen(Color.Orange, 1);
@@ -34,6 +34,18 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             TokAnchorMeaningZone = new List<CageAndRuleZone>();
         }
 
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            TokAnchorMeaningZone.Clear();
+
+            _parameters = parameters;
+            SolveTokAnchor();
+        }
         private void SetLength()
         {
             long_desh_width = panelHeight / 3;

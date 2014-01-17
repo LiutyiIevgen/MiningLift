@@ -10,13 +10,10 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class RightDopPanelVm
     {
-        public RightDopPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public RightDopPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-            SetLength();
-            SetPointsValue();
 
             pen = new Pen(Color.Black, 2);
             red_pen = new Pen(Color.Red, 1);
@@ -32,6 +29,19 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             PanelBorderLine = new List<BorderLine>();
         }
 
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            PanelBorderLine.Clear();
+
+            _parameters = parameters;
+            SetLength();
+            SetPointsValue();
+        }
         private void SetLength()
         {
             if (_parameters.v <= IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)

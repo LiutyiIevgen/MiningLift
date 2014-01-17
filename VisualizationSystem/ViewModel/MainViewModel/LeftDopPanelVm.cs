@@ -10,13 +10,10 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class LeftDopPanelVm
     {
-        public LeftDopPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public LeftDopPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
-            SetLength();
-            SetPointsValue();
 
             pen = new Pen(Color.Black, 2);
             red_pen = new Pen(Color.Red, 1);
@@ -30,6 +27,20 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             RulePointer = new List<Pointer>();
             RuleFillPointer = new List<FillPointer>();
             PanelBorderLine = new List<BorderLine>();
+        }
+
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            PanelBorderLine.Clear();
+
+            _parameters = parameters;
+            SetLength();
+            SetPointsValue();
         }
 
         private void SetLength()

@@ -12,16 +12,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
     class LeftPanelVm
     {
         
-        public LeftPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public LeftPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             SetLength();
             SetPointsValue();
-            SolveZones();
-            SolveDirection();
 
+            _mineConfig = IoC.Resolve<MineConfig>();
             pen = new Pen(Color.Black, 2);
             pen_zero = new Pen(Color.Black, 1);
             green_pen = new Pen(Color.FromArgb(255, 100, 200, 50), 1);
@@ -59,6 +57,23 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             dot_zone = 0;
             slowdown_zone_back = 0;
             dot_zone_back = 0;
+        }
+
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            Zones.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            Cage.Clear();
+            DirectionPointer.Clear();
+            DirectionFillPointer.Clear();
+
+            _parameters = parameters;
+            SolveZones();
+            SolveDirection();
         }
 
         private void SetLength()
@@ -898,7 +913,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<Pointer> DirectionPointer { get; private set; }
         public List<FillPointer> DirectionFillPointer { get; private set; }
         public CageAndRuleZone LoadCage { get; private set; }
+
         private Parameters _parameters;
+        private MineConfig _mineConfig;
         private double long_desh_width;
         private double middle_desh_width;
         private double small_desh_width;

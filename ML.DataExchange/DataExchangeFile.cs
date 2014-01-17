@@ -14,11 +14,9 @@ namespace ML.DataExchange
     {
         public bool StartExchange(string strPort, int portSpeed, ICanIO device)
         {                     
-            _fileName = strPort;          
-            _timer = new Timer(Interval);
-            _timer.Elapsed += (sender, e) => TimerEvent();
-            _timer.Enabled = true;
-            _timer.Start();
+            _fileName = strPort;
+            var timeThread = new Thread(TimerEvent) { IsBackground = true};
+            timeThread.Start();
             return true;
         }
 
@@ -30,43 +28,47 @@ namespace ML.DataExchange
 
         private void TimerEvent()
         {
-            double[] param;
-                int k;               
-                 try
-                 {
-                     mymutex = Mutex.OpenExisting("NonPersisterMemoryMappedFilemutex");
-                     myNonPersisterMemoryMappedFile = MemoryMappedFile.OpenExisting(_fileName); 
-                     mymutex.WaitOne();                               
-                     k = 0;
-                     param = new double[30];
-                     StreamReader sr = new StreamReader(myNonPersisterMemoryMappedFile.CreateViewStream());
-                     while (sr.EndOfStream != true)
-                     {
-                         string s = sr.ReadLine();
-                         double data;
-                         if (double.TryParse(s,out data))
-                             param[k] = data;
-                         else
-                             break;
-                         k++;
-                     }
-                     sr.Close();
-                     mymutex.ReleaseMutex();
-                 }
-                 catch (Exception ex)
-                 {    
-                     if(mymutex!=null)
-                       mymutex.ReleaseMutex();
-                     return;
-                 }
-            Parameters parameters = new Parameters(param);
-            if (ReceiveEvent != null)
-                ReceiveEvent(parameters);
-            if ((parameters.f_ostanov == 1 && parameters.load_state == 1) && DrawLoad != null)
+            while (true)
             {
-                DrawLoad();
-                _drawLoad = DrawLoad;
-                DrawLoad = null;
+                double[] param;
+                int k;
+                try
+                {
+                    mymutex = Mutex.OpenExisting("NonPersisterMemoryMappedFilemutex");
+                    myNonPersisterMemoryMappedFile = MemoryMappedFile.OpenExisting(_fileName);
+                    mymutex.WaitOne();
+                    k = 0;
+                    param = new double[30];
+                    StreamReader sr = new StreamReader(myNonPersisterMemoryMappedFile.CreateViewStream());
+                    while (sr.EndOfStream != true)
+                    {
+                        string s = sr.ReadLine();
+                        double data;
+                        if (double.TryParse(s, out data))
+                            param[k] = data;
+                        else
+                            break;
+                        k++;
+                    }
+                    sr.Close();
+                    mymutex.ReleaseMutex();
+                }
+                catch (Exception ex)
+                {
+                    if (mymutex != null)
+                        mymutex.ReleaseMutex();
+                    return;
+                }
+                Parameters parameters = new Parameters(param);
+                if (ReceiveEvent != null)
+                    ReceiveEvent(parameters);
+                if ((parameters.f_ostanov == 1 && parameters.load_state == 1) && DrawLoad != null)
+                {
+                    DrawLoad();
+                    _drawLoad = DrawLoad;
+                    DrawLoad = null;
+                }
+                Thread.Sleep(1);
             }
         }
         
@@ -89,7 +91,7 @@ namespace ML.DataExchange
         private event Action _drawLoad;
         private Timer _timer;
         private string _fileName;
-        private const int Interval = 50;
+        private const int Interval = 10;
         private Mutex mymutex;
         private MemoryMappedFile myNonPersisterMemoryMappedFile;
     }

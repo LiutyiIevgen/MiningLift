@@ -11,15 +11,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class RightPanelVm
     {
-        public RightPanelVm(int panelWidth, int panelHeight, Parameters parameter)
+        public RightPanelVm(int panelWidth, int panelHeight)
         {
-            _parameters = parameter;
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             SetLength();
             SetPointsValue();
-            SolveZones();
-            SolveDirection();
 
             pen = new Pen(Color.Black, 2);
             pen_zero = new Pen(Color.Black, 1);
@@ -49,6 +46,22 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             Cage = new List<CageAndRuleZone>();
             DirectionPointer = new List<Pointer>();
             DirectionFillPointer = new List<FillPointer>();
+        }
+        public void InitVm(Parameters parameters)
+        {
+            RuleDatas.Clear();
+            RuleInscriptions.Clear();
+            Zones.Clear();
+            RulePointerLine.Clear();
+            RulePointer.Clear();
+            RuleFillPointer.Clear();
+            Cage.Clear();
+            DirectionPointer.Clear();
+            DirectionFillPointer.Clear();
+
+            _parameters = parameters;
+            SolveZones();
+            SolveDirection();
         }
 
         static RightPanelVm()
