@@ -418,7 +418,7 @@ namespace VisualizationSystem.View.UserControls
             });
         }
 
-        private void UpdateParametersData()
+        private void UpdateParametersData(object sender, TabControlEventArgs e)
         {
             if(tabControl1.SelectedTab != tabPage6)
                 return;

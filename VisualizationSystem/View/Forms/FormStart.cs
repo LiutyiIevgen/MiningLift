@@ -21,19 +21,16 @@ namespace VisualizationSystem.View.Forms
             //FormSettings f2 = IoC.Resolve<FormSettings>();
             //FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
             SetMainView();
-            using (var repoUnit = new RepoUnit())
-            {
-                var value = repoUnit.BlockLog.FindFirstBy(f => f.Id == 1);
-            } 
         }
 
         private void SetMainView()
         {          
-            _mainView = new MainView{Dock = System.Windows.Forms.DockStyle.Fill};
+            _mainView = new MainView {Dock = System.Windows.Forms.DockStyle.Fill};
+            _mainView.Width = this.Width;
+            _mainView.Height = this.Height;
             panel1.Controls.Add(_mainView);
             _mainView.MainView_Load();
-           // this.Controls.Remove(_mainView);
-            
+
         }
         private MainView _mainView;
     }
