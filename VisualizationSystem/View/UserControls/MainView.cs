@@ -43,11 +43,13 @@ namespace VisualizationSystem.View.UserControls
             _tokAnchorPanelVm = new TokAnchorPanelVm(panel4.Width, panel4.Height);
             _tokExcitationPanelVm = new TokExcitationPanelVm(panel5.Width, panel5.Height);
 
+            _dataBaseService = IoC.Resolve<DataBaseService>();
+
             var param = new double[30];
             ViewData(new Parameters(param));
 
             _dataListener.Init(ViewData);
-            var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true};
+            var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Normal};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
@@ -73,7 +75,7 @@ namespace VisualizationSystem.View.UserControls
             UpdateLoadData(parameters);
             
             
-            if (update_parameters_flag%10==0)
+            if (update_parameters_flag%20==0)
             if (!updateGraphicThread.IsAlive)
             {
                 updateGraphicThread = new Thread(updateGraphicHandler);
@@ -82,7 +84,7 @@ namespace VisualizationSystem.View.UserControls
             }
                 
             update_parameters_flag++;
-            if (update_parameters_flag%10 == 0)
+            if (update_parameters_flag%20 == 0)
             {
                 UpdateParametersData();
                 UpdateCentralSignalsData(parameters);
@@ -97,8 +99,8 @@ namespace VisualizationSystem.View.UserControls
         {
             while (true)
             {
-                IoC.Resolve<DataBaseService>().FillDataBase(_parameters);
-                Thread.Sleep(500);
+                _dataBaseService.FillDataBase(_parameters);
+                Thread.Sleep(1000);
             } 
         }
 
@@ -123,7 +125,7 @@ namespace VisualizationSystem.View.UserControls
             if (param.f_start == 1 || param.f_back == 1)
             {
                 //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (chartVA.Series[0].Points.Count == 700)
+                if (chartVA.Series[0].Points.Count == 500)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -563,6 +565,8 @@ namespace VisualizationSystem.View.UserControls
         private SpeedPanelVm _speedPanelVm;
         private TokAnchorPanelVm _tokAnchorPanelVm;
         private TokExcitationPanelVm _tokExcitationPanelVm;
+
+        private DataBaseService _dataBaseService;
 
         private DataListener _dataListener;
         private Bitmap btBac;

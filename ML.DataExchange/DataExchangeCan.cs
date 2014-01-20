@@ -194,31 +194,37 @@ namespace ML.DataExchange
             Parameters parameters;
             var param = new double[30];
             var config = new MineConfig();
+            var msgRead = new List<CanDriver.canmsg_t>();
             while (true)
             {
 
                 try
                 {
-                    List<CanDriver.canmsg_t> msgRead = _device.ReceiveMsgBlock(MsgCount);
-                    if (msgRead == null)
+                    
+                    var msg = _device.ReceiveMsgBlock(MsgCount);
+                    if (msg == null)
                     {
                         _device.OpenCAN(_portName, _portSpeed);
-                        Thread.Sleep(5);
+                        Thread.Sleep(50);
                         continue;              
                     }
-                    if (msgRead.Count == 0)
+                    if (msg.Count == 0)
                     {
-                        Thread.Sleep(50);
+                        Thread.Sleep(5);
                         continue;
                     }
+                    msgRead.AddRange(msg);
+                    if(msgRead.Count<7)
+                        continue;
                     parameters = CanParser.GetParameters(msgRead, (byte)config.LeadingController); //путевая информация
                     ReceiveEvent(parameters);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead);//параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    //Thread.Sleep(20);
+                    msgRead.Clear();
+                    //Thread.Sleep(1);
                 }
-                catch(Exception)
+                catch(Exception exception)
                 {
                     Thread.Sleep(500);
                     continue; 

@@ -94,7 +94,7 @@ namespace ML.DataExchange.Model
             }
             for (int i = 0; i < signals.Count && i < 72; i++)
             {
-                AuziDIOSignalsState[i + 72] = signals[i];
+                AuziDIOSignalsState[i] = signals[i];
             }
         }
 

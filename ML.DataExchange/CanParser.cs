@@ -36,28 +36,29 @@ namespace ML.DataExchange
                 throw new Exception();
             }
             parameters = new Parameters(param);
-            parameters.SetAuziDOSignalsState(outputSignals);
             parameters.SetAuziDISignalsState(inputSignals);
+            parameters.SetAuziDOSignalsState(outputSignals);
+            
             return parameters;
         }
 
         private static List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
-            byte[] tpdo3 = msgData.FirstOrDefault(p => p.id == (0x380 + controllerId)).data;
-            byte tpdo1 = msgData.FirstOrDefault(p => p.id == (0x180 + controllerId)).data[6];
+            byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
+            byte tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data[6];
             var byteList = new List<byte> {tpdo3[4], tpdo3[5], tpdo3[6], tpdo3[7], tpdo1};
             return byteList;
         }
         private static List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
-            byte[] tpdo3 = msgData.FirstOrDefault(p => p.id == (0x380+controllerId)).data;
+            byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
             var byteList = new List<byte> {tpdo3[0], tpdo3[1], tpdo3[2], tpdo3[3]};
             return byteList;
         }
         private static double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double s = 0;
-            byte[] tpdo1 = msgData.FirstOrDefault(p => p.id== (0x180 + controllerId)).data;
+            byte[] tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data;
             s = (tpdo1[3] << 8) + (tpdo1[4] << 16) + (tpdo1[5] << 24);
             s /= 256 * 1000;
             return s;
