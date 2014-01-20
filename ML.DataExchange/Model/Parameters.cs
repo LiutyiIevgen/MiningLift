@@ -14,7 +14,7 @@ namespace ML.DataExchange.Model
             signal = new int[24];
             AuziDIOSignalsState = new List<AuziDState>();
             set_parameters(param);
-            GetSignals();
+            SetSignals();
             SetAuziDIOSignalsState();
             DefenceDiagramRegime = 1;//"груз"
         }
@@ -36,7 +36,7 @@ namespace ML.DataExchange.Model
             s_two = -param[12];
         }
 
-        public void GetSignals()
+        public void SetSignals()
         {
             for (int i = 0; i < 24; i++)
             {

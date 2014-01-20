@@ -9,9 +9,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class AuziDInOutSignalsVm
     {
-        public AuziDInOutSignalsVm(Parameters parameter)
+        public AuziDInOutSignalsVm()
         {
-            _parameters = parameter;
+            _mineConfig = new MineConfig();
             InputNames = new List<string>();
             InputMeanings = new List<Color>();
             OutputNames = new List<string>();
@@ -19,7 +19,6 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             codes = new string[144];
 
             InitSignalCodes();
-            UpDateSignals();
         }
 
         private void InitSignalCodes()
@@ -170,41 +169,45 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             codes[143] = "5-X16OUT3-8";
         }
 
-        private void UpDateSignals()
+        public void UpDateSignals(Parameters parameters)
         {
-            foreach (string addSignal in IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals)
+            InputNames.Clear();
+            InputMeanings.Clear();
+            OutputNames.Clear();
+            OutputMeanings.Clear();
+            foreach (string addSignal in _mineConfig.AuziDSignalsConfig.AddedSignals)
             {
                 int index;
                 if (Int32.TryParse(addSignal, out index))
                 {
                     if (index < 72)
                     {
-                        InputNames.Add(codes[index] +" "+ IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames[index]);
-                        if (_parameters.AuziDIOSignalsState[index] == AuziDState.On)
+                        InputNames.Add(codes[index] + " " + _mineConfig.AuziDSignalsConfig.SignalsNames[index]);
+                        if (parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
                             InputMeanings.Add(Color.LightGray);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Off)
+                        else if (parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
                             InputMeanings.Add(Color.Red);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
+                        else if (parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
                             InputMeanings.Add(Color.White);
                         }
                     }
                     else
                     {
-                        OutputNames.Add(codes[index] +" "+ IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames[index]);
-                        if (_parameters.AuziDIOSignalsState[index] == AuziDState.On)
+                        OutputNames.Add(codes[index] + " " + _mineConfig.AuziDSignalsConfig.SignalsNames[index]);
+                        if (parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
                             OutputMeanings.Add(Color.LightGray);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Off)
+                        else if (parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
                             OutputMeanings.Add(Color.Red);
                         }
-                        else if (_parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
+                        else if (parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
                             OutputMeanings.Add(Color.White);
                         }
@@ -230,7 +233,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<Color> InputMeanings { get; private set; }
         public List<string> OutputNames { get; private set; }
         public List<Color> OutputMeanings { get; private set; }
-        private Parameters _parameters;
+
         string[] codes;
+
+        private MineConfig _mineConfig;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -42,6 +43,8 @@ namespace VisualizationSystem.View.UserControls
             _speedPanelVm = new SpeedPanelVm(panel3.Width, panel3.Height);
             _tokAnchorPanelVm = new TokAnchorPanelVm(panel4.Width, panel4.Height);
             _tokExcitationPanelVm = new TokExcitationPanelVm(panel5.Width, panel5.Height);
+            _centralSignalsDataVm = new CentralSignalsDataVm();
+            _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
 
             _dataBaseService = IoC.Resolve<DataBaseService>();
 
@@ -62,36 +65,37 @@ namespace VisualizationSystem.View.UserControls
             //
             Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
             //
-
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
-            UpdateLeftDopPanel(parameters);
-            UpdateRightDopPanel(parameters);
             UpdateSpeedPanel(parameters);
             UpdateTokAnchorPanel(parameters);
             UpdateTokExitationPanel(parameters);
+            UpdateLeftDopPanel(parameters);
+            UpdateRightDopPanel(parameters);
+            
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
             
             
-            if (update_parameters_flag%20==0)
+            if (update_parameters_flag%10==0)
             if (!updateGraphicThread.IsAlive)
             {
                 updateGraphicThread = new Thread(updateGraphicHandler);
                 updateGraphicThread.IsBackground = true;
                 updateGraphicThread.Start(parameters);
-            }
-                
-            update_parameters_flag++;
+            }   
             if (update_parameters_flag%20 == 0)
             {
-                UpdateParametersData();
-                UpdateCentralSignalsData(parameters);
+                UpdateCentralSignalsData(parameters); 
                 UpdateAuziDInputOutputSignals(parameters);
                 update_parameters_flag = 0;
             }
-
+            update_parameters_flag++;
+            stopwatch.Stop();
+            stopwatch = null;
         }
 
         #region Threads
@@ -373,16 +377,16 @@ namespace VisualizationSystem.View.UserControls
 
         private void UpdateCentralSignalsData(Parameters parameters)
         {
-            var centralSignalsDataVm = new CentralSignalsDataVm(parameters);
+            var centralSignals = _centralSignalsDataVm.GetSignalsData(parameters);
             this.Invoke((MethodInvoker)delegate
             {
                 for (int i = 0; i < 24; i++)
                 {
-                    masRichTextBox[i].BackColor = centralSignalsDataVm.SignalsData[i].BackColor;
-                    masRichTextBox[i].Text = centralSignalsDataVm.SignalsData[i].Text;
+                    masRichTextBox[i].BackColor = centralSignals[i].BackColor;
+                    masRichTextBox[i].Text = centralSignals[i].Text;
                 }
             });
-            if (centralSignalsDataVm.SignalsData[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
+            if (centralSignals[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
             {
                 this.Invoke((MethodInvoker)delegate
             {
@@ -390,7 +394,7 @@ namespace VisualizationSystem.View.UserControls
             });
                 DefenceDiagramWorking = 1;
             }
-            if (centralSignalsDataVm.SignalsData[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
+            if (centralSignals[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
             {
                 DefenceDiagramWorking = 0;
             }
@@ -398,25 +402,27 @@ namespace VisualizationSystem.View.UserControls
 
         private void UpdateAuziDInputOutputSignals(Parameters parameters)
         {
-            var AuziDInOutSignalsVm = new AuziDInOutSignalsVm(parameters);
+            _auziDInOutSignalsVm.UpDateSignals(parameters);
             this.Invoke((MethodInvoker)delegate
             {
                 for (int i = 0; i < 32; i++)
                 {
-                    masInTextBox[i].BackColor = AuziDInOutSignalsVm.InputMeanings[i];
-                    masInLabel[i].Text = AuziDInOutSignalsVm.InputNames[i];
+                    masInTextBox[i].BackColor = _auziDInOutSignalsVm.InputMeanings[i];
+                    masInLabel[i].Text = _auziDInOutSignalsVm.InputNames[i];
                 }
                 for (int i = 0; i < 16; i++)
                 {
-                    masOutTextBox[i].BackColor = AuziDInOutSignalsVm.OutputMeanings[i];
-                    masOutLabel[i].Text = AuziDInOutSignalsVm.OutputNames[i];
+                    masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
+                    masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
                 }
             });
         }
 
         private void UpdateParametersData()
         {
-            ParametersSettingsVm parametersSettingsVm = new ParametersSettingsVm();
+            if(tabControl1.SelectedTab != tabPage6)
+                return;
+            var parametersSettingsVm = new ParametersSettingsVm();
             List<ParametersSettingsData> parametersSettingsDatas = null;
             try
             {
@@ -565,6 +571,8 @@ namespace VisualizationSystem.View.UserControls
         private SpeedPanelVm _speedPanelVm;
         private TokAnchorPanelVm _tokAnchorPanelVm;
         private TokExcitationPanelVm _tokExcitationPanelVm;
+        private CentralSignalsDataVm _centralSignalsDataVm;
+        private AuziDInOutSignalsVm _auziDInOutSignalsVm;
 
         private DataBaseService _dataBaseService;
 

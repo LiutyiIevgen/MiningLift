@@ -6,17 +6,15 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class CentralSignalsDataVm
     {
-        public CentralSignalsDataVm(Parameters parameter)
+        public CentralSignalsDataVm()
         {
-            _parameters = parameter;
-            SignalsData = new RichTextBoxData[24];
+            _signalsData = new RichTextBoxData[24];
             for (int i = 0; i < 24;i++ )
-                SignalsData[i] = new RichTextBoxData();
+                _signalsData[i] = new RichTextBoxData();
             positiv_signals = new string[24];//названия положительных сигналов центральной части экрана
             negativ_signals = new string[24];//названия отрицательных сигналов центральной части экрана
 
             SetPositiveNegativeSignalsNames();
-            SolveSignalsData();
         }
 
         private void SetPositiveNegativeSignalsNames()
@@ -71,25 +69,25 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             negativ_signals[23] = "Запрет\r\nпуска";
         }
 
-        private void SolveSignalsData()
+        public RichTextBoxData[] GetSignalsData(Parameters parameters)
         {
             for (int i = 0; i < 24; i++)
             {
-                if (_parameters.signal[i] == 0)
+                if (parameters.signal[i] == 0)
                 {
-                    SignalsData[i].BackColor = Color.DarkGray;
-                    SignalsData[i].Text = positiv_signals[i];
+                    _signalsData[i].BackColor = Color.DarkGray;
+                    _signalsData[i].Text = positiv_signals[i];
                 }
                 else
                 {
-                    SignalsData[i].BackColor = Color.Red;
-                    SignalsData[i].Text = negativ_signals[i];
+                    _signalsData[i].BackColor = Color.Red;
+                    _signalsData[i].Text = negativ_signals[i];
                 }
             }
+            return _signalsData;
         }
 
-        public RichTextBoxData[] SignalsData { get; private set; }
-        private Parameters _parameters;
+        private RichTextBoxData[] _signalsData;
         string[] positiv_signals;//названия положительных сигналов центральной части экрана
         string[] negativ_signals;//названия отрицательных сигналов центральной части экрана
     }
