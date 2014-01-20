@@ -155,6 +155,12 @@ namespace VisualizationSystem.View.UserControls
                             defenceDiagramVm.CurrentDiagram[i].Y /
                             (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
                     }*/
+                    int j = 0;
+                    foreach (object item in checkedListBoxGraphic.Items)
+                    {
+                        chartVA.Series[j].Enabled = checkedListBoxGraphic.CheckedItems.Contains(item);
+                        j++;
+                    }
                 });
             }
         }
@@ -182,6 +188,8 @@ namespace VisualizationSystem.View.UserControls
                 richTextBox17, richTextBox18, richTextBox19, richTextBox20, richTextBox21,
                 richTextBox22, richTextBox23, richTextBox24, richTextBox25, richTextBox26, 
                 richTextBox27, richTextBox28};
+            for (int i = 0; i < checkedListBoxGraphic.Items.Count; i++)
+                checkedListBoxGraphic.SetItemChecked(i, true);
         }
 
         private void CreateAuziDIOSignalsMassiv()
