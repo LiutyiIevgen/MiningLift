@@ -70,7 +70,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
             //get output signals list
             var outputNodes = new List<TreeNode>();
-            signalsList = _dataBaseService.GetInputSignalsById(_blocksIds[_currentId]);
+            signalsList = _dataBaseService.GetOutputSignalsById(_blocksIds[_currentId]);
             for (int i = 0; i < signalsList.Count; i++)
             {
                 signalsList[i].Name = signalsNames[i+72];

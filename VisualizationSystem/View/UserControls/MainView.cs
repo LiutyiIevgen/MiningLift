@@ -53,7 +53,7 @@ namespace VisualizationSystem.View.UserControls
 
             _dataListener.Init(ViewData);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Normal};
-            arhivWriterThread.Start();
+            //arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
         }
@@ -65,8 +65,8 @@ namespace VisualizationSystem.View.UserControls
             //
             Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
             //
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
             UpdateSpeedPanel(parameters);
@@ -94,8 +94,8 @@ namespace VisualizationSystem.View.UserControls
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
-            stopwatch.Stop();
-            stopwatch = null;
+            //stopwatch.Stop();
+            //stopwatch = null;
         }
 
         #region Threads
