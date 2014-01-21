@@ -9,31 +9,30 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 {
     class DataBoxVm
     {
-        public DataBoxVm(Parameters parameter)
+        public DataBoxVm()
         {
-            _parameters = parameter;
             DataBoxes = new List<string>();
-
-            SolveDataBoxes();
+            _mineConfig = IoC.Resolve<MineConfig>();
         }
 
-        private void SolveDataBoxes()
+        public void SolveDataBoxes(Parameters parameters)
         {
-            if (_parameters.v > IoC.Resolve<MineConfig>().MainViewConfig.MaxDopRuleSpeed.Value)
+            DataBoxes.Clear();
+            if (parameters.v > _mineConfig.MainViewConfig.MaxDopRuleSpeed.Value)
             {
-                DataBoxes.Add(Convert.ToString(Math.Round(-_parameters.s, 0), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(-(_parameters.s_two), 0), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-parameters.s, 0), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-(parameters.s_two), 0), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
             }
             else
             {
-                DataBoxes.Add(Convert.ToString(Math.Round(-_parameters.s, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(-(_parameters.s_two), 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
-                DataBoxes.Add(Convert.ToString(Math.Round(_parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-parameters.s, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(-(parameters.s_two), 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.v, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
+                DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
             }
         }
 
@@ -43,6 +42,6 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         }
 
         public List<string> DataBoxes { get; private set; }
-        private Parameters _parameters;
+        private MineConfig _mineConfig;
     }
 }

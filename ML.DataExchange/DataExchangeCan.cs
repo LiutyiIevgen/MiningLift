@@ -214,8 +214,6 @@ namespace ML.DataExchange
                         continue;
                     }
                     msgRead.AddRange(msg);
-                    if(msgRead.Count<7)
-                        continue;
                     parameters = CanParser.GetParameters(msgRead, (byte)config.LeadingController); //путевая информация
                     ReceiveEvent(parameters);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead);//параметры can
@@ -225,10 +223,7 @@ namespace ML.DataExchange
                     //Thread.Sleep(1);
                 }
                 catch(Exception exception)
-                {
-                    Thread.Sleep(500);
-                    continue; 
-                }
+                {}
             }
         }
 
@@ -325,7 +320,7 @@ namespace ML.DataExchange
         private ICanIO _device;
         private bool m_bRun;
         private bool syncflag;
-        private int MsgCount = 80;
+        private int MsgCount = 180;
         private string _portName;
         private int _portSpeed;
         private Thread ReceiveThread;

@@ -27,12 +27,13 @@ namespace VisualizationSystem.View.UserControls
         {
             InitializeComponent();
             _dataListener = IoC.Resolve<DataListener>();
+            _mineConfig = IoC.Resolve<MineConfig>();
         }
         public void MainView_Load()
         {
             CreateRichTextBoxMassiv();
             CreateAuziDIOSignalsMassiv();
-            SetGraphicInterval();
+            SetGraphicInterval(); 
             updateGraphicThread = new Thread(updateGraphicHandler){IsBackground = true};
 
             //view models creation
@@ -45,7 +46,9 @@ namespace VisualizationSystem.View.UserControls
             _tokExcitationPanelVm = new TokExcitationPanelVm(panel5.Width, panel5.Height);
             _centralSignalsDataVm = new CentralSignalsDataVm();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
-
+            _loadDataVm = new LoadDataVm();
+            _dataBoxVm = new DataBoxVm();
+            
             _dataBaseService = IoC.Resolve<DataBaseService>();
 
             var param = new double[30];
@@ -63,7 +66,7 @@ namespace VisualizationSystem.View.UserControls
             _parameters = parameters;
             
             //
-            Settings.UpZeroZone = IoC.Resolve<MineConfig>().MainViewConfig.UpZeroZone.Value;
+            Settings.UpZeroZone = _mineConfig.MainViewConfig.UpZeroZone.Value;
             //
             //Stopwatch stopwatch = new Stopwatch();
             //stopwatch.Start();
@@ -143,17 +146,17 @@ namespace VisualizationSystem.View.UserControls
                 this.Invoke((MethodInvoker)delegate
                 {
                     chartVA.Series[0].Points.AddXY(-param.s,
-                        param.v / (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                        param.v / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
                     chartVA.Series[1].Points.AddXY(-param.s,
-                        param.tok_anchor / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokAnchor.Value / 100));
+                        param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100));
                     chartVA.Series[2].Points.AddXY(-param.s,
-                        param.tok_excitation / (IoC.Resolve<MineConfig>().MainViewConfig.MaxTokExcitation.Value / 100));
+                        param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100));
                     /*chartVA.Series[3].Points.Clear();
                     for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
                     {
                         chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
                             defenceDiagramVm.CurrentDiagram[i].Y /
-                            (IoC.Resolve<MineConfig>().MainViewConfig.MaxSpeed.Value / 100));
+                            (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
                     }*/
                     int j = 0;
                     foreach (object item in checkedListBoxGraphic.Items)
@@ -172,8 +175,8 @@ namespace VisualizationSystem.View.UserControls
             this.Invoke((MethodInvoker)delegate
             {
                 chartVA.ChartAreas[0].AxisX.Maximum = Settings.UpZeroZone;
-                chartVA.ChartAreas[0].AxisX.Minimum = -(IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value + IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8 - Settings.UpZeroZone);
-                chartVA.ChartAreas[0].AxisX.Interval = IoC.Resolve<MineConfig>().MainViewConfig.Distance.Value / 8;
+                chartVA.ChartAreas[0].AxisX.Minimum = -(_mineConfig.MainViewConfig.Distance.Value + _mineConfig.MainViewConfig.Distance.Value / 8 - Settings.UpZeroZone);
+                chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 8;
                 chartVA.ChartAreas[0].AxisY.Minimum = -100;
                 chartVA.ChartAreas[0].AxisY.Maximum = 125;
                 chartVA.ChartAreas[0].AxisY.Interval = 25;
@@ -226,14 +229,14 @@ namespace VisualizationSystem.View.UserControls
             _leftPanelVm.GetMainRuleDatas().ForEach(l => g.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
             _leftPanelVm.GetMainRuleInscription().ForEach(s => g.DrawString(s.Text, s.Font, s.Brush, s.Position));
             _leftPanelVm.GetMainRuleZones().ForEach(z => g.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
-            if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+            if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
                 _leftPanelVm.GetMainRulePointerLineSkip().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             else
                 _leftPanelVm.GetMainRulePointerLineBackBalance().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             _leftPanelVm.GetMainRulePointer().ForEach(p => g.DrawPolygon(p.Pen, p.Triangle));
             _leftPanelVm.GetMainRuleFillPointer().ForEach(fp => g.FillPolygon(fp.Brush, fp.Triangle));
             _leftPanelVm.GetMainRuleCage().ForEach(c => g.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            if (IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud == SosudType.Skip)
+            if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
                 _leftPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
             else
                 _leftPanelVm.GetMainRuleDirectionPointerBackBalance().ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
@@ -252,14 +255,14 @@ namespace VisualizationSystem.View.UserControls
             _rightPanelVm.GetMainRuleDatas().ForEach(l => gr.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
             _rightPanelVm.GetMainRuleInscription().ForEach(s => gr.DrawString(s.Text, s.Font, s.Brush, s.Position));
             _rightPanelVm.GetMainRuleZones().ForEach(z => gr.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
-            if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip)
+            if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
                 _rightPanelVm.GetMainRulePointerLineSkip().ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             else
                 _rightPanelVm.GetMainRulePointerLineBackBalance().ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             _rightPanelVm.GetMainRulePointer().ForEach(p => gr.DrawPolygon(p.Pen, p.Triangle));
             _rightPanelVm.GetMainRuleFillPointer().ForEach(fp => gr.FillPolygon(fp.Brush, fp.Triangle));
             _rightPanelVm.GetMainRuleCage().ForEach(c => gr.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            if (IoC.Resolve<MineConfig>().MainViewConfig.RightSosud == SosudType.Skip)
+            if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
                 _rightPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
             else
                 _rightPanelVm.GetMainRuleDirectionPointerBackBalance().ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
@@ -355,30 +358,30 @@ namespace VisualizationSystem.View.UserControls
 
         private void UpdateDataBoxes(Parameters parameters)
         {
-            var dataBoxVm = new DataBoxVm(parameters);
+            _dataBoxVm.SolveDataBoxes(parameters);
             this.Invoke((MethodInvoker)delegate
                 {
-                    textBox1.Text = dataBoxVm.GetDataBoxes()[0];
-                    textBox2.Text = dataBoxVm.GetDataBoxes()[1];
-                    textBox3.Text = dataBoxVm.GetDataBoxes()[2];
-                    textBox4.Text = dataBoxVm.GetDataBoxes()[3];
-                    textBox5.Text = dataBoxVm.GetDataBoxes()[4];
+                    textBox1.Text = _dataBoxVm.GetDataBoxes()[0];
+                    textBox2.Text = _dataBoxVm.GetDataBoxes()[1];
+                    textBox3.Text = _dataBoxVm.GetDataBoxes()[2];
+                    textBox4.Text = _dataBoxVm.GetDataBoxes()[3];
+                    textBox5.Text = _dataBoxVm.GetDataBoxes()[4];
                 });
         }
 
         private void UpdateLoadData(Parameters parameters)
         {
-            var loadDataVm = new LoadDataVm(parameters);
+            _loadDataVm.SolveLoadData(parameters);
             this.Invoke((MethodInvoker)delegate
                 {
-                    richTextBox1.BackColor = loadDataVm.GetLoadData()[0].BackColor;
-                    richTextBox1.Text = loadDataVm.GetLoadData()[0].Text;
-                    richTextBox4.BackColor = loadDataVm.GetLoadData()[3].BackColor;
-                    richTextBox4.Text = loadDataVm.GetLoadData()[3].Text;
-                    richTextBox2.BackColor = loadDataVm.GetLoadData()[1].BackColor;
-                    richTextBox2.Text = loadDataVm.GetLoadData()[1].Text;
-                    richTextBox3.BackColor = loadDataVm.GetLoadData()[2].BackColor;
-                    richTextBox3.Text = loadDataVm.GetLoadData()[2].Text;
+                    richTextBox1.BackColor = _loadDataVm.GetLoadData()[0].BackColor;
+                    richTextBox1.Text = _loadDataVm.GetLoadData()[0].Text;
+                    richTextBox4.BackColor = _loadDataVm.GetLoadData()[3].BackColor;
+                    richTextBox4.Text = _loadDataVm.GetLoadData()[3].Text;
+                    richTextBox2.BackColor = _loadDataVm.GetLoadData()[1].BackColor;
+                    richTextBox2.Text = _loadDataVm.GetLoadData()[1].Text;
+                    richTextBox3.BackColor = _loadDataVm.GetLoadData()[2].BackColor;
+                    richTextBox3.Text = _loadDataVm.GetLoadData()[2].Text;
                 });
         }
 
@@ -435,7 +438,7 @@ namespace VisualizationSystem.View.UserControls
             try
             {
                 parametersSettingsDatas =
-                    parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+                    parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
             }
             catch (Exception)
             {
@@ -581,8 +584,11 @@ namespace VisualizationSystem.View.UserControls
         private TokExcitationPanelVm _tokExcitationPanelVm;
         private CentralSignalsDataVm _centralSignalsDataVm;
         private AuziDInOutSignalsVm _auziDInOutSignalsVm;
+        private DataBoxVm _dataBoxVm;
+        private LoadDataVm _loadDataVm;
 
         private DataBaseService _dataBaseService;
+        private MineConfig _mineConfig;
 
         private DataListener _dataListener;
         private Bitmap btBac;
