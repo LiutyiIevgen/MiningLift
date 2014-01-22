@@ -200,13 +200,13 @@ namespace ML.DataExchange
 
                 try
                 {
-                    
+
                     var msg = _device.ReceiveMsgBlock(MsgCount);
                     if (msg == null)
                     {
                         _device.OpenCAN(_portName, _portSpeed);
                         Thread.Sleep(50);
-                        continue;              
+                        continue;
                     }
                     if (msg.Count == 0)
                     {
@@ -214,20 +214,26 @@ namespace ML.DataExchange
                         continue;
                     }
                     msgRead.AddRange(msg);
-                    parameters = CanParser.GetParameters(msgRead, (byte)config.LeadingController); //путевая информация
+                    /*if (msgRead.Count < 7)
+                        continue;*/
+                    parameters = CanParser.GetParameters(msgRead, (byte) config.LeadingController); //путевая информация
+                    if(parameters == null)
+                        continue;
                     ReceiveEvent(parameters);
-                    List<CanParameter> canParameters = TryGetParameterValue(msgRead);//параметры can
+                    List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
                     msgRead.Clear();
-                    //Thread.Sleep(1);
+                    Thread.Sleep(12);
                 }
-                catch(Exception exception)
-                {}
+                catch (Exception exception)
+                {
+                    
+                }
             }
         }
 
-        private void GetSegment(object canmsgT)
+        private void GetSegment(object canmsgT)//if codt domain send qeury for codtDomain blocks
         {
             var msg = (CanDriver.canmsg_t)canmsgT;
             double byteNumber = msg.data[4];
@@ -250,12 +256,14 @@ namespace ML.DataExchange
                             0x70,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
                         }
                     }});
-                Thread.Sleep(200);
+                if(i!=_sendNumber - 1)
+                    Thread.Sleep(200);
             }
         }
 
         private void SetSegment(object parameter)
         {
+            //start block
             var canParameter = parameter as CanParameter;
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
@@ -274,31 +282,21 @@ namespace ML.DataExchange
             Thread.Sleep(200);
             double byteCount = canParameter.Data.Count();
             var _sendNumber = (int)Math.Ceiling((double)(byteCount / 7));
+            //send data
             int i = 0;
             while (i < _sendNumber)
             {
                 var block = new byte[8];
                 for (int j = 0; j < 7; j++)
                 {
-                    if (i * 7 + j >= canParameter.Data.Count())
+                    if (i * 7 + j >= canParameter.Data.Count()) //set last bute to 0
                         block[j + 1] = 0;
                     else
                         block[j + 1] = canParameter.Data[i * 7 + j];
                 }
-                if (i == _sendNumber - 1)
-                {
+                if(i == _sendNumber - 1)//last block
                     block[0] = 0x1D;
-                    ParameterReceive(new List<CanParameter> //parameter was seted
-                    {
-                        new CanParameter
-                        {
-                            ControllerId = canParameter.ControllerId,
-                            ParameterId = canParameter.ParameterId,
-                            ParameterSubIndex = canParameter.ParameterSubIndex
-                        }
-                    });
-                }
-                else if (i%2 == 0)
+                else if (i%2 == 0) //change count bit
                     block[0] = 0;
                 else
                     block[0] = 0x10;
@@ -312,6 +310,19 @@ namespace ML.DataExchange
                         data = block
                     }
                 });
+                if (i == _sendNumber - 1) // if it was last block
+                {
+                    ParameterReceive(new List<CanParameter> //parameter was seted
+                    {
+                        new CanParameter
+                        {
+                            ControllerId = canParameter.ControllerId,
+                            ParameterId = canParameter.ParameterId,
+                            ParameterSubIndex = canParameter.ParameterSubIndex
+                        }
+                    });
+                    return;
+                }
                 i++;
                 Thread.Sleep(170);
             }

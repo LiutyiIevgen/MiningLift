@@ -68,8 +68,8 @@ namespace VisualizationSystem.View.UserControls
             //
             Settings.UpZeroZone = _mineConfig.MainViewConfig.UpZeroZone.Value;
             //
-            //Stopwatch stopwatch = new Stopwatch();
-            //stopwatch.Start();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
             UpdateSpeedPanel(parameters);
@@ -97,8 +97,8 @@ namespace VisualizationSystem.View.UserControls
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
-            //stopwatch.Stop();
-            //stopwatch = null;
+            stopwatch.Stop();
+            stopwatch = null;
         }
 
         #region Threads

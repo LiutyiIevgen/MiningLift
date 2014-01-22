@@ -171,6 +171,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 for (int j = 0; j < 3; j++)
                 {
                     _isUnloaded = false;
+                    Thread.Sleep(10);
                     UnloadParameter(controllerId, index, j);
                     while (!_isUnloaded)
                     {
@@ -193,6 +194,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             while (i < 88)
             {
                 _isLoaded = false;
+                Thread.Sleep(30);
                 LoadParameter(controllerId, index, 2);
                 while (!_isLoaded)
                 {
@@ -224,7 +226,8 @@ namespace VisualizationSystem.View.UserControls.Setting
         }
 
         private void ParameterReceive(List<CanParameter> parametersList)
-        {            
+        {
+            int i =0;
             foreach (var canParameter in parametersList)
             {
                 if (canParameter.Data == null)//parameter was seted
@@ -553,7 +556,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void loadAll_Click(object sender, EventArgs e)
         {
-            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true };
+            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true, Priority = ThreadPriority.Lowest};
             loadThread.Start();
         }
 

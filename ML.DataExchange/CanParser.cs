@@ -10,6 +10,8 @@ namespace ML.DataExchange
     {
         public static Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
+            if (!CheckMsgCount(msgData,controllerId))
+                return null;
             Parameters parameters;
             var param = new double[30];
             var outputSignals = new List<byte>();
@@ -42,6 +44,16 @@ namespace ML.DataExchange
             return parameters;
         }
 
+        private static bool CheckMsgCount(List<CanDriver.canmsg_t> msgData,byte controllerId)
+        {
+            if(msgData.All(p => p.id != (0x380 + controllerId)))
+                return false;
+            if (msgData.All(p => p.id != (0x280 + controllerId)))
+                return false;
+            if (msgData.All(p => p.id != (0x180 + controllerId)))
+                return false;
+            return true;
+        }
         private static List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
