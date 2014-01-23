@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
@@ -34,6 +35,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
             }
+            CanStateValue = _mineConfig.CanName;
+            CanStateColor = Color.LimeGreen;
         }
 
         public List<string> GetDataBoxes()
@@ -42,6 +45,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         }
 
         public List<string> DataBoxes { get; private set; }
+        public string CanStateValue { get; private set; }
+        public Color CanStateColor { get; private set; }
         private MineConfig _mineConfig;
     }
 }

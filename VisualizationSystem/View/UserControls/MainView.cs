@@ -366,6 +366,8 @@ namespace VisualizationSystem.View.UserControls
                     textBox3.Text = _dataBoxVm.GetDataBoxes()[2];
                     textBox4.Text = _dataBoxVm.GetDataBoxes()[3];
                     textBox5.Text = _dataBoxVm.GetDataBoxes()[4];
+                    labelCanState.Text = _dataBoxVm.CanStateValue;
+                    labelCanState.ForeColor = _dataBoxVm.CanStateColor;
                 });
         }
 
