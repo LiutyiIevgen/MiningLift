@@ -52,12 +52,14 @@ namespace ML.DataExchange
                     }
                     sr.Close();
                     mymutex.ReleaseMutex();
+                    myNonPersisterMemoryMappedFile.Dispose();
                 }
                 catch (Exception ex)
                 {
                     if (mymutex != null)
                         mymutex.ReleaseMutex();
-                    return;
+                    Thread.Sleep(500);
+                    continue;
                 }
                 Parameters parameters = new Parameters(param);
                 if (ReceiveEvent != null)

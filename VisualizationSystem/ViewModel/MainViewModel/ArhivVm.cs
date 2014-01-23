@@ -88,7 +88,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         }
 
 
-        readonly DataBaseService _dataBaseService = new DataBaseService();
+        readonly DataBaseService _dataBaseService = IoC.Resolve<DataBaseService>();
         private List<int> _blocksIds;
         private int _currentId = 0;
     }

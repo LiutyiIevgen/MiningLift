@@ -5,6 +5,8 @@ using System.Globalization;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
+using VisualizationSystem.Services;
+using VisualizationSystem.View.UserControls.Setting;
 
 namespace VisualizationSystem.ViewModel.MainViewModel
 {
@@ -14,6 +16,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             DataBoxes = new List<string>();
             _mineConfig = IoC.Resolve<MineConfig>();
+            _canStateService = IoC.Resolve<CanStateService>();
         }
 
         public void SolveDataBoxes(Parameters parameters)
@@ -35,8 +38,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_anchor, 2), CultureInfo.GetCultureInfo("en-US")));
                 DataBoxes.Add(Convert.ToString(Math.Round(parameters.tok_excitation, 2), CultureInfo.GetCultureInfo("en-US")));
             }
-            CanStateValue = _mineConfig.CanName;
-            CanStateColor = Color.LimeGreen;
+
+            
         }
 
         public List<string> GetDataBoxes()
@@ -45,8 +48,12 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         }
 
         public List<string> DataBoxes { get; private set; }
-        public string CanStateValue { get; private set; }
-        public Color CanStateColor { get; private set; }
+        public Color CanStateColor {
+            get {
+                return _canStateService.IsConnected ? Color.LimeGreen : Color.Red;
+            }
+        }
         private MineConfig _mineConfig;
+        private CanStateService _canStateService;
     }
 }

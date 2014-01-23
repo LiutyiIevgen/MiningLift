@@ -24,6 +24,7 @@ namespace VisualizationSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormStart());
+
         }
     }
 }

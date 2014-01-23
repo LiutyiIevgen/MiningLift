@@ -50,6 +50,8 @@ namespace VisualizationSystem.Model
             RegisterSingleton<MineConfig, MineConfig>();
             RegisterSingleton<FormSettings, FormSettings>();
             RegisterSingleton<FormSettingsParol, FormSettingsParol>();
+            RegisterSingleton<DataBaseService,DataBaseService>();
+            RegisterSingleton<CanStateService, CanStateService>();
         }
     }
 }

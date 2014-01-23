@@ -35,6 +35,11 @@ namespace VisualizationSystem.Model
             
         }
 
+        public void SetReceiveFunction(ReceiveHandler Function)
+        {
+            _dataExchange.ReceiveEvent += Function;
+        }
+
         public void SetParameterReceive(Action<List<CanParameter>> receiveFunction)
         {
             _dataExchange.ParameterReceive += receiveFunction;

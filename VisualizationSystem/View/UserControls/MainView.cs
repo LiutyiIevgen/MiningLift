@@ -27,6 +27,7 @@ namespace VisualizationSystem.View.UserControls
         {
             InitializeComponent();
             _dataListener = IoC.Resolve<DataListener>();
+            IoC.Resolve<CanStateService>().StartListener();
             _mineConfig = IoC.Resolve<MineConfig>();
         }
         public void MainView_Load()
@@ -68,8 +69,8 @@ namespace VisualizationSystem.View.UserControls
             //
             Settings.UpZeroZone = _mineConfig.MainViewConfig.UpZeroZone.Value;
             //
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
             UpdateLeftPanel(parameters);
             UpdateRightPanel(parameters);
             UpdateSpeedPanel(parameters);
@@ -97,8 +98,8 @@ namespace VisualizationSystem.View.UserControls
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
-            stopwatch.Stop();
-            stopwatch = null;
+            //stopwatch.Stop();
+            //stopwatch = null;
         }
 
         #region Threads
@@ -119,6 +120,8 @@ namespace VisualizationSystem.View.UserControls
                 {
                     labelTime.Text = DateTime.Now.ToLongTimeString();
                     labelDate.Text = DateTime.Now.ToShortDateString();
+                    labelCanState.Text = _mineConfig.CanName;
+                    labelCanState.ForeColor = _dataBoxVm.CanStateColor;
                 });
                 Thread.Sleep(1000);
             }    
@@ -366,8 +369,6 @@ namespace VisualizationSystem.View.UserControls
                     textBox3.Text = _dataBoxVm.GetDataBoxes()[2];
                     textBox4.Text = _dataBoxVm.GetDataBoxes()[3];
                     textBox5.Text = _dataBoxVm.GetDataBoxes()[4];
-                    labelCanState.Text = _dataBoxVm.CanStateValue;
-                    labelCanState.ForeColor = _dataBoxVm.CanStateColor;
                 });
         }
 

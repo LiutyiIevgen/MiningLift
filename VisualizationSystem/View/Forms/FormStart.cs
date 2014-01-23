@@ -30,7 +30,6 @@ namespace VisualizationSystem.View.Forms
             _mainView.Height = this.Height;
             panel1.Controls.Add(_mainView);
             _mainView.MainView_Load();
-
         }
         private MainView _mainView;
     }
