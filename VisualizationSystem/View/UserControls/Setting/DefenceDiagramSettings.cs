@@ -31,7 +31,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             try
             {
-                _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+                _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
                 AddCodtDomainParametersToList();
                 CodtDomainComboBox.SelectedIndex = 0;
             }

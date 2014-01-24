@@ -55,40 +55,48 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 return new TreeNode[0];
             //get analog signals list
             var signalsList = _dataBaseService.GetAnalogSignalsById(_blocksIds[_currentId]);
-            var analogNodes = new List<TreeNode>();
-            signalsList.ForEach(s => analogNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
+            _analogNodes.Clear();
+            signalsList.ForEach(s => _analogNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
 
             //get input signals list
-            var inputNodes = new List<TreeNode>();
+            _inputNodes.Clear();
             signalsList = _dataBaseService.GetInputSignalsById(_blocksIds[_currentId]);
             var signalsNames = IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames;
             for (int i = 0; i < signalsList.Count; i++)
             {
                 signalsList[i].Name = signalsNames[i];
             }
-            signalsList.ForEach(s => inputNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
+            signalsList.ForEach(s => _inputNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
 
             //get output signals list
-            var outputNodes = new List<TreeNode>();
+            _outputNodes.Clear();
             signalsList = _dataBaseService.GetOutputSignalsById(_blocksIds[_currentId]);
             for (int i = 0; i < signalsList.Count; i++)
             {
                 signalsList[i].Name = signalsNames[i+72];
             }
-            signalsList.ForEach(s => outputNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
+            signalsList.ForEach(s => _outputNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
 
             var block = _dataBaseService.GetBlockLogById(_blocksIds[_currentId]);
-            var mainNodes = new TreeNode[4]
-            {
-                new TreeNode(block.Date.ToString()), 
-                new TreeNode("Аналоговые сигналы", analogNodes.ToArray()),
-                new TreeNode("Входные сигналы", inputNodes.ToArray()), new TreeNode("Выходные сигналы", outputNodes.ToArray()) 
-            };
-            return mainNodes;
+            if (_mainNodes == null)
+                _mainNodes = new TreeNode[4]
+                {
+                    new TreeNode(block.Date.ToString()),
+                    new TreeNode("Аналоговые сигналы", _analogNodes.ToArray()),
+                    new TreeNode("Входные сигналы", _inputNodes.ToArray()),
+                    new TreeNode("Выходные сигналы", _outputNodes.ToArray())
+                };
+            else
+                _mainNodes[0].Text = block.Date.ToString();
+            return _mainNodes;
         }
 
 
         readonly DataBaseService _dataBaseService = IoC.Resolve<DataBaseService>();
+        private List<TreeNode> _analogNodes = new List<TreeNode>();
+        private List<TreeNode> _inputNodes = new List<TreeNode>();
+        private List<TreeNode> _outputNodes = new List<TreeNode>();
+        private TreeNode[] _mainNodes;
         private List<int> _blocksIds;
         private int _currentId = 0;
     }

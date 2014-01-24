@@ -214,8 +214,6 @@ namespace ML.DataExchange
                         continue;
                     }
                     msgRead.AddRange(msg);
-                    /*if (msgRead.Count < 7)
-                        continue;*/
                     parameters = CanParser.GetParameters(msgRead, (byte) config.LeadingController); //путевая информация
                     if(parameters == null)
                         continue;

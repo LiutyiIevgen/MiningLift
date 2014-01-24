@@ -107,7 +107,7 @@ namespace VisualizationSystem.View.UserControls
         {
             while (true)
             {
-                if (IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState == ArchiveState.Active)
+                if (_mineConfig.MainViewConfig.ArchiveState == ArchiveState.Active)
                     _dataBaseService.FillDataBase(_parameters);
                 Thread.Sleep(1000);
             } 
@@ -433,16 +433,14 @@ namespace VisualizationSystem.View.UserControls
             });
         }
 
-        private void UpdateParametersData(object sender, TabControlEventArgs e)
+        private void UpdateParametersData(object sender, EventArgs e)
         {
             if(tabControl1.SelectedTab != tabPage6)
                 return;
             var parametersSettingsVm = new ParametersSettingsVm();
-            List<ParametersSettingsData> parametersSettingsDatas = null;
             try
             {
-                parametersSettingsDatas =
-                    parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
+                parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
             }
             catch (Exception)
             {
@@ -451,14 +449,14 @@ namespace VisualizationSystem.View.UserControls
             }
             this.Invoke((MethodInvoker)delegate
             {
-                dataGridViewParameters.RowCount = parametersSettingsDatas.Count;
+                dataGridViewParameters.RowCount = parametersSettingsVm.ParametersSettingsDatas.Count;
                 for (int i = 0; i < dataGridViewParameters.RowCount; i++)
                 {
                     dataGridViewParameters[0, i].Value = i;
-                    dataGridViewParameters[1, i].Value = "0x" + Convert.ToString(parametersSettingsDatas[i].Id, 16); ;
-                    dataGridViewParameters[2, i].Value = parametersSettingsDatas[i].Name;
-                    dataGridViewParameters[3, i].Value = parametersSettingsDatas[i].Type;
-                    dataGridViewParameters[4, i].Value = parametersSettingsDatas[i].Value;
+                    dataGridViewParameters[1, i].Value = "0x" + Convert.ToString(parametersSettingsVm.ParametersSettingsDatas[i].Id, 16); ;
+                    dataGridViewParameters[2, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Name;
+                    dataGridViewParameters[3, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Type;
+                    dataGridViewParameters[4, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Value;
                 }
             });
         }
@@ -613,6 +611,7 @@ namespace VisualizationSystem.View.UserControls
         private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
         private Thread updateGraphicThread;
         private volatile Parameters _parameters = new Parameters();
+
 
 
 

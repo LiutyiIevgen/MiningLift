@@ -24,6 +24,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             InitializeComponent();
             IoC.Resolve<DataListener>().SetParameterReceive(ParameterReceive);
             _parametersSettingsVm = new ParametersSettingsVm();
+            _mineConfig = IoC.Resolve<MineConfig>();
             _deviceInformation = new List<string>();
         }
 
@@ -37,7 +38,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             try
             {
-                _parametersSettingsDatas = _parametersSettingsVm.ReadFromFile(IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName);
+                _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
                 RefreshGrid();
             }
             catch (Exception)
@@ -50,14 +51,14 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void RefreshGrid()
         {
-            dataGridViewVariableParameters.RowCount = _parametersSettingsDatas.Count;
+            dataGridViewVariableParameters.RowCount = _parametersSettingsVm.ParametersSettingsDatas.Count;
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
                 dataGridViewVariableParameters[0, i].Value = i;
-                dataGridViewVariableParameters[1, i].Value = "0x"+Convert.ToString(_parametersSettingsDatas[i].Id, 16);
-                dataGridViewVariableParameters[2, i].Value = _parametersSettingsDatas[i].Name;
-                dataGridViewVariableParameters[3, i].Value = _parametersSettingsDatas[i].Type;
-                dataGridViewVariableParameters[4, i].Value = _parametersSettingsDatas[i].Value;
+                dataGridViewVariableParameters[1, i].Value = "0x" + Convert.ToString(_parametersSettingsVm.ParametersSettingsDatas[i].Id, 16);
+                dataGridViewVariableParameters[2, i].Value = _parametersSettingsVm.ParametersSettingsDatas[i].Name;
+                dataGridViewVariableParameters[3, i].Value = _parametersSettingsVm.ParametersSettingsDatas[i].Type;
+                dataGridViewVariableParameters[4, i].Value = _parametersSettingsVm.ParametersSettingsDatas[i].Value;
             }
         }
 
@@ -100,7 +101,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                     }
                     else if (ReadDataFromParametersTable(index, 1) == "codtDomain")
                     {
-                        var codtDomainArray = _parametersSettingsDatas[index - startIndex].CodtDomainArray;
+                        var codtDomainArray = _parametersSettingsVm.ParametersSettingsDatas[index - startIndex].CodtDomainArray;
                         for (int i = 0; i < codtDomainArray.Count(); i++)
                         {
                             string firstParamStr = codtDomainArray[i].Coordinate.ToString();
@@ -155,10 +156,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             ushort controllerId;
             ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
             int i = 0;
-            if (_parametersSettingsDatas!=null)
-                _parametersSettingsDatas.Clear();
+            if (_parametersSettingsVm.ParametersSettingsDatas != null)
+                _parametersSettingsVm.ParametersSettingsDatas.Clear();
             else
-                _parametersSettingsDatas = new List<ParametersSettingsData>();
+                _parametersSettingsVm.ParametersSettingsDatas = new List<ParametersSettingsData>();
             int index = startIndex;
             UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
             while (!_isUnloaded)
@@ -167,7 +168,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
             while (i < _parametersNumber - 1)
             {
-                _parametersSettingsDatas.Add(new ParametersSettingsData());
+                _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
                 for (int j = 0; j < 3; j++)
                 {
                     _isUnloaded = false;
@@ -306,11 +307,11 @@ namespace VisualizationSystem.View.UserControls.Setting
                         };
                         i++;
                     }
-                    _parametersSettingsDatas[canParameter.ParameterId - startIndex].CodtDomainArray = codtDomainDatas;
+                    _parametersSettingsVm.ParametersSettingsDatas[canParameter.ParameterId - startIndex].CodtDomainArray = codtDomainDatas;
                     this.Invoke((MethodInvoker)delegate
                     {
                         WriteDataToParametersTable(canParameter.ParameterId, 2, "Двоичные данные");
-                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, _parametersSettingsDatas);
+                        var formDomain = new FormCodtDomainSettings(canParameter.ParameterId, _parametersSettingsVm.ParametersSettingsDatas);
                         formDomain.Show();
                     });  
                 }
@@ -393,10 +394,10 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
             {
-                _parametersSettingsDatas[i].Id = Convert.ToInt32(dataGridViewVariableParameters[1, i].Value.ToString().Substring(2), 16);
-                _parametersSettingsDatas[i].Name = dataGridViewVariableParameters[2, i].Value.ToString();
-                _parametersSettingsDatas[i].Type = dataGridViewVariableParameters[3, i].Value.ToString();
-                _parametersSettingsDatas[i].Value = dataGridViewVariableParameters[4, i].Value.ToString();
+                _parametersSettingsVm.ParametersSettingsDatas[i].Id = Convert.ToInt32(dataGridViewVariableParameters[1, i].Value.ToString().Substring(2), 16);
+                _parametersSettingsVm.ParametersSettingsDatas[i].Name = dataGridViewVariableParameters[2, i].Value.ToString();
+                _parametersSettingsVm.ParametersSettingsDatas[i].Type = dataGridViewVariableParameters[3, i].Value.ToString();
+                _parametersSettingsVm.ParametersSettingsDatas[i].Value = dataGridViewVariableParameters[4, i].Value.ToString();
             }
         }
 
@@ -429,12 +430,12 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = @"prm files (*.prm)|*.prm";
-            string dir = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            string dir = _mineConfig.ParametersConfig.ParametersFileName;
             dir = dir.Substring(0, dir.LastIndexOf('\\'));
             openFileDialog1.InitialDirectory = dir;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName = openFileDialog1.FileName;
+                _mineConfig.ParametersConfig.ParametersFileName = openFileDialog1.FileName;
                 InitData();
             }
         }
@@ -444,14 +445,14 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             AddLineToLog("Открыто окно редактирования параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow, _parametersSettingsDatas);
+            FormCodtDomainSettings f4 = new FormCodtDomainSettings(startIndex + _contextMenuClickedRow, _parametersSettingsVm.ParametersSettingsDatas);
             f4.ShowDialog();
             f4.Dispose();
         }
 
         private void AddRowButton_Click(object sender, EventArgs e)
         {
-            FormAddParameterSettings f5 = new FormAddParameterSettings(_parametersSettingsDatas);
+            FormAddParameterSettings f5 = new FormAddParameterSettings(_parametersSettingsVm.ParametersSettingsDatas);
             f5.ShowDialog();
             RefreshGrid();
             AddLineToLog("Добавлен новый параметр с индексом " + "0x" + Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount - 1, 16));
@@ -517,7 +518,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             DialogResult result = MessageBox.Show("Вы действительно хотите удалить последний параметр?", "Удаление параметра", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
-                _parametersSettingsDatas.RemoveAt(_parametersSettingsDatas.Count-1);
+                _parametersSettingsVm.ParametersSettingsDatas.RemoveAt(_parametersSettingsVm.ParametersSettingsDatas.Count - 1);
                 RefreshGrid();
                 AddLineToLog("Удалён параметр с индексом " + "0x" +
                              Convert.ToString(startIndex + dataGridViewVariableParameters.RowCount, 16));
@@ -528,17 +529,17 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = @"prm files (*.prm)|*.prm";
-            string dir = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            string dir = _mineConfig.ParametersConfig.ParametersFileName;
             dir = dir.Substring(0, dir.LastIndexOf('\\'));
-            string name = IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName;
+            string name = _mineConfig.ParametersConfig.ParametersFileName;
             name = name.Substring(name.LastIndexOf('\\') + 1, name.Length - name.LastIndexOf('\\') - 1);
             saveFileDialog.FileName = name;
             saveFileDialog.InitialDirectory = dir;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                IoC.Resolve<MineConfig>().ParametersConfig.ParametersFileName = saveFileDialog.FileName;
+                _mineConfig.ParametersConfig.ParametersFileName = saveFileDialog.FileName;
                 SaveParametersData();
-                _parametersSettingsVm.WriteToFile(saveFileDialog.FileName, _parametersSettingsDatas);
+                _parametersSettingsVm.WriteToFile(saveFileDialog.FileName);
             }
             AddLineToLog("Текущие названия и значения параметров сохранены ");
         }
@@ -560,28 +561,31 @@ namespace VisualizationSystem.View.UserControls.Setting
             loadThread.Start();
         }
 
-        #endregion
-
-        double calculatedWayVeightAndEquipment = 0;
-        double calculatedWayPeople = 0;
-        double dotWayVeightAndEquipment = 0;
-        double dotWayPeople = 0;
-        //List<int> _indexes = new List<int>();
-        private int _contextMenuClickedRow = 0;
-        private int _contextMenuClickedColumn = 0;
-        private int startIndex = 0x2001;
-        private ParametersSettingsVm _parametersSettingsVm;
-        private List<ParametersSettingsData> _parametersSettingsDatas;
-        private List<string> _deviceInformation;
-        private volatile bool _isUnloaded = false;
-        private volatile bool _isLoaded = false;
-        private int _parametersNumber = 0;
-
         private void getInformationButton_Click(object sender, EventArgs e)
         {
             Thread loadThread = new Thread(UnloadDeviceInformation) { IsBackground = true };
             loadThread.Start();
         }
+
+        #endregion
+
+        private ParametersSettingsVm _parametersSettingsVm;
+        private MineConfig _mineConfig;
+
+        double calculatedWayVeightAndEquipment = 0;
+        double calculatedWayPeople = 0;
+        double dotWayVeightAndEquipment = 0;
+        double dotWayPeople = 0;
+        private int _contextMenuClickedRow = 0;
+        private int _contextMenuClickedColumn = 0;
+        private int startIndex = 0x2001;
+        
+        private List<string> _deviceInformation;
+        private volatile bool _isUnloaded = false;
+        private volatile bool _isLoaded = false;
+        private int _parametersNumber = 0;
+
+        
 
 
 

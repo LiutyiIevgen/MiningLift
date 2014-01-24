@@ -27,7 +27,7 @@ namespace VisualizationSystem.Services
         {
             while (true)
             {
-                if (DateTime.Now - _lastConnectionDate > new TimeSpan(0, 0, 0, 0, 200))
+                if (DateTime.Now - _lastConnectionDate > new TimeSpan(0, 0, 0, 0, 1000))
                     IsConnected = false;
                 else
                     IsConnected = true;

@@ -12,14 +12,12 @@ namespace VisualizationSystem.ViewModel
 {
     class ParametersSettingsVm
     {
-        public List<ParametersSettingsData> ReadFromFile(string path)
+
+        public void ReadFromFile(string path)
         {
-            List<ParametersSettingsData> parametersSettingsDatas = new List<ParametersSettingsData>();
-           // try
-           // {
+            _parametersSettingsDatas = new List<ParametersSettingsData>();
                 string Line;
                 string[] strArr;
-                //char[] charArr = new char[] { '' };
                 int k = 0;
                 string index;
                 FileStream fs = new FileStream(path, FileMode.Open);
@@ -75,23 +73,19 @@ namespace VisualizationSystem.ViewModel
                             }
                         }
                     }
-                    parametersSettingsDatas.Add(paramSettingsData);
-                    //k++;
+                    _parametersSettingsDatas.Add(paramSettingsData);
                 }
                 sr.Close();
-            //}
-           // catch (Exception ex) { MessageBox.Show(ex.Message); }
-            return parametersSettingsDatas;
         }
 
-        public void WriteToFile(string path, List<ParametersSettingsData> parametersSettingsDatas)
+        public void WriteToFile(string path)
         {
             try
             {
                 FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
                 StreamWriter sw = new StreamWriter(fs);
                 string Line;
-                foreach (var paramData in parametersSettingsDatas)
+                foreach (var paramData in _parametersSettingsDatas)
                 {
                     if (paramData.Type == "codtDomain")
                     {
@@ -110,6 +104,19 @@ namespace VisualizationSystem.ViewModel
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
+
+        public List<ParametersSettingsData> ParametersSettingsDatas
+        {
+            get
+            {
+                return _parametersSettingsDatas;
+            }
+            set
+            {
+                _parametersSettingsDatas = value;
+            }
+        }
+        private List<ParametersSettingsData> _parametersSettingsDatas;
 
     }
 }
