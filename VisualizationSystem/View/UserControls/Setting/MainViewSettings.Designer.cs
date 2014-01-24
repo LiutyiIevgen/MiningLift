@@ -56,6 +56,8 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.ArchiveStateComboBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // maxSpeedTextBox
@@ -382,11 +384,39 @@
             this.label20.TabIndex = 32;
             this.label20.Text = "м";
             // 
+            // ArchiveStateComboBox
+            // 
+            this.ArchiveStateComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ArchiveStateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ArchiveStateComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ArchiveStateComboBox.FormattingEnabled = true;
+            this.ArchiveStateComboBox.Items.AddRange(new object[] {
+            "Активный",
+            "Неактивный"});
+            this.ArchiveStateComboBox.Location = new System.Drawing.Point(232, 417);
+            this.ArchiveStateComboBox.Name = "ArchiveStateComboBox";
+            this.ArchiveStateComboBox.Size = new System.Drawing.Size(108, 24);
+            this.ArchiveStateComboBox.TabIndex = 34;
+            this.ArchiveStateComboBox.SelectedIndexChanged += new System.EventHandler(this.ArchiveStateComboBox_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label5.Location = new System.Drawing.Point(12, 419);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 19);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "Архив";
+            // 
             // MainViewSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Controls.Add(this.ArchiveStateComboBox);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
@@ -453,5 +483,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.ComboBox ArchiveStateComboBox;
+        private System.Windows.Forms.Label label5;
     }
 }

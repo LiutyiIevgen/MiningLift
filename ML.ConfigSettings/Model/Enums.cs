@@ -6,4 +6,8 @@ namespace ML.ConfigSettings.Model
     {
         Skip, BackBalance
     }
+    public enum ArchiveState
+    {
+        Active, Inactive
+    }
 }

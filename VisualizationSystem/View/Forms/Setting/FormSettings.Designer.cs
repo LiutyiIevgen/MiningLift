@@ -41,9 +41,9 @@
             this.CanSettingsButton = new System.Windows.Forms.Button();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.DebugParametersButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.KalibrovkaButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -130,7 +130,7 @@
             this.MainViewSettingsButton.Name = "MainViewSettingsButton";
             this.MainViewSettingsButton.Size = new System.Drawing.Size(218, 66);
             this.MainViewSettingsButton.TabIndex = 0;
-            this.MainViewSettingsButton.Text = "Главное окно";
+            this.MainViewSettingsButton.Text = "Основные настройки";
             this.MainViewSettingsButton.UseVisualStyleBackColor = false;
             this.MainViewSettingsButton.Click += new System.EventHandler(this.MainViewSettingsButton_Click);
             // 
@@ -322,14 +322,6 @@
             this.DebugParametersButton.UseVisualStyleBackColor = false;
             this.DebugParametersButton.Click += new System.EventHandler(this.DebugParametersButton_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(758, 541);
-            this.panel1.TabIndex = 0;
-            // 
             // splitContainer8
             // 
             this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -361,6 +353,14 @@
             this.KalibrovkaButton.Text = "Калибровка и синхронизация";
             this.KalibrovkaButton.UseVisualStyleBackColor = false;
             this.KalibrovkaButton.Click += new System.EventHandler(this.KalibrovkaButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(758, 541);
+            this.panel1.TabIndex = 0;
             // 
             // FormSettings
             // 

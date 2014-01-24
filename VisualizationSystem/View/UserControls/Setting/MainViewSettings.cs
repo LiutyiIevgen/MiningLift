@@ -28,6 +28,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
             leftSosudСomboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud);
             rightSosudComboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.RightSosud);
+            ArchiveStateComboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState);
         }
 
         private void maxSpeedTextBox_TextChanged(object sender, EventArgs e)
@@ -196,6 +197,12 @@ namespace VisualizationSystem.View.UserControls.Setting
             }*/
             IoC.Resolve<MineConfig>().MainViewConfig.RightSosud = (SosudType)rightSosudComboBox.SelectedIndex;
         }
+
+        private void ArchiveStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState = (ArchiveState)ArchiveStateComboBox.SelectedIndex;
+        }
+
 
 
     }

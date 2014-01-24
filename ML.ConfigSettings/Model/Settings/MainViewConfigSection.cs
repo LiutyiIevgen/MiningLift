@@ -19,6 +19,7 @@ namespace ML.ConfigSettings.Model.Settings
         private SimpleParameter _border = null;
         private SimpleParameter _leftSosud = null;
         private SimpleParameter _rightSosud = null;
+        private SimpleParameter _archiveState = null;
 
         [ConfigurationProperty("maxSpeed")]
         public SimpleParameter MaxSpeed
@@ -180,6 +181,25 @@ namespace ML.ConfigSettings.Model.Settings
         {
             get { return (SosudType)rightSosud.Value; }
             set { rightSosud.Value = (double)value; }
+        }
+
+        [ConfigurationProperty("archiveState")]
+        public SimpleParameter archiveState
+        {
+            get
+            {
+                return _archiveState = _archiveState ?? (SimpleParameter)this["archiveState"];
+            }
+            set
+            {
+                this["archiveState"] = value;
+                _archiveState = value;
+            }
+        }
+        public ArchiveState ArchiveState
+        {
+            get { return (ArchiveState)archiveState.Value; }
+            set { archiveState.Value = (double)value; }
         }
     }
 }

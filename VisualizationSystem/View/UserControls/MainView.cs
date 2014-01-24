@@ -57,7 +57,7 @@ namespace VisualizationSystem.View.UserControls
 
             _dataListener.Init(ViewData);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Normal};
-            //arhivWriterThread.Start();
+            arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
         }
@@ -107,7 +107,8 @@ namespace VisualizationSystem.View.UserControls
         {
             while (true)
             {
-                _dataBaseService.FillDataBase(_parameters);
+                if (IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState == ArchiveState.Active)
+                    _dataBaseService.FillDataBase(_parameters);
                 Thread.Sleep(1000);
             } 
         }
