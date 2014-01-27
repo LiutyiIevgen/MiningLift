@@ -43,11 +43,11 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void AddCodtDomainParametersToList()
         {
-            for (int i = 0; i < _parametersSettingsDatas.Count; i++)
+            for (int i = 0; i < _parametersSettingsVm.ParametersSettingsDatas.Count; i++)
             {
-                if (_parametersSettingsDatas[i].Type == "codtDomain")
+                if (_parametersSettingsVm.ParametersSettingsDatas[i].Type == "codtDomain")
                 {
-                    CodtDomainComboBox.Items.Add(_parametersSettingsDatas[i].Name);
+                    CodtDomainComboBox.Items.Add(_parametersSettingsVm.ParametersSettingsDatas[i].Name);
                     _index.Add(i);
                 }
             }
@@ -68,10 +68,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             plotDefenceDiagram.Model.PlotType = PlotType.XY;
             var xList = new List<int>();
             var yList = new List<int>();
-            for (int i = 0; i < _parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray.Count(); i++)
+            for (int i = 0; i < _parametersSettingsVm.ParametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray.Count(); i++)
             {
-                xList.Add(_parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Coordinate);
-                yList.Add(_parametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Speed);
+                xList.Add(_parametersSettingsVm.ParametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Coordinate);
+                yList.Add(_parametersSettingsVm.ParametersSettingsDatas[_index[CodtDomainComboBox.SelectedIndex]].CodtDomainArray[i].Speed);
             }
             //Axis
             var xAxis = new LinearAxis(AxisPosition.Bottom, 0)
@@ -234,7 +234,6 @@ namespace VisualizationSystem.View.UserControls.Setting
        // } */
 
         private ParametersSettingsVm _parametersSettingsVm;
-        private List<ParametersSettingsData> _parametersSettingsDatas;
         private List<int> _index;
         private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
 

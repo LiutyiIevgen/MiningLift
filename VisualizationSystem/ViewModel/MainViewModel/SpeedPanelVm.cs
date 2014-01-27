@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
@@ -15,8 +16,10 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
             _mineConfig = IoC.Resolve<MineConfig>();
+            _parametersSettingsVm = new ParametersSettingsVm();
             pen = new Pen(Color.Black, 2);
             green_pen = new Pen(Color.FromArgb(255, 0, 255, 0), 1);
+            red_pen = new Pen(Color.FromArgb(255, 250, 0, 0), 2);
             drawFont_two = new Font("Arial", 16);
             black = new SolidBrush(Color.Black);
             green = new SolidBrush(Color.FromArgb(255, 0, 255, 0));
@@ -64,6 +67,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         public List<RuleData> GetSpeedRuleDatas()
         {
+            double speedBound = GetSpeedBoundaryValue();
             RuleDatas.Add(new RuleData
             {
                 Pen = pen,
@@ -76,7 +80,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     RuleDatas.Add(new RuleData
                     {
-                        Pen = pen,
+                        Pen = (double)(i)/10 >= speedBound ? red_pen : pen,
                         FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x1_long),
                         SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x2_long)
                     });
@@ -101,7 +105,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     RuleDatas.Add(new RuleData
                     {
-                        Pen = pen,
+                        Pen = (double)(i) / 10 >= speedBound ? red_pen : pen,
                         FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x1_middle),
                         SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x2_middle)
                     });
@@ -110,12 +114,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     RuleDatas.Add(new RuleData
                     {
-                        Pen = pen,
+                        Pen = (double)(i) / 10 >= speedBound ? red_pen : pen,
                         FirstPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x1_small),
                         SecondPoint = new Point((10 + Convert.ToInt32(pixel_pro_meter * i / 10)), x2_small)
                     });
                 }
             }
+            GetSpeedBoundaryValue();
             return RuleDatas;
         }
 
@@ -182,10 +187,24 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             pen.Dispose();
             green_pen.Dispose();
+            red_pen.Dispose();
             drawFont_two.Dispose();
             black.Dispose();
             green.Dispose();
             p_green.Dispose();
+        }
+
+        private double GetSpeedBoundaryValue()
+        {
+            _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
+            var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
+            double currentS;
+            if (_parameters.f_ostanov == 1)
+                currentS = -10000000;
+            else
+                currentS = _parameters.f_start == 1 ? -_parameters.s_two : -_parameters.s;
+            var speed = codtDomainDatas.First(a => (double)(a.Coordinate)/1000 > currentS).Speed;
+            return (double)(speed)/1000;
         }
 
         public List<RuleData> RuleDatas { get; private set; }
@@ -194,8 +213,10 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<Pointer> RulePointer { get; private set; }
         public List<FillPointer> RuleFillPointer { get; private set; }
         public List<CageAndRuleZone> SpeedMeaningZone { get; private set; }
+
         private Parameters _parameters;
         private MineConfig _mineConfig;
+        private ParametersSettingsVm _parametersSettingsVm;
         private int panelWidth;
         private int panelHeight;
         private double long_desh_width;
@@ -212,6 +233,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         private int x2_small;
         private Pen pen;
         private Pen green_pen;
+        private Pen red_pen;
         private Font drawFont_two;
         private SolidBrush black;
         private SolidBrush green;

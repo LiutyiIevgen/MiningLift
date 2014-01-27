@@ -87,7 +87,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     new TreeNode("Выходные сигналы", _outputNodes.ToArray())
                 };
             else
+            {
                 _mainNodes[0].Text = block.Date.ToString();
+                for (int i = 1; i < 4; i++)
+                    _mainNodes[i].Nodes.Clear();
+                _mainNodes[1].Nodes.AddRange(_analogNodes.ToArray());
+                _mainNodes[2].Nodes.AddRange(_inputNodes.ToArray());
+                _mainNodes[3].Nodes.AddRange(_outputNodes.ToArray());
+            }
             return _mainNodes;
         }
 
