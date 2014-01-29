@@ -162,22 +162,15 @@ namespace VisualizationSystem.View.UserControls.Setting
                 _parametersSettingsVm.ParametersSettingsDatas = new List<ParametersSettingsData>();
             int index = startIndex;
             UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
-            while (!_isUnloaded)
-            {
-                Thread.Sleep(10);
-            }
+            _isUnloaded.WaitOne();
             while (i < _parametersNumber - 1)
             {
                 _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
                 for (int j = 0; j < 3; j++)
                 {
-                    _isUnloaded = false;
                     Thread.Sleep(10);
                     UnloadParameter(controllerId, index, j);
-                    while (!_isUnloaded)
-                    {
-                        Thread.Sleep(10);
-                    }
+                    _isUnloaded.WaitOne();
                 }
                 index++;
                 i++;
@@ -194,13 +187,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             int index = startIndex;
             while (i < 88)
             {
-                _isLoaded = false;
                 Thread.Sleep(30);
                 LoadParameter(controllerId, index, 2);
-                while (!_isLoaded)
-                {
-                    Thread.Sleep(10);
-                }
+                _isLoaded.WaitOne();
                 index++;
                 i++;
             }
@@ -215,12 +204,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             _deviceInformation.Clear();
             for (int j = 1; j < 7; j++)
             {
-                _isUnloaded = false;
                 UnloadParameter(controllerId, 0x2000, j);
-                while (!_isUnloaded)
-                {
-                    Thread.Sleep(10);
-                }
+                _isUnloaded.WaitOne();
             }
             var formDomain = new FormHardwareInformation(_deviceInformation);
             formDomain.ShowDialog();
@@ -233,7 +218,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 if (canParameter.Data == null)//parameter was seted
                 {
-                    _isLoaded = true;
+                    _isLoaded.Set();
                     CanParameter parameter = canParameter;
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -246,22 +231,22 @@ namespace VisualizationSystem.View.UserControls.Setting
                 if (canParameter.ParameterId == 0x2000)
                 {
                     DeviceInformationParser(canParameter);
-                    _isUnloaded = true;
+                    _isUnloaded.Set();
                     return;
                 }
                 switch (canParameter.ParameterSubIndex)
                 {
                     case (byte)CanSubindexes.Value:
                         ValueParser(canParameter);
-                        _isUnloaded = true;
+                        _isUnloaded.Set();
                         break;
                     case (byte)CanSubindexes.Name:
                         NamePareser(canParameter);
-                        _isUnloaded = true;
+                        _isUnloaded.Set();
                         break;
                     case (byte)CanSubindexes.Type:
                         TypeParser(canParameter);
-                        _isUnloaded = true;
+                        _isUnloaded.Set();
                         break;
                 }
                 
@@ -581,8 +566,8 @@ namespace VisualizationSystem.View.UserControls.Setting
         private int startIndex = 0x2001;
         
         private List<string> _deviceInformation;
-        private volatile bool _isUnloaded = false;
-        private volatile bool _isLoaded = false;
+        EventWaitHandle _isUnloaded = new AutoResetEvent(false);
+        EventWaitHandle _isLoaded = new AutoResetEvent(false);
         private int _parametersNumber = 0;
 
         

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -465,87 +466,50 @@ namespace VisualizationSystem.View.UserControls
         #region Handlers
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
                 if (btBac != null)
                     e.Graphics.DrawImage(btBac, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
+ 
                 if (btBac_two != null)
                     e.Graphics.DrawImage(btBac_two, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
+
         }
 
         private void panel6_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
+ 
                 if (btBac_dop != null)
                     e.Graphics.DrawImage(btBac_dop, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
+
 
         }
 
         private void panel7_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
+
                 if (btBac_two_dop != null)
                     e.Graphics.DrawImage(btBac_two_dop, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
                 if (btBac_speed != null)
                     e.Graphics.DrawImage(btBac_speed, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
                 if (btBac_tok_anchor != null)
                     e.Graphics.DrawImage(btBac_tok_anchor, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
                 if (btBac_tok_excitation != null)
                     e.Graphics.DrawImage(btBac_tok_excitation, 0, 0);
-            }
-            catch (Exception)
-            {
-            }
 
         }
 
@@ -556,10 +520,20 @@ namespace VisualizationSystem.View.UserControls
         private void buttonFind_Click(object sender, EventArgs e)
         {
             treeView1.Nodes.Clear();
-            treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetNodesList(dateTimePicker1.Value, dateTimePicker2.Value));
-            textBoxRecordsCount.Text = IoC.Resolve<ArhivVm>().RecordsNum.ToString();
-            if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
-                textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+            new Thread(FindArhivThread){IsBackground = true}.Start();
+        }
+
+        private void FindArhivThread()
+        {
+            treeView1.Nodes.Clear();
+            TreeNode[] nodeList = IoC.Resolve<ArhivVm>().GetNodesList(dateTimePicker1.Value, dateTimePicker2.Value);
+            this.Invoke((MethodInvoker) delegate
+            {
+                treeView1.Nodes.AddRange(nodeList);
+                textBoxRecordsCount.Text = IoC.Resolve<ArhivVm>().RecordsNum.ToString();
+                if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
+                    textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+            });
         }
         private void buttonNext_Click(object sender, EventArgs e)
         {
