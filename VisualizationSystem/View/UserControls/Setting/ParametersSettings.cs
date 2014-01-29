@@ -168,7 +168,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
                 for (int j = 0; j < 3; j++)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(30);
                     UnloadParameter(controllerId, index, j);
                     _isUnloaded.WaitOne();
                 }
@@ -187,7 +187,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             int index = startIndex;
             while (i < 88)
             {
-                Thread.Sleep(30);
+                Thread.Sleep(50);
                 LoadParameter(controllerId, index, 2);
                 _isLoaded.WaitOne();
                 index++;
@@ -218,7 +218,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 if (canParameter.Data == null)//parameter was seted
                 {
-                    _isLoaded.Set();
                     CanParameter parameter = canParameter;
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -226,6 +225,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                             Convert.ToString(parameter.ParameterId, 16) + ", address = " + 
                             Convert.ToString(parameter.ControllerId, 16));
                     });
+                    _isLoaded.Set();
                     continue;
                 }
                 if (canParameter.ParameterId == 0x2000)

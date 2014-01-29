@@ -196,15 +196,23 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         private double GetSpeedBoundaryValue()
         {
-            _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
-            var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
-            double currentS;
-            if (_parameters.f_ostanov == 1)
-                currentS = -10000000;
-            else
-                currentS = _parameters.f_start == 1 ? -_parameters.s_two : -_parameters.s;
-            var speed = codtDomainDatas.First(a => (double)(a.Coordinate)/1000 > currentS).Speed;
-            return (double)(speed)/1000;
+            try
+            {
+                _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
+                var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
+                double currentS;
+                if (_parameters.f_ostanov == 1)
+                    currentS = -10000000;
+                else
+                    currentS = _parameters.f_start == 1 ? -_parameters.s_two : -_parameters.s;
+                var speed = codtDomainDatas.First(a => (double)(a.Coordinate) / 1000 > currentS).Speed;
+                return (double)(speed) / 1000;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+            
         }
 
         public List<RuleData> RuleDatas { get; private set; }
