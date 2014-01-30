@@ -6,6 +6,7 @@ using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.PanelData;
+using VisualizationSystem.Model.Settings;
 
 namespace VisualizationSystem.ViewModel.MainViewModel
 {
@@ -200,12 +201,43 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
                 var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
+                //interplation
+                var interCodtDomainDatas = new List<CodtDomainData>();
+                int vStep = -100;//0.1 m/sec
+                int i;
+                for (i = 0; codtDomainDatas[i].Coordinate != 2147483647; i++)
+                { 
+                    interCodtDomainDatas.Add(codtDomainDatas[i]);
+                    int vSub = codtDomainDatas[i+1].Speed - codtDomainDatas[i].Speed;
+                    int intervalsNum = Math.Abs(vSub/vStep);
+                    if (intervalsNum == 0)
+                    {
+                        intervalsNum = 0;
+                        continue;
+                    }
+                    int sStep = Math.Abs((codtDomainDatas[i+1].Coordinate - codtDomainDatas[i].Coordinate)/intervalsNum);
+                    for (int j = 1; j < intervalsNum; j++)
+                    {
+                        interCodtDomainDatas.Add(new CodtDomainData
+                        {
+                            Coordinate = codtDomainDatas[i].Coordinate + j*sStep,
+                            Speed = codtDomainDatas[i].Speed + j * vStep
+                        });
+                    }
+                }
+
+                interCodtDomainDatas.Add(new CodtDomainData
+                {
+                    Coordinate = -(int)_mineConfig.MainViewConfig.BorderZero.Value * 1000,
+                    Speed = codtDomainDatas[i].Speed
+                });
+                // end interpolation
                 double currentS;
                 if (_parameters.f_ostanov == 1)
                     currentS = -10000000;
                 else
                     currentS = _parameters.f_start == 1 ? -_parameters.s_two : -_parameters.s;
-                var speed = codtDomainDatas.First(a => (double)(a.Coordinate) / 1000 > currentS).Speed;
+                var speed = interCodtDomainDatas.First(a => (double)(a.Coordinate) / 1000 > currentS).Speed;
                 return (double)(speed) / 1000;
             }
             catch (Exception)
