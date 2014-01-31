@@ -18,6 +18,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             this.panelHeight = panelHeight;
             _mineConfig = IoC.Resolve<MineConfig>();
             _parametersSettingsVm = new ParametersSettingsVm();
+            _interCodtDomainDatas = new List<CodtDomainData>();
             pen = new Pen(Color.Black, 2);
             green_pen = new Pen(Color.FromArgb(255, 0, 255, 0), 1);
             red_pen = new Pen(Color.FromArgb(255, 250, 0, 0), 2);
@@ -121,7 +122,6 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     });
                 }
             }
-            GetSpeedBoundaryValue();
             return RuleDatas;
         }
 
@@ -199,45 +199,48 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             try
             {
-                _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
-                var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
-                //interplation
-                var interCodtDomainDatas = new List<CodtDomainData>();
-                int vStep = -100;//0.1 m/sec
-                int i;
-                for (i = 0; codtDomainDatas[i].Coordinate != 2147483647; i++)
-                { 
-                    interCodtDomainDatas.Add(codtDomainDatas[i]);
-                    int vSub = codtDomainDatas[i+1].Speed - codtDomainDatas[i].Speed;
-                    int intervalsNum = Math.Abs(vSub/vStep);
-                    if (intervalsNum == 0)
-                    {
-                        intervalsNum = 0;
-                        continue;
-                    }
-                    int sStep = Math.Abs((codtDomainDatas[i+1].Coordinate - codtDomainDatas[i].Coordinate)/intervalsNum);
-                    for (int j = 1; j < intervalsNum; j++)
-                    {
-                        interCodtDomainDatas.Add(new CodtDomainData
-                        {
-                            Coordinate = codtDomainDatas[i].Coordinate + j*sStep,
-                            Speed = codtDomainDatas[i].Speed + j * vStep
-                        });
-                    }
-                }
-
-                interCodtDomainDatas.Add(new CodtDomainData
+                if (_interCodtDomainDatas.Count == 0)
                 {
-                    Coordinate = -(int)_mineConfig.MainViewConfig.BorderZero.Value * 1000,
-                    Speed = codtDomainDatas[i].Speed
-                });
+                    _parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
+                    var codtDomainDatas = _parametersSettingsVm.ParametersSettingsDatas[53].CodtDomainArray.ToList();
+                    //interplation
+                    int vStep = -100; //0.1 m/sec
+                    int i;
+                    for (i = 0; codtDomainDatas[i].Coordinate != 2147483647; i++)
+                    {
+                        _interCodtDomainDatas.Add(codtDomainDatas[i]);
+                        int vSub = codtDomainDatas[i + 1].Speed - codtDomainDatas[i].Speed;
+                        int intervalsNum = Math.Abs(vSub/vStep);
+                        if (intervalsNum == 0)
+                        {
+                            intervalsNum = 0;
+                            continue;
+                        }
+                        int sStep =
+                            Math.Abs((codtDomainDatas[i + 1].Coordinate - codtDomainDatas[i].Coordinate)/intervalsNum);
+                        for (int j = 1; j < intervalsNum; j++)
+                        {
+                            _interCodtDomainDatas.Add(new CodtDomainData
+                            {
+                                Coordinate = codtDomainDatas[i].Coordinate + j*sStep,
+                                Speed = codtDomainDatas[i].Speed + j*vStep
+                            });
+                        }
+                    }
+
+                    _interCodtDomainDatas.Add(new CodtDomainData
+                    {
+                        Coordinate = -(int) _mineConfig.MainViewConfig.BorderZero.Value*1000,
+                        Speed = codtDomainDatas[i].Speed
+                    });
+                }
                 // end interpolation
                 double currentS;
                 if (_parameters.f_ostanov == 1)
                     currentS = -10000000;
                 else
                     currentS = _parameters.f_start == 1 ? -_parameters.s_two : -_parameters.s;
-                var speed = interCodtDomainDatas.First(a => (double)(a.Coordinate) / 1000 > currentS).Speed;
+                var speed = _interCodtDomainDatas.First(a => (double)(a.Coordinate) / 1000 > currentS).Speed;
                 return (double)(speed) / 1000;
             }
             catch (Exception)
@@ -253,6 +256,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<Pointer> RulePointer { get; private set; }
         public List<FillPointer> RuleFillPointer { get; private set; }
         public List<CageAndRuleZone> SpeedMeaningZone { get; private set; }
+
+        private List<CodtDomainData> _interCodtDomainDatas;
 
         private Parameters _parameters;
         private MineConfig _mineConfig;

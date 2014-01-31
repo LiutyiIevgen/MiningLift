@@ -222,7 +222,7 @@ namespace ML.DataExchange
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
                     msgRead.Clear();
-                    Thread.Sleep(13);
+                    Thread.Sleep(12);
                 }
                 catch (Exception exception)
                 {
