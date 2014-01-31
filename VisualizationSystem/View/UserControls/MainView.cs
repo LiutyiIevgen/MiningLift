@@ -36,7 +36,6 @@ namespace VisualizationSystem.View.UserControls
             CreateRichTextBoxMassiv();
             CreateAuziDIOSignalsMassiv();
             SetGraphicInterval(); 
-            updateGraphicThread = new Thread(updateGraphicHandler){IsBackground = true};
 
             //view models creation
             _leftPanelVm = new LeftPanelVm(panel1.Width, panel1.Height);
@@ -50,7 +49,19 @@ namespace VisualizationSystem.View.UserControls
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
             _loadDataVm = new LoadDataVm();
             _dataBoxVm = new DataBoxVm();
-            
+
+            //threads
+            new Thread(UpdateLeftPanel){IsBackground = true}.Start();
+            new Thread(UpdateRightPanel){IsBackground = true}.Start();
+            new Thread(UpdateLeftDopPanel) { IsBackground = true }.Start();
+            new Thread(UpdateRightDopPanel) { IsBackground = true }.Start();
+            new Thread(UpdateSpeedPanel) { IsBackground = true }.Start();
+            new Thread(UpdateTokAnchorPanel) { IsBackground = true }.Start();
+            new Thread(UpdateTokExitationPanel) { IsBackground = true }.Start();
+            new Thread(updateGraphicHandler) { IsBackground = true }.Start();
+            new Thread(UpdateCentralSignalsData) { IsBackground = true }.Start();
+            new Thread(UpdateAuziDInputOutputSignals) { IsBackground = true }.Start();
+
             _dataBaseService = IoC.Resolve<DataBaseService>();
 
             var param = new double[30];
@@ -70,37 +81,46 @@ namespace VisualizationSystem.View.UserControls
             //
             Settings.UpZeroZone = _mineConfig.MainViewConfig.UpZeroZone.Value;
             //
-            //Stopwatch stopwatch = new Stopwatch();
-            //stopwatch.Start();
-            UpdateLeftPanel(parameters);
-            UpdateRightPanel(parameters);
-            UpdateSpeedPanel(parameters);
-            UpdateTokAnchorPanel(parameters);
-            UpdateTokExitationPanel(parameters);
-            UpdateLeftDopPanel(parameters);
-            UpdateRightDopPanel(parameters);
+            /*Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();*/
+
+            _updateLeftPanelFinished.WaitOne();
+            _updateRightPanelFinished.WaitOne();
+            _updateSpeedPanelFinished.WaitOne();
+            _updateTokAnchorPanelFinished.WaitOne();
+            _updateTokExitationPanelFinished.WaitOne();
+            _updateLeftDopPanelFinished.WaitOne();
+            _updateRightDopPanelFinished.WaitOne();
+
+            _updateLeftPanelStart.Set();
+            _updateRightPanelStart.Set();
+            _updateSpeedPanelStart.Set();
+            _updateTokAnchorPanelStart.Set();
+            _updateTokExitationPanelStart.Set();
+            _updateLeftDopPanelStart.Set();
+            _updateRightDopPanelStart.Set();
             
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
-            
-            
-            if (update_parameters_flag%10==0)
-            if (!updateGraphicThread.IsAlive)
+
+
+            /*if (update_parameters_flag%10 == 0)
             {
-                updateGraphicThread = new Thread(updateGraphicHandler);
-                updateGraphicThread.IsBackground = true;
-                updateGraphicThread.Start(parameters);
-            }   
+                _updateGraphicFinished.WaitOne();
+                _updateGraphicStart.Set();
+            }
             if (update_parameters_flag%20 == 0)
             {
-                UpdateCentralSignalsData(parameters); 
-                UpdateAuziDInputOutputSignals(parameters);
+                _updateCentralSignalsFinished.WaitOne();
+                _updateAuziDInputOutputFinished.WaitOne();
+                _updateCentralSignalsStart.Set();
+                _updateAuziDInputOutputStart.Set();
                 update_parameters_flag = 0;
             }
-            update_parameters_flag++;
-            //stopwatch.Stop();
-            //stopwatch = null;
+            update_parameters_flag++;*/
+            /*stopwatch.Stop();
+            stopwatch = null;*/
         }
 
         #region Threads
@@ -129,47 +149,51 @@ namespace VisualizationSystem.View.UserControls
             }    
         }
 
-        private void updateGraphicHandler(object parameters)
+        private void updateGraphicHandler()
         {
-            var param = parameters as Parameters;
-            if (param.f_ostanov == 1)
-                was_ostanov = 1;
-            if (param.f_start == 1 || param.f_back == 1)
+            while (true)
             {
-                //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (chartVA.Series[0].Points.Count == 500)
+                _updateGraphicStart.WaitOne();
+                if (_parameters.f_ostanov == 1)
+                    was_ostanov = 1;
+                if (_parameters.f_start == 1 || _parameters.f_back == 1)
                 {
-                    this.Invoke((MethodInvoker)delegate
+                    //var defenceDiagramVm = new DefenceDiagramVm(param);
+                    if (chartVA.Series[0].Points.Count == 500)
                     {
-                        chartVA.Series[0].Points.Clear();
-                        chartVA.Series[1].Points.Clear();
-                        chartVA.Series[2].Points.Clear();
-                        //chartVA.Series[3].Points.Clear();
-                    });
-                    was_ostanov = 0;
-                }
-                this.Invoke((MethodInvoker)delegate
-                {
-                    chartVA.Series[0].Points.AddXY(-param.s,
-                        param.v / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
-                    chartVA.Series[1].Points.AddXY(-param.s,
-                        param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100));
-                    chartVA.Series[2].Points.AddXY(-param.s,
-                        param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100));
-                    /*chartVA.Series[3].Points.Clear();
+                        this.Invoke((MethodInvoker) delegate
+                        {
+                            chartVA.Series[0].Points.Clear();
+                            chartVA.Series[1].Points.Clear();
+                            chartVA.Series[2].Points.Clear();
+                            //chartVA.Series[3].Points.Clear();
+                        });
+                        was_ostanov = 0;
+                    }
+                    this.Invoke((MethodInvoker) delegate
+                    {
+                        chartVA.Series[0].Points.AddXY(-_parameters.s,
+                            _parameters.v/(_mineConfig.MainViewConfig.MaxSpeed.Value/100));
+                        chartVA.Series[1].Points.AddXY(-_parameters.s,
+                            _parameters.tok_anchor/(_mineConfig.MainViewConfig.MaxTokAnchor.Value/100));
+                        chartVA.Series[2].Points.AddXY(-_parameters.s,
+                            _parameters.tok_excitation/(_mineConfig.MainViewConfig.MaxTokExcitation.Value/100));
+                        /*chartVA.Series[3].Points.Clear();
                     for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
                     {
                         chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
                             defenceDiagramVm.CurrentDiagram[i].Y /
                             (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
                     }*/
-                    int j = 0;
-                    foreach (object item in checkedListBoxGraphic.Items)
-                    {
-                        chartVA.Series[j].Enabled = checkedListBoxGraphic.CheckedItems.Contains(item);
-                        j++;
-                    }
-                });
+                        int j = 0;
+                        foreach (object item in checkedListBoxGraphic.Items)
+                        {
+                            chartVA.Series[j].Enabled = checkedListBoxGraphic.CheckedItems.Contains(item);
+                            j++;
+                        }
+                    });
+                }
+                _updateGraphicFinished.Set();
             }
         }
         #endregion
@@ -225,140 +249,200 @@ namespace VisualizationSystem.View.UserControls
 
         
 
-        private void UpdateLeftPanel(Parameters parameters)
+        private void UpdateLeftPanel()
         {
-            btBac = new Bitmap(panel1.Width, panel1.Height); // панель клети
-            Graphics g = Graphics.FromImage(btBac);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            _leftPanelVm.InitVm(parameters);
-            _leftPanelVm.GetMainRuleDatas().ForEach(l => g.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _leftPanelVm.GetMainRuleInscription().ForEach(s => g.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _leftPanelVm.GetMainRuleZones().ForEach(z => g.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
-            if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
-                _leftPanelVm.GetMainRulePointerLineSkip().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            else
-                _leftPanelVm.GetMainRulePointerLineBackBalance().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _leftPanelVm.GetMainRulePointer().ForEach(p => g.DrawPolygon(p.Pen, p.Triangle));
-            _leftPanelVm.GetMainRuleFillPointer().ForEach(fp => g.FillPolygon(fp.Brush, fp.Triangle));
-            _leftPanelVm.GetMainRuleCage().ForEach(c => g.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
-                _leftPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
-            else
-                _leftPanelVm.GetMainRuleDirectionPointerBackBalance().ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
-            _leftPanelVm.GetMainRuleDirectionFillPointer().ForEach(dfp => g.FillPolygon(dfp.Brush, dfp.Triangle));
-            g.Dispose();
-            panel1.Invalidate();
+            while (true)
+            {
+                _updateLeftPanelStart.WaitOne();
+                btBac = new Bitmap(panel1.Width, panel1.Height); // панель клети
+                Graphics g = Graphics.FromImage(btBac);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                _leftPanelVm.InitVm(_parameters);
+                _leftPanelVm.GetMainRuleDatas().ForEach(l => g.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _leftPanelVm.GetMainRuleInscription().ForEach(s => g.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _leftPanelVm.GetMainRuleZones()
+                    .ForEach(z => g.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
+                if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
+                    _leftPanelVm.GetMainRulePointerLineSkip()
+                        .ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                else
+                    _leftPanelVm.GetMainRulePointerLineBackBalance()
+                        .ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _leftPanelVm.GetMainRulePointer().ForEach(p => g.DrawPolygon(p.Pen, p.Triangle));
+                _leftPanelVm.GetMainRuleFillPointer().ForEach(fp => g.FillPolygon(fp.Brush, fp.Triangle));
+                _leftPanelVm.GetMainRuleCage()
+                    .ForEach(c => g.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
+                if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
+                    _leftPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
+                else
+                    _leftPanelVm.GetMainRuleDirectionPointerBackBalance()
+                        .ForEach(dp => g.DrawPolygon(dp.Pen, dp.Triangle));
+                _leftPanelVm.GetMainRuleDirectionFillPointer().ForEach(dfp => g.FillPolygon(dfp.Brush, dfp.Triangle));
+                g.Dispose();
+                panel1.Invalidate();
+                _updateLeftPanelFinished.Set();
+            }
         }
 
-        private void UpdateRightPanel(Parameters parameters)
+        private void UpdateRightPanel()
         {
-            btBac_two = new Bitmap(panel2.Width, panel2.Height); // панель противовеса
-            Graphics gr = Graphics.FromImage(btBac_two);
-            gr.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateRightPanelStart.WaitOne();
+                btBac_two = new Bitmap(panel2.Width, panel2.Height); // панель противовеса
+                Graphics gr = Graphics.FromImage(btBac_two);
+                gr.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _rightPanelVm.InitVm(parameters);
-            _rightPanelVm.GetMainRuleDatas().ForEach(l => gr.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _rightPanelVm.GetMainRuleInscription().ForEach(s => gr.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _rightPanelVm.GetMainRuleZones().ForEach(z => gr.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
-            if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
-                _rightPanelVm.GetMainRulePointerLineSkip().ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            else
-                _rightPanelVm.GetMainRulePointerLineBackBalance().ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _rightPanelVm.GetMainRulePointer().ForEach(p => gr.DrawPolygon(p.Pen, p.Triangle));
-            _rightPanelVm.GetMainRuleFillPointer().ForEach(fp => gr.FillPolygon(fp.Brush, fp.Triangle));
-            _rightPanelVm.GetMainRuleCage().ForEach(c => gr.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
-                _rightPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
-            else
-                _rightPanelVm.GetMainRuleDirectionPointerBackBalance().ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
-            _rightPanelVm.GetMainRuleDirectionFillPointer().ForEach(dfp => gr.FillPolygon(dfp.Brush, dfp.Triangle));
-            gr.Dispose();
-            panel2.Invalidate();
+                _rightPanelVm.InitVm(_parameters);
+                _rightPanelVm.GetMainRuleDatas().ForEach(l => gr.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _rightPanelVm.GetMainRuleInscription().ForEach(s => gr.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _rightPanelVm.GetMainRuleZones()
+                    .ForEach(z => gr.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
+                if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
+                    _rightPanelVm.GetMainRulePointerLineSkip()
+                        .ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                else
+                    _rightPanelVm.GetMainRulePointerLineBackBalance()
+                        .ForEach(pl => gr.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _rightPanelVm.GetMainRulePointer().ForEach(p => gr.DrawPolygon(p.Pen, p.Triangle));
+                _rightPanelVm.GetMainRuleFillPointer().ForEach(fp => gr.FillPolygon(fp.Brush, fp.Triangle));
+                _rightPanelVm.GetMainRuleCage()
+                    .ForEach(c => gr.FillRectangle(c.Brush, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
+                if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip)
+                    _rightPanelVm.GetMainRuleDirectionPointerSkip().ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
+                else
+                    _rightPanelVm.GetMainRuleDirectionPointerBackBalance()
+                        .ForEach(dp => gr.DrawPolygon(dp.Pen, dp.Triangle));
+                _rightPanelVm.GetMainRuleDirectionFillPointer().ForEach(dfp => gr.FillPolygon(dfp.Brush, dfp.Triangle));
+                gr.Dispose();
+                panel2.Invalidate();
+                _updateRightPanelFinished.Set();
+            }
         }
 
-        private void UpdateLeftDopPanel(Parameters parameters)
+        private void UpdateLeftDopPanel()
         {
-            btBac_dop = new Bitmap(panel6.Width, panel6.Height); // панель дополнительной шккалы клети
-            Graphics gd = Graphics.FromImage(btBac_dop);
-            gd.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateLeftDopPanelStart.WaitOne();
+                btBac_dop = new Bitmap(panel6.Width, panel6.Height); // панель дополнительной шккалы клети
+                Graphics gd = Graphics.FromImage(btBac_dop);
+                gd.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _leftDopPanelVm.InitVm(parameters);
-            _leftDopPanelVm.GetDopRuleDatas().ForEach(l => gd.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _leftDopPanelVm.GetDopRuleInscription().ForEach(s => gd.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _leftDopPanelVm.GetDopRulePointerLine().ForEach(pl => gd.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _leftDopPanelVm.GetDopRulePointer().ForEach(p => gd.DrawPolygon(p.Pen, p.Triangle));
-            _leftDopPanelVm.GetDopRuleFillPointer().ForEach(fp => gd.FillPolygon(fp.Brush, fp.Triangle));
-            _leftDopPanelVm.GetDopRulePanelBorderLine().ForEach(c => gd.DrawRectangle(c.Pen, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            gd.Dispose();
-            panel6.Invalidate();
+                _leftDopPanelVm.InitVm(_parameters);
+                _leftDopPanelVm.GetDopRuleDatas().ForEach(l => gd.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _leftDopPanelVm.GetDopRuleInscription().ForEach(s => gd.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _leftDopPanelVm.GetDopRulePointerLine()
+                    .ForEach(pl => gd.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _leftDopPanelVm.GetDopRulePointer().ForEach(p => gd.DrawPolygon(p.Pen, p.Triangle));
+                _leftDopPanelVm.GetDopRuleFillPointer().ForEach(fp => gd.FillPolygon(fp.Brush, fp.Triangle));
+                _leftDopPanelVm.GetDopRulePanelBorderLine()
+                    .ForEach(c => gd.DrawRectangle(c.Pen, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
+                gd.Dispose();
+                panel6.Invalidate();
+                _updateLeftDopPanelFinished.Set();
+            }
         }
 
-        private void UpdateRightDopPanel(Parameters parameters)
+        private void UpdateRightDopPanel()
         {
-            btBac_two_dop = new Bitmap(panel7.Width, panel7.Height); // панель дополнительной шкалы пртивовеса
-            Graphics grd = Graphics.FromImage(btBac_two_dop);
-            grd.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateRightDopPanelStart.WaitOne();
+                btBac_two_dop = new Bitmap(panel7.Width, panel7.Height); // панель дополнительной шкалы пртивовеса
+                Graphics grd = Graphics.FromImage(btBac_two_dop);
+                grd.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _rightDopPanelVm.InitVm(parameters);
-            _rightDopPanelVm.GetDopRuleDatas().ForEach(l => grd.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _rightDopPanelVm.GetDopRuleInscription().ForEach(s => grd.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _rightDopPanelVm.GetDopRulePointerLine().ForEach(pl => grd.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _rightDopPanelVm.GetDopRulePointer().ForEach(p => grd.DrawPolygon(p.Pen, p.Triangle));
-            _rightDopPanelVm.GetDopRuleFillPointer().ForEach(fp => grd.FillPolygon(fp.Brush, fp.Triangle));
-            _rightDopPanelVm.GetDopRulePanelBorderLine().ForEach(c => grd.DrawRectangle(c.Pen, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
-            grd.Dispose();
-            panel7.Invalidate();
+                _rightDopPanelVm.InitVm(_parameters);
+                _rightDopPanelVm.GetDopRuleDatas().ForEach(l => grd.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _rightDopPanelVm.GetDopRuleInscription()
+                    .ForEach(s => grd.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _rightDopPanelVm.GetDopRulePointerLine()
+                    .ForEach(pl => grd.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _rightDopPanelVm.GetDopRulePointer().ForEach(p => grd.DrawPolygon(p.Pen, p.Triangle));
+                _rightDopPanelVm.GetDopRuleFillPointer().ForEach(fp => grd.FillPolygon(fp.Brush, fp.Triangle));
+                _rightDopPanelVm.GetDopRulePanelBorderLine()
+                    .ForEach(c => grd.DrawRectangle(c.Pen, c.LeftTopX, c.LeftTopY, c.Width, c.Height));
+                grd.Dispose();
+                panel7.Invalidate();
+                _updateRightDopPanelFinished.Set();
+            }
         }
 
-        private void UpdateSpeedPanel(Parameters parameters)
+        private void UpdateSpeedPanel()
         {
-            btBac_speed = new Bitmap(panel3.Width, panel3.Height); // панель скорости
-            Graphics gs = Graphics.FromImage(btBac_speed);
-            gs.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateSpeedPanelStart.WaitOne();
+                btBac_speed = new Bitmap(panel3.Width, panel3.Height); // панель скорости
+                Graphics gs = Graphics.FromImage(btBac_speed);
+                gs.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _speedPanelVm.InitVm(parameters);
-            _speedPanelVm.GetSpeedRuleDatas().ForEach(l => gs.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _speedPanelVm.GetSpeedRuleInscription().ForEach(s => gs.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _speedPanelVm.GetSpeedRulePointerLine().ForEach(pl => gs.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _speedPanelVm.GetSpeedRulePointer().ForEach(p => gs.DrawPolygon(p.Pen, p.Triangle));
-            _speedPanelVm.GetSpeedRuleFillPointer().ForEach(fp => gs.FillPolygon(fp.Brush, fp.Triangle));
-            _speedPanelVm.GetSpeedRuleSpeedMeaningZone().ForEach(sp => gs.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
-            gs.Dispose();
-            panel3.Invalidate();
+                _speedPanelVm.InitVm(_parameters);
+                _speedPanelVm.GetSpeedRuleDatas().ForEach(l => gs.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _speedPanelVm.GetSpeedRuleInscription().ForEach(s => gs.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _speedPanelVm.GetSpeedRulePointerLine()
+                    .ForEach(pl => gs.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _speedPanelVm.GetSpeedRulePointer().ForEach(p => gs.DrawPolygon(p.Pen, p.Triangle));
+                _speedPanelVm.GetSpeedRuleFillPointer().ForEach(fp => gs.FillPolygon(fp.Brush, fp.Triangle));
+                _speedPanelVm.GetSpeedRuleSpeedMeaningZone()
+                    .ForEach(sp => gs.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
+                gs.Dispose();
+                panel3.Invalidate();
+                _updateSpeedPanelFinished.Set();
+            }
         }
 
-        private void UpdateTokAnchorPanel(Parameters parameters)
+        private void UpdateTokAnchorPanel()
         {
-            btBac_tok_anchor = new Bitmap(panel4.Width, panel4.Height); // панель тока якоря
-            Graphics gta = Graphics.FromImage(btBac_tok_anchor);
-            gta.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateTokAnchorPanelStart.WaitOne();
+                btBac_tok_anchor = new Bitmap(panel4.Width, panel4.Height); // панель тока якоря
+                Graphics gta = Graphics.FromImage(btBac_tok_anchor);
+                gta.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _tokAnchorPanelVm.InitVm(parameters);
-            _tokAnchorPanelVm.GetTokAnchorRuleDatas().ForEach(l => gta.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _tokAnchorPanelVm.GetTokAnchorRuleInscription().ForEach(s => gta.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _tokAnchorPanelVm.GetTokAnchorRulePointerLine().ForEach(pl => gta.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _tokAnchorPanelVm.GetTokAnchorRulePointer().ForEach(p => gta.DrawPolygon(p.Pen, p.Triangle));
-            _tokAnchorPanelVm.GetTokAnchorRuleFillPointer().ForEach(fp => gta.FillPolygon(fp.Brush, fp.Triangle));
-            _tokAnchorPanelVm.GetTokAnchorRuleTokAnchorMeaningZone().ForEach(sp => gta.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
-            gta.Dispose();
-            panel4.Invalidate();
+                _tokAnchorPanelVm.InitVm(_parameters);
+                _tokAnchorPanelVm.GetTokAnchorRuleDatas().ForEach(l => gta.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _tokAnchorPanelVm.GetTokAnchorRuleInscription()
+                    .ForEach(s => gta.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _tokAnchorPanelVm.GetTokAnchorRulePointerLine()
+                    .ForEach(pl => gta.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _tokAnchorPanelVm.GetTokAnchorRulePointer().ForEach(p => gta.DrawPolygon(p.Pen, p.Triangle));
+                _tokAnchorPanelVm.GetTokAnchorRuleFillPointer().ForEach(fp => gta.FillPolygon(fp.Brush, fp.Triangle));
+                _tokAnchorPanelVm.GetTokAnchorRuleTokAnchorMeaningZone()
+                    .ForEach(sp => gta.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
+                gta.Dispose();
+                panel4.Invalidate();
+                _updateTokAnchorPanelFinished.Set();
+            }
         }
 
-        private void UpdateTokExitationPanel(Parameters parameters)
+        private void UpdateTokExitationPanel()
         {
-            btBac_tok_excitation = new Bitmap(panel5.Width, panel5.Height); // панель тока возбуждения
-            Graphics gte = Graphics.FromImage(btBac_tok_excitation);
-            gte.SmoothingMode = SmoothingMode.AntiAlias;
+            while (true)
+            {
+                _updateTokExitationPanelStart.WaitOne();
+                btBac_tok_excitation = new Bitmap(panel5.Width, panel5.Height); // панель тока возбуждения
+                Graphics gte = Graphics.FromImage(btBac_tok_excitation);
+                gte.SmoothingMode = SmoothingMode.AntiAlias;
 
-            _tokExcitationPanelVm.InitVm(parameters);
-            _tokExcitationPanelVm.GetTokExcitationRuleDatas().ForEach(l => gte.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
-            _tokExcitationPanelVm.GetTokExcitationRuleInscription().ForEach(s => gte.DrawString(s.Text, s.Font, s.Brush, s.Position));
-            _tokExcitationPanelVm.GetTokExcitationRulePointerLine().ForEach(pl => gte.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
-            _tokExcitationPanelVm.GetTokExcitationRulePointer().ForEach(p => gte.DrawPolygon(p.Pen, p.Triangle));
-            _tokExcitationPanelVm.GetTokExcitationRuleFillPointer().ForEach(fp => gte.FillPolygon(fp.Brush, fp.Triangle));
-            _tokExcitationPanelVm.GetTokExcitationRuleTokAnchorMeaningZone().ForEach(sp => gte.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
-            gte.Dispose();
-            panel5.Invalidate();
+                _tokExcitationPanelVm.InitVm(_parameters);
+                _tokExcitationPanelVm.GetTokExcitationRuleDatas()
+                    .ForEach(l => gte.DrawLine(l.Pen, l.FirstPoint, l.SecondPoint));
+                _tokExcitationPanelVm.GetTokExcitationRuleInscription()
+                    .ForEach(s => gte.DrawString(s.Text, s.Font, s.Brush, s.Position));
+                _tokExcitationPanelVm.GetTokExcitationRulePointerLine()
+                    .ForEach(pl => gte.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                _tokExcitationPanelVm.GetTokExcitationRulePointer().ForEach(p => gte.DrawPolygon(p.Pen, p.Triangle));
+                _tokExcitationPanelVm.GetTokExcitationRuleFillPointer()
+                    .ForEach(fp => gte.FillPolygon(fp.Brush, fp.Triangle));
+                _tokExcitationPanelVm.GetTokExcitationRuleTokAnchorMeaningZone()
+                    .ForEach(sp => gte.FillRectangle(sp.Brush, sp.LeftTopX, sp.LeftTopY, sp.Width, sp.Height));
+                gte.Dispose();
+                panel5.Invalidate();
+                _updateTokExitationPanelFinished.Set();
+            }
         }
 
         private void UpdateDataBoxes(Parameters parameters)
@@ -391,47 +475,57 @@ namespace VisualizationSystem.View.UserControls
         }
 
 
-        private void UpdateCentralSignalsData(Parameters parameters)
+        private void UpdateCentralSignalsData()
         {
-            var centralSignals = _centralSignalsDataVm.GetSignalsData(parameters);
-            this.Invoke((MethodInvoker)delegate
+            while (true)
             {
-                for (int i = 0; i < 24; i++)
+                _updateCentralSignalsStart.WaitOne();
+                var centralSignals = _centralSignalsDataVm.GetSignalsData(_parameters);
+                this.Invoke((MethodInvoker) delegate
                 {
-                    masRichTextBox[i].BackColor = centralSignals[i].BackColor;
-                    masRichTextBox[i].Text = centralSignals[i].Text;
+                    for (int i = 0; i < 24; i++)
+                    {
+                        masRichTextBox[i].BackColor = centralSignals[i].BackColor;
+                        masRichTextBox[i].Text = centralSignals[i].Text;
+                    }
+                });
+                if (centralSignals[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
+                {
+                    this.Invoke((MethodInvoker) delegate
+                    {
+                        tabControl1.SelectedIndex = 1;
+                    });
+                    DefenceDiagramWorking = 1;
                 }
-            });
-            if (centralSignals[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
-            {
-                this.Invoke((MethodInvoker)delegate
-            {
-                tabControl1.SelectedIndex = 1;
-            });
-                DefenceDiagramWorking = 1;
-            }
-            if (centralSignals[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
-            {
-                DefenceDiagramWorking = 0;
+                if (centralSignals[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
+                {
+                    DefenceDiagramWorking = 0;
+                }
+                _updateCentralSignalsFinished.Set();
             }
         }
 
-        private void UpdateAuziDInputOutputSignals(Parameters parameters)
+        private void UpdateAuziDInputOutputSignals()
         {
-            _auziDInOutSignalsVm.UpDateSignals(parameters);
-            this.Invoke((MethodInvoker)delegate
+            while (true)
             {
-                for (int i = 0; i < 32; i++)
+                _updateAuziDInputOutputStart.WaitOne();
+                _auziDInOutSignalsVm.UpDateSignals(_parameters);
+                this.Invoke((MethodInvoker) delegate
                 {
-                    masInTextBox[i].BackColor = _auziDInOutSignalsVm.InputMeanings[i];
-                    masInLabel[i].Text = _auziDInOutSignalsVm.InputNames[i];
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
-                    masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
-                }
-            });
+                    for (int i = 0; i < 32; i++)
+                    {
+                        masInTextBox[i].BackColor = _auziDInOutSignalsVm.InputMeanings[i];
+                        masInLabel[i].Text = _auziDInOutSignalsVm.InputNames[i];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
+                        masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
+                    }
+                });
+                _updateAuziDInputOutputFinished.Set();
+            }
         }
 
         private void UpdateParametersData(object sender, EventArgs e)
@@ -600,6 +694,29 @@ namespace VisualizationSystem.View.UserControls
         private DataBoxVm _dataBoxVm;
         private LoadDataVm _loadDataVm;
 
+        //event hanlers fo threads
+        EventWaitHandle _updateLeftPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateRightPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateLeftDopPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateRightDopPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateSpeedPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateTokAnchorPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateTokExitationPanelStart = new AutoResetEvent(false);
+        EventWaitHandle _updateCentralSignalsStart = new AutoResetEvent(false);
+        EventWaitHandle _updateAuziDInputOutputStart = new AutoResetEvent(false);
+        EventWaitHandle _updateGraphicStart = new AutoResetEvent(false);
+
+        EventWaitHandle _updateLeftPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateRightPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateLeftDopPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateRightDopPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateSpeedPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateTokAnchorPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateTokExitationPanelFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateCentralSignalsFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateAuziDInputOutputFinished = new AutoResetEvent(true);
+        EventWaitHandle _updateGraphicFinished = new AutoResetEvent(true);
+
         private DataBaseService _dataBaseService;
         private MineConfig _mineConfig;
 
@@ -620,7 +737,6 @@ namespace VisualizationSystem.View.UserControls
         private Label[] masInLabel;//массив лейблов для вывода входных сигналов АУЗИ-Д
         private TextBox[] masOutTextBox;//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
         private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
-        private Thread updateGraphicThread;
         private volatile Parameters _parameters = new Parameters();
 
 
