@@ -57,7 +57,7 @@ namespace VisualizationSystem.View.UserControls
             ViewData(new Parameters(param));
 
             _dataListener.Init(ViewData);
-            var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Normal};
+            var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Lowest};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
@@ -83,8 +83,7 @@ namespace VisualizationSystem.View.UserControls
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
-            
-            
+
             if (update_parameters_flag%10==0)
             if (!updateGraphicThread.IsAlive)
             {
