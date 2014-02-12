@@ -268,7 +268,9 @@ namespace ML.AdvCan
             else
             {
                 var ret = msgRead.ToList();
-                ret.RemoveRange((int) pulNumberofRead, (int) (msgRead.Count() - pulNumberofRead));
+                //var ret = msgRead.ToList().Where(m=>m.id!=0xF).ToList();
+                //if(ret.Count!=0)
+                    ret.RemoveRange((int) pulNumberofRead, (int) (msgRead.Count() - pulNumberofRead));
                 return ret;
             }
         }

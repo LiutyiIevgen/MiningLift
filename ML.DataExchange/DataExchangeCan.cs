@@ -215,18 +215,18 @@ namespace ML.DataExchange
                         Thread.Sleep(5);
                         continue;
                     }
+
                     msgRead.AddRange(msg);
                     parametersList = CanParser.GetParametersList(msgRead);
                     if(parametersList == null)
                         continue;
-                    ReceiveEvent(parametersList[config.LeadingController]);
+                    ReceiveEvent(parametersList[config.LeadingController - 1]);
                     if(AllCanDataEvent!=null)
                         AllCanDataEvent(parametersList);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
                     msgRead.Clear();
-                    Thread.Sleep(12);
                 }
                 catch (Exception exception)
                 {
