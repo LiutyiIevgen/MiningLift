@@ -18,6 +18,7 @@ namespace ML.DataExchange
                     return null;
                 parametersList.Add(parameters);
             }
+            return parametersList;
         }
         public static Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {

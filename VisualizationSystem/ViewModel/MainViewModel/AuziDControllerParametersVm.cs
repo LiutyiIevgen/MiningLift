@@ -27,6 +27,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 pdataList[0][j] = parameters.s.ToString();
                 pdataList[1][j] = parameters.v.ToString();
                 pdataList[2][j] = parameters.a.ToString();
+                j++;
             }
             return pdataList;
         }

@@ -220,7 +220,8 @@ namespace ML.DataExchange
                     if(parametersList == null)
                         continue;
                     ReceiveEvent(parametersList[config.LeadingController]);
-                    AllCanDataEvent(parametersList);
+                    if(AllCanDataEvent!=null)
+                        AllCanDataEvent(parametersList);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);

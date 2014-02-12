@@ -58,6 +58,7 @@ namespace VisualizationSystem.View.UserControls
             ViewData(new Parameters(param));
 
             _dataListener.Init(ViewData);
+            _dataListener.SetAllCanDataReceive(UpdateAuziDControllerParameters);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Lowest};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};

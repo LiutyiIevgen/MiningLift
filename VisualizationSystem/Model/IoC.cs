@@ -44,7 +44,7 @@ namespace VisualizationSystem.Model
 
         public static void SetBindings()
         {
-            RegisterSingleton<IDataExchange, DataExchangeFile>();
+            RegisterSingleton<IDataExchange, DataExchangeCan>();
             RegisterSingleton<DataListener, DataListener>();
             RegisterSingleton<ArhivVm, ArhivVm>();
             RegisterSingleton<MineConfig, MineConfig>();
