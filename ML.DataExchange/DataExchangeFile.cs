@@ -80,7 +80,7 @@ namespace ML.DataExchange
         }
 
 
-        public event Action<List<CanParameter>> ParameterReceive;
+        
 
 
         public bool SetParameter(CanParameter canParameter)
@@ -89,6 +89,9 @@ namespace ML.DataExchange
         }
 
         public event ReceiveHandler ReceiveEvent;
+        public event Action<List<Parameters>> AllCanDataEvent;
+        public event Action<List<CanParameter>> ParameterReceive;
+
         public event Action DrawLoad;
         private event Action _drawLoad;
         private Timer _timer;
@@ -96,5 +99,7 @@ namespace ML.DataExchange
         private const int Interval = 10;
         private Mutex mymutex;
         private MemoryMappedFile myNonPersisterMemoryMappedFile;
+
+
     }
 }

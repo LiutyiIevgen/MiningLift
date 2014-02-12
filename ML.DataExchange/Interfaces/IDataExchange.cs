@@ -22,5 +22,7 @@ namespace ML.DataExchange.Interfaces
         event ReceiveHandler ReceiveEvent; //visualisation info
 
         event Action<List<CanParameter>> ParameterReceive; //inner parameters info
+
+        event Action<List<Parameters>> AllCanDataEvent; //all can packeges from OS
     }
 }

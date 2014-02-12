@@ -8,6 +8,17 @@ namespace ML.DataExchange
 {
     static public class CanParser
     {
+        public static List<Parameters> GetParametersList(List<CanDriver.canmsg_t> msgData)
+        {
+            var parametersList = new List<Parameters>();
+            for (byte i = 1; i < 4; i++)
+            {
+                Parameters parameters = GetParameters(msgData, i);
+                if (parameters == null)
+                    return null;
+                parametersList.Add(parameters);
+            }
+        }
         public static Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             if (!CheckMsgCount(msgData,controllerId))

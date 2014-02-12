@@ -126,6 +126,8 @@ namespace ML.DataExchange
 
         public event Action<List<CanParameter>> ParameterReceive;
 
+        public event Action<List<Parameters>> AllCanDataEvent;
+
         private List<CanParameter> TryGetParameterValue(List<CanDriver.canmsg_t> msgData)
         {
             var canParameters = new List<CanParameter>();
@@ -191,7 +193,7 @@ namespace ML.DataExchange
 
         private void ReceiveThreadMethod()
         {
-            Parameters parameters;
+            List<Parameters> parametersList;
             var param = new double[30];
             var config = new MineConfig();
             var msgRead = new List<CanDriver.canmsg_t>();
@@ -214,10 +216,11 @@ namespace ML.DataExchange
                         continue;
                     }
                     msgRead.AddRange(msg);
-                    parameters = CanParser.GetParameters(msgRead, (byte) config.LeadingController); //путевая информация
-                    if(parameters == null)
+                    parametersList = CanParser.GetParametersList(msgRead);
+                    if(parametersList == null)
                         continue;
-                    ReceiveEvent(parameters);
+                    ReceiveEvent(parametersList[config.LeadingController]);
+                    AllCanDataEvent(parametersList);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);

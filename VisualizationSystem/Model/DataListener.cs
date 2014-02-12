@@ -45,6 +45,11 @@ namespace VisualizationSystem.Model
             _dataExchange.ParameterReceive += receiveFunction;
         }
 
+        public void SetAllCanDataReceive(Action<List<Parameters>> receiveFunction)
+        {
+            _dataExchange.AllCanDataEvent += receiveFunction;
+        }
+
         public bool GetParameter(ushort controllerId, ushort parameterId, byte subindex)
         {
             return _dataExchange.GetParameter(controllerId, parameterId, subindex);
