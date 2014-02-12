@@ -48,6 +48,7 @@ namespace VisualizationSystem.View.UserControls
             _tokExcitationPanelVm = new TokExcitationPanelVm(panel5.Width, panel5.Height);
             _centralSignalsDataVm = new CentralSignalsDataVm();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
+            _auziDControllerParametersVm = new AuziDControllerParametersVm();
             _loadDataVm = new LoadDataVm();
             _dataBoxVm = new DataBoxVm();
             
@@ -433,6 +434,23 @@ namespace VisualizationSystem.View.UserControls
             });
         }
 
+        private void UpdateAuziDControllerParameters(List<Parameters> parameters)
+        {
+            var dataList = _auziDControllerParametersVm.GetDataList(parameters);
+            this.Invoke((MethodInvoker)delegate
+            {
+                dataGridViewControllerParameters.RowCount = dataList[0].Count();
+                for (int i = 0; i < dataGridViewControllerParameters.RowCount; i++)
+                {
+                    dataGridViewControllerParameters[0, i].Value = i + 1;
+                    for (int j = 1; j < dataGridViewControllerParameters.ColumnCount; j++)
+                    {
+                        dataGridViewControllerParameters[j, i].Value = dataList[j-1][i];
+                    }
+                }
+            });
+        }
+
         private void UpdateParametersData(object sender, EventArgs e)
         {
             if(tabControl1.SelectedTab != tabPage6)
@@ -596,6 +614,7 @@ namespace VisualizationSystem.View.UserControls
         private TokExcitationPanelVm _tokExcitationPanelVm;
         private CentralSignalsDataVm _centralSignalsDataVm;
         private AuziDInOutSignalsVm _auziDInOutSignalsVm;
+        private AuziDControllerParametersVm _auziDControllerParametersVm;
         private DataBoxVm _dataBoxVm;
         private LoadDataVm _loadDataVm;
 
