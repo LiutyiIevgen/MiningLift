@@ -647,7 +647,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Height = 20
                         });
                 }
-                else if (_parameters.f_start == 1)
+                else if (direction == 0) //move up
                 {
                     LoadCageFlag = 0;
                     UnLoadCageFlag = 0;
@@ -715,7 +715,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Height = 20
                         });
                 }
-                else if (_parameters.f_back == 1)
+                else if (direction == 1)//move down
                 {
                     LoadCageFlag = 0;
                     UnLoadCageFlag = 0;

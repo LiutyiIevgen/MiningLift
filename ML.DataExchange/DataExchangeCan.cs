@@ -156,6 +156,7 @@ namespace ML.DataExchange
                         _codtDomainSubIndex = canmsgT.data[3];
                         _codtDomainThread = new Thread(GetSegment) { IsBackground = true };
                         _codtDomainThread.Start(canmsgT);
+                        _codtDomainArray.Clear();
                     }
                     else if ((canmsgT.data[0]&0xE0) == 0) //get codtDomain block
                     {
@@ -164,6 +165,8 @@ namespace ML.DataExchange
                             _codtDomainArray.Add(canmsgT.data[j+1]);
                         if ((canmsgT.data[0]&0x01) == 1)//last codtDomain Element
                         {
+                            if (_codtDomainArray.Count<7)
+                                continue;
                             canParameters.Add(new CanParameter
                             {
                                 ControllerId = (ushort)(canmsgT.id & 0x7F),
@@ -173,9 +176,11 @@ namespace ML.DataExchange
                             });
                             _codtDomainArray.Clear();
                         }
+                        _isUnloaded.Set();
                     }
                     else if (canmsgT.data[0] == 0x60) //parameter was seted
                     {
+                        _isLoaded.Set();
                         if (_codtDomainThread != null)
                             if (_codtDomainThread.IsAlive)
                                 continue;
@@ -197,6 +202,7 @@ namespace ML.DataExchange
             var param = new double[30];
             var config = new MineConfig();
             var msgRead = new List<CanDriver.canmsg_t>();
+            var canParser = new CanParser(config);
             while (true)
             {
 
@@ -217,20 +223,24 @@ namespace ML.DataExchange
                     }
 
                     msgRead.AddRange(msg);
-                    parametersList = CanParser.GetParametersList(msgRead);
-                    if(parametersList == null)
-                        continue;
-                    ReceiveEvent(parametersList[config.LeadingController - 1]);
-                    if(AllCanDataEvent!=null)
+                    parametersList = canParser.GetParametersList(msgRead);
+                    if (AllCanDataEvent != null)
                         AllCanDataEvent(parametersList);
+                    if (!canParser.Majorization(parametersList))
+                        parametersList = null;
+                    if(parametersList != null)
+                        ReceiveEvent(parametersList[config.LeadingController - 1]);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    msgRead.Clear();
+
+                    //if (parametersList != null)
+                        msgRead.Clear();
+                    Thread.Sleep(14);
                 }
                 catch (Exception exception)
                 {
-                    
+                     msgRead.Clear();
                 }
             }
         }
@@ -242,24 +252,40 @@ namespace ML.DataExchange
             var _sendNumber = (int)Math.Ceiling((double)(byteNumber / 7));
             for (int i = 0; i < _sendNumber; i++)
             {
-                if (i % 2 == 0)
-                    _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                if (i%2 == 0)
+                    _device.SendData(new List<CanDriver.canmsg_t>
                     {
-                        id = 0x600 + (msg.id&0x07F),length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        new CanDriver.canmsg_t
                         {
-                            0x60,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
+                            id = 0x600 + (msg.id & 0x07F),
+                            length = 8,
+                            flags = CanDriver.MSG_BOVR,
+                            data = new byte[]
+                            {
+                                0x60, msg.data[1], msg.data[2], msg.data[3], 0, 0, 0, 0
+                            }
                         }
-                    }});
+                    });
                 else
-                    _device.SendData(new List<CanDriver.canmsg_t>{new CanDriver.canmsg_t
+                    _device.SendData(new List<CanDriver.canmsg_t>
                     {
-                        id = 0x600 + (msg.id&0x07F),length = 8,flags = CanDriver.MSG_BOVR,data = new byte[]
+                        new CanDriver.canmsg_t
                         {
-                            0x70,msg.data[1],msg.data[2],msg.data[3],0,0,0,0
+                            id = 0x600 + (msg.id & 0x07F),
+                            length = 8,
+                            flags = CanDriver.MSG_BOVR,
+                            data = new byte[]
+                            {
+                                0x70, msg.data[1], msg.data[2], msg.data[3], 0, 0, 0, 0
+                            }
                         }
-                    }});
-                if(i!=_sendNumber - 1)
-                    Thread.Sleep(200);
+                    });
+
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                {
+                    i--;
+                    continue;
+                }
             }
         }
 
@@ -296,7 +322,7 @@ namespace ML.DataExchange
                     else
                         block[j + 1] = canParameter.Data[i * 7 + j];
                 }
-                if(i == _sendNumber - 1)//last block
+                if(i == _sendNumber - 1)//last block + 6 bit unused
                     block[0] = 0x1D;
                 else if (i%2 == 0) //change count bit
                     block[0] = 0;
@@ -323,17 +349,21 @@ namespace ML.DataExchange
                             ParameterSubIndex = canParameter.ParameterSubIndex
                         }
                     });
-                    return;
                 }
+                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(400)))
+                    return;
                 i++;
-                Thread.Sleep(170);
             }
         }
 
         private ICanIO _device;
+
+        EventWaitHandle _isUnloaded = new AutoResetEvent(false);//for getting codt domain
+        EventWaitHandle _isLoaded = new AutoResetEvent(false);//for setting codt domain
+
         private bool m_bRun;
         private bool syncflag;
-        private int MsgCount = 180;
+        private int MsgCount = 280;
         private string _portName;
         private int _portSpeed;
         private Thread ReceiveThread;

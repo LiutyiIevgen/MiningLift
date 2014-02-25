@@ -163,14 +163,18 @@ namespace VisualizationSystem.View.UserControls.Setting
             int index = startIndex;
             UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
             _isUnloaded.WaitOne();
-            while (i < _parametersNumber - 1)
+            while (i < _parametersNumber)
             {
                 _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
                 for (int j = 0; j < 3; j++)
                 {
                     Thread.Sleep(30);
                     UnloadParameter(controllerId, index, j);
-                    _isUnloaded.WaitOne();
+                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(1500)))
+                    {
+                        j--;
+                        continue;
+                    }
                 }
                 index++;
                 i++;
@@ -187,9 +191,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             int index = startIndex;
             while (i < 88)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 LoadParameter(controllerId, index, 2);
-                _isLoaded.WaitOne();
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                    return;
                 index++;
                 i++;
             }
@@ -205,7 +210,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             for (int j = 1; j < 7; j++)
             {
                 UnloadParameter(controllerId, 0x2000, j);
-                _isUnloaded.WaitOne();
+                if(!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                    return;
             }
             var formDomain = new FormHardwareInformation(_deviceInformation);
             formDomain.ShowDialog();
@@ -483,6 +489,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 _contextMenuClickedRow = e.RowIndex;
                 _contextMenuClickedColumn = e.ColumnIndex;
+                if (_contextMenuClickedRow == -1)
+                    return;
                 if (dataGridViewVariableParameters[3, _contextMenuClickedRow].Value.ToString() == "codtDomain")
                 {
                     toolStripMenuItem1.Visible = false;

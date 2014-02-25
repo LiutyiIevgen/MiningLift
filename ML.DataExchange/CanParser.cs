@@ -2,25 +2,61 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ML.Can;
+using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 
 namespace ML.DataExchange
 {
-    static public class CanParser
+    public class CanParser
     {
-        public static List<Parameters> GetParametersList(List<CanDriver.canmsg_t> msgData)
+        public CanParser(MineConfig mineConfig)
+        {
+            _config = mineConfig;
+        }
+        public List<Parameters> GetParametersList(List<CanDriver.canmsg_t> msgData)
         {
             var parametersList = new List<Parameters>();
-            for (byte i = 2; i < 4; i++)
+            int parametersCount = 0;
+            for (byte i = 1; i < 4; i++)
             {
                 Parameters parameters = GetParameters(msgData, i);
-                if (parameters == null)
-                    return null;
                 parametersList.Add(parameters);
+                if (parameters != null)
+                    parametersCount++;
             }
             return parametersList;
         }
-        public static Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
+
+        public bool Majorization(List<Parameters> parametersList)
+        {
+            var errorCounter = new List<byte>(){new byte(),new byte(),new byte()};
+            for(int i =0;i<3;i++)
+                for (int j = 0; j < 3; j++)
+                {
+                    if(i==j)
+                        continue;
+                    if (parametersList[i] == null || parametersList[j] == null)
+                        errorCounter[i]++;
+                    else if(parametersList[i].s < parametersList[j].s - _dS || parametersList[i].s > parametersList[j].s + _dS)
+                        errorCounter[i]++;
+                }
+            if (errorCounter.All(e => e == 2)) //mistake
+                return false;
+            if (errorCounter.All(e=>e==0)) //evrithing is correct
+                return true;
+            int index = errorCounter.FindIndex(e => e == 2);
+            if (index == _config.LeadingController - 1)
+            {
+                if (index == 0)
+                    _config.LeadingController = 2;
+                else if(index == 1)
+                    _config.LeadingController = 3;
+                else
+                    _config.LeadingController = 1;
+            }
+            return true;
+        }
+        public Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             if (!CheckMsgCount(msgData,controllerId))
                 return null;
@@ -41,6 +77,8 @@ namespace ML.DataExchange
                 param[5] = GetStart(v);
                 param[8] = GetBack(v);
                 param[9] = GetOstanov(msgData, controllerId);
+                param[10] = GetUnload(msgData, controllerId);
+                param[11] = GetLoad(msgData, controllerId);
                 param[12] = GetS2(msgData, controllerId);
                 inputSignals = GetAllInputSignals(msgData, controllerId);
                 outputSignals = GetAllOutputSignals(msgData, controllerId);
@@ -56,7 +94,7 @@ namespace ML.DataExchange
             return parameters;
         }
 
-        private static bool CheckMsgCount(List<CanDriver.canmsg_t> msgData,byte controllerId)
+        private bool CheckMsgCount(List<CanDriver.canmsg_t> msgData,byte controllerId)
         {
             if(msgData.All(p => p.id != (0x380 + controllerId)))
                 return false;
@@ -66,20 +104,20 @@ namespace ML.DataExchange
                 return false;
             return true;
         }
-        private static List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
             byte tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data[6];
             var byteList = new List<byte> {tpdo3[4], tpdo3[5], tpdo3[6], tpdo3[7], tpdo1};
             return byteList;
         }
-        private static List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
             var byteList = new List<byte> {tpdo3[0], tpdo3[1], tpdo3[2], tpdo3[3]};
             return byteList;
         }
-        private static double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double s = 0;
             byte[] tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data;
@@ -87,7 +125,7 @@ namespace ML.DataExchange
             s /= 256 * 1000;
             return s;
         }
-        private static double GetS2(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private double GetS2(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double s = 0;
             byte[] tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data;
@@ -95,7 +133,7 @@ namespace ML.DataExchange
             s /= 256 * 1000;
             return s;
         }
-        private static double GetV(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private double GetV(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double v = 0;
             short sv = 0;
@@ -104,7 +142,7 @@ namespace ML.DataExchange
             v = sv;
             return v/1000;
         }
-        private static double GetA(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private double GetA(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double a = 0;
             short sa = 0;
@@ -113,28 +151,38 @@ namespace ML.DataExchange
             a = sa;
             return a / 1000;
         }
-        private static double GetStart(double v)
+        private double GetStart(double v)
         {
             if (v < 0)
                 return 1;
             return 0;
         }
-        private static double GetBack(double v)
+        private double GetBack(double v)
         {
-            if (v >= 0)
+            if (v > 0)
                 return 1;
             return 0;
         }
-        private static double GetOstanov(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        private double GetOstanov(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
-            if ((tpdo3[0]&1) >= 1 && (tpdo3[0]&2)>=1)
+            if ((tpdo3[0]&1) >= 1 || (tpdo3[0]&2)>=1)
             {
                 return 1;
             }
-            /*if (v == 0)
-                return 1;*/
             return 0;
         }
+
+        private double GetUnload(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        {
+            return 0;
+        }
+        private double GetLoad(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        {
+            return 0;
+        }
+
+        private double _dS = 1;
+        private MineConfig _config;
     }
 }
