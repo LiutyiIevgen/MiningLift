@@ -9,6 +9,7 @@ using ML.ConfigSettings.Services;
 using ML.DataExchange;
 using ML.DataExchange.Interfaces;
 using ML.DataExchange.Model;
+using Ninject.Parameters;
 using VisualizationSystem.View.Forms;
 
 namespace VisualizationSystem.Model
@@ -16,9 +17,9 @@ namespace VisualizationSystem.Model
     class DataListener
     {
         private IDataExchange _dataExchange;
-        public DataListener(IDataExchange dataExchange)
+        public DataListener()
         {
-            _dataExchange = dataExchange;
+            _dataExchange = IoC.Resolve<IDataExchange>(new ConstructorArgument("mineConfig",IoC.Resolve<MineConfig>()));
         }
 
         public void Init(ReceiveHandler Function)

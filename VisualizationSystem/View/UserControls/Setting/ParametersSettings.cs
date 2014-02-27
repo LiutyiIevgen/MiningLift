@@ -26,6 +26,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             _parametersSettingsVm = new ParametersSettingsVm();
             _mineConfig = IoC.Resolve<MineConfig>();
             _deviceInformation = new List<string>();
+            unloadThread = new Thread(UnloadAllParameters){IsBackground = true};
+            loadThread = new Thread(LoadAllParameters){IsBackground = true};
+            unloadInformationThread = new Thread(UnloadDeviceInformation){IsBackground = true};
         }
 
         private void ParametersSettings_Load(object sender, EventArgs e)
@@ -162,19 +165,19 @@ namespace VisualizationSystem.View.UserControls.Setting
                 _parametersSettingsVm.ParametersSettingsDatas = new List<ParametersSettingsData>();
             int index = startIndex;
             UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
-            _isUnloaded.WaitOne();
+            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(15000)))
+                return;
             while (i < _parametersNumber)
             {
                 _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
-                for (int j = 0; j < 3; j++)
+                int j = 0;
+                while(j<3)
                 {
-                    Thread.Sleep(30);
+                    Thread.Sleep(100);
                     UnloadParameter(controllerId, index, j);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(1500)))
-                    {
-                        j--;
-                        continue;
-                    }
+                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        return;
+                    j++;
                 }
                 index++;
                 i++;
@@ -189,7 +192,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
             int i = 0;
             int index = startIndex;
-            while (i < 88)
+            while (i < 10)
             {
                 Thread.Sleep(100);
                 LoadParameter(controllerId, index, 2);
@@ -207,11 +210,13 @@ namespace VisualizationSystem.View.UserControls.Setting
             ushort controllerId;
             ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
             _deviceInformation.Clear();
-            for (int j = 1; j < 7; j++)
+            int j = 1;
+            while(j<7)
             {
                 UnloadParameter(controllerId, 0x2000, j);
                 if(!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(300)))
-                    return;
+                    continue;
+                j++;
             }
             var formDomain = new FormHardwareInformation(_deviceInformation);
             formDomain.ShowDialog();
@@ -224,6 +229,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 if (canParameter.Data == null)//parameter was seted
                 {
+                    _isLoaded.Set();
                     CanParameter parameter = canParameter;
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -231,11 +237,10 @@ namespace VisualizationSystem.View.UserControls.Setting
                             Convert.ToString(parameter.ParameterId, 16) + ", address = " + 
                             Convert.ToString(parameter.ControllerId, 16));
                     });
-                    _isLoaded.Set();
                     continue;
                 }
                 if (canParameter.ParameterId == 0x2000)
-                {
+                {                 
                     DeviceInformationParser(canParameter);
                     _isUnloaded.Set();
                     return;
@@ -243,16 +248,16 @@ namespace VisualizationSystem.View.UserControls.Setting
                 switch (canParameter.ParameterSubIndex)
                 {
                     case (byte)CanSubindexes.Value:
-                        ValueParser(canParameter);
                         _isUnloaded.Set();
+                        ValueParser(canParameter);
                         break;
                     case (byte)CanSubindexes.Name:
-                        NamePareser(canParameter);
                         _isUnloaded.Set();
+                        NamePareser(canParameter);
                         break;
                     case (byte)CanSubindexes.Type:
-                        TypeParser(canParameter);
                         _isUnloaded.Set();
+                        TypeParser(canParameter);
                         break;
                 }
                 
@@ -544,23 +549,30 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void unloadAll_Click(object sender, EventArgs e)
         {
-            Thread unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
+            if(unloadThread.IsAlive)
+                return;
             unloadThread.Start();
         }
 
         private void loadAll_Click(object sender, EventArgs e)
         {
-            Thread loadThread = new Thread(LoadAllParameters) { IsBackground = true, Priority = ThreadPriority.Lowest};
+            if (loadThread.IsAlive)
+                return;
             loadThread.Start();
         }
 
         private void getInformationButton_Click(object sender, EventArgs e)
         {
-            Thread loadThread = new Thread(UnloadDeviceInformation) { IsBackground = true };
-            loadThread.Start();
+            if (unloadInformationThread.IsAlive)
+                return;
+            unloadInformationThread.Start();
         }
 
         #endregion
+
+        private Thread unloadThread;
+        private Thread loadThread;
+        private Thread unloadInformationThread;
 
         private ParametersSettingsVm _parametersSettingsVm;
         private MineConfig _mineConfig;

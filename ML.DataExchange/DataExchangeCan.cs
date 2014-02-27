@@ -16,8 +16,9 @@ namespace ML.DataExchange
 {
     public class DataExchangeCan : IDataExchange
     {
-        public DataExchangeCan()
+        public DataExchangeCan(MineConfig mineConfig)
         {
+            _mineConfig = mineConfig;
             _codtDomainArray = new List<byte>();
         }
 
@@ -75,6 +76,11 @@ namespace ML.DataExchange
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
             _device.SendData(dataList);
+            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(100)))
+            {
+                GetParameter(controllerId, parameterId, subindex);
+                return false;
+            }
             return true;
         }
 
@@ -138,6 +144,7 @@ namespace ML.DataExchange
                 {
                     if ((canmsgT.data[0] & 0x73) == 0x43) // value block
                     {
+                        _isUnloaded.Set();
                         var canParameter = new CanParameter()
                         {
                             ControllerId = (ushort) (canmsgT.id & 0x7F),
@@ -152,20 +159,22 @@ namespace ML.DataExchange
                     }
                     else if (canmsgT.data[0] == 0x41) //get codtDomain
                     {
+                        _isUnloaded.Set();
                         _codtDomainId = (ushort)(canmsgT.data[1] + (canmsgT.data[2] << 8));
                         _codtDomainSubIndex = canmsgT.data[3];
                         _codtDomainThread = new Thread(GetSegment) { IsBackground = true };
                         _codtDomainThread.Start(canmsgT);
                         _codtDomainArray.Clear();
                     }
-                    else if ((canmsgT.data[0]&0xE0) == 0) //get codtDomain block
+                    else if ((canmsgT.data[0] & 0xE0) == 0) //get codtDomain block
                     {
+                        _isUnloaded.Set();
                         int unusedBytes = (canmsgT.data[0] & 0x0E) >> 1;
                         for (int j = 0; j < 7 - unusedBytes; j++)
                             _codtDomainArray.Add(canmsgT.data[j+1]);
                         if ((canmsgT.data[0]&0x01) == 1)//last codtDomain Element
                         {
-                            if (_codtDomainArray.Count<7)
+                            if (_codtDomainArray.Count<5)
                                 continue;
                             canParameters.Add(new CanParameter
                             {
@@ -175,8 +184,7 @@ namespace ML.DataExchange
                                 Data = _codtDomainArray.ToArray()
                             });
                             _codtDomainArray.Clear();
-                        }
-                        _isUnloaded.Set();
+                        } 
                     }
                     else if (canmsgT.data[0] == 0x60) //parameter was seted
                     {
@@ -200,9 +208,9 @@ namespace ML.DataExchange
         {
             List<Parameters> parametersList;
             var param = new double[30];
-            var config = new MineConfig();
             var msgRead = new List<CanDriver.canmsg_t>();
-            var canParser = new CanParser(config);
+            var canParser = new CanParser(_mineConfig);
+            int i = 0;
             while (true)
             {
 
@@ -224,17 +232,19 @@ namespace ML.DataExchange
 
                     msgRead.AddRange(msg);
                     parametersList = canParser.GetParametersList(msgRead);
-                    if (AllCanDataEvent != null)
+                    if (AllCanDataEvent != null && i++ == 1)
+                    {
                         AllCanDataEvent(parametersList);
+                        i = 0;
+                    }
                     if (!canParser.Majorization(parametersList))
                         parametersList = null;
                     if(parametersList != null)
-                        ReceiveEvent(parametersList[config.LeadingController - 1]);
+                        ReceiveEvent(parametersList[_mineConfig.LeadingController - 1]);
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
 
-                    //if (parametersList != null)
                         msgRead.Clear();
                     Thread.Sleep(14);
                 }
@@ -250,7 +260,8 @@ namespace ML.DataExchange
             var msg = (CanDriver.canmsg_t)canmsgT;
             double byteNumber = msg.data[4];
             var _sendNumber = (int)Math.Ceiling((double)(byteNumber / 7));
-            for (int i = 0; i < _sendNumber; i++)
+            int i = 0;
+            while(i<_sendNumber)
             {
                 if (i%2 == 0)
                     _device.SendData(new List<CanDriver.canmsg_t>
@@ -281,11 +292,12 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(100)))
                 {
-                    i--;
+                    i = i;
                     continue;
                 }
+                i++;
             }
         }
 
@@ -351,7 +363,7 @@ namespace ML.DataExchange
                     });
                 }
                 if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(400)))
-                    return;
+                    continue;
                 i++;
             }
         }
@@ -360,6 +372,8 @@ namespace ML.DataExchange
 
         EventWaitHandle _isUnloaded = new AutoResetEvent(false);//for getting codt domain
         EventWaitHandle _isLoaded = new AutoResetEvent(false);//for setting codt domain
+
+        private MineConfig _mineConfig;
 
         private bool m_bRun;
         private bool syncflag;

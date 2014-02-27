@@ -86,7 +86,7 @@ namespace VisualizationSystem.View.UserControls
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
 
-            if (update_parameters_flag%10==0)
+            if (update_parameters_flag%3==0)
             if (!updateGraphicThread.IsAlive)
             {
                 updateGraphicThread = new Thread(updateGraphicHandler);
@@ -138,7 +138,7 @@ namespace VisualizationSystem.View.UserControls
             if (param.f_start == 1 || param.f_back == 1)
             {
                 //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (chartVA.Series[0].Points.Count == 500)
+                if (was_ostanov == 1)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
@@ -180,8 +180,8 @@ namespace VisualizationSystem.View.UserControls
         {
             this.Invoke((MethodInvoker)delegate
             {
-                chartVA.ChartAreas[0].AxisX.Maximum = Settings.UpZeroZone;
-                chartVA.ChartAreas[0].AxisX.Minimum = -(_mineConfig.MainViewConfig.Distance.Value + _mineConfig.MainViewConfig.Distance.Value / 8 - Settings.UpZeroZone);
+                chartVA.ChartAreas[0].AxisX.Minimum = -_mineConfig.MainViewConfig.Border.Value;
+                chartVA.ChartAreas[0].AxisX.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
                 chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 8;
                 chartVA.ChartAreas[0].AxisY.Minimum = -100;
                 chartVA.ChartAreas[0].AxisY.Maximum = 125;
