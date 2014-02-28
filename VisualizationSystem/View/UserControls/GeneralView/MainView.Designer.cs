@@ -106,6 +106,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
+            this.splitContainer18 = new System.Windows.Forms.SplitContainer();
+            this.labelDefenceDiagramRegim = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -156,6 +158,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer16.Panel2.SuspendLayout();
             this.splitContainer16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer17)).BeginInit();
+            this.splitContainer17.Panel1.SuspendLayout();
             this.splitContainer17.Panel2.SuspendLayout();
             this.splitContainer17.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -179,6 +182,9 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
             this.splitContainer10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).BeginInit();
+            this.splitContainer18.Panel1.SuspendLayout();
+            this.splitContainer18.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -654,6 +660,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // splitContainer17.Panel1
             // 
             this.splitContainer17.Panel1.ContextMenuStrip = this.contextMenuStrip1;
+            this.splitContainer17.Panel1.Controls.Add(this.splitContainer18);
             // 
             // splitContainer17.Panel2
             // 
@@ -1178,6 +1185,31 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // splitContainer18
+            // 
+            this.splitContainer18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer18.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer18.Name = "splitContainer18";
+            // 
+            // splitContainer18.Panel1
+            // 
+            this.splitContainer18.Panel1.Controls.Add(this.labelDefenceDiagramRegim);
+            this.splitContainer18.Size = new System.Drawing.Size(732, 25);
+            this.splitContainer18.SplitterDistance = 195;
+            this.splitContainer18.TabIndex = 0;
+            // 
+            // labelDefenceDiagramRegim
+            // 
+            this.labelDefenceDiagramRegim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelDefenceDiagramRegim.AutoSize = true;
+            this.labelDefenceDiagramRegim.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDefenceDiagramRegim.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.labelDefenceDiagramRegim.Location = new System.Drawing.Point(23, 2);
+            this.labelDefenceDiagramRegim.Name = "labelDefenceDiagramRegim";
+            this.labelDefenceDiagramRegim.Size = new System.Drawing.Size(64, 20);
+            this.labelDefenceDiagramRegim.TabIndex = 0;
+            this.labelDefenceDiagramRegim.Text = "Режим";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1239,6 +1271,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer16.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer16)).EndInit();
             this.splitContainer16.ResumeLayout(false);
+            this.splitContainer17.Panel1.ResumeLayout(false);
             this.splitContainer17.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer17)).EndInit();
             this.splitContainer17.ResumeLayout(false);
@@ -1265,6 +1298,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
+            this.splitContainer18.Panel1.ResumeLayout(false);
+            this.splitContainer18.Panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).EndInit();
+            this.splitContainer18.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1342,5 +1379,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private TabPage tabPage7;
+        private SplitContainer splitContainer18;
+        private Label labelDefenceDiagramRegim;
     }
 }
