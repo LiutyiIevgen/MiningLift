@@ -6,7 +6,7 @@ namespace VisualizationSystem.View.Forms.Setting
 {
     public partial class FormSettingsParol : Form
     {
-        private string _parol = "12777";
+        private string _parol = "";
         public FormSettingsParol()
         {
             InitializeComponent();

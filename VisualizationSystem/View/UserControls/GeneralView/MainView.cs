@@ -413,6 +413,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             IoC.Resolve<FormSettingsParol>().ShowDialog();
+            //new FormSettingsParol().Show();
         }
         private void buttonFind_Click(object sender, EventArgs e)
         {
