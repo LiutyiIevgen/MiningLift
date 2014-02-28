@@ -217,7 +217,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             while(j<7)
             {
                 UnloadParameter(controllerId, 0x2000, j);
-                if(!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                if(!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
                     continue;
                 j++;
             }

@@ -76,9 +76,9 @@ namespace ML.DataExchange
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
             _device.SendData(dataList);
-            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(200)))
+            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
             {
-                GetParameter(controllerId, parameterId, subindex);
+                //GetParameter(controllerId, parameterId, subindex);
                 return false;
             }
             return true;
@@ -125,11 +125,12 @@ namespace ML.DataExchange
                 return true;
             }
             _device.SendData(new List<CanDriver.canmsg_t> { msg });
-            if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
+            _isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000));
+            /*if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
             {
                 SetParameter(canParameter);
                 return false;
-            }
+            }*/
                     
             return true;
         }
@@ -297,9 +298,9 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(200)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
                 {
-                    continue;
+                    return;
                 }
                 i++;
             }
@@ -370,8 +371,8 @@ namespace ML.DataExchange
                         }
                     });
                 }
-                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(400)))
-                    continue;
+                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                    return;
                 i++;
             }
         }
