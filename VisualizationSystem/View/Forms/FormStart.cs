@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using ML.DataRepository.Models.GenericRepository;
 using VisualizationSystem.View.UserControls;
+using VisualizationSystem.View.UserControls.GeneralView;
 
 namespace VisualizationSystem.View.Forms
 {
@@ -16,10 +17,6 @@ namespace VisualizationSystem.View.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //ConfigParameters.ReadConfigParameters();
-            
-            //FormSettings f2 = IoC.Resolve<FormSettings>();
-            //FormSettingsParol f3 = IoC.Resolve<FormSettingsParol>();
             SetMainView();
         }
 

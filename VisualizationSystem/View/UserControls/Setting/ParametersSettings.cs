@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using ML.DataExchange;
@@ -157,7 +158,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
             dialog.ShowDialog();
             ushort controllerId;
-            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
+            if (!ushort.TryParse(dialog.textBoxAddress.Text, out controllerId))
+                return;
             int i = 0;
             if (_parametersSettingsVm.ParametersSettingsDatas != null)
                 _parametersSettingsVm.ParametersSettingsDatas.Clear();
@@ -173,7 +175,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 int j = 0;
                 while(j<3)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     UnloadParameter(controllerId, index, j);
                     if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                         return;
@@ -189,7 +191,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
             dialog.ShowDialog();
             ushort controllerId;
-            ushort.TryParse(dialog.textBoxAddress.Text, out controllerId);
+            if(!ushort.TryParse(dialog.textBoxAddress.Text, out controllerId))
+                return;
             int i = 0;
             int index = startIndex;
             while (i < 10)
@@ -479,13 +482,13 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AddLineToLog("Загрузка параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            LoadParameter(null,startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+            Task.Run(() =>LoadParameter(null,startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2));
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             AddLineToLog("Старт выгрузки параметра с индексом " + "0x" + Convert.ToString(startIndex + _contextMenuClickedRow, 16));
-            UnloadParameter(null,startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2);
+            Task.Run(() => UnloadParameter(null, startIndex + _contextMenuClickedRow, _contextMenuClickedColumn - 2));
         }
 
         private void dataGridViewVariableParameters_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -551,6 +554,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             if(unloadThread.IsAlive)
                 return;
+            unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
             unloadThread.Start();
         }
 
@@ -558,6 +562,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             if (loadThread.IsAlive)
                 return;
+            loadThread = new Thread(LoadAllParameters) { IsBackground = true };
             loadThread.Start();
         }
 
@@ -565,6 +570,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             if (unloadInformationThread.IsAlive)
                 return;
+            unloadInformationThread = new Thread(UnloadDeviceInformation) { IsBackground = true };
             unloadInformationThread.Start();
         }
 

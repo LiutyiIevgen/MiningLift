@@ -156,10 +156,28 @@
     <Compile Include="View\Forms\Setting\FormSettingsParol.Designer.cs">
       <DependentUpon>FormSettingsParol.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\MainView.cs">
+    <Compile Include="View\UserControls\GeneralView\AuziDUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="View\UserControls\MainView.Designer.cs">
+    <Compile Include="View\UserControls\GeneralView\AuziDUC.Designer.cs">
+      <DependentUpon>AuziDUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\CepTpUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\CepTpUC.Designer.cs">
+      <DependentUpon>CepTpUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\CycleUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\CycleUC.Designer.cs">
+      <DependentUpon>CycleUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\MainView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Setting\AuziDSettings.cs">
@@ -235,7 +253,16 @@
     <EmbeddedResource Include="View\Forms\Setting\FormSettingsParol.resx">
       <DependentUpon>FormSettingsParol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\UserControls\MainView.resx">
+    <EmbeddedResource Include="View\UserControls\GeneralView\AuziDUC.resx">
+      <DependentUpon>AuziDUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\GeneralView\CepTpUC.resx">
+      <DependentUpon>CepTpUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\GeneralView\CycleUC.resx">
+      <DependentUpon>CycleUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\GeneralView\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\Setting\AuziDSettings.resx">

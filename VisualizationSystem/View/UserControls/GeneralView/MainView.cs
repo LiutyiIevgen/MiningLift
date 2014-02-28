@@ -1,42 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
-using ML.DataExchange;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
-using VisualizationSystem.Model.Settings;
 using VisualizationSystem.Services;
-using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
 using VisualizationSystem.ViewModel;
 using VisualizationSystem.ViewModel.MainViewModel;
 
-namespace VisualizationSystem.View.UserControls
+namespace VisualizationSystem.View.UserControls.GeneralView
 {
     public partial class MainView : UserControl
     {
         public MainView()
         {
             InitializeComponent();
+            _cycleUc = new CycleUC(){Dock = DockStyle.Fill};
+            _cepTpUc = new CepTpUC() {Dock = DockStyle.Fill};
+            _auziDUc = new AuziDUC() {Dock = DockStyle.Fill};
+
+            tabPage1.Controls.Add(_cycleUc);
+            tabPage2.Controls.Add(_cepTpUc);
+            tabPage3.Controls.Add(_auziDUc);
+
             _dataListener = IoC.Resolve<DataListener>();
             IoC.Resolve<CanStateService>().StartListener();
             _mineConfig = IoC.Resolve<MineConfig>();
         }
         public void MainView_Load()
         {
-            CreateRichTextBoxMassiv();
-            CreateAuziDIOSignalsMassiv();
-            SetGraphicInterval(); 
-            updateGraphicThread = new Thread(updateGraphicHandler){IsBackground = true};
 
             //view models creation
             _leftPanelVm = new LeftPanelVm(panel1.Width, panel1.Height);
@@ -46,9 +44,7 @@ namespace VisualizationSystem.View.UserControls
             _speedPanelVm = new SpeedPanelVm(panel3.Width, panel3.Height);
             _tokAnchorPanelVm = new TokAnchorPanelVm(panel4.Width, panel4.Height);
             _tokExcitationPanelVm = new TokExcitationPanelVm(panel5.Width, panel5.Height);
-            _centralSignalsDataVm = new CentralSignalsDataVm();
-            _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
-            _auziDControllerParametersVm = new AuziDControllerParametersVm();
+            
             _loadDataVm = new LoadDataVm();
             _dataBoxVm = new DataBoxVm();
             
@@ -58,7 +54,7 @@ namespace VisualizationSystem.View.UserControls
             ViewData(new Parameters(param));
 
             _dataListener.Init(ViewData);
-            _dataListener.SetAllCanDataReceive(UpdateAuziDControllerParameters);
+            _dataListener.SetAllCanDataReceive(_auziDUc.UpdateAuziDControllerParameters);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Lowest};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
@@ -87,16 +83,11 @@ namespace VisualizationSystem.View.UserControls
             UpdateLoadData(parameters);
 
             if (update_parameters_flag%3==0)
-            if (!updateGraphicThread.IsAlive)
-            {
-                updateGraphicThread = new Thread(updateGraphicHandler);
-                updateGraphicThread.IsBackground = true;
-                updateGraphicThread.Start(parameters);
-            }   
+                _cycleUc.Refresh(parameters);
             if (update_parameters_flag%20 == 0)
             {
-                UpdateCentralSignalsData(parameters); 
-                UpdateAuziDInputOutputSignals(parameters);
+                _cepTpUc.Refresh(parameters); 
+                _auziDUc.Refresh(parameters);
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
@@ -129,100 +120,12 @@ namespace VisualizationSystem.View.UserControls
                 Thread.Sleep(1000);
             }    
         }
-
-        private void updateGraphicHandler(object parameters)
-        {
-            var param = parameters as Parameters;
-            if (param.f_ostanov == 1)
-                was_ostanov = 1;
-            if (param.f_start == 1 || param.f_back == 1)
-            {
-                //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (was_ostanov == 1)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        chartVA.Series[0].Points.Clear();
-                        chartVA.Series[1].Points.Clear();
-                        chartVA.Series[2].Points.Clear();
-                        //chartVA.Series[3].Points.Clear();
-                    });
-                    was_ostanov = 0;
-                }
-                this.Invoke((MethodInvoker)delegate
-                {
-                    chartVA.Series[0].Points.AddXY(-param.s,
-                        param.v / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
-                    chartVA.Series[1].Points.AddXY(-param.s,
-                        param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100));
-                    chartVA.Series[2].Points.AddXY(-param.s,
-                        param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100));
-                    /*chartVA.Series[3].Points.Clear();
-                    for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
-                    {
-                        chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
-                            defenceDiagramVm.CurrentDiagram[i].Y /
-                            (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
-                    }*/
-                    int j = 0;
-                    foreach (object item in checkedListBoxGraphic.Items)
-                    {
-                        chartVA.Series[j].Enabled = checkedListBoxGraphic.CheckedItems.Contains(item);
-                        j++;
-                    }
-                });
-            }
-        }
         #endregion
 
         #region ViewModel binding
-        private void SetGraphicInterval()
-        {
-            this.Invoke((MethodInvoker)delegate
-            {
-                chartVA.ChartAreas[0].AxisX.Minimum = -_mineConfig.MainViewConfig.Border.Value;
-                chartVA.ChartAreas[0].AxisX.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
-                chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 8;
-                chartVA.ChartAreas[0].AxisY.Minimum = -100;
-                chartVA.ChartAreas[0].AxisY.Maximum = 125;
-                chartVA.ChartAreas[0].AxisY.Interval = 25;
-            });
-        }
-
-        private void CreateRichTextBoxMassiv()
-        {
-            masRichTextBox = new RichTextBox[] { richTextBox5, richTextBox6, richTextBox7, richTextBox8, 
-                richTextBox9, richTextBox10, richTextBox11, richTextBox12,
-                richTextBox13, richTextBox14, richTextBox15, richTextBox16,
-                richTextBox17, richTextBox18, richTextBox19, richTextBox20, richTextBox21,
-                richTextBox22, richTextBox23, richTextBox24, richTextBox25, richTextBox26, 
-                richTextBox27, richTextBox28};
-            for (int i = 0; i < checkedListBoxGraphic.Items.Count; i++)
-                checkedListBoxGraphic.SetItemChecked(i, true);
-        }
-
-        private void CreateAuziDIOSignalsMassiv()
-        {
-            masInTextBox = new TextBox[] { textBox6, textBox7, textBox8, textBox9, 
-                textBox10, textBox11, textBox12, textBox13, textBox14, textBox15,
-                textBox16, textBox17, textBox18, textBox19, textBox20, textBox21,
-                textBox22, textBox23, textBox24, textBox25, textBox26, textBox27,
-                textBox28, textBox29, textBox30, textBox31, textBox32, textBox33,
-                textBox34, textBox35, textBox36, textBox37 };
-
-            masOutTextBox = new TextBox[] { textBox38, textBox39, textBox40, textBox41, 
-                textBox42, textBox43, textBox44, textBox45, textBox46, textBox47, textBox48,
-                textBox49, textBox50, textBox51, textBox52, textBox53 };
 
 
-            masInLabel = new Label[] { label4, label5, label11, label12, label13, label14, label15,
-                label16, label17, label18, label19, label20, label21, label22, label23, label24,
-                label25, label26, label27, label28, label29, label30, label31, label32, label33,
-                label34, label35, label36, label37, label38, label39, label40};
-
-            masOutLabel = new Label[] { label41, label42, label43, label44, label45, label46,
-                label47, label48, label49, label50, label51, label52, label53, label54, label55, label56 };
-        }
+        
 
         
 
@@ -389,68 +292,7 @@ namespace VisualizationSystem.View.UserControls
                     richTextBox3.BackColor = _loadDataVm.GetLoadData()[2].BackColor;
                     richTextBox3.Text = _loadDataVm.GetLoadData()[2].Text;
                 });
-        }
-
-
-        private void UpdateCentralSignalsData(Parameters parameters)
-        {
-            var centralSignals = _centralSignalsDataVm.GetSignalsData(parameters);
-            this.Invoke((MethodInvoker)delegate
-            {
-                for (int i = 0; i < 24; i++)
-                {
-                    masRichTextBox[i].BackColor = centralSignals[i].BackColor;
-                    masRichTextBox[i].Text = centralSignals[i].Text;
-                }
-            });
-            if (centralSignals[11].BackColor == Color.Red && DefenceDiagramWorking == 0)
-            {
-                this.Invoke((MethodInvoker)delegate
-            {
-                tabControl1.SelectedIndex = 1;
-            });
-                DefenceDiagramWorking = 1;
-            }
-            if (centralSignals[11].BackColor == Color.DarkGray && DefenceDiagramWorking == 1)
-            {
-                DefenceDiagramWorking = 0;
-            }
-        }
-
-        private void UpdateAuziDInputOutputSignals(Parameters parameters)
-        {
-            _auziDInOutSignalsVm.UpDateSignals(parameters);
-            this.Invoke((MethodInvoker)delegate
-            {
-                for (int i = 0; i < 32; i++)
-                {
-                    masInTextBox[i].BackColor = _auziDInOutSignalsVm.InputMeanings[i];
-                    masInLabel[i].Text = _auziDInOutSignalsVm.InputNames[i];
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
-                    masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
-                }
-            });
-        }
-
-        private void UpdateAuziDControllerParameters(List<Parameters> parameters)
-        {
-            var dataList = _auziDControllerParametersVm.GetDataList(parameters);
-            this.Invoke((MethodInvoker)delegate
-            {
-                dataGridViewControllerParameters.RowCount = dataList[0].Count();
-                for (int i = 0; i < dataGridViewControllerParameters.RowCount; i++)
-                {
-                    dataGridViewControllerParameters[0, i].Value = i + 1;
-                    for (int j = 1; j < dataGridViewControllerParameters.ColumnCount; j++)
-                    {
-                        dataGridViewControllerParameters[j, i].Value = dataList[j-1][i];
-                    }
-                }
-            });
-        }
+        }    
 
         private void UpdateParametersData(object sender, EventArgs e)
         {
@@ -613,11 +455,13 @@ namespace VisualizationSystem.View.UserControls
         private SpeedPanelVm _speedPanelVm;
         private TokAnchorPanelVm _tokAnchorPanelVm;
         private TokExcitationPanelVm _tokExcitationPanelVm;
-        private CentralSignalsDataVm _centralSignalsDataVm;
-        private AuziDInOutSignalsVm _auziDInOutSignalsVm;
-        private AuziDControllerParametersVm _auziDControllerParametersVm;
         private DataBoxVm _dataBoxVm;
         private LoadDataVm _loadDataVm;
+
+        //user controls
+        private CycleUC _cycleUc;
+        private CepTpUC _cepTpUc;
+        private AuziDUC _auziDUc;
 
         private DataBaseService _dataBaseService;
         private MineConfig _mineConfig;
@@ -633,12 +477,8 @@ namespace VisualizationSystem.View.UserControls
         private int was_ostanov = 0;
         private int graphic_counter = 0;
         private int update_parameters_flag = 0;
-        private int DefenceDiagramWorking = 0; //срабатывание защитной диаграммы
-        private RichTextBox[] masRichTextBox;//массив текстбоксов для вывода сигналов цунтральной части экрана
-        private TextBox[] masInTextBox;//массив текстбоксов для вывода входных сигналов АУЗИ-Д
-        private Label[] masInLabel;//массив лейблов для вывода входных сигналов АУЗИ-Д
-        private TextBox[] masOutTextBox;//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
-        private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
+        private int DefenceDiagramWorking = 0; //срабатывание защитной диаграм
+        
         private Thread updateGraphicThread;
         private volatile Parameters _parameters = new Parameters();
 
