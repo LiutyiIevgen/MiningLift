@@ -48,7 +48,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         chartVA.Series[0].Points.Clear();
                         chartVA.Series[1].Points.Clear();
                         chartVA.Series[2].Points.Clear();
-                        //chartVA.Series[3].Points.Clear();
+                        chartVA.Series[3].Points.Clear();
                     });
                 }
                 this.Invoke((MethodInvoker)delegate
@@ -59,13 +59,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100));
                     chartVA.Series[2].Points.AddXY(-param.s,
                         param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100));
-                    /*chartVA.Series[3].Points.Clear();
-                    for (int i = 0; i < defenceDiagramVm.CurrentDiagram.Count(); i++)
-                    {
-                        chartVA.Series[3].Points.AddXY(-defenceDiagramVm.CurrentDiagram[i].X,
-                            defenceDiagramVm.CurrentDiagram[i].Y /
-                            (_mineConfig.MainViewConfig.MaxSpeed.Value / 100));
-                    }*/
+                    chartVA.Series[3].Points.AddXY(-param.s,
+                            param.defence_diagram / (_mineConfig.MainViewConfig.MaxSpeed.Value * 1.2 / 100));
                     int j = 0;
                     foreach (object item in checkedListBoxGraphic.Items)
                     {

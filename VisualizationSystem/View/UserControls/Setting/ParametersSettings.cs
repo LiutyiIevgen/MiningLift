@@ -175,7 +175,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 int j = 0;
                 while(j<3)
                 {
-                    Thread.Sleep(200);
+                    Thread.Sleep(20);
                     UnloadParameter(controllerId, index, j);
                     if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                         return;

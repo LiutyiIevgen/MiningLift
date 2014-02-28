@@ -193,6 +193,8 @@ namespace ML.DataExchange
                         }
                         _isUnloaded.Set();
                     }
+                    else if(canmsgT.data[0] == 0x20 || canmsgT.data[0] == 0x30) //segment was accepted
+                        _isLoaded.Set();
                     else if (canmsgT.data[0] == 0x60) //parameter was seted
                     {
                         _isLoaded.Set();
@@ -251,7 +253,7 @@ namespace ML.DataExchange
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    Thread.Sleep(5);
+                    Thread.Sleep(25);
                     msgRead.Clear();
                 }
                 catch (Exception exception)
@@ -325,6 +327,7 @@ namespace ML.DataExchange
             Thread.Sleep(20);
             _device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
             Thread.Sleep(200);
+            _isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000));
             //if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
             //{
               //  return;
@@ -371,7 +374,7 @@ namespace ML.DataExchange
                         }
                     });
                 }
-                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
                     return;
                 i++;
             }

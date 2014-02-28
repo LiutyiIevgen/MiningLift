@@ -80,6 +80,7 @@ namespace ML.DataExchange
                 param[10] = GetUnload(msgData, controllerId);
                 param[11] = GetLoad(msgData, controllerId);
                 param[12] = GetS2(msgData, controllerId);
+                param[13] = GetDefenceDiagram(msgData, controllerId);
                 inputSignals = GetAllInputSignals(msgData, controllerId);
                 outputSignals = GetAllOutputSignals(msgData, controllerId);
             }
@@ -133,6 +134,15 @@ namespace ML.DataExchange
             s /= 256 * 1000;
             return s;
         }
+        private double GetDefenceDiagram(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        {
+            int d = 0;
+            float ret;
+            byte[] tpdo2 = msgData.FindLast(p => p.id == (0x280 + controllerId)).data;
+            d = tpdo2[4] + (tpdo2[5] << 8);
+            ret = (float)d/1000;
+            return ret;
+        }
         private double GetV(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double v = 0;
@@ -182,7 +192,7 @@ namespace ML.DataExchange
             return 0;
         }
 
-        private double _dS = 1;
+        private double _dS = 100;
         private MineConfig _config;
     }
 }

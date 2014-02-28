@@ -34,6 +34,7 @@ namespace ML.DataExchange.Model
             unload_state = Convert.ToInt32(param[10]);
             load_state = Convert.ToInt32(param[11]);
             s_two = -param[12];
+            defence_diagram = param[13];
         }
 
         public void SetSignals()
@@ -111,6 +112,8 @@ namespace ML.DataExchange.Model
         public int unload_state { get; private set; }
         public int load_state { get; private set; }
         public double s_two { get; private set; }//текущее значение пути клеть 2
+
+        public double defence_diagram { get; private set; }//защитная диаграма
         //
         public double tok_anchor { get; set; } //ток якоря 
         public double tok_excitation { get; set; } //ток возбуждения
