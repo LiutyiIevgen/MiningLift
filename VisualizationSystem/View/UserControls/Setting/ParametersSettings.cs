@@ -169,13 +169,13 @@ namespace VisualizationSystem.View.UserControls.Setting
             UnloadParameter(controllerId, 0x2000, 1); //read number of parameters
             if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(15000)))
                 return;
-            while (i < _parametersNumber)
+            while (i < _parametersNumber-1)
             {
                 _parametersSettingsVm.ParametersSettingsDatas.Add(new ParametersSettingsData());
                 int j = 0;
                 while(j<3)
                 {
-                    Thread.Sleep(20);
+                    Thread.Sleep(40);
                     UnloadParameter(controllerId, index, j);
                     if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                         return;
@@ -195,7 +195,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 return;
             int i = 0;
             int index = startIndex;
-            while (i < 10)
+            while (i < 60)
             {
                 Thread.Sleep(100);
                 LoadParameter(controllerId, index, 2);

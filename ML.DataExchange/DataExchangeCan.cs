@@ -76,7 +76,7 @@ namespace ML.DataExchange
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
             _device.SendData(dataList);
-            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
             {
                 //GetParameter(controllerId, parameterId, subindex);
                 return false;
@@ -125,7 +125,8 @@ namespace ML.DataExchange
                 return true;
             }
             _device.SendData(new List<CanDriver.canmsg_t> { msg });
-            _isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000));
+            if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
+                return false;
             /*if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
             {
                 SetParameter(canParameter);
@@ -195,6 +196,10 @@ namespace ML.DataExchange
                     }
                     else if(canmsgT.data[0] == 0x20 || canmsgT.data[0] == 0x30) //segment was accepted
                         _isLoaded.Set();
+                    else if ((canmsgT.data[0] & 0xE0) == 0x80)
+                    {
+                        _isUnloaded.Set();
+                    }
                     else if (canmsgT.data[0] == 0x60) //parameter was seted
                     {
                         _isLoaded.Set();
@@ -203,10 +208,10 @@ namespace ML.DataExchange
                                 continue;
                         canParameters.Add(new CanParameter
                         {
-                            ControllerId = (ushort)(canmsgT.id&0x7F),
+                            ControllerId = (ushort) (canmsgT.id & 0x7F),
                             ParameterId = (ushort) (canmsgT.data[1] + (canmsgT.data[2] << 8)),
                             ParameterSubIndex = canmsgT.data[3]
-                        });        
+                        });
                     }
                 }
             }
@@ -300,7 +305,7 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                 {
                     return;
                 }
@@ -389,7 +394,7 @@ namespace ML.DataExchange
 
         private bool m_bRun;
         private bool syncflag;
-        private int MsgCount = 100;
+        private int MsgCount = 300;
         private string _portName;
         private int _portSpeed;
         private Thread ReceiveThread;
