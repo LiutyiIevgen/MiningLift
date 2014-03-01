@@ -28,10 +28,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 chartVA.ChartAreas[0].AxisX.Minimum = -_mineConfig.MainViewConfig.Border.Value;
                 chartVA.ChartAreas[0].AxisX.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
-                chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 8;
+                chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 10;
                 chartVA.ChartAreas[0].AxisY.Minimum = -100;
-                chartVA.ChartAreas[0].AxisY.Maximum = 125;
-                chartVA.ChartAreas[0].AxisY.Interval = 25;
+                chartVA.ChartAreas[0].AxisY.Maximum = 120;
+                chartVA.ChartAreas[0].AxisY.Interval = 20;
             });
         }
         public void Refresh(Parameters parameters)

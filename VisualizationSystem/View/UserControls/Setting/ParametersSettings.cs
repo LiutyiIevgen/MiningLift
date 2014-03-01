@@ -416,7 +416,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 }
                 dataGridViewVariableParameters[2 + subindex, index - startIndex].Value = value;
                 dataGridViewVariableParameters.FirstDisplayedCell =
-                    dataGridViewVariableParameters[0, dataGridViewVariableParameters.RowCount - 1];
+                    dataGridViewVariableParameters[0, index - startIndex];
             });
         }
 
