@@ -172,12 +172,22 @@ namespace VisualizationSystem.View.Forms.Setting
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 string firstParamStr = dataGridView1[1, i].Value.ToString();
-                int firstParam = int.Parse(firstParamStr);
+                int firstParam;
+                if (!int.TryParse(firstParamStr, out firstParam))
+                {
+                    MessageBox.Show("Неверный формат параметра", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 byte[] firstBytes= BitConverter.GetBytes(firstParam);
                 data.AddRange(firstBytes);
 
                 string secondParamStr = dataGridView1[2, i].Value.ToString();
-                short secondParam = short.Parse(secondParamStr);
+                short secondParam;
+                if (!short.TryParse(secondParamStr, out secondParam))
+                {
+                    MessageBox.Show("Неверный формат параметра", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 byte[] secondBytes = BitConverter.GetBytes(secondParam);
                 data.AddRange(secondBytes);
             }
