@@ -175,7 +175,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 int j = 0;
                 while(j<3)
                 {
-                    Thread.Sleep(40);
+                    Thread.Sleep(10);
                     UnloadParameter(controllerId, index, j);
                     if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                         return;
@@ -197,9 +197,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             int index = startIndex;
             while (i < 60)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(180);
                 LoadParameter(controllerId, index, 2);
-                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(300)))
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                     return;
                 index++;
                 i++;

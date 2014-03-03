@@ -69,7 +69,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
 
         public List<RuleData> GetSpeedRuleDatas()
         {
-            double speedBound = GetSpeedBoundaryValue();
+            double speedBound = _parameters.defence_diagram;
             RuleDatas.Add(new RuleData
             {
                 Pen = pen,

@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
+using VisualizationSystem.Model;
 using VisualizationSystem.ViewModel.MainViewModel;
 
 namespace VisualizationSystem.View.UserControls.GeneralView
@@ -18,6 +20,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             InitializeComponent();
             CreateAuziDIOSignalsMassiv();
+            _mineConfig = IoC.Resolve<MineConfig>();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
             _auziDControllerParametersVm = new AuziDControllerParametersVm();
         }
@@ -53,6 +56,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         dataGridViewControllerParameters[j, i].Value = dataList[j-1][i];
                     }
                 }
+                for (int i = 0; i < dataGridViewControllerParameters.RowCount; i++)
+                    dataGridViewControllerParameters.Rows[i].DefaultCellStyle.BackColor = Color.White;
+
+                dataGridViewControllerParameters.Rows[_mineConfig.LeadingController - 1].DefaultCellStyle.BackColor = Color.LightGreen;
             });
         }
         private void CreateAuziDIOSignalsMassiv()
@@ -84,5 +91,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private Label[] masInLabel;//массив лейблов для вывода входных сигналов АУЗИ-Д
         private TextBox[] masOutTextBox;//массив текстбоксов для вывода выходных сигналов АУЗИ-Д
         private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
+
+        private MineConfig _mineConfig;
     }
 }

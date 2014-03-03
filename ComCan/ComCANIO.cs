@@ -65,7 +65,7 @@ namespace ComCan
                 ret = VCI_CAN_DotNET.VCI_SDK.VCI_RecvCANMsg_NoStruct(CAN_No, ref Mode, ref RTR, ref DLC, ref CANID, ref TL, ref TH, Data);
                 if ((ret == 14 && Ret==1)||ret==5)
                 {
-                    return null;
+                    return msgBlock;
                 }
                 var msg = new CanDriver.canmsg_t
                 {

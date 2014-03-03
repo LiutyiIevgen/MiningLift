@@ -11,7 +11,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
     {
         public AuziDInOutSignalsVm()
         {
-            _mineConfig = new MineConfig();
+            _mineConfig = IoC.Resolve<MineConfig>();
             InputNames = new List<string>();
             InputMeanings = new List<Color>();
             OutputNames = new List<string>();

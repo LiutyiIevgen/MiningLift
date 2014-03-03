@@ -238,11 +238,11 @@ namespace ML.DataExchange
                         Thread.Sleep(50);
                         continue;
                     }
-                    if (msg.Count == 0)
+                    /*if (msg.Count == 0)
                     {
                         Thread.Sleep(5);
                         continue;
-                    }
+                    }*/
 
                     msgRead.AddRange(msg);
                     parametersList = canParser.GetParametersList(msgRead);
@@ -258,7 +258,7 @@ namespace ML.DataExchange
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    Thread.Sleep(25);
+                    Thread.Sleep(20);
                     msgRead.Clear();
                 }
                 catch (Exception exception)

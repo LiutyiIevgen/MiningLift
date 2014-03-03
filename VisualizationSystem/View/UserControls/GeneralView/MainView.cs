@@ -59,6 +59,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
+            _cycleUc.SetGraphicInterval();
         }
 
         public void ViewData(Parameters parameters)
