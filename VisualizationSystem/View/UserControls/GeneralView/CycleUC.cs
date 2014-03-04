@@ -24,77 +24,50 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             plotCycle = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.panel1.Controls.Add(plotCycle);
             plotCycle.Model.PlotType = PlotType.XY;
+            //Axis
+            plotCycle.Model.Axes.Add(xAxis);
+            plotCycle.Model.Axes.Add(yAxis);
+            //
             for (int i = 0; i < checkedListBoxGraphic.Items.Count; i++)
                 checkedListBoxGraphic.SetItemChecked(i, true);
             _mineConfig = IoC.Resolve<MineConfig>();
+            _wasOstanov = 0;
         }
 
         public void SetGraphicInterval()
         {
-            //SetGraphicInterval();
             this.Invoke((MethodInvoker)delegate
             {
                 //Axis
-                var xAxis = new LinearAxis(AxisPosition.Bottom, 0)
-                {
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot,
-                    Title = "м",
-                    Maximum = -_mineConfig.MainViewConfig.BorderZero.Value,
-                    Minimum = -_mineConfig.MainViewConfig.Border.Value
-                };
-                plotCycle.Model.Axes.Add(xAxis);
-                var yAxis = new LinearAxis(AxisPosition.Left, 0)
-                {
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot,
-                    Title = "%",
-                    Minimum = -100,
-                    Maximum = 120
-                };
-                plotCycle.Model.Axes.Add(yAxis);
-                /*chartVA.ChartAreas[0].AxisX.Minimum = -_mineConfig.MainViewConfig.Border.Value;
-                chartVA.ChartAreas[0].AxisX.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
-                chartVA.ChartAreas[0].AxisX.Interval = _mineConfig.MainViewConfig.Distance.Value / 10;
-                chartVA.ChartAreas[0].AxisY.Minimum = -100;
-                chartVA.ChartAreas[0].AxisY.Maximum = 120;
-                chartVA.ChartAreas[0].AxisY.Interval = 20; */
+                xAxis.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
+                xAxis.Minimum = -_mineConfig.MainViewConfig.Border.Value;
+                plotCycle.RefreshPlot(true);
             });
         }
 
-       /* public void ChangeGraphicInterval()
-        {
-            this.Invoke((MethodInvoker)delegate
-            {
-                //Axis
-                plotCycle.Model.DefaultXAxis.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
-                plotCycle.Model.DefaultXAxis.Minimum = -_mineConfig.MainViewConfig.Border.Value;
-            });
-        } */
-
         public void Refresh(Parameters parameters)
         {
-            //plotCycle.Model.Axes.Clear();
-            //SetGraphicInterval();
+            SetGraphicInterval();
             var param = parameters as Parameters;
             if (param.f_start == 1 || param.f_back == 1)
             {
                 //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (param.f_ostanov == 1)
+                if (_wasOstanov == 1)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
                         plotCycle.Model.Series.Clear();
-                       /* chartVA.Series[0].Points.Clear();
-                        chartVA.Series[1].Points.Clear();
-                        chartVA.Series[2].Points.Clear();
-                        chartVA.Series[3].Points.Clear(); */
+                        s1.Points.Clear();
+                        s2.Points.Clear();
+                        s3.Points.Clear();
+                        s4.Points.Clear();
+                        plotCycle.RefreshPlot(true);
                     });
+                    _wasOstanov = 0;
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
                     // Add Line series
-                    //var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue };
                         s1.Points.Add(new DataPoint(-param.s, param.v / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100)));
                         s2.Points.Add(new DataPoint(-param.s, param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100)));
                         s3.Points.Add(new DataPoint(-param.s, param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100)));
@@ -111,10 +84,13 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     foreach (object item in checkedListBoxGraphic.Items)
                     {
                         plotCycle.Model.Series[j].IsVisible = checkedListBoxGraphic.CheckedItems.Contains(item);
-                        //chartVA.Series[j].Enabled = checkedListBoxGraphic.CheckedItems.Contains(item);
                         j++;
                     }
                 });
+            }
+            if (param.f_ostanov == 1)
+            {
+                _wasOstanov = 1;
             }
         }
 
@@ -124,5 +100,20 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private LineSeries s2 = new LineSeries { StrokeThickness = 1, Color = OxyColors.DarkOrange };
         private LineSeries s3 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Yellow };
         private LineSeries s4 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Red };
+        private LinearAxis xAxis = new LinearAxis(AxisPosition.Bottom, 0)
+        {
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dot,
+            Title = "м"
+        };
+        private LinearAxis yAxis = new LinearAxis(AxisPosition.Left, 0)
+        {
+            MajorGridlineStyle = LineStyle.Solid,
+            MinorGridlineStyle = LineStyle.Dot,
+            Title = "%",
+            Minimum = -100,
+            Maximum = 120
+        };
+        private int _wasOstanov;
     }
 }
