@@ -14,7 +14,9 @@ namespace ML.DataRepository.Models
         public int BlockLogId { get; set; }
         public virtual BlockLog BlockLog { get; set; }
 
-        /*public int MainDigitSignalStateId { get; set; }
-        public virtual IOSignalState MainDigitSignalState { get; set; }   */     
+        public int MainDigitSignalStateId { get; set; }
+        public virtual MainDigitSignalState MainDigitSignalState { get; set; }
+        public int MainDigitSignalTypeId { get; set; }
+        public virtual MainDigitSignalType MainDigitSignalType { get; set; }
     }
 }

@@ -4,16 +4,23 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using ML.DataRepository.Models;
 using ML.DataRepository.Models.GenericRepository;
 using Ninject.Parameters;
+using VisualizationSystem.Model;
 using VisualizationSystem.Model.DataBase;
 
 namespace VisualizationSystem.Services
 {
     public class DataBaseService
     {
+        public DataBaseService()
+        {
+            _mineConfig = IoC.Resolve<MineConfig>();
+            _fillDataBase = 0;
+        }
         public List<int> GetBlocksIds(DateTime from, DateTime till)
         {
             var ids = new List<int>();
@@ -107,28 +114,37 @@ namespace VisualizationSystem.Services
             return parameterData;
         }
 
-        public bool FillDataBase(Parameters parameters)
+        public void LetFillDataBase()
+        {
+            _fillDataBase = 1;
+        }
+
+        public void FillDataBase(List<Parameters> parameters)
         {
             var analogSignals = new List<AnalogSignalLog>();
-            analogSignals.Add(new AnalogSignalLog{SignalTypeId = 1, SignalValue = parameters.s});
-            analogSignals.Add(new AnalogSignalLog { SignalTypeId = 2, SignalValue = parameters.s_two });
-            analogSignals.Add(new AnalogSignalLog { SignalTypeId = 3, SignalValue = parameters.v });
-            analogSignals.Add(new AnalogSignalLog { SignalTypeId = 4, SignalValue = parameters.a });
-
+            int j = 0;
+            foreach (var param in parameters)
+            {
+                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 1, SignalValue = param.s });
+                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 2, SignalValue = param.s_two });
+                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 3, SignalValue = param.v });
+                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 4, SignalValue = param.a });
+                j++;
+            }
             var inputSignals = new InputSignalsLog
             {
-                Vio0 = parameters.AuziDIByteList[0],
-                Vio1 = parameters.AuziDIByteList[1],
-                Vio2 = parameters.AuziDIByteList[2],
-                Vio3 = parameters.AuziDIByteList[3]
+                Vio0 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[0],
+                Vio1 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[1],
+                Vio2 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[2],
+                Vio3 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[3]
             };
             var outputSignals = new OutputSignalsLog
             {
-                Vio7 = parameters.AuziDOByteList[0],
-                Vio8 = parameters.AuziDOByteList[1],
-                Vio9 = parameters.AuziDOByteList[2],
-                Vio11 = parameters.AuziDOByteList[3],
-                Vio12 = parameters.AuziDOByteList[4]
+                Vio7 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[0],
+                Vio8 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[1],
+                Vio9 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[2],
+                Vio11 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[3],
+                Vio12 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[4]
             };
             var blockLog = new BlockLog
             {
@@ -137,11 +153,17 @@ namespace VisualizationSystem.Services
                 InputSignalsLogs = new Collection<InputSignalsLog>{inputSignals},
                 OutputSignalsLogs = new Collection<OutputSignalsLog> { outputSignals }
             };
-            using (var repoUnit = new RepoUnit())
+            if (_fillDataBase == 1)
             {
-                repoUnit.BlockLog.Save(blockLog);
+                using (var repoUnit = new RepoUnit())
+                {
+                    repoUnit.BlockLog.Save(blockLog);
+                }
+                _fillDataBase = 0;
             }
-            return true;
         }
+
+        private MineConfig _mineConfig;
+        private int _fillDataBase;
     }
 }

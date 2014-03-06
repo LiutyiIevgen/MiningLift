@@ -55,11 +55,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
             _dataListener.Init(ViewData);
             _dataListener.SetAllCanDataReceive(_auziDUc.UpdateAuziDControllerParameters);
+            _dataListener.SetAllCanDataReceive(_dataBaseService.FillDataBase);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Lowest};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
-            //_cycleUc.SetGraphicInterval();
         }
 
         public void ViewData(Parameters parameters)
@@ -102,7 +102,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             while (true)
             {
                 if (_mineConfig.MainViewConfig.ArchiveState == ArchiveState.Active)
-                    _dataBaseService.FillDataBase(_parameters);
+                    _dataBaseService.LetFillDataBase();
                 Thread.Sleep(1000);
             } 
         }
