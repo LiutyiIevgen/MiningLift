@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
@@ -32,6 +33,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 checkedListBoxGraphic.SetItemChecked(i, true);
             _mineConfig = IoC.Resolve<MineConfig>();
             _wasOstanov = 0;
+            new Thread(RefreshThreadHandler) {IsBackground = true, Priority = ThreadPriority.Lowest}.Start();
         }
 
         public void SetGraphicInterval()
@@ -45,61 +47,69 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
-        public void Refresh(Parameters parameters)
+        private void RefreshThreadHandler()
         {
-            SetGraphicInterval();
-            var param = parameters as Parameters;
-            if (param.f_start == 1 || param.f_back == 1)
+            while (true)
             {
-                //var defenceDiagramVm = new DefenceDiagramVm(param);
-                if (_wasOstanov == 1)
+                if (_parameters == null)
                 {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        plotCycle.Model.Series.Clear();
-                        s1.Points.Clear();
-                        s2.Points.Clear();
-                        s3.Points.Clear();
-                        s4.Points.Clear();
-                        //plotCycle.RefreshPlot(true);
-                    });
-                    _wasOstanov = 0;
+                    Thread.Sleep(100);
+                    continue;
                 }
-                this.Invoke((MethodInvoker)delegate
+                SetGraphicInterval();
+                var param = _parameters as Parameters;
+                if (param.f_start == 1 || param.f_back == 1)
                 {
-                    // Add Line series
-                        s1.Points.Add(new DataPoint(-param.s, param.v / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100)));
-                        s2.Points.Add(new DataPoint(-param.s, param.tok_anchor / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100)));
-                        s3.Points.Add(new DataPoint(-param.s, param.tok_excitation / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100)));
-                        s4.Points.Add(new DataPoint(-param.s, param.defence_diagram / (_mineConfig.MainViewConfig.MaxSpeed.Value * 1.2 / 100)));
-                    // add Series and Axis to plot model
-                    plotCycle.Model.Series.Clear();
-                    plotCycle.Model.Series.Add(s1);
-                    plotCycle.Model.Series.Add(s2);
-                    plotCycle.Model.Series.Add(s3);
-                    plotCycle.Model.Series.Add(s4);
-                    //plotCycle.RefreshPlot(true);
-
-                    int j = 0;
-                    foreach (object item in checkedListBoxGraphic.Items)
+                    //var defenceDiagramVm = new DefenceDiagramVm(param);
+                    if (_wasOstanov == 1)
                     {
-                        plotCycle.Model.Series[j].IsVisible = checkedListBoxGraphic.CheckedItems.Contains(item);
-                        j++;
+                        this.Invoke((MethodInvoker) delegate
+                        {
+                            plotCycle.Model.Series.Clear();
+                            s1.Points.Clear();
+                            s2.Points.Clear();
+                            s3.Points.Clear();
+                            s4.Points.Clear();
+                            plotCycle.RefreshPlot(true);
+                        });
+                        _wasOstanov = 0;
                     }
-                });
-            }
-            if (param.f_ostanov == 1)
-            {
-                _wasOstanov = 1;
+                    this.Invoke((MethodInvoker) delegate
+                    {
+                        // Add Line series
+                        s1.Points.Add(new DataPoint(-param.s, param.v/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
+                        s2.Points.Add(new DataPoint(-param.s,
+                            param.tok_anchor/(_mineConfig.MainViewConfig.MaxTokAnchor.Value/100)));
+                        s3.Points.Add(new DataPoint(-param.s,
+                            param.tok_excitation/(_mineConfig.MainViewConfig.MaxTokExcitation.Value/100)));
+                        s4.Points.Add(new DataPoint(-param.s,
+                            param.defence_diagram/(_mineConfig.MainViewConfig.MaxSpeed.Value*1.2/100)));
+                        // add Series and Axis to plot model
+                        plotCycle.Model.Series.Clear();
+                        plotCycle.Model.Series.Add(s1);
+                        plotCycle.Model.Series.Add(s2);
+                        plotCycle.Model.Series.Add(s3);
+                        plotCycle.Model.Series.Add(s4);
+                        plotCycle.RefreshPlot(true);
+
+                        int j = 0;
+                        foreach (object item in checkedListBoxGraphic.Items)
+                        {
+                            plotCycle.Model.Series[j].IsVisible = checkedListBoxGraphic.CheckedItems.Contains(item);
+                            j++;
+                        }
+                    });
+                }
+                if (param.f_ostanov == 1)
+                {
+                    _wasOstanov = 1;
+                }
+                Thread.Sleep(100);
             }
         }
-
-        public void RefreshGraphic()
+        public void Refresh(Parameters parameters)
         {
-             this.Invoke((MethodInvoker)delegate
-                    {
-                        plotCycle.RefreshPlot(true);
-                    });
+            _parameters = parameters;
         }
 
         private MineConfig _mineConfig;
@@ -123,5 +133,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             Maximum = 120
         };
         private int _wasOstanov;
+        private Parameters _parameters;
     }
 }

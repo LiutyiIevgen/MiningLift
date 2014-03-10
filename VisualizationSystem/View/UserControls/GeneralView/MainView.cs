@@ -60,8 +60,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
-            cycleThread = new Thread(CycleThread) { IsBackground = true, Priority = ThreadPriority.Lowest };
-            cycleThread.Start();
         }
 
         public void ViewData(Parameters parameters)
@@ -126,14 +124,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             }    
         }
 
-        private void CycleThread()
-        {
-            while (true)
-            {
-                _cycleUc.RefreshGraphic();
-                Thread.Sleep(120);
-            } 
-        }
         #endregion
 
         #region ViewModel binding
