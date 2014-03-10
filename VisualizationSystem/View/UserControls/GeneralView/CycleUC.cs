@@ -41,7 +41,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 //Axis
                 xAxis.Maximum = -_mineConfig.MainViewConfig.BorderZero.Value;
                 xAxis.Minimum = -_mineConfig.MainViewConfig.Border.Value;
-                plotCycle.RefreshPlot(true);
+                //plotCycle.RefreshPlot(true);
             });
         }
 
@@ -61,7 +61,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         s2.Points.Clear();
                         s3.Points.Clear();
                         s4.Points.Clear();
-                        plotCycle.RefreshPlot(true);
+                        //plotCycle.RefreshPlot(true);
                     });
                     _wasOstanov = 0;
                 }
@@ -78,7 +78,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     plotCycle.Model.Series.Add(s2);
                     plotCycle.Model.Series.Add(s3);
                     plotCycle.Model.Series.Add(s4);
-                    plotCycle.RefreshPlot(true);
+                    //plotCycle.RefreshPlot(true);
 
                     int j = 0;
                     foreach (object item in checkedListBoxGraphic.Items)
@@ -92,6 +92,14 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 _wasOstanov = 1;
             }
+        }
+
+        public void RefreshGraphic()
+        {
+             this.Invoke((MethodInvoker)delegate
+                    {
+                        plotCycle.RefreshPlot(true);
+                    });
         }
 
         private MineConfig _mineConfig;

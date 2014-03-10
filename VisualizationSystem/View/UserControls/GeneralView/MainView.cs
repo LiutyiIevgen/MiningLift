@@ -60,6 +60,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
+            cycleThread = new Thread(CycleThread) { IsBackground = true, Priority = ThreadPriority.Lowest };
+            cycleThread.Start();
         }
 
         public void ViewData(Parameters parameters)
@@ -83,8 +85,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
 
-            if (update_parameters_flag%3==0)
+            if (update_parameters_flag%3 == 0)
+            {
                 _cycleUc.Refresh(parameters);
+            }
             if (update_parameters_flag%20 == 0)
             {
                 _cepTpUc.Refresh(parameters); 
@@ -120,6 +124,15 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 });
                 Thread.Sleep(1000);
             }    
+        }
+
+        private void CycleThread()
+        {
+            while (true)
+            {
+                _cycleUc.RefreshGraphic();
+                Thread.Sleep(120);
+            } 
         }
         #endregion
 
@@ -480,8 +493,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private int graphic_counter = 0;
         private int update_parameters_flag = 0;
         private int DefenceDiagramWorking = 0; //срабатывание защитной диаграм
-        
-        private Thread updateGraphicThread;
+
+        private Thread cycleThread;
         private volatile Parameters _parameters = new Parameters();
 
 
