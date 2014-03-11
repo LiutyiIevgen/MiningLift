@@ -104,7 +104,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 {
                     _wasOstanov = 1;
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             }
         }
         public void Refresh(Parameters parameters)

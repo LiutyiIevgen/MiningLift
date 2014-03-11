@@ -93,5 +93,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private Label[] masOutLabel;//массив лейблов для вывода выходных сигналов АУЗИ-Д
 
         private MineConfig _mineConfig;
+
     }
 }
