@@ -30,17 +30,25 @@ namespace VisualizationSystem.Services
             }
             return ids;
         }
-        public List<ParameterData> GetAnalogSignalsById(int id)
+        public List<List<ParameterData>> GetAnalogSignalsById(int id)
         {
-            var parameterData = new List<ParameterData>();
+            var parameterData = new List<List<ParameterData>>();
             using (var repoUnit = new RepoUnit())
             {
                 var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);
-                parameterData.AddRange(block.AnalogSignalLogs.Select(signal => new ParameterData
+                for (int i = 0; i < 3; i++)
+                {
+                    parameterData[i].AddRange(block.AnalogSignalLogs.Where(signal => signal.NodeId == i + 1).Select(s => new ParameterData
+                    {
+                        Name = s.SignalType.Type,
+                        Value = s.SignalValue.ToString()
+                    }));
+                }
+               /* parameterData.AddRange(block.AnalogSignalLogs.Select(signal => new ParameterData
                 {
                     Name = signal.SignalType.Type,
                     Value = signal.SignalValue.ToString()
-                }));
+                })); */
             }
             return parameterData;
         }
@@ -121,40 +129,40 @@ namespace VisualizationSystem.Services
 
         public void FillDataBase(List<Parameters> parameters)
         {
-            var analogSignals = new List<AnalogSignalLog>();
-            int j = 0;
-            foreach (var param in parameters)
-            {
-                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 1, SignalValue = param.s });
-                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 2, SignalValue = param.s_two });
-                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 3, SignalValue = param.v });
-                analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 4, SignalValue = param.a });
-                j++;
-            }
-            var inputSignals = new InputSignalsLog
-            {
-                Vio0 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[0],
-                Vio1 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[1],
-                Vio2 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[2],
-                Vio3 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[3]
-            };
-            var outputSignals = new OutputSignalsLog
-            {
-                Vio7 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[0],
-                Vio8 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[1],
-                Vio9 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[2],
-                Vio11 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[3],
-                Vio12 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[4]
-            };
-            var blockLog = new BlockLog
-            {
-                Date = DateTime.Now,
-                AnalogSignalLogs = analogSignals,
-                InputSignalsLogs = new Collection<InputSignalsLog>{inputSignals},
-                OutputSignalsLogs = new Collection<OutputSignalsLog> { outputSignals }
-            };
             if (_fillDataBase == 1)
             {
+                var analogSignals = new List<AnalogSignalLog>();
+                int j = 0;
+                foreach (var param in parameters)
+                {
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 1, SignalValue = param.s});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 2, SignalValue = param.s_two});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 3, SignalValue = param.v});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 4, SignalValue = param.a});
+                    j++;
+                }
+                var inputSignals = new InputSignalsLog
+                {
+                    Vio0 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[0],
+                    Vio1 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[1],
+                    Vio2 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[2],
+                    Vio3 = parameters[_mineConfig.LeadingController - 1].AuziDIByteList[3]
+                };
+                var outputSignals = new OutputSignalsLog
+                {
+                    Vio7 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[0],
+                    Vio8 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[1],
+                    Vio9 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[2],
+                    Vio11 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[3],
+                    Vio12 = parameters[_mineConfig.LeadingController - 1].AuziDOByteList[4]
+                };
+                var blockLog = new BlockLog
+                {
+                    Date = DateTime.Now,
+                    AnalogSignalLogs = analogSignals,
+                    InputSignalsLogs = new Collection<InputSignalsLog> {inputSignals},
+                    OutputSignalsLogs = new Collection<OutputSignalsLog> {outputSignals}
+                };
                 using (var repoUnit = new RepoUnit())
                 {
                     repoUnit.BlockLog.Save(blockLog);
