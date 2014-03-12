@@ -32,7 +32,7 @@ namespace VisualizationSystem.Model
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName,
                     IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO());
             //_dataExchange.StartExchange("COM7",50, new ComCANIO());
-           // _dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
             
         }
 

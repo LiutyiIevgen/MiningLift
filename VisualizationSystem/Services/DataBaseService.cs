@@ -33,6 +33,12 @@ namespace VisualizationSystem.Services
         public List<List<ParameterData>> GetAnalogSignalsById(int id)
         {
             var parameterData = new List<List<ParameterData>>();
+            //init parameterData
+            for (int j = 0; j < 3; j++)
+            {
+                parameterData.Add(new List<ParameterData>());
+            }
+            //write data from arhive to parameterData
             using (var repoUnit = new RepoUnit())
             {
                 var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);

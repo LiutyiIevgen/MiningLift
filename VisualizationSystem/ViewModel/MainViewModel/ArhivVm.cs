@@ -55,7 +55,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 return new TreeNode[0];
             //get analog signals list
             var listSignalsList = _dataBaseService.GetAnalogSignalsById(_blocksIds[_currentId]);
-            _analogNodes.Clear();
+            for (int j = 0; j < 3; j++)
+            {
+                _analogNodes.Add(new List<TreeNode>());
+            }
+            for (int j = 0; j < 3; j++)
+            {
+                _analogNodes[j].Clear();
+            }
             for (int i = 0; i < 3; i++)
             {
                 listSignalsList[i].ForEach(s => _analogNodes[i].Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
@@ -81,13 +88,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             signalsList.ForEach(s => _outputNodes.Add(new TreeNode(s.Name + " = " + s.Value.ToString())));
 
             var block = _dataBaseService.GetBlockLogById(_blocksIds[_currentId]);
-            _analogMainNodes = new TreeNode[3]
-            {
-                new TreeNode("OC1", _analogNodes[0].ToArray()),
-                new TreeNode("OC2", _analogNodes[1].ToArray()),
-                new TreeNode("OC3", _analogNodes[2].ToArray())
-            };
             if (_mainNodes == null)
+            {
+                _analogMainNodes = new TreeNode[3]
+                {
+                    new TreeNode("OC1", _analogNodes[0].ToArray()),
+                    new TreeNode("OC2", _analogNodes[1].ToArray()),
+                    new TreeNode("OC3", _analogNodes[2].ToArray())
+                };
                 _mainNodes = new TreeNode[4]
                 {
                     new TreeNode(block.Date.ToString()),
@@ -95,12 +103,20 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     new TreeNode("Входные сигналы", _inputNodes.ToArray()),
                     new TreeNode("Выходные сигналы", _outputNodes.ToArray())
                 };
+            }
             else
             {
                 _mainNodes[0].Text = block.Date.ToString();
                 for (int i = 1; i < 4; i++)
+                {
                     _mainNodes[i].Nodes.Clear();
-                _mainNodes[1].Nodes.AddRange(_analogNodes[0].ToArray());
+                    _analogMainNodes[i-1].Nodes.Clear();
+                }
+                for (int j = 0; j < 3; j++)
+                {
+                    _analogMainNodes[j].Nodes.AddRange(_analogNodes[j].ToArray());
+                }
+                _mainNodes[1].Nodes.AddRange(_analogMainNodes);
                 _mainNodes[2].Nodes.AddRange(_inputNodes.ToArray());
                 _mainNodes[3].Nodes.AddRange(_outputNodes.ToArray());
             }
