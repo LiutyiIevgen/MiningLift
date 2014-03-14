@@ -28,57 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.CodtDomainComboBox = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.splitContainerCodtDomain = new System.Windows.Forms.SplitContainer();
+            this.panelSolveDefenceDiagram = new System.Windows.Forms.Panel();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerCodtDomain)).BeginInit();
+            this.splitContainerCodtDomain.Panel1.SuspendLayout();
+            this.splitContainerCodtDomain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // tabControl1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(758, 448);
+            this.tabControl1.TabIndex = 0;
             // 
-            // splitContainer1.Panel1
+            // tabPage1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.CodtDomainComboBox);
-            this.splitContainer1.Size = new System.Drawing.Size(758, 448);
-            this.splitContainer1.SplitterDistance = 27;
-            this.splitContainer1.TabIndex = 0;
+            this.tabPage1.BackColor = System.Drawing.Color.DarkGray;
+            this.tabPage1.Controls.Add(this.panelSolveDefenceDiagram);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(750, 422);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Расчёт ЗД";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.DarkGray;
+            this.tabPage2.Controls.Add(this.splitContainerCodtDomain);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(750, 422);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "codtDomain";
             // 
             // CodtDomainComboBox
             // 
             this.CodtDomainComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.CodtDomainComboBox.FormattingEnabled = true;
-            this.CodtDomainComboBox.Location = new System.Drawing.Point(170, 3);
+            this.CodtDomainComboBox.Location = new System.Drawing.Point(192, 3);
             this.CodtDomainComboBox.Name = "CodtDomainComboBox";
             this.CodtDomainComboBox.Size = new System.Drawing.Size(374, 21);
-            this.CodtDomainComboBox.TabIndex = 0;
+            this.CodtDomainComboBox.TabIndex = 2;
             this.CodtDomainComboBox.SelectedIndexChanged += new System.EventHandler(this.CodtDomainComboBox_SelectedIndexChanged);
+            // 
+            // splitContainerCodtDomain
+            // 
+            this.splitContainerCodtDomain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerCodtDomain.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerCodtDomain.Name = "splitContainerCodtDomain";
+            this.splitContainerCodtDomain.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerCodtDomain.Panel1
+            // 
+            this.splitContainerCodtDomain.Panel1.Controls.Add(this.CodtDomainComboBox);
+            this.splitContainerCodtDomain.Size = new System.Drawing.Size(744, 416);
+            this.splitContainerCodtDomain.SplitterDistance = 25;
+            this.splitContainerCodtDomain.TabIndex = 1;
+            // 
+            // panelSolveDefenceDiagram
+            // 
+            this.panelSolveDefenceDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSolveDefenceDiagram.Location = new System.Drawing.Point(3, 3);
+            this.panelSolveDefenceDiagram.Name = "panelSolveDefenceDiagram";
+            this.panelSolveDefenceDiagram.Size = new System.Drawing.Size(744, 416);
+            this.panelSolveDefenceDiagram.TabIndex = 0;
             // 
             // DefenceDiagramSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.tabControl1);
             this.Name = "DefenceDiagramSettings";
             this.Size = new System.Drawing.Size(758, 448);
             this.Load += new System.EventHandler(this.DefenceDiagramSettings_Load);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.splitContainerCodtDomain.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerCodtDomain)).EndInit();
+            this.splitContainerCodtDomain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.SplitContainer splitContainerCodtDomain;
         private System.Windows.Forms.ComboBox CodtDomainComboBox;
+        private System.Windows.Forms.Panel panelSolveDefenceDiagram;
+
 
     }
 }

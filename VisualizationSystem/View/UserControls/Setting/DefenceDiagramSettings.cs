@@ -20,6 +20,10 @@ namespace VisualizationSystem.View.UserControls.Setting
             InitializeComponent();
             _parametersSettingsVm = new ParametersSettingsVm();
             _index = new List<int>();
+            _solveDefenceDiagramSettings = new SolveDefenceDiagramSettings();
+            _solveDefenceDiagramSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            panelSolveDefenceDiagram.Controls.Clear();
+            panelSolveDefenceDiagram.Controls.Add(_solveDefenceDiagramSettings);
         }
 
         private void DefenceDiagramSettings_Load(object sender, EventArgs e)
@@ -58,7 +62,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             if (plotDefenceDiagram != null)
                 plotDefenceDiagram.Dispose();
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
-            this.splitContainer1.Panel2.Controls.Add(plotDefenceDiagram);
+            this.splitContainerCodtDomain.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
         }
 
@@ -234,6 +238,7 @@ namespace VisualizationSystem.View.UserControls.Setting
        // } */
 
         private ParametersSettingsVm _parametersSettingsVm;
+        SolveDefenceDiagramSettings _solveDefenceDiagramSettings;
         private List<int> _index;
         private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
 
