@@ -63,6 +63,7 @@ namespace ML.DataExchange
 
         public bool GetParameter(ushort controllerId, ushort parameterId, byte subindex)
         {
+            int repeatCount = 0;
             var dataList = new List<CanDriver.canmsg_t>();
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
@@ -75,12 +76,21 @@ namespace ML.DataExchange
             msg.data[2] = (byte)(parameterId>>8);//id high
             msg.data[3] = subindex;//subindex
             dataList.Add(msg);
-            _device.SendData(dataList);
-            if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
+            while (true)
             {
-                //GetParameter(controllerId, parameterId, subindex);
-                return false;
-            }
+                _device.SendData(dataList);
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(220)))
+                {
+                    repeatCount++;
+                    if (repeatCount == 10)
+                    {
+                        MessageBox.Show(@"Превышен лимит ожидания вычитки параметра 0x" + Convert.ToString(parameterId, 16) + @"!!!", @"Ошибка");
+                        return false;
+                    }
+                    continue;
+                }
+                break;
+            }            
             return true;
         }
 
@@ -88,6 +98,7 @@ namespace ML.DataExchange
 
         public bool SetParameter(CanParameter canParameter)
         {
+            int repeatCount = 0;
             var msg = new CanDriver.canmsg_t();
             msg.flags = CanDriver.MSG_BOVR;
             msg.cob = 0;
@@ -124,15 +135,21 @@ namespace ML.DataExchange
                 _codtDomainThread.Start(canParameter);
                 return true;
             }
-            _device.SendData(new List<CanDriver.canmsg_t> { msg });
-            if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
-                return false;
-            /*if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
+            while ((true))
             {
-                SetParameter(canParameter);
-                return false;
-            }*/
-                    
+                if (repeatCount == 10)
+                {
+                    MessageBox.Show("Превышен лимит ожидания записи параметра 0x" + Convert.ToString(canParameter.ParameterId,16) + "!!!", "Ошибка");
+                    return false;
+                }
+                _device.SendData(new List<CanDriver.canmsg_t> { msg });
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                {
+                    repeatCount++;
+                    continue;
+                }
+                break;
+            }                  
             return true;
         }
 
@@ -176,6 +193,7 @@ namespace ML.DataExchange
                     }
                     else if ((canmsgT.data[0] & 0xE0) == 0) //get codtDomain block
                     {
+                        _isUnloaded.Set();
                         int unusedBytes = (canmsgT.data[0] & 0x0E) >> 1;
                         for (int j = 0; j < 7 - unusedBytes; j++)
                             _codtDomainArray.Add(canmsgT.data[j+1]);
@@ -191,8 +209,7 @@ namespace ML.DataExchange
                                 Data = _codtDomainArray.ToArray()
                             });
                             _codtDomainArray.Clear();
-                        }
-                        _isUnloaded.Set();
+                        }  
                     }
                     else if(canmsgT.data[0] == 0x20 || canmsgT.data[0] == 0x30) //segment was accepted
                         _isLoaded.Set();
@@ -246,7 +263,7 @@ namespace ML.DataExchange
 
                     msgRead.AddRange(msg);
                     parametersList = canParser.GetParametersList(msgRead);
-                    if (AllCanDataEvent != null && i++ == 1)
+                    if (AllCanDataEvent != null && (i%4) == 0)
                     {
                         AllCanDataEvent(parametersList);
                         i = 0;
@@ -258,8 +275,9 @@ namespace ML.DataExchange
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
-                    Thread.Sleep(20);
+                    Thread.Sleep(9);
                     msgRead.Clear();
+                    i++;
                 }
                 catch (Exception exception)
                 {
@@ -270,6 +288,7 @@ namespace ML.DataExchange
 
         private void GetSegment(object canmsgT)//if codt domain send qeury for codtDomain blocks
         {
+            int repeatCount = 0;
             var msg = (CanDriver.canmsg_t)canmsgT;
             double byteNumber = msg.data[4];
             var _sendNumber = (int)Math.Ceiling((double)(byteNumber / 7));
@@ -305,16 +324,25 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(250)))
                 {
-                    return;
+                    repeatCount++;
+                    if (repeatCount == 10)
+                    {
+                        MessageBox.Show("Превышен лимит ожидания вычитки сегмента №" + i + "!!!", "Ошибка");
+                        return;
+                    }
+                    continue;
                 }
+                repeatCount = 0;
                 i++;
+                Thread.Sleep(20);
             }
         }
 
         private void SetSegment(object parameter)
         {
+            int repeatCount = 0;
             //start block
             var canParameter = parameter as CanParameter;
             var msg = new CanDriver.canmsg_t();
@@ -329,10 +357,25 @@ namespace ML.DataExchange
             msg.data[3] = canParameter.ParameterSubIndex;//subindex     
             msg.data[4] = (byte)canParameter.Data.Count();
             //Device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(20);
-            _device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
-            Thread.Sleep(200);
-            _isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000));
+            while (true)
+            {
+                if (repeatCount == 10)
+                {
+                    MessageBox.Show("Превышен лимит ожидания записи параметра 0x" + Convert.ToString(canParameter.ParameterId, 16) + "!!!", "Ошибка");
+                    return;
+                }
+                Thread.Sleep(20);
+                _device.SendData(new List<CanDriver.canmsg_t> { msg });// start block
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                {
+                    repeatCount++;
+                    continue;
+                }
+                repeatCount = 0;
+                Thread.Sleep(200);
+                break;
+            }
+            
             //if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(1000)))
             //{
               //  return;
@@ -379,8 +422,17 @@ namespace ML.DataExchange
                         }
                     });
                 }
-                if(!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
-                    return;
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
+                {
+                    repeatCount++;
+                    if (repeatCount == 10)
+                    {
+                        MessageBox.Show("Превышен лимит ожидания записи сегмента №" + i + "!!!", "Ошибка");
+                        return;
+                    }
+                    continue;
+                }
+                repeatCount = 0;
                 i++;
             }
         }

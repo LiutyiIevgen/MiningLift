@@ -192,7 +192,7 @@ namespace ML.DataExchange
             return 0;
         }
 
-        private double _dS = 100;
+        private double _dS = 10; //m
         private MineConfig _config;
     }
 }

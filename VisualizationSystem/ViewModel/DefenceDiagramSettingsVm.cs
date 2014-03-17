@@ -58,16 +58,20 @@ namespace VisualizationSystem.ViewModel
             InitV();
             SolveHz();
             SolveHk();
-            CheckHz();
+            //CheckHz();
+            InverseHz();
             SolveDiagramData();
         }
 
         private void InitV()
         {
             double shag;
-            shag = (1.15 * variableParametersValue[0] - variableParametersValue[4]) / _points;
+            shag = (1.15 * variableParametersValue[0] - variableParametersValue[4]) / (_points - 1);
             vVeight[0] = variableParametersValue[4];
-            for (int i = 1; i < _points; i++)
+            vVeight[1] = variableParametersValue[4];
+
+
+            for (int i = 2; i < _points; i++)
             {
                 vVeight[i] = vVeight[i - 1] + shag;
             }
@@ -75,9 +79,10 @@ namespace VisualizationSystem.ViewModel
             {
                 vVeight[_points - 1] = 1.15 * variableParametersValue[0];
             }
-            shag = (1.15 * variableParametersValue[1] - variableParametersValue[5]) / _points;
+            shag = (1.15 * variableParametersValue[1] - variableParametersValue[5]) / (_points - 1);
             vPeople[0] = variableParametersValue[5];
-            for (int i = 1; i < _points; i++)
+            vPeople[1] = variableParametersValue[5];
+            for (int i = 2; i < _points; i++)
             {
                 vPeople[i] = vPeople[i - 1] + shag;
             }
@@ -85,9 +90,10 @@ namespace VisualizationSystem.ViewModel
             {
                 vPeople[_points - 1] = 1.15 * variableParametersValue[1];
             }
-            shag = (1.15 * variableParametersValue[2] - variableParametersValue[4]) / _points;
+            shag = (1.15 * variableParametersValue[2] - variableParametersValue[4]) / (_points - 1);
             vEquipment[0] = variableParametersValue[4];
-            for (int i = 1; i < _points; i++)
+            vEquipment[1] = variableParametersValue[4];
+            for (int i = 2; i < _points; i++)
             {
                 vEquipment[i] = vEquipment[i - 1] + shag;
             }
@@ -104,30 +110,34 @@ namespace VisualizationSystem.ViewModel
         private void SolveHz()
         {
             //вниз
-            for (int i = 0; i < _points; i++)
+            hzVeightDown[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzVeightDown[i] = (vVeight[i] * vVeight[i] - variableParametersValue[4] * variableParametersValue[4]) * (variableParametersValue[0] * variableParametersValue[0] - variableParametersValue[6] * variableParametersValue[6]);
                 hzVeightDown[i] /= 2 * variableParametersValue[13] * (1.15 * variableParametersValue[0] * 1.15 * variableParametersValue[0] - variableParametersValue[4] * variableParametersValue[4]);
                 hzVeightDown[i] += variableParametersValue[16];
             }
             //вниз
-            for (int i = 0; i < _points; i++)
+            hzPeopleDown[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzPeopleDown[i] = (vPeople[i] * vPeople[i] - variableParametersValue[5] * variableParametersValue[5]) * (variableParametersValue[1] * variableParametersValue[1] - variableParametersValue[6] * variableParametersValue[6]);
                 hzPeopleDown[i] /= 2 * variableParametersValue[14] * (1.15 * variableParametersValue[1] * 1.15 * variableParametersValue[1] - variableParametersValue[5] * variableParametersValue[5]);
                 hzPeopleDown[i] += variableParametersValue[18];
             }
             //вниз
-            for (int i = 0; i < _points; i++)
+            hzEquipmentDown[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzEquipmentDown[i] = (vEquipment[i] * vEquipment[i] - variableParametersValue[4] * variableParametersValue[4]) * (variableParametersValue[2] * variableParametersValue[2] - variableParametersValue[6] * variableParametersValue[6]);
                 hzEquipmentDown[i] /= 2 * variableParametersValue[13] * (1.15 * variableParametersValue[2] * 1.15 * variableParametersValue[2] - variableParametersValue[4] * variableParametersValue[4]);
                 hzEquipmentDown[i] += variableParametersValue[16];
             }
             //
-            double shag = (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value) / _points;
-            hzRevision[0] = IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
-            for (int i = 1; i < _points; i++)
+            double shag = (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value) / (_points - 1);
+            hzRevision[0] = -2147483647;
+            hzRevision[1] = IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
+            for (int i = 2; i < _points; i++)
             {
                 hzRevision[i] = hzRevision[i - 1] + shag;
             }
@@ -136,57 +146,60 @@ namespace VisualizationSystem.ViewModel
                 hzRevision[_points - 1] = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value;
             }
             //вверх
-            for (int i = 0; i < _points; i++)
+            hzVeightUp[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzVeightUp[i] = (vVeight[i] * vVeight[i] - variableParametersValue[4] * variableParametersValue[4]) * (variableParametersValue[0] * variableParametersValue[0] - variableParametersValue[6] * variableParametersValue[6]);
                 hzVeightUp[i] /= 2 * variableParametersValue[13] * (1.15 * variableParametersValue[0] * 1.15 * variableParametersValue[0] - variableParametersValue[4] * variableParametersValue[4]);
                 hzVeightUp[i] += variableParametersValue[17];
             }
             //вверх
-            for (int i = 0; i < _points; i++)
+            hzPeopleUp[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzPeopleUp[i] = (vPeople[i] * vPeople[i] - variableParametersValue[5] * variableParametersValue[5]) * (variableParametersValue[1] * variableParametersValue[1] - variableParametersValue[6] * variableParametersValue[6]);
                 hzPeopleUp[i] /= 2 * variableParametersValue[14] * (1.15 * variableParametersValue[1] * 1.15 * variableParametersValue[1] - variableParametersValue[5] * variableParametersValue[5]);
                 hzPeopleUp[i] += variableParametersValue[19];
             }
             //вверх
-            for (int i = 0; i < _points; i++)
+            hzEquipmentUp[0] = -2147483647;
+            for (int i = 1; i < _points; i++)
             {
                 hzEquipmentUp[i] = (vEquipment[i] * vEquipment[i] - variableParametersValue[4] * variableParametersValue[4]) * (variableParametersValue[2] * variableParametersValue[2] - variableParametersValue[6] * variableParametersValue[6]);
                 hzEquipmentUp[i] /= 2 * variableParametersValue[13] * (1.15 * variableParametersValue[2] * 1.15 * variableParametersValue[2] - variableParametersValue[4] * variableParametersValue[4]);
                 hzEquipmentUp[i] += variableParametersValue[17];
             }
         }
-
+                                                                                                                                                                   
         private void SolveHk()
         {
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkVeightDown[i] = (vVeight[i] + variableParametersValue[15]) * (vVeight[i] + variableParametersValue[15]) / (2 * variableParametersValue[11]);
                 hkVeightDown[i] += vVeight[i] * (variableParametersValue[7] + variableParametersValue[8]);
                 hkVeightDown[i] += variableParametersValue[15] * variableParametersValue[8] / 2;
             }
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkVeightUp[i] = hkVeightDown[i];
             }
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkPeopleDown[i] = (vPeople[i] + variableParametersValue[15]) * (vPeople[i] + variableParametersValue[15]) / (2 * variableParametersValue[12]);
                 hkPeopleDown[i] += vPeople[i] * (variableParametersValue[7] + variableParametersValue[8]);
                 hkPeopleDown[i] += variableParametersValue[15] * variableParametersValue[8] / 2;
             }
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkPeopleUp[i] = hkPeopleDown[i];
             }
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkEquipmentDown[i] = (vEquipment[i] + variableParametersValue[15]) * (vEquipment[i] + variableParametersValue[15]) / (2 * variableParametersValue[11]);
                 hkEquipmentDown[i] += vEquipment[i] * (variableParametersValue[7] + variableParametersValue[8]);
                 hkEquipmentDown[i] += variableParametersValue[15] * variableParametersValue[8] / 2;
             }
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 hkEquipmentUp[i] = hkEquipmentDown[i];
             }
@@ -205,6 +218,20 @@ namespace VisualizationSystem.ViewModel
                     HzCrossHkUp = 1;
                 }
             }
+        }
+
+        private void InverseHz()
+        {
+            double[] bufHz = new double[_points];
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzVeightDown[(_points-1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzVeightDown[i] = bufHz[i];
+            }
+
         }
 
         private void SolveDiagramData()

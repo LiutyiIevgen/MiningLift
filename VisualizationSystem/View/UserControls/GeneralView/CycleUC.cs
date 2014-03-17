@@ -33,6 +33,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 checkedListBoxGraphic.SetItemChecked(i, true);
             _mineConfig = IoC.Resolve<MineConfig>();
             _wasOstanov = 0;
+            plotCycle.Model.Series.Add(s1);
+            plotCycle.Model.Series.Add(s2);
+            plotCycle.Model.Series.Add(s3);
+            plotCycle.Model.Series.Add(s4);
+            
             new Thread(RefreshThreadHandler) {IsBackground = true, Priority = ThreadPriority.Lowest}.Start();
         }
 
@@ -49,6 +54,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private void RefreshThreadHandler()
         {
+            var lineSerie1 = plotCycle.Model.Series[0] as LineSeries;
+            var lineSerie2 = plotCycle.Model.Series[1] as LineSeries;
+            var lineSerie3 = plotCycle.Model.Series[2] as LineSeries;
+            var lineSerie4 = plotCycle.Model.Series[3] as LineSeries;
             while (true)
             {
                 if (_parameters == null)
@@ -65,31 +74,28 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     {
                         this.Invoke((MethodInvoker) delegate
                         {
-                            plotCycle.Model.Series.Clear();
-                            s1.Points.Clear();
-                            s2.Points.Clear();
-                            s3.Points.Clear();
-                            s4.Points.Clear();
-                            plotCycle.RefreshPlot(true);
+                            lineSerie1.Points.Clear();
+                            lineSerie2.Points.Clear();
+                            lineSerie3.Points.Clear();
+                            lineSerie4.Points.Clear();
+                            //s1.Points.Clear();
+                            //s2.Points.Clear();
+                            //s3.Points.Clear();
+                            //s4.Points.Clear();
                         });
                         _wasOstanov = 0;
                     }
                     this.Invoke((MethodInvoker) delegate
                     {
-                        // Add Line series
-                        s1.Points.Add(new DataPoint(-param.s, param.v/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
-                        s2.Points.Add(new DataPoint(-param.s,
+
+                        lineSerie1.Points.Add(new DataPoint(-param.s,
+                            param.v/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
+                        lineSerie2.Points.Add(new DataPoint(-param.s,
                             param.tok_anchor/(_mineConfig.MainViewConfig.MaxTokAnchor.Value/100)));
-                        s3.Points.Add(new DataPoint(-param.s,
+                        lineSerie3.Points.Add(new DataPoint(-param.s,
                             param.tok_excitation/(_mineConfig.MainViewConfig.MaxTokExcitation.Value/100)));
-                        s4.Points.Add(new DataPoint(-param.s,
-                            param.defence_diagram/(_mineConfig.MainViewConfig.MaxSpeed.Value*1.2/100)));
-                        // add Series and Axis to plot model
-                        plotCycle.Model.Series.Clear();
-                        plotCycle.Model.Series.Add(s1);
-                        plotCycle.Model.Series.Add(s2);
-                        plotCycle.Model.Series.Add(s3);
-                        plotCycle.Model.Series.Add(s4);
+                        lineSerie4.Points.Add(new DataPoint(-param.s,
+                            param.defence_diagram/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
                         plotCycle.RefreshPlot(true);
 
                         int j = 0;
@@ -104,7 +110,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 {
                     _wasOstanov = 1;
                 }
-                Thread.Sleep(200);
+                Thread.Sleep(180);
             }
         }
         public void Refresh(Parameters parameters)

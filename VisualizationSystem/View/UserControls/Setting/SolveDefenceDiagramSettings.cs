@@ -32,7 +32,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         private double calculatedWayPeople = 0;
         private double dotWayVeightAndEquipment = 0;
         private double dotWayPeople = 0;
-        private string SolveDefDiagramParametersFilePath = "solveddparam.prm";
+        private string SolveDefDiagramParametersFilePath = "../../solveddparam.prm";
         //private DefenceDiagramSettingsVm _defenceDiagramSettingsVm;
 
         public SolveDefenceDiagramSettings()
@@ -387,22 +387,22 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     dataGridViewDefenceDiagramDown[0, i].Value = i;
                     dataGridViewDefenceDiagramDown[1, i].Value = Math.Round(defenceDiagramSettingsVm.vVeight[i], 3);
-                    dataGridViewDefenceDiagramDown[2, i].Value = -Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzVeightDown[i], 3);
+                    dataGridViewDefenceDiagramDown[2, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzVeightDown[i], 3);
                     dataGridViewDefenceDiagramDown[3, i].Value = Math.Round(defenceDiagramSettingsVm.vPeople[i], 3);
-                    dataGridViewDefenceDiagramDown[4, i].Value = -Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzPeopleDown[i], 3);
+                    dataGridViewDefenceDiagramDown[4, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzPeopleDown[i], 3);
                     dataGridViewDefenceDiagramDown[5, i].Value = Math.Round(defenceDiagramSettingsVm.vEquipment[i], 3);
-                    dataGridViewDefenceDiagramDown[6, i].Value = -Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzEquipmentDown[i], 3);
+                    dataGridViewDefenceDiagramDown[6, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzEquipmentDown[i], 3);
                     dataGridViewDefenceDiagramDown[7, i].Value = Math.Round(defenceDiagramSettingsVm.vRevision[i], 3);
-                    dataGridViewDefenceDiagramDown[8, i].Value = -Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzRevision[i], 3);
+                    dataGridViewDefenceDiagramDown[8, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzRevision[i], 3);
                     dataGridViewDefenceDiagramUp[0, i].Value = i;
                     dataGridViewDefenceDiagramUp[1, i].Value = Math.Round(defenceDiagramSettingsVm.vVeight[i], 3);
-                    dataGridViewDefenceDiagramUp[2, i].Value = -Math.Round(defenceDiagramSettingsVm.hzVeightUp[i], 3);
+                    dataGridViewDefenceDiagramUp[2, i].Value = Math.Round(defenceDiagramSettingsVm.hzVeightUp[i], 3);
                     dataGridViewDefenceDiagramUp[3, i].Value = Math.Round(defenceDiagramSettingsVm.vPeople[i], 3);
-                    dataGridViewDefenceDiagramUp[4, i].Value = -Math.Round(defenceDiagramSettingsVm.hzPeopleUp[i], 3);
+                    dataGridViewDefenceDiagramUp[4, i].Value = Math.Round(defenceDiagramSettingsVm.hzPeopleUp[i], 3);
                     dataGridViewDefenceDiagramUp[5, i].Value = Math.Round(defenceDiagramSettingsVm.vEquipment[i], 3);
-                    dataGridViewDefenceDiagramUp[6, i].Value = -Math.Round(defenceDiagramSettingsVm.hzEquipmentUp[i], 3);
+                    dataGridViewDefenceDiagramUp[6, i].Value = Math.Round(defenceDiagramSettingsVm.hzEquipmentUp[i], 3);
                     dataGridViewDefenceDiagramUp[7, i].Value = Math.Round(defenceDiagramSettingsVm.vRevision[i], 3);
-                    dataGridViewDefenceDiagramUp[8, i].Value = -Math.Round(defenceDiagramSettingsVm.hzRevision[i], 3);
+                    dataGridViewDefenceDiagramUp[8, i].Value = Math.Round(defenceDiagramSettingsVm.hzRevision[i], 3);
                 }
             }
         }
