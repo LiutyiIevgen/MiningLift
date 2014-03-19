@@ -30,10 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.CodtDomainComboBox = new System.Windows.Forms.ComboBox();
-            this.splitContainerCodtDomain = new System.Windows.Forms.SplitContainer();
             this.panelSolveDefenceDiagram = new System.Windows.Forms.Panel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainerCodtDomain = new System.Windows.Forms.SplitContainer();
+            this.CodtDomainComboBox = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -64,6 +64,14 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Расчёт ЗД";
             // 
+            // panelSolveDefenceDiagram
+            // 
+            this.panelSolveDefenceDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSolveDefenceDiagram.Location = new System.Drawing.Point(3, 3);
+            this.panelSolveDefenceDiagram.Name = "panelSolveDefenceDiagram";
+            this.panelSolveDefenceDiagram.Size = new System.Drawing.Size(744, 416);
+            this.panelSolveDefenceDiagram.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DarkGray;
@@ -74,16 +82,6 @@
             this.tabPage2.Size = new System.Drawing.Size(750, 422);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "codtDomain";
-            // 
-            // CodtDomainComboBox
-            // 
-            this.CodtDomainComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.CodtDomainComboBox.FormattingEnabled = true;
-            this.CodtDomainComboBox.Location = new System.Drawing.Point(192, 3);
-            this.CodtDomainComboBox.Name = "CodtDomainComboBox";
-            this.CodtDomainComboBox.Size = new System.Drawing.Size(374, 21);
-            this.CodtDomainComboBox.TabIndex = 2;
-            this.CodtDomainComboBox.SelectedIndexChanged += new System.EventHandler(this.CodtDomainComboBox_SelectedIndexChanged);
             // 
             // splitContainerCodtDomain
             // 
@@ -99,13 +97,16 @@
             this.splitContainerCodtDomain.SplitterDistance = 25;
             this.splitContainerCodtDomain.TabIndex = 1;
             // 
-            // panelSolveDefenceDiagram
+            // CodtDomainComboBox
             // 
-            this.panelSolveDefenceDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSolveDefenceDiagram.Location = new System.Drawing.Point(3, 3);
-            this.panelSolveDefenceDiagram.Name = "panelSolveDefenceDiagram";
-            this.panelSolveDefenceDiagram.Size = new System.Drawing.Size(744, 416);
-            this.panelSolveDefenceDiagram.TabIndex = 0;
+            this.CodtDomainComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.CodtDomainComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CodtDomainComboBox.FormattingEnabled = true;
+            this.CodtDomainComboBox.Location = new System.Drawing.Point(192, 3);
+            this.CodtDomainComboBox.Name = "CodtDomainComboBox";
+            this.CodtDomainComboBox.Size = new System.Drawing.Size(374, 21);
+            this.CodtDomainComboBox.TabIndex = 2;
+            this.CodtDomainComboBox.SelectedIndexChanged += new System.EventHandler(this.CodtDomainComboBox_SelectedIndexChanged);
             // 
             // DefenceDiagramSettings
             // 

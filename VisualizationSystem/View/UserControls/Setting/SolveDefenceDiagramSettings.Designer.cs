@@ -40,13 +40,10 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonSolveDefenceDiagram = new System.Windows.Forms.Button();
             this.buttonSaveParameters = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridViewDefenceDiagramUp = new System.Windows.Forms.DataGridView();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +54,7 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridViewDefenceDiagramDown = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,6 +65,10 @@
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.splitContainerDefenceDiagram = new System.Windows.Forms.SplitContainer();
+            this.DefenceDiagramComboBox = new System.Windows.Forms.ComboBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -82,9 +84,13 @@
             this.tabPage2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramUp)).BeginInit();
+            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDefenceDiagram)).BeginInit();
+            this.splitContainerDefenceDiagram.Panel1.SuspendLayout();
+            this.splitContainerDefenceDiagram.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -92,12 +98,14 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(744, 416);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -180,7 +188,6 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.buttonSolveDefenceDiagram);
             this.splitContainer2.Panel2.Controls.Add(this.buttonSaveParameters);
             this.splitContainer2.Size = new System.Drawing.Size(356, 384);
             this.splitContainer2.SplitterDistance = 117;
@@ -224,21 +231,6 @@
             this.dataGridViewTextBoxColumn3.HeaderText = "Значение";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // buttonSolveDefenceDiagram
-            // 
-            this.buttonSolveDefenceDiagram.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.buttonSolveDefenceDiagram.FlatAppearance.BorderSize = 0;
-            this.buttonSolveDefenceDiagram.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSolveDefenceDiagram.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSolveDefenceDiagram.ForeColor = System.Drawing.Color.Silver;
-            this.buttonSolveDefenceDiagram.Location = new System.Drawing.Point(57, 79);
-            this.buttonSolveDefenceDiagram.Name = "buttonSolveDefenceDiagram";
-            this.buttonSolveDefenceDiagram.Size = new System.Drawing.Size(233, 35);
-            this.buttonSolveDefenceDiagram.TabIndex = 6;
-            this.buttonSolveDefenceDiagram.Text = "Провести расчёт";
-            this.buttonSolveDefenceDiagram.UseVisualStyleBackColor = false;
-            this.buttonSolveDefenceDiagram.Click += new System.EventHandler(this.buttonSolveDefenceDiagram_Click);
             // 
             // buttonSaveParameters
             // 
@@ -288,27 +280,6 @@
             this.tabPage4.Size = new System.Drawing.Size(722, 358);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "вверх";
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.BackColor = System.Drawing.Color.DarkGray;
-            this.tabPage5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tabPage5.Controls.Add(this.dataGridViewDefenceDiagramDown);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(722, 358);
-            this.tabPage5.TabIndex = 1;
-            this.tabPage5.Text = "вниз";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.DarkGray;
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(736, 390);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Диаграммы";
             // 
             // dataGridViewDefenceDiagramUp
             // 
@@ -396,6 +367,18 @@
             this.Column12.ReadOnly = true;
             this.Column12.Width = 78;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.BackColor = System.Drawing.Color.DarkGray;
+            this.tabPage5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tabPage5.Controls.Add(this.dataGridViewDefenceDiagramDown);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(722, 358);
+            this.tabPage5.TabIndex = 1;
+            this.tabPage5.Text = "вниз";
+            // 
             // dataGridViewDefenceDiagramDown
             // 
             this.dataGridViewDefenceDiagramDown.AllowUserToAddRows = false;
@@ -482,6 +465,58 @@
             this.dataGridViewTextBoxColumn12.ReadOnly = true;
             this.dataGridViewTextBoxColumn12.Width = 78;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.DarkGray;
+            this.tabPage3.Controls.Add(this.splitContainerDefenceDiagram);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(736, 390);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Диаграммы";
+            // 
+            // splitContainerDefenceDiagram
+            // 
+            this.splitContainerDefenceDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerDefenceDiagram.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerDefenceDiagram.Name = "splitContainerDefenceDiagram";
+            this.splitContainerDefenceDiagram.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerDefenceDiagram.Panel1
+            // 
+            this.splitContainerDefenceDiagram.Panel1.Controls.Add(this.DefenceDiagramComboBox);
+            this.splitContainerDefenceDiagram.Size = new System.Drawing.Size(736, 390);
+            this.splitContainerDefenceDiagram.SplitterDistance = 25;
+            this.splitContainerDefenceDiagram.TabIndex = 2;
+            // 
+            // DefenceDiagramComboBox
+            // 
+            this.DefenceDiagramComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.DefenceDiagramComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DefenceDiagramComboBox.FormattingEnabled = true;
+            this.DefenceDiagramComboBox.Items.AddRange(new object[] {
+            "\"груз\" (вверх)",
+            "\"люди\" (вверх)",
+            "\"оборудование\" (вверх)",
+            "\"ревизия\"",
+            "\"груз\" (вниз)",
+            "\"люди\" (вниз)",
+            "\"оборудование\" (вниз)"});
+            this.DefenceDiagramComboBox.Location = new System.Drawing.Point(208, 2);
+            this.DefenceDiagramComboBox.Name = "DefenceDiagramComboBox";
+            this.DefenceDiagramComboBox.Size = new System.Drawing.Size(330, 21);
+            this.DefenceDiagramComboBox.TabIndex = 2;
+            this.DefenceDiagramComboBox.SelectedIndexChanged += new System.EventHandler(this.DefenceDiagramComboBox_SelectedIndexChanged);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.Color.DarkGray;
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(736, 390);
+            this.tabPage6.TabIndex = 3;
+            this.tabPage6.Text = "Диаграммы";
+            // 
             // SolveDefenceDiagramSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,9 +540,13 @@
             this.tabPage2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramUp)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefenceDiagramDown)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.splitContainerDefenceDiagram.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDefenceDiagram)).EndInit();
+            this.splitContainerDefenceDiagram.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -529,7 +568,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Button buttonSaveParameters;
-        private System.Windows.Forms.Button buttonSolveDefenceDiagram;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
@@ -553,5 +591,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.SplitContainer splitContainerDefenceDiagram;
+        private System.Windows.Forms.ComboBox DefenceDiagramComboBox;
     }
 }

@@ -42,14 +42,14 @@ namespace VisualizationSystem.ViewModel
             hkVeightUp = new double[_points];
             hkPeopleUp = new double[_points];
             hkEquipmentUp = new double[_points];
-            DiagramVeight = new GraphicData[(2 * _points + 2)];
-            for (int i = 0; i < (2 * _points + 2); i++)
+            DiagramVeight = new GraphicData[(2 * _points)];
+            for (int i = 0; i < (2 * _points); i++)
                 DiagramVeight[i] = new GraphicData();
-            DiagramPeople = new GraphicData[(2 * _points + 2)];
-            for (int i = 0; i < (2 * _points + 2); i++)
+            DiagramPeople = new GraphicData[(2 * _points)];
+            for (int i = 0; i < (2 * _points); i++)
                 DiagramPeople[i] = new GraphicData();
-            DiagramEquipment = new GraphicData[(2 * _points + 2)];
-            for (int i = 0; i < (2 * _points + 2); i++)
+            DiagramEquipment = new GraphicData[(2 * _points)];
+            for (int i = 0; i < (2 * _points); i++)
                 DiagramEquipment[i] = new GraphicData();
             DiagramRevision = new GraphicData[_points];
             for (int i = 0; i < _points; i++)
@@ -58,9 +58,9 @@ namespace VisualizationSystem.ViewModel
             InitV();
             SolveHz();
             SolveHk();
-            //CheckHz();
-            InverseHz();
+            CheckHz();
             SolveDiagramData();
+            InverseHzAndV();
         }
 
         private void InitV()
@@ -207,7 +207,7 @@ namespace VisualizationSystem.ViewModel
 
         private void CheckHz()
         {
-            for (int i = 0; i < _points; i++)
+            for (int i = 1; i < _points; i++)
             {
                 if ((IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzVeightDown[i] >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hkVeightDown[i]) || (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzPeopleDown[i] >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hkPeopleDown[i]) || (IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzEquipmentDown[i] >= IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hkEquipmentDown[i]))
                 {
@@ -220,18 +220,74 @@ namespace VisualizationSystem.ViewModel
             }
         }
 
-        private void InverseHz()
+        private void InverseHzAndV()
         {
             double[] bufHz = new double[_points];
+            double[] bufV = new double[_points];
             for (int i = 0; i < _points; i++)
             {
                 bufHz[i] = hzVeightDown[(_points-1) - i];
+                bufV[i] = vVeight[(_points - 1) - i];
             }
             for (int i = 0; i < _points; i++)
             {
-                hzVeightDown[i] = bufHz[i];
+                hzVeightDown[i] = -bufHz[i];
+                vVeight[i] = bufV[i];
             }
-
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzPeopleDown[(_points - 1) - i];
+                bufV[i] = vPeople[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzPeopleDown[i] = -bufHz[i];
+                vPeople[i] = bufV[i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzEquipmentDown[(_points - 1) - i];
+                bufV[i] = vEquipment[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzEquipmentDown[i] = -bufHz[i];
+                vEquipment[i] = bufV[i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzRevision[(_points - 1) - i];
+                bufV[i] = vRevision[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzRevision[i] = -bufHz[i];
+                vRevision[i] = bufV[i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzVeightUp[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzVeightUp[i] = -bufHz[i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzPeopleUp[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzPeopleUp[i] = -bufHz[i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                bufHz[i] = hzEquipmentUp[(_points - 1) - i];
+            }
+            for (int i = 0; i < _points; i++)
+            {
+                hzEquipmentUp[i] = -bufHz[i];
+            }
         }
 
         private void SolveDiagramData()
@@ -239,54 +295,54 @@ namespace VisualizationSystem.ViewModel
             int j;
             DiagramVeight[0].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value;
             DiagramVeight[0].Y = variableParametersValue[4];
-            for (int i = 1; i < (_points + 1); i++)
+            for (int i = 1; i < (_points); i++)
             {
-                DiagramVeight[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzVeightDown[i - 1];
-                DiagramVeight[i].Y = vVeight[i - 1];
+                DiagramVeight[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzVeightDown[i];
+                DiagramVeight[i].Y = vVeight[i];
             }
             j = _points - 1;
-            for (int i = _points + 1; i < (2 * _points + 1); i++)
+            for (int i = _points; i < (2 * _points - 1); i++)
             {
-                DiagramVeight[i].X = hzVeightUp[j];
+                DiagramVeight[i].X = hzVeightUp[j] + IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
                 DiagramVeight[i].Y = vVeight[j];
                 j--;
             }
-            DiagramVeight[2 * _points + 1].X = IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
-            DiagramVeight[2 * _points + 1].Y = variableParametersValue[4];
+            DiagramVeight[2 * _points - 1].X = hzVeightUp[0];
+            DiagramVeight[2 * _points - 1].Y = variableParametersValue[4];
             //
             DiagramPeople[0].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value;
             DiagramPeople[0].Y = variableParametersValue[5];
-            for (int i = 1; i < (_points + 1); i++)
+            for (int i = 1; i < (_points); i++)
             {
-                DiagramPeople[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzPeopleDown[i - 1];
-                DiagramPeople[i].Y = vPeople[i - 1];
+                DiagramPeople[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzPeopleDown[i];
+                DiagramPeople[i].Y = vPeople[i];
             }
             j = _points - 1;
-            for (int i = _points + 1; i < (2 * _points + 1); i++)
+            for (int i = _points; i < (2 * _points - 1); i++)
             {
-                DiagramPeople[i].X = hzPeopleUp[j];
+                DiagramPeople[i].X = hzPeopleUp[j] + IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
                 DiagramPeople[i].Y = vPeople[j];
                 j--;
             }
-            DiagramPeople[2 * _points + 1].X = IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
-            DiagramPeople[2 * _points + 1].Y = variableParametersValue[5];
+            DiagramPeople[2 * _points - 1].X = hzPeopleUp[0];
+            DiagramPeople[2 * _points - 1].Y = variableParametersValue[5];
             //
             DiagramEquipment[0].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value;
             DiagramEquipment[0].Y = variableParametersValue[4];
-            for (int i = 1; i < (_points + 1); i++)
+            for (int i = 1; i < (_points); i++)
             {
-                DiagramEquipment[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzEquipmentDown[i - 1];
-                DiagramEquipment[i].Y = vEquipment[i - 1];
+                DiagramEquipment[i].X = IoC.Resolve<MineConfig>().MainViewConfig.Border.Value - hzEquipmentDown[i];
+                DiagramEquipment[i].Y = vEquipment[i];
             }
             j = _points - 1;
-            for (int i = _points + 1; i < (2 * _points + 1); i++)
+            for (int i = _points; i < (2 * _points - 1); i++)
             {
-                DiagramEquipment[i].X = hzEquipmentUp[j];
+                DiagramEquipment[i].X = hzEquipmentUp[j] + IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
                 DiagramEquipment[i].Y = vEquipment[j];
                 j--;
             }
-            DiagramEquipment[2 * _points + 1].X = IoC.Resolve<MineConfig>().MainViewConfig.BorderZero.Value;
-            DiagramEquipment[2 * _points + 1].Y = variableParametersValue[4];
+            DiagramEquipment[2 * _points - 1].X = hzEquipmentUp[0];
+            DiagramEquipment[2 * _points - 1].Y = variableParametersValue[4];
             //
             for (int i = 0; i < _points; i++)
             {
@@ -320,7 +376,7 @@ namespace VisualizationSystem.ViewModel
         //private string[] variableParametersValueStr;
         private double[] variableParametersValue;
         // private Parameters _parameters;
-        private int _points;
+        public int _points;
         public int HzCrossHkDown { get; private set; }
         public int HzCrossHkUp { get; private set; }
     }

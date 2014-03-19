@@ -33,7 +33,10 @@ namespace VisualizationSystem.View.UserControls.Setting
         private double dotWayVeightAndEquipment = 0;
         private double dotWayPeople = 0;
         private string SolveDefDiagramParametersFilePath = "../../solveddparam.prm";
-        //private DefenceDiagramSettingsVm _defenceDiagramSettingsVm;
+        private OxyPlot.WindowsForms.Plot _plotDefenceDiagram;
+        public double[] _selectedV;
+        public double[] _selectedHz;
+        private int _points = 20;
 
         public SolveDefenceDiagramSettings()
         {
@@ -44,11 +47,14 @@ namespace VisualizationSystem.View.UserControls.Setting
             readonlyParametersValue = new List<string>();
             InitReadOnlyParameters();
             _mineConfig = IoC.Resolve<MineConfig>();
+            _selectedV = new double[_points];
+            _selectedHz = new double[_points];
         }
 
         private void SolveDefenceDiagramSettings_Load(object sender, EventArgs e)
         {
             InitData();
+            DefenceDiagramComboBox.SelectedIndex = 0;
         }
 
         private void InitReadOnlyParameters()
@@ -364,18 +370,6 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
-        private void buttonSolveDefenceDiagram_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
-            {
-                variableParametersName[i] = dataGridViewVariableParameters[1, i].Value.ToString();
-                variableParametersValue[i] = Convert.ToDouble(dataGridViewVariableParameters[2, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
-            }
-            //_defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
-            UpdateDiagramData();
-            MakeGraphic();
-        }
-
         private void UpdateDiagramData()
         {
             var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
@@ -387,13 +381,13 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     dataGridViewDefenceDiagramDown[0, i].Value = i;
                     dataGridViewDefenceDiagramDown[1, i].Value = Math.Round(defenceDiagramSettingsVm.vVeight[i], 3);
-                    dataGridViewDefenceDiagramDown[2, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzVeightDown[i], 3);
+                    dataGridViewDefenceDiagramDown[2, i].Value = Math.Round(defenceDiagramSettingsVm.hzVeightDown[i], 3);
                     dataGridViewDefenceDiagramDown[3, i].Value = Math.Round(defenceDiagramSettingsVm.vPeople[i], 3);
-                    dataGridViewDefenceDiagramDown[4, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzPeopleDown[i], 3);
+                    dataGridViewDefenceDiagramDown[4, i].Value = Math.Round(defenceDiagramSettingsVm.hzPeopleDown[i], 3);
                     dataGridViewDefenceDiagramDown[5, i].Value = Math.Round(defenceDiagramSettingsVm.vEquipment[i], 3);
-                    dataGridViewDefenceDiagramDown[6, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzEquipmentDown[i], 3);
+                    dataGridViewDefenceDiagramDown[6, i].Value = Math.Round(defenceDiagramSettingsVm.hzEquipmentDown[i], 3);
                     dataGridViewDefenceDiagramDown[7, i].Value = Math.Round(defenceDiagramSettingsVm.vRevision[i], 3);
-                    dataGridViewDefenceDiagramDown[8, i].Value = Math.Round(_mineConfig.MainViewConfig.Border.Value - defenceDiagramSettingsVm.hzRevision[i], 3);
+                    dataGridViewDefenceDiagramDown[8, i].Value = Math.Round(defenceDiagramSettingsVm.hzRevision[i], 3);
                     dataGridViewDefenceDiagramUp[0, i].Value = i;
                     dataGridViewDefenceDiagramUp[1, i].Value = Math.Round(defenceDiagramSettingsVm.vVeight[i], 3);
                     dataGridViewDefenceDiagramUp[2, i].Value = Math.Round(defenceDiagramSettingsVm.hzVeightUp[i], 3);
@@ -404,6 +398,10 @@ namespace VisualizationSystem.View.UserControls.Setting
                     dataGridViewDefenceDiagramUp[7, i].Value = Math.Round(defenceDiagramSettingsVm.vRevision[i], 3);
                     dataGridViewDefenceDiagramUp[8, i].Value = Math.Round(defenceDiagramSettingsVm.hzRevision[i], 3);
                 }
+            }
+            else if (defenceDiagramSettingsVm.HzCrossHkDown == 1 || defenceDiagramSettingsVm.HzCrossHkUp == 1)
+            {
+                MessageBox.Show("Защитная диаграмма пересекается с критической!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
 
@@ -417,8 +415,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             else
             {
                 var plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
-                this.tabControl1.TabPages[2].Controls.Clear();
-                this.tabControl1.TabPages[2].Controls.Add(plotDefenceDiagram);
+                this.tabControl1.TabPages[3].Controls.Clear();
+                this.tabControl1.TabPages[3].Controls.Add(plotDefenceDiagram);
                 //Legend
                 plotDefenceDiagram.Model.PlotType = PlotType.XY;
                 //plotDefenceDiagram.Model.LegendTitle = "Legend";
@@ -472,5 +470,148 @@ namespace VisualizationSystem.View.UserControls.Setting
                 plotDefenceDiagram.Model.Series.Add(s4);
             }
         }
+
+        private void DefenceDiagramComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_plotDefenceDiagram != null)
+                _plotDefenceDiagram.Dispose();
+            _plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+            this.splitContainerDefenceDiagram.Panel2.Controls.Clear();
+            this.splitContainerDefenceDiagram.Panel2.Controls.Add(_plotDefenceDiagram);
+            MakeSolvedDiagramGraphic();
+        }
+
+        private void MakeSolvedDiagramGraphic()
+        {
+            SelectDataToDiagram();
+            var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
+            if (defenceDiagramSettingsVm.HzCrossHkDown == 1 || defenceDiagramSettingsVm.HzCrossHkUp == 1)
+            {
+                MessageBox.Show("Защитная диаграмма пересекается с критической!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                //Legend
+                _plotDefenceDiagram.Model.PlotType = PlotType.XY;
+                //plotDefenceDiagram.Model.LegendTitle = "Legend";
+                _plotDefenceDiagram.Model.LegendOrientation = LegendOrientation.Horizontal;
+                _plotDefenceDiagram.Model.LegendPlacement = LegendPlacement.Outside;
+                _plotDefenceDiagram.Model.LegendPosition = LegendPosition.TopRight;
+                _plotDefenceDiagram.Model.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
+                _plotDefenceDiagram.Model.LegendBorder = OxyColors.Gray;
+                //Axis
+                var xAxis = new LinearAxis(AxisPosition.Bottom, 0)
+                {
+                    MajorGridlineStyle = LineStyle.Solid,
+                    MinorGridlineStyle = LineStyle.Dot,
+                    Title = "Путь (м)",
+                    Minimum = _selectedHz[0],
+                    Maximum = -_mineConfig.MainViewConfig.BorderZero.Value
+                };
+                _plotDefenceDiagram.Model.Axes.Add(xAxis);
+                var yAxis = new LinearAxis(AxisPosition.Left, 0)
+                {
+                    MajorGridlineStyle = LineStyle.Solid,
+                    MinorGridlineStyle = LineStyle.Dot,
+                    Title = "Скорость (м/с)",
+                    Minimum = 0,
+                    Maximum = 1.2 * Convert.ToDouble(_selectedV[0], CultureInfo.GetCultureInfo("en-US"))
+                };
+                _plotDefenceDiagram.Model.Axes.Add(yAxis);
+                // Create Line series
+                var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Red };
+                for (int i = 0; i < _points; i++)
+                {
+                    s1.Points.Add(new DataPoint(_selectedHz[i], _selectedV[i]));
+                }
+                // add Series and Axis to plot model
+                _plotDefenceDiagram.Model.Series.Add(s1);
+            }
+        }
+
+        private void SelectDataToDiagram()
+        {
+            var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
+            int index = DefenceDiagramComboBox.SelectedIndex;
+            switch (index)
+            {
+                case 0:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vVeight[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzVeightUp[i];
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vPeople[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzPeopleUp[i];
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vEquipment[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzEquipmentUp[i];
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vRevision[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzRevision[i];
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vVeight[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzVeightDown[i];
+                    }
+                    break;
+                case 5:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vPeople[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzPeopleDown[i];
+                    }
+                    break;
+                case 6:
+                    for (int i = 0; i < _points; i++)
+                    {
+                        _selectedV[i] = defenceDiagramSettingsVm.vEquipment[i];
+                        _selectedHz[i] = defenceDiagramSettingsVm.hzEquipmentDown[i];
+                    }
+                    break;
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
+            {
+                variableParametersName[i] = dataGridViewVariableParameters[1, i].Value.ToString();
+                variableParametersValue[i] = Convert.ToDouble(dataGridViewVariableParameters[2, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
+            }
+            int index = tabControl1.SelectedIndex;
+            switch (index)
+            {
+                case 0:
+                    break;
+                case 1:
+                    UpdateDiagramData();
+                    break;
+                case 2:
+                    _plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+                    this.splitContainerDefenceDiagram.Panel2.Controls.Add(_plotDefenceDiagram);
+                    MakeSolvedDiagramGraphic();
+                    break;
+                case 3:
+                    MakeGraphic();
+                    break;
+            }
+        }
+
     }
 }
