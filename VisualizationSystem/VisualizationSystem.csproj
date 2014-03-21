@@ -138,6 +138,12 @@
     <Compile Include="View\Forms\Setting\FormAddParameterSettings.Designer.cs">
       <DependentUpon>FormAddParameterSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Forms\Setting\FormChooseDefenceDiagramSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\Setting\FormChooseDefenceDiagramSettings.Designer.cs">
+      <DependentUpon>FormChooseDefenceDiagramSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Forms\Setting\FormCodtDomainSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -250,6 +256,9 @@
     <EmbeddedResource Include="View\Forms\Setting\FormAddParameterSettings.resx">
       <DependentUpon>FormAddParameterSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\Setting\FormChooseDefenceDiagramSettings.resx">
+      <DependentUpon>FormChooseDefenceDiagramSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Forms\Setting\FormCodtDomainSettings.resx">
       <DependentUpon>FormCodtDomainSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -299,6 +308,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Files\solvedddpoints.prm" />
     <None Include="Files\solveddparam.prm" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -69,6 +69,7 @@
             this.splitContainerDefenceDiagram = new System.Windows.Forms.SplitContainer();
             this.DefenceDiagramComboBox = new System.Windows.Forms.ComboBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonSavePoints = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -188,6 +189,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.buttonSavePoints);
             this.splitContainer2.Panel2.Controls.Add(this.buttonSaveParameters);
             this.splitContainer2.Size = new System.Drawing.Size(356, 384);
             this.splitContainer2.SplitterDistance = 117;
@@ -517,6 +519,21 @@
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Диаграммы";
             // 
+            // buttonSavePoints
+            // 
+            this.buttonSavePoints.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonSavePoints.FlatAppearance.BorderSize = 0;
+            this.buttonSavePoints.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSavePoints.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSavePoints.ForeColor = System.Drawing.Color.Silver;
+            this.buttonSavePoints.Location = new System.Drawing.Point(57, 72);
+            this.buttonSavePoints.Name = "buttonSavePoints";
+            this.buttonSavePoints.Size = new System.Drawing.Size(233, 35);
+            this.buttonSavePoints.TabIndex = 6;
+            this.buttonSavePoints.Text = "Сохранить диаграммы";
+            this.buttonSavePoints.UseVisualStyleBackColor = false;
+            this.buttonSavePoints.Click += new System.EventHandler(this.buttonSavePoints_Click);
+            // 
             // SolveDefenceDiagramSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -594,5 +611,6 @@
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.SplitContainer splitContainerDefenceDiagram;
         private System.Windows.Forms.ComboBox DefenceDiagramComboBox;
+        private System.Windows.Forms.Button buttonSavePoints;
     }
 }

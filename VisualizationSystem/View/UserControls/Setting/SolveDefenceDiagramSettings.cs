@@ -32,7 +32,8 @@ namespace VisualizationSystem.View.UserControls.Setting
         private double calculatedWayPeople = 0;
         private double dotWayVeightAndEquipment = 0;
         private double dotWayPeople = 0;
-        private string SolveDefDiagramParametersFilePath = "../../solveddparam.prm";
+        private string SolveDefDiagramParametersFilePath = "../../Files/solveddparam.prm";
+        private string SolvedDefDiagramPointsFilePath = "../../Files/solvedddpoints.prm";
         private OxyPlot.WindowsForms.Plot _plotDefenceDiagram;
         public double[] _selectedV;
         public double[] _selectedHz;
@@ -107,7 +108,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             dataGridViewReadOnlyParameters[2, 3].Value = Math.Round(dotWayPeople, 2);
         }
 
-        public void WriteParamToFile(string path)
+        private void WriteParamToFile(string path)
         {
             try
             {
@@ -124,7 +125,48 @@ namespace VisualizationSystem.View.UserControls.Setting
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
-        public void ReadParamFromFile(string path)
+        private void WritePointsToFile(string path)
+        {
+            var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                string Line;
+                Line = @"Тахограмма ""груз""";
+                sw.WriteLine(Line);
+                for (int i = 0; i < _points; i++)
+                {
+                    Line = Math.Round(defenceDiagramSettingsVm.hzVeightUp[i], 3).ToString(CultureInfo.GetCultureInfo("en-US")) + "[$]" + Math.Round(defenceDiagramSettingsVm.vVeight[i], 3).ToString(CultureInfo.GetCultureInfo("en-US"));
+                    sw.WriteLine(Line);
+                }
+                Line = @"Тахограмма ""люди""";
+                sw.WriteLine(Line);
+                for (int i = 0; i < _points; i++)
+                {
+                    Line = Math.Round(defenceDiagramSettingsVm.hzPeopleUp[i], 3).ToString(CultureInfo.GetCultureInfo("en-US")) + "[$]" + Math.Round(defenceDiagramSettingsVm.vPeople[i], 3).ToString(CultureInfo.GetCultureInfo("en-US"));
+                    sw.WriteLine(Line);
+                }
+                Line = @"Тахограмма ""оборудование""";
+                sw.WriteLine(Line);
+                for (int i = 0; i < _points; i++)
+                {
+                    Line = Math.Round(defenceDiagramSettingsVm.hzEquipmentUp[i], 3).ToString(CultureInfo.GetCultureInfo("en-US")) + "[$]" + Math.Round(defenceDiagramSettingsVm.vEquipment[i], 3).ToString(CultureInfo.GetCultureInfo("en-US"));
+                    sw.WriteLine(Line);
+                }
+                Line = @"Тахограмма ""ревизия""";
+                sw.WriteLine(Line);
+                for (int i = 0; i < _points; i++)
+                {
+                    Line = Math.Round(defenceDiagramSettingsVm.hzRevision[i], 3).ToString(CultureInfo.GetCultureInfo("en-US")) + "[$]" + Math.Round(defenceDiagramSettingsVm.vRevision[i], 3).ToString(CultureInfo.GetCultureInfo("en-US"));
+                    sw.WriteLine(Line);
+                }
+                sw.Close();
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void ReadParamFromFile(string path)
         {
             variableParametersName.Clear();
             variableParametersValue.Clear();
@@ -611,6 +653,16 @@ namespace VisualizationSystem.View.UserControls.Setting
                     MakeGraphic();
                     break;
             }
+        }
+
+        private void buttonSavePoints_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewVariableParameters.RowCount; i++)
+            {
+                variableParametersName[i] = dataGridViewVariableParameters[1, i].Value.ToString();
+                variableParametersValue[i] = Convert.ToDouble(dataGridViewVariableParameters[2, i].Value, CultureInfo.GetCultureInfo("en-US")).ToString(CultureInfo.GetCultureInfo("en-US"));
+            }
+            WritePointsToFile(SolvedDefDiagramPointsFilePath);
         }
 
     }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using ML.ConfigSettings.Services;
 using OxyPlot;
@@ -19,6 +22,12 @@ namespace VisualizationSystem.View.Forms.Setting
         private OxyPlot.WindowsForms.Plot plotDefenceDiagram;
         private const int EndOfArray = 2147483647;
         private List<ParametersSettingsData> _parametersSettings;
+        private string SolvedDefDiagramPointsFilePath = "../../Files/solvedddpoints.prm";
+        private int _points = 20;
+        private int _diagramCount = 4;
+        private List<List<string>> _solvedHz;
+        private List<List<string>> _solvedV;
+        private List<string> _diagramName;
         public FormCodtDomainSettings()
         {
             InitializeComponent();
@@ -38,11 +47,24 @@ namespace VisualizationSystem.View.Forms.Setting
             plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
             MakeGraphic();
+            _solvedHz = new List<List<string>>();
+            _solvedV = new List<List<string>>();
+            _diagramName = new List<string>();
+            InitSlovedHzAndVLists();
         }
 
         private void FormCodtDomainSettings_Load(object sender, EventArgs e)
         {
+            
+        }
 
+        private void InitSlovedHzAndVLists()
+        {
+            for (int i = 0; i < _diagramCount; i++)
+            {
+                _solvedHz.Add(new List<string>());
+                _solvedV.Add(new List<string>());
+            }
         }
 
         private void LoadDataFromList(CodtDomainData[] codtDomainDatas )
@@ -195,6 +217,94 @@ namespace VisualizationSystem.View.Forms.Setting
                 .SetParameter(controllerId,(ushort)_index, 0x02, data.ToArray());
         }
 
+        private void toolStripButtonLoadSolvedDefDiagram_Click(object sender, EventArgs e)
+        {
+            ReadSolvedDiagramFromFile(SolvedDefDiagramPointsFilePath);
+            var formChooseDefenceDiagram = new FormChooseDefenceDiagramSettings(_diagramName) { StartPosition = FormStartPosition.CenterParent };
+            formChooseDefenceDiagram.ShowDialog();
+            if (formChooseDefenceDiagram.SelectedIndex >= 0)
+            {
+                WriteSolvedDiagramToTable(formChooseDefenceDiagram.SelectedIndex);
+                plotDefenceDiagram.Dispose();
+                plotDefenceDiagram = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+                this.splitContainer2.Panel2.Controls.Add(plotDefenceDiagram);
+                MakeGraphic();
+            }
+            formChooseDefenceDiagram.Dispose();
+        }
+
+        private void ReadSolvedDiagramFromFile(string path)
+        {
+            for (int i = 0; i < _diagramCount; i++)
+            {
+                _solvedHz[i].Clear();
+                _solvedV[i].Clear();
+            }
+            _diagramName.Clear();
+            for (int i = 0; i < _diagramCount; i++)
+            {
+                _solvedHz[i] = new List<string>();
+                _solvedV[i] = new List<string>();
+            }
+            _diagramName = new List<string>();
+            string Line;
+            string[] strArr;
+            int k = 0;
+            int diagNum = 0;
+            string index;
+            FileStream fs = new FileStream(path, FileMode.Open);
+            StreamReader sr = new StreamReader(fs, Encoding.UTF8);
+            while (sr.EndOfStream != true)
+            {
+                Line = sr.ReadLine();
+                k++;
+                //if(Line=="")
+                //break;
+                Line = Line.TrimEnd(' ');
+                if ((k == 1) || (k == _points + 2) || (k == _points*2 + 3) || (k == _points*3 + 4))
+                {
+                    _diagramName.Add(Line.Trim());
+                    diagNum++;
+                }
+                else
+                {
+                    string[] separator = new string[] { "[$]" };
+                    strArr = Line.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < strArr.Length; i++)
+                    {
+                        if (i == 0)
+                        {
+                            _solvedHz[diagNum-1].Add(strArr[i].Trim());
+                        }
+                        else if (i == 1)
+                        {
+                            _solvedV[diagNum-1].Add(strArr[i].Trim());
+                        }
+                    }
+                }
+            }
+            sr.Close();
+        }
+
+        private void WriteSolvedDiagramToTable(int diagNum)
+        {
+            dataGridView1.RowCount = _solvedHz[diagNum].Count();
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                if (i == dataGridView1.RowCount - 1)
+                {
+                    dataGridView1[0, i].Value = i;
+                    dataGridView1[1, i].Value = Convert.ToDouble(_solvedHz[diagNum][i], CultureInfo.GetCultureInfo("en-US"));
+                    dataGridView1[2, i].Value = Convert.ToDouble(_solvedV[diagNum][i], CultureInfo.GetCultureInfo("en-US")) * 1000;
+                }
+                else
+                {
+                    dataGridView1[0, i].Value = i;
+                    dataGridView1[1, i].Value = Convert.ToDouble(_solvedHz[diagNum][i], CultureInfo.GetCultureInfo("en-US")) * 1000;
+                    dataGridView1[2, i].Value = Convert.ToDouble(_solvedV[diagNum][i], CultureInfo.GetCultureInfo("en-US")) * 1000;
+                }
+            }
+        }
 
     }
 }

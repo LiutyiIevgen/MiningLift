@@ -32,6 +32,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonLoadSolvedDefDiagram = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,7 +71,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonLoad});
+            this.toolStripButtonLoad,
+            this.toolStripButtonLoadSolvedDefDiagram});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(930, 25);
@@ -86,6 +88,16 @@
             this.toolStripButtonLoad.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonLoad.Text = "Загрузка таблицы в контроллер";
             this.toolStripButtonLoad.Click += new System.EventHandler(this.toolStripButtonLoad_Click);
+            // 
+            // toolStripButtonLoadSolvedDefDiagram
+            // 
+            this.toolStripButtonLoadSolvedDefDiagram.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonLoadSolvedDefDiagram.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadSolvedDefDiagram.Image")));
+            this.toolStripButtonLoadSolvedDefDiagram.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadSolvedDefDiagram.Name = "toolStripButtonLoadSolvedDefDiagram";
+            this.toolStripButtonLoadSolvedDefDiagram.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonLoadSolvedDefDiagram.Text = "Вычитать расчитанную защитную диаграмму";
+            this.toolStripButtonLoadSolvedDefDiagram.Click += new System.EventHandler(this.toolStripButtonLoadSolvedDefDiagram_Click);
             // 
             // splitContainer2
             // 
@@ -170,5 +182,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonLoad;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLoadSolvedDefDiagram;
     }
 }
