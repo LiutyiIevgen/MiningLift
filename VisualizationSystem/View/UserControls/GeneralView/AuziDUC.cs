@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,10 +20,19 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         public AuziDUC()
         {
             InitializeComponent();
+            DoubleBuffered(dataGridViewControllerParameters, true);
             CreateAuziDIOSignalsMassiv();
             _mineConfig = IoC.Resolve<MineConfig>();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
             _auziDControllerParametersVm = new AuziDControllerParametersVm();
+        }
+
+        public void DoubleBuffered(DataGridView dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                  BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
         }
 
         public void Refresh(Parameters parameters)
@@ -42,6 +52,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 }
             });
         }
+
         public void UpdateAuziDControllerParameters(List<Parameters> parameters)
         {
             var dataList = _auziDControllerParametersVm.GetDataList(parameters);

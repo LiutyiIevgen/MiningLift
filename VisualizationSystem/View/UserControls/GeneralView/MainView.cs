@@ -91,6 +91,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 _cepTpUc.Refresh(parameters); 
                 _auziDUc.Refresh(parameters);
+                UpdateDefenceDiagramRegimIndication(parameters);
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
@@ -128,10 +129,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         #region ViewModel binding
 
-
-        
-
-        
 
         private void UpdateLeftPanel(Parameters parameters)
         {
@@ -452,6 +449,20 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
         }
         #endregion
+
+        private void UpdateDefenceDiagramRegimIndication(Parameters parameters)
+        {
+            if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
+                labelDefenceDiagramRegim.Text = @"Режим ""оборудование""";
+            else if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
+                labelDefenceDiagramRegim.Text = @"Режим ""люди""";
+            else if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.On)
+                labelDefenceDiagramRegim.Text = @"Режим ""груз""";
+            else if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.On)
+                labelDefenceDiagramRegim.Text = @"Режим ""ревизия""";
+            else
+                labelDefenceDiagramRegim.Text = "Режим";
+        }
 
         private LeftPanelVm _leftPanelVm;
         private RightPanelVm _rightPanelVm;
