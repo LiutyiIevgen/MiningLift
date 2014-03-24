@@ -452,16 +452,19 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private void UpdateDefenceDiagramRegimIndication(Parameters parameters)
         {
-            if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
-                labelDefenceDiagramRegim.Text = @"Режим ""оборудование""";
-            else if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
-                labelDefenceDiagramRegim.Text = @"Режим ""люди""";
-            else if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.On)
-                labelDefenceDiagramRegim.Text = @"Режим ""груз""";
-            else if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.On)
-                labelDefenceDiagramRegim.Text = @"Режим ""ревизия""";
-            else
-                labelDefenceDiagramRegim.Text = "Режим";
+             this.Invoke((MethodInvoker)delegate
+            {
+                if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.On)
+                    labelDefenceDiagramRegim.Text = @"Режим ""оборудование""";
+                else if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.On)
+                    labelDefenceDiagramRegim.Text = @"Режим ""люди""";
+                else if (parameters.AuziDIOSignalsState[3] == AuziDState.On && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
+                    labelDefenceDiagramRegim.Text = @"Режим ""груз""";
+                else if (parameters.AuziDIOSignalsState[3] == AuziDState.Off && parameters.AuziDIOSignalsState[4] == AuziDState.Off)
+                    labelDefenceDiagramRegim.Text = @"Режим ""ревизия""";
+                else
+                    labelDefenceDiagramRegim.Text = "Режим";
+            });
         }
 
         private LeftPanelVm _leftPanelVm;
