@@ -525,7 +525,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void MakeSolvedDiagramGraphic()
         {
-            SelectDataToDiagram();
+            var selectedIndex = SelectDataToDiagram();
             var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
             if (defenceDiagramSettingsVm.HzCrossHkDown == 1 || defenceDiagramSettingsVm.HzCrossHkUp == 1)
             {
@@ -550,6 +550,11 @@ namespace VisualizationSystem.View.UserControls.Setting
                     Minimum = _selectedHz[0],
                     Maximum = -_mineConfig.MainViewConfig.BorderZero.Value
                 };
+                if (selectedIndex > 3)
+                {
+                    xAxis.Minimum = -_mineConfig.MainViewConfig.Border.Value;
+                    xAxis.Maximum = _selectedHz[0];
+                }
                 _plotDefenceDiagram.Model.Axes.Add(xAxis);
                 var yAxis = new LinearAxis(AxisPosition.Left, 0)
                 {
@@ -571,7 +576,7 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
         }
 
-        private void SelectDataToDiagram()
+        private int SelectDataToDiagram()
         {
             var defenceDiagramSettingsVm = new DefenceDiagramSettingsVm(variableParametersValue);
             int index = DefenceDiagramComboBox.SelectedIndex;
@@ -627,6 +632,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                     }
                     break;
             }
+            return index;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
