@@ -70,7 +70,7 @@ namespace ML.ConfigSettings.Services
             };
             ParametersConfig = new ParametersConfigSection()
             {
-                ParametersFileName = "c:/Users/Женя/Documents/Work/MiningLift/ParametersFiles"
+                ParametersFileName = "c:\\Users\\Женя\\Documents\\Work\\MiningLift\\ParametersFiles"
             };
         }
 
