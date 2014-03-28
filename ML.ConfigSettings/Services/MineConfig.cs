@@ -3,66 +3,86 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Model.Settings;
 
 namespace ML.ConfigSettings.Services
 {
-    public class MineConfig
+    public class MineConfig : AbstractConfig<MineConfig>
     {
-        private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        public string CanName { get; set; }
+        public int CanSpeed { get; set; }
+        public int LeadingController { get; set; }
+        public MainViewConfigSection MainViewConfig { get; set; }
+        public AuziDSignalsConfigSection AuziDSignalsConfig { get; set; }
+        public ParametersConfigSection ParametersConfig { get; set; }
 
-        public string CanName
+        protected override MineConfig GetObject()
         {
-            get { return _config.AppSettings.Settings["CanName"].Value; }
-            set
-            {
-               _config.AppSettings.Settings["CanName"].Value = value; 
-                _config.Save(ConfigurationSaveMode.Modified);
-            }
-        }
-        public int CanSpeed
-        {
-            get { return int.Parse(_config.AppSettings.Settings["CanSpeed"].Value); }
-            set
-            {
-                _config.AppSettings.Settings["CanSpeed"].Value = value.ToString();
-                _config.Save(ConfigurationSaveMode.Modified);
-            }
+            return this;
         }
 
-        private int? _leadingController = null;
-        public int LeadingController
+        protected override void GetDefault()
         {
-            get
+
+            CanName = "CAN1";
+            CanSpeed = 250;
+            LeadingController = 1;
+            MainViewConfig = new MainViewConfigSection()
             {
-                _leadingController = _leadingController ?? int.Parse(_config.AppSettings.Settings["LeadingController"].Value);
-                return (int) _leadingController;
-            }
-            set
+                MaxSpeed = new SimpleParameter() {Value = 12},
+                MaxDopRuleSpeed = new SimpleParameter() {Value = 2},
+                MaxTokAnchor = new SimpleParameter() {Value = 4},
+                MaxTokExcitation = new SimpleParameter() {Value = 200},
+                Distance = new SimpleParameter() {Value = 300},
+                BorderRed = new SimpleParameter() {Value = 0.5},
+                UpZeroZone = new SimpleParameter() {Value = 10},
+                BorderZero = new SimpleParameter() {Value = -50},
+                Border = new SimpleParameter() {Value = 250},
+                LeftSosud = SosudType.Skip,
+                RightSosud = SosudType.Skip,
+                ArchiveState = ArchiveState.Inactive
+            };
+            AuziDSignalsConfig = new AuziDSignalsConfigSection()
             {
-                _config.AppSettings.Settings["LeadingController"].Value = value.ToString();
-                _leadingController = value;
-                _config.Save(ConfigurationSaveMode.Modified);
-            }
+                AddedSignals =
+                    new string[]
+                    {
+                        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "8", "9", "10", "11", "12", "13", "14", "15",
+                        "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "72", "73",
+                        "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87"
+                    },
+                SignalsNames =
+                    new string[]
+                    {
+                        "РСВ", "РСН", "ВККВ", "ВККН", "ВЗВ", "ВЗН", "-", "Prepare", "1РЗ", "1ТП", "1СКАР", "2СКАР", "3СКАР",
+                        "РРМ", "-", "КнПуск", "ПОВ", "ПОН", "-", "РЗП", "-", "-", "-", "-", "Ревизия", "Автомат",
+                        "Ручной", "РО", "РОл", "-", "-", "-", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41",
+                        "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57",
+                        "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "РТР", "РС2",
+                        "НЗ", "SQ19", "SQ38", "РС3", "Готовн.", "РС1", "SQ2", "SQ8", "SQ9", "SQ7", "SQ11',SQ12", "SQ18",
+                        "-", "SQ21", "SQ29", "SQ30", "SQ34", "SQ32", "SQ33", "SQ25", "-", "РЗВ", "-", "-", "-", "-", "-",
+                        "-", "-", "РМЗ", "РПС", "РСД", "РПН", "РПВ", "РГЗ", "РТД", "РВД", "112", "113", "114", "115",
+                        "116", "117", "118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129",
+                        "130", "131", "132", "133", "134", "135", "136", "137", "138", "139", "140", "141", "142", "143",
+                        "144"
+                    }
+            };
+            ParametersConfig = new ParametersConfigSection()
+            {
+                ParametersFileName = "c:/Users/Женя/Documents/Work/MiningLift/ParametersFiles"
+            };
         }
-        private MainViewConfigSection _mainViewConfig;
-        public MainViewConfigSection MainViewConfig
+
+        protected override void CopyObject(MineConfig config)
         {
-            get { return _mainViewConfig ?? (_mainViewConfig = (MainViewConfigSection)_config.GetSection("MainView")); }
+            CanName = config.CanName;
+            CanSpeed = config.CanSpeed;
+            LeadingController = config.LeadingController;
+            MainViewConfig = config.MainViewConfig;
+            AuziDSignalsConfig = config.AuziDSignalsConfig;
+            ParametersConfig = config.ParametersConfig;
         }
-        private AuziDSignalsConfigSection _auziDSignalsConfig;
-        public AuziDSignalsConfigSection AuziDSignalsConfig
-        {
-            get { return _auziDSignalsConfig ?? (_auziDSignalsConfig = (AuziDSignalsConfigSection)_config.GetSection("AuziDSignals")); }
-        }
-        private ParametersConfigSection _parametersConfig;
-        public ParametersConfigSection ParametersConfig
-        {
-            get { return _parametersConfig ?? (_parametersConfig = (ParametersConfigSection)_config.GetSection("Parameters")); }
-        }
-        ~MineConfig()
-        {
-            _config.Save(ConfigurationSaveMode.Modified);
-        }
+
     }
 }

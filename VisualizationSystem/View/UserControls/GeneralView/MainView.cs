@@ -467,6 +467,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
+
         private LeftPanelVm _leftPanelVm;
         private RightPanelVm _rightPanelVm;
         private LeftDopPanelVm _leftDopPanelVm;

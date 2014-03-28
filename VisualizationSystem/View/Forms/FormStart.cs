@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using ML.ConfigSettings.Services;
 using ML.DataRepository.Models.GenericRepository;
+using VisualizationSystem.Model;
 using VisualizationSystem.View.UserControls;
 using VisualizationSystem.View.UserControls.GeneralView;
 
@@ -12,8 +14,17 @@ namespace VisualizationSystem.View.Forms
         { 
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            InitializeComponent();    
+            InitializeComponent();
+            var MineCon = IoC.Resolve<MineConfig>();
+            MineCon.Load();
+            MineCon.Save();
         }
+
+       /* ~FormStart()
+        {
+            var MineCon = IoC.Resolve<MineConfig>();
+            MineCon.Save();
+        } */
 
         private void Form1_Load(object sender, EventArgs e)
         {

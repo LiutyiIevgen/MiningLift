@@ -6,15 +6,9 @@ using System.Text;
 
 namespace ML.ConfigSettings.Model.Settings
 {
-    public class SimpleParameter : ConfigurationElement
+    public class SimpleParameter
     {
-
-        [ConfigurationProperty("value", IsRequired = true)]
-        public double Value
-        {
-            get { return ((double)(this["value"])); }
-            set { this["value"] = value; }
-        }
+        public double Value { get; set; }
 
     }
 }

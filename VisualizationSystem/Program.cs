@@ -26,5 +26,6 @@ namespace VisualizationSystem
             Application.Run(new FormStart());
 
         }
+
     }
 }

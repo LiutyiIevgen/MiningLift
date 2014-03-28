@@ -22,6 +22,12 @@ namespace VisualizationSystem.Model
             _dataExchange = IoC.Resolve<IDataExchange>(new ConstructorArgument("mineConfig",IoC.Resolve<MineConfig>()));
         }
 
+        ~DataListener()
+        {
+            var MineCon = IoC.Resolve<MineConfig>();
+            MineCon.Save();
+        }
+
         public void Init(ReceiveHandler Function)
         {
             _dataExchange.ReceiveEvent += Function;
@@ -32,8 +38,7 @@ namespace VisualizationSystem.Model
                 _dataExchange.StartExchange(IoC.Resolve<MineConfig>().CanName,
                     IoC.Resolve<MineConfig>().CanSpeed, new ComCANIO());
             //_dataExchange.StartExchange("COM7",50, new ComCANIO());
-            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");
-            
+            //_dataExchange.StartExchange("myNonPersisterMemoryMappedFile");         
         }
 
         public void SetReceiveFunction(ReceiveHandler Function)
