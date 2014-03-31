@@ -26,6 +26,9 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 if (parameters == null)
                 {
+                    pdataList[0][j] = "";
+                    pdataList[1][j] = "";
+                    pdataList[2][j] = "";
                     j++;
                     continue;
                 }
