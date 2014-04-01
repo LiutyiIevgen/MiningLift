@@ -37,7 +37,7 @@ namespace ML.DataExchange
                         continue;
                     if (parametersList[i] == null || parametersList[j] == null)
                         errorCounter[i]++;
-                    else if(parametersList[i].s < parametersList[j].s - _dS || parametersList[i].s > parametersList[j].s + _dS)
+                    else if (parametersList[i].s < parametersList[j].s - _config.MaxDopMismatch || parametersList[i].s > parametersList[j].s + _config.MaxDopMismatch)
                         errorCounter[i]++;
                 }
             if (errorCounter.All(e => e == 2)) //mistake
@@ -192,7 +192,7 @@ namespace ML.DataExchange
             return 0;
         }
 
-        private double _dS = 10; //m
+        //private double _dS = 10; //m
         private MineConfig _config;
     }
 }

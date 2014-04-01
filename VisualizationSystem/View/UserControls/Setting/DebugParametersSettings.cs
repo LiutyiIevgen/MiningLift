@@ -18,11 +18,13 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             InitializeComponent();
             textBoxLeadController.Text = IoC.Resolve<MineConfig>().LeadingController.ToString();
+            textBoxMaxDopMismatch.Text = IoC.Resolve<MineConfig>().MaxDopMismatch.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             IoC.Resolve<MineConfig>().LeadingController = Convert.ToInt32(textBoxLeadController.Text);
+            IoC.Resolve<MineConfig>().MaxDopMismatch = Convert.ToInt32(textBoxMaxDopMismatch.Text);
         }
     }
 }

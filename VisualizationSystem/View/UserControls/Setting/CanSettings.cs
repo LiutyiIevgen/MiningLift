@@ -17,19 +17,24 @@ namespace VisualizationSystem.View.UserControls.Setting
         public CanSettings()
         {
             InitializeComponent();
+            _mineConfig = IoC.Resolve<MineConfig>();
         }
 
         private void CanSettings_Load(object sender, EventArgs e)
         {
-            textBox1.Text = IoC.Resolve<MineConfig>().CanName;
-            comboBoxCanSpeed.Text = IoC.Resolve<MineConfig>().CanSpeed.ToString();
+            textBox1.Text = _mineConfig.CanName;
+            comboBoxCanSpeed.Text = _mineConfig.CanSpeed.ToString();
+            textBoxReceiveDataDelay.Text = _mineConfig.ReceiveDataDelay.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            IoC.Resolve<MineConfig>().CanName = textBox1.Text;
-            IoC.Resolve<MineConfig>().CanSpeed = Convert.ToInt32(comboBoxCanSpeed.Text);
+            _mineConfig.CanName = textBox1.Text;
+            _mineConfig.CanSpeed = Convert.ToInt32(comboBoxCanSpeed.Text);
+            _mineConfig.ReceiveDataDelay = Convert.ToInt32(textBoxReceiveDataDelay.Text);
             IoC.Resolve<DataListener>().Init(null);
         }
+
+        private MineConfig _mineConfig;
     }
 }

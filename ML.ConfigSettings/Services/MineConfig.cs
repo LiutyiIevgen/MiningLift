@@ -13,6 +13,8 @@ namespace ML.ConfigSettings.Services
         public string CanName { get; set; }
         public int CanSpeed { get; set; }
         public int LeadingController { get; set; }
+        public int ReceiveDataDelay { get; set; } // receive delay in data exchange
+        public int MaxDopMismatch { get; set; } // max correct mismatch in majorization
         public MainViewConfigSection MainViewConfig { get; set; }
         public AuziDSignalsConfigSection AuziDSignalsConfig { get; set; }
         public ParametersConfigSection ParametersConfig { get; set; }
@@ -28,6 +30,8 @@ namespace ML.ConfigSettings.Services
             CanName = "CAN1";
             CanSpeed = 250;
             LeadingController = 1;
+            ReceiveDataDelay = 14;
+            MaxDopMismatch = 10;
             MainViewConfig = new MainViewConfigSection()
             {
                 MaxSpeed = new SimpleParameter() {Value = 12},
@@ -79,6 +83,8 @@ namespace ML.ConfigSettings.Services
             CanName = config.CanName;
             CanSpeed = config.CanSpeed;
             LeadingController = config.LeadingController;
+            ReceiveDataDelay = config.ReceiveDataDelay;
+            MaxDopMismatch = config.MaxDopMismatch;
             MainViewConfig = config.MainViewConfig;
             AuziDSignalsConfig = config.AuziDSignalsConfig;
             ParametersConfig = config.ParametersConfig;

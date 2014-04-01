@@ -31,13 +31,16 @@
             this.textBoxLeadController = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxMaxDopMismatch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxLeadController
             // 
             this.textBoxLeadController.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBoxLeadController.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxLeadController.Location = new System.Drawing.Point(397, 60);
+            this.textBoxLeadController.Location = new System.Drawing.Point(402, 60);
             this.textBoxLeadController.Name = "textBoxLeadController";
             this.textBoxLeadController.Size = new System.Drawing.Size(82, 22);
             this.textBoxLeadController.TabIndex = 8;
@@ -68,11 +71,46 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label4.Location = new System.Drawing.Point(490, 120);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(25, 22);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "м";
+            // 
+            // textBoxMaxDopMismatch
+            // 
+            this.textBoxMaxDopMismatch.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxMaxDopMismatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxMaxDopMismatch.Location = new System.Drawing.Point(402, 120);
+            this.textBoxMaxDopMismatch.Name = "textBoxMaxDopMismatch";
+            this.textBoxMaxDopMismatch.Size = new System.Drawing.Size(82, 22);
+            this.textBoxMaxDopMismatch.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(112, 106);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(256, 44);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Максимально допустимое \r\nрассогласование";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // DebugParametersSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBoxMaxDopMismatch);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxLeadController);
             this.Controls.Add(this.label3);
@@ -88,5 +126,8 @@
         private System.Windows.Forms.TextBox textBoxLeadController;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxMaxDopMismatch;
+        private System.Windows.Forms.Label label1;
     }
 }
