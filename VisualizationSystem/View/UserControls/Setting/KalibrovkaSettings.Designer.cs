@@ -350,6 +350,7 @@
             this.buttonReadAll.TabIndex = 32;
             this.buttonReadAll.Text = "Вычитать";
             this.buttonReadAll.UseVisualStyleBackColor = false;
+            this.buttonReadAll.Click += new System.EventHandler(this.buttonReadAll_Click);
             // 
             // KalibrovkaSettings
             // 

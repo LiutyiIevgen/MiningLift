@@ -68,6 +68,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void LoadParameter(ushort? controllerId, int index, int subindex) //загрузка
         {
+            _paramSettingsOperation = 1;
             if (controllerId == null) //get Id from user
             {
                 var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
@@ -130,6 +131,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void UnloadParameter(ushort? controllerId, int index,int subindex)//выгрузка
         {
+            _paramSettingsOperation = 1;
             switch (subindex)
             {
                 case 2:
@@ -210,6 +212,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void UnloadDeviceInformation()
         {
+            _paramSettingsOperation = 1;
             var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
             dialog.ShowDialog();
             ushort controllerId;
@@ -229,46 +232,48 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void ParameterReceive(List<CanParameter> parametersList)
         {
-            int i =0;
-            foreach (var canParameter in parametersList)
+            if (_paramSettingsOperation == 1)
             {
-                if (canParameter.Data == null)//parameter was seted
+                int i = 0;
+                foreach (var canParameter in parametersList)
                 {
-                    _isLoaded.Set();
-                    CanParameter parameter = canParameter;
-                    this.Invoke((MethodInvoker)delegate
+                    if (canParameter.Data == null) //parameter was seted
                     {
-                        AddLineToLog("Загружен параметр с индексом " + "0x" +
-                            Convert.ToString(parameter.ParameterId, 16) + ", address = " + 
-                            Convert.ToString(parameter.ControllerId, 16));
-                    });
-                    continue;
-                }
-                if (canParameter.ParameterId == 0x2000)
-                {                 
-                    DeviceInformationParser(canParameter);
-                    _isUnloaded.Set();
-                    return;
-                }
-                switch (canParameter.ParameterSubIndex)
-                {
-                    case (byte)CanSubindexes.Value:
+                        _isLoaded.Set();
+                        CanParameter parameter = canParameter;
+                        this.Invoke((MethodInvoker) delegate
+                        {
+                            AddLineToLog("Загружен параметр с индексом " + "0x" +
+                                         Convert.ToString(parameter.ParameterId, 16) + ", address = " +
+                                         Convert.ToString(parameter.ControllerId, 16));
+                        });
+                        continue;
+                    }
+                    if (canParameter.ParameterId == 0x2000)
+                    {
+                        DeviceInformationParser(canParameter);
                         _isUnloaded.Set();
-                        ValueParser(canParameter);
-                        break;
-                    case (byte)CanSubindexes.Name:
-                        _isUnloaded.Set();
-                        NamePareser(canParameter);
-                        break;
-                    case (byte)CanSubindexes.Type:
-                        _isUnloaded.Set();
-                        TypeParser(canParameter);
-                        break;
+                        return;
+                    }
+                    switch (canParameter.ParameterSubIndex)
+                    {
+                        case (byte) CanSubindexes.Value:
+                            _isUnloaded.Set();
+                            ValueParser(canParameter);
+                            break;
+                        case (byte) CanSubindexes.Name:
+                            _isUnloaded.Set();
+                            NamePareser(canParameter);
+                            break;
+                        case (byte) CanSubindexes.Type:
+                            _isUnloaded.Set();
+                            TypeParser(canParameter);
+                            break;
+                    }
                 }
-                
-                
+                //_paramSettingsOperation = 0;
             }
-            
+
         }
 
         private void ValueParser(CanParameter canParameter)
@@ -599,6 +604,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         EventWaitHandle _isUnloaded = new AutoResetEvent(false);
         EventWaitHandle _isLoaded = new AutoResetEvent(false);
         private int _parametersNumber = 0;
+        private int _paramSettingsOperation = 0; // flag
 
         
 
