@@ -24,6 +24,22 @@ namespace VisualizationSystem.View.UserControls.Setting
             InitializeComponent();
             IoC.Resolve<DataListener>().SetParameterReceive(ParameterReceive);
             unloadThread = new Thread(UnloadAllParameters) { IsBackground = true };
+            checkBoxEdit.CheckState = CheckState.Unchecked;
+            textBoxCounter1_1.ReadOnly = true;
+            textBoxCounter1_2.ReadOnly = true;
+            textBoxCounter1_3.ReadOnly = true;
+            textBoxCounter2_1.ReadOnly = true;
+            textBoxCounter2_2.ReadOnly = true;
+            textBoxCounter2_3.ReadOnly = true;
+            textBoxMS1.ReadOnly = true;
+            textBoxMS2.ReadOnly = true;
+            textBoxMS3.ReadOnly = true;
+            textBoxMV1.ReadOnly = true;
+            textBoxMV2.ReadOnly = true;
+            textBoxMV3.ReadOnly = true;
+            textBoxMA1.ReadOnly = true;
+            textBoxMA2.ReadOnly = true;
+            textBoxMA3.ReadOnly = true;
         }
 
         private void KalibrovkaSettings_Load(object sender, EventArgs e)
@@ -111,6 +127,8 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void WriteDataToTextBox(int index, ushort ControllerId, string value)
         {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
             this.Invoke((MethodInvoker) delegate
             {
                 if (index == startIndex + 1)
@@ -134,12 +152,15 @@ namespace VisualizationSystem.View.UserControls.Setting
                     {
                         case 1:
                             textBoxMS1.Text = value;
+                            textBoxCounter2_1.Text = (((Convert.ToDouble(textBoxCounter1_1.Text, nfi) / 4) * Convert.ToDouble(value, nfi)) / 1000).ToString(nfi);
                             break;
                         case 2:
                             textBoxMS2.Text = value;
+                            textBoxCounter2_2.Text = (((Convert.ToDouble(textBoxCounter1_2.Text, nfi) / 4) * Convert.ToDouble(value, nfi)) / 1000).ToString(nfi);
                             break;
                         case 3:
                             textBoxMS3.Text = value;
+                            textBoxCounter2_3.Text = (((Convert.ToDouble(textBoxCounter1_3.Text, nfi) / 4) * Convert.ToDouble(value, nfi)) / 1000).ToString(nfi);
                             break;
                     }
                 }
@@ -181,6 +202,161 @@ namespace VisualizationSystem.View.UserControls.Setting
         EventWaitHandle _isUnloaded = new AutoResetEvent(false);
         EventWaitHandle _isLoaded = new AutoResetEvent(false);
         private int _kalibrovkaOperation = 0; // flag
+
+        private void textBoxCounter1_1_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter1_1.Text == "" || textBoxCounter1_1.Text == ".")
+                textBoxCounter1_1.Text = "0";
+            textBoxCounter2_1.Text = (((Convert.ToDouble(textBoxCounter1_1.Text, nfi) / 4) * Convert.ToDouble(textBoxMS1.Text, nfi)) / 1000).ToString(nfi);
+            if(checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(1, startIndex + 1, 1, textBoxCounter1_1.Text));
+        }
+
+        private void textBoxCounter1_2_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter1_2.Text == "" || textBoxCounter1_2.Text == ".")
+                textBoxCounter1_2.Text = "0";
+            textBoxCounter2_2.Text = (((Convert.ToDouble(textBoxCounter1_2.Text, nfi) / 4) * Convert.ToDouble(textBoxMS2.Text, nfi)) / 1000).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(2, startIndex + 1, 1, textBoxCounter1_2.Text));
+        }
+
+        private void textBoxCounter1_3_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter1_3.Text == "" || textBoxCounter1_3.Text == ".")
+                textBoxCounter1_3.Text = "0";
+            textBoxCounter2_3.Text = (((Convert.ToDouble(textBoxCounter1_3.Text, nfi) / 4) * Convert.ToDouble(textBoxMS3.Text, nfi)) / 1000).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(3, startIndex + 1, 1, textBoxCounter1_3.Text));
+        }
+
+        private void textBoxCounter2_1_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter2_1.Text == "" || textBoxCounter2_1.Text == ".")
+                textBoxCounter2_1.Text = "0";
+            var value = ((Convert.ToDouble(textBoxCounter2_1.Text, nfi)*4)/Convert.ToDouble(textBoxMS1.Text, nfi))*1000;
+            textBoxCounter1_1.Text = (Math.Round(value)).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(1, startIndex + 1, 2, textBoxCounter1_1.Text));
+        }
+
+        private void textBoxCounter2_2_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter2_2.Text == "" || textBoxCounter2_2.Text == ".")
+                textBoxCounter2_2.Text = "0";
+            var value = ((Convert.ToDouble(textBoxCounter2_2.Text, nfi) * 4) / Convert.ToDouble(textBoxMS2.Text, nfi)) * 1000;
+            textBoxCounter1_2.Text = (Math.Round(value)).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(2, startIndex + 1, 2, textBoxCounter1_2.Text));
+        }
+
+        private void textBoxCounter2_3_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxCounter2_3.Text == "" || textBoxCounter2_3.Text == ".")
+                textBoxCounter2_3.Text = "0";
+            var value = ((Convert.ToDouble(textBoxCounter2_3.Text, nfi) * 4) / Convert.ToDouble(textBoxMS3.Text, nfi)) * 1000;
+            textBoxCounter1_3.Text = (Math.Round(value)).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(3, startIndex + 1, 2, textBoxCounter1_3.Text));
+        }
+
+        private void textBoxMS1_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxMS1.Text == "" || textBoxMS1.Text == ".")
+                textBoxMS1.Text = "0.5";
+            textBoxCounter2_1.Text = (((Convert.ToDouble(textBoxCounter1_1.Text, nfi) / 4) * Convert.ToDouble(textBoxMS1.Text, nfi)) / 1000).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(1, startIndex + 3, 3, textBoxMS1.Text));
+        }
+
+        private void textBoxMS2_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxMS2.Text == "" || textBoxMS2.Text == ".")
+                textBoxMS2.Text = "0.5";
+            textBoxCounter2_2.Text = (((Convert.ToDouble(textBoxCounter1_2.Text, nfi) / 4) * Convert.ToDouble(textBoxMS2.Text, nfi)) / 1000).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(2, startIndex + 3, 3, textBoxMS2.Text));
+        }
+
+        private void textBoxMS3_Leave(object sender, EventArgs e)
+        {
+            var nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            if (textBoxMS3.Text == "" || textBoxMS3.Text == ".")
+                textBoxMS3.Text = "0.5";
+            textBoxCounter2_3.Text = (((Convert.ToDouble(textBoxCounter1_3.Text, nfi) / 4) * Convert.ToDouble(textBoxMS3.Text, nfi)) / 1000).ToString(nfi);
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(3, startIndex + 3, 3, textBoxMS3.Text));
+        }
+
+
+        private void TextBoxInt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            e.Handled = !(char.IsDigit(c) || c == '\b');
+        }
+        private void TextBoxReal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            e.Handled = !(char.IsDigit(c) || c == '.' || c == '\b');
+        }
+
+        private void checkBoxEdit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxEdit.CheckState == CheckState.Unchecked)
+            {
+                textBoxCounter1_1.ReadOnly = true;
+                textBoxCounter1_2.ReadOnly = true;
+                textBoxCounter1_3.ReadOnly = true;
+                textBoxCounter2_1.ReadOnly = true;
+                textBoxCounter2_2.ReadOnly = true;
+                textBoxCounter2_3.ReadOnly = true;
+                textBoxMS1.ReadOnly = true;
+                textBoxMS2.ReadOnly = true;
+                textBoxMS3.ReadOnly = true;
+                textBoxMV1.ReadOnly = true;
+                textBoxMV2.ReadOnly = true;
+                textBoxMV3.ReadOnly = true;
+                textBoxMA1.ReadOnly = true;
+                textBoxMA2.ReadOnly = true;
+                textBoxMA3.ReadOnly = true;
+            }
+            else if (checkBoxEdit.CheckState == CheckState.Checked)
+            {
+                textBoxCounter1_1.ReadOnly = false;
+                textBoxCounter1_2.ReadOnly = false;
+                textBoxCounter1_3.ReadOnly = false;
+                textBoxCounter2_1.ReadOnly = false;
+                textBoxCounter2_2.ReadOnly = false;
+                textBoxCounter2_3.ReadOnly = false;
+                textBoxMS1.ReadOnly = false;
+                textBoxMS2.ReadOnly = false;
+                textBoxMS3.ReadOnly = false;
+                textBoxMV1.ReadOnly = false;
+                textBoxMV2.ReadOnly = false;
+                textBoxMV3.ReadOnly = false;
+                textBoxMA1.ReadOnly = false;
+                textBoxMA2.ReadOnly = false;
+                textBoxMA3.ReadOnly = false;
+            }
+        }
+
 
     }
 }

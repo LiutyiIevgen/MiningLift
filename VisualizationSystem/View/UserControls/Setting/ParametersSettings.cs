@@ -68,7 +68,7 @@ namespace VisualizationSystem.View.UserControls.Setting
 
         private void LoadParameter(ushort? controllerId, int index, int subindex) //загрузка
         {
-            _paramSettingsOperation = 1;
+            //_paramSettingsOperation = 1;
             if (controllerId == null) //get Id from user
             {
                 var dialog = new FormCanId { StartPosition = FormStartPosition.CenterScreen };
@@ -271,7 +271,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                             break;
                     }
                 }
-                //_paramSettingsOperation = 0;
+                _paramSettingsOperation = 0;
             }
 
         }
