@@ -21,7 +21,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             InitializeComponent();
             DoubleBuffered(dataGridViewControllerParameters, true);
-            CreateAuziDIOSignalsMassiv();
+            //CreateAuziDIOSignalsMassiv();
             _mineConfig = IoC.Resolve<MineConfig>();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
             _auziDControllerParametersVm = new AuziDControllerParametersVm();
@@ -38,7 +38,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         public void Refresh(Parameters parameters)
         {
             _auziDInOutSignalsVm.UpDateSignals(parameters);
-            this.Invoke((MethodInvoker)delegate
+            /*this.Invoke((MethodInvoker)delegate
             {
                 for (int i = 0; i < 32; i++)
                 {
@@ -49,6 +49,35 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 {
                     masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
                     masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
+                }
+            }); */
+            dataGridViewInSignals.RowCount = _auziDInOutSignalsVm.InputNames.Count/2;
+            int fChet = 0;
+            if (_auziDInOutSignalsVm.InputNames.Count%2 != 0)
+            {
+                fChet = 1;
+                dataGridViewInSignals.RowCount += 1;
+            }
+            this.Invoke((MethodInvoker)delegate
+            {
+                for (int i = 0; i < dataGridViewInSignals.RowCount; i++)
+                {
+                    dataGridViewInSignals.Rows[i].Cells[1].Style.BackColor = _auziDInOutSignalsVm.InputMeanings[i];
+                    dataGridViewInSignals.Rows[i].Cells[2].Value = _auziDInOutSignalsVm.InputNames[i];
+                }
+                for (int i = 0; i < dataGridViewInSignals.RowCount - fChet; i++)
+                {
+                    dataGridViewInSignals.Rows[i].Cells[3].Style.BackColor = _auziDInOutSignalsVm.InputMeanings[dataGridViewInSignals.RowCount + i];
+                    dataGridViewInSignals.Rows[i].Cells[4].Value = _auziDInOutSignalsVm.InputNames[dataGridViewInSignals.RowCount + i];
+                }
+            });
+            dataGridViewOutSignals.RowCount = _auziDInOutSignalsVm.OutputNames.Count;
+            this.Invoke((MethodInvoker)delegate
+            {
+                for (int i = 0; i < dataGridViewOutSignals.RowCount; i++)
+                {
+                    dataGridViewOutSignals.Rows[i].Cells[1].Style.BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
+                    dataGridViewOutSignals.Rows[i].Cells[2].Value = _auziDInOutSignalsVm.OutputNames[i];
                 }
             });
         }
@@ -73,7 +102,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 dataGridViewControllerParameters.Rows[_mineConfig.LeadingController - 1].DefaultCellStyle.BackColor = Color.LightGreen;
             });
         }
-        private void CreateAuziDIOSignalsMassiv()
+        /*private void CreateAuziDIOSignalsMassiv()
         {
             masInTextBox = new TextBox[] { textBox6, textBox7, textBox8, textBox9, 
                 textBox10, textBox11, textBox12, textBox13, textBox14, textBox15,
@@ -94,7 +123,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
             masOutLabel = new Label[] { label41, label42, label43, label44, label45, label46,
                 label47, label48, label49, label50, label51, label52, label53, label54, label55, label56 };
-        }
+        } */
         private AuziDInOutSignalsVm _auziDInOutSignalsVm;
         private AuziDControllerParametersVm _auziDControllerParametersVm;
 

@@ -215,7 +215,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     
                 }
             }
-            int numEdded = InputNames.Count;
+           /* int numEdded = InputNames.Count;
             for (int i = numEdded; i < 32; i++)
             {
                 InputNames.Add("");
@@ -226,7 +226,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 OutputNames.Add("");
                 OutputMeanings.Add(Color.Gray);
-            }
+            } */
         }
 
         public List<string> InputNames { get; private set; }

@@ -221,7 +221,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                         NumAddedOutputs++;
                 }
             }
-            if (NumAddedInputs > 32)
+           /* if (NumAddedInputs > 32)
             {
                 MessageBox.Show("Выбрано больше 32-х входных сигналов!", "Превышение лимита выбора сигналов", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
@@ -230,11 +230,11 @@ namespace VisualizationSystem.View.UserControls.Setting
                 MessageBox.Show("Выбрано больше 16-х выходных сигналов!", "Превышение лимита выбора сигналов", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
             else
-            {
+            { */
                 IoC.Resolve<MineConfig>().AuziDSignalsConfig.AddedSignals = newAddedSignalsMassiv;
                 IoC.Resolve<MineConfig>().AuziDSignalsConfig.SignalsNames = newSignalsNames;
                 MessageBox.Show("Операция выполнена успешно!", "Выбор входных и выходных сигналов", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-            }
+            //}
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
