@@ -21,10 +21,16 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             InitializeComponent();
             DoubleBuffered(dataGridViewControllerParameters, true);
+            DoubleBuffered(dataGridViewInSignals, true);
+            DoubleBuffered(dataGridViewOutSignals, true);
             //CreateAuziDIOSignalsMassiv();
             _mineConfig = IoC.Resolve<MineConfig>();
             _auziDInOutSignalsVm = new AuziDInOutSignalsVm();
             _auziDControllerParametersVm = new AuziDControllerParametersVm();
+        }
+
+        private void AuziDUC_Load(object sender, EventArgs e)
+        {
         }
 
         public void DoubleBuffered(DataGridView dgv, bool setting)
@@ -51,15 +57,16 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
                 }
             }); */
-            dataGridViewInSignals.RowCount = _auziDInOutSignalsVm.InputNames.Count/2;
+            int rowCount = _auziDInOutSignalsVm.InputNames.Count / 2;
             int fChet = 0;
-            if (_auziDInOutSignalsVm.InputNames.Count%2 != 0)
+            if (_auziDInOutSignalsVm.InputNames.Count % 2 != 0)
             {
                 fChet = 1;
-                dataGridViewInSignals.RowCount += 1;
+                rowCount++;
             }
             this.Invoke((MethodInvoker)delegate
             {
+                dataGridViewInSignals.RowCount = rowCount;
                 for (int i = 0; i < dataGridViewInSignals.RowCount; i++)
                 {
                     dataGridViewInSignals.Rows[i].Cells[1].Style.BackColor = _auziDInOutSignalsVm.InputMeanings[i];
@@ -70,16 +77,22 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     dataGridViewInSignals.Rows[i].Cells[3].Style.BackColor = _auziDInOutSignalsVm.InputMeanings[dataGridViewInSignals.RowCount + i];
                     dataGridViewInSignals.Rows[i].Cells[4].Value = _auziDInOutSignalsVm.InputNames[dataGridViewInSignals.RowCount + i];
                 }
+                if (fChet == 1)
+                {
+                    dataGridViewInSignals.Rows[dataGridViewInSignals.RowCount - 1].Cells[3].Style.BackColor = Color.Gray;
+                    dataGridViewInSignals.Rows[dataGridViewInSignals.RowCount - 1].Cells[4].Value = "";
+                }
             });
-            dataGridViewOutSignals.RowCount = _auziDInOutSignalsVm.OutputNames.Count;
-            this.Invoke((MethodInvoker)delegate
+            this.Invoke((MethodInvoker) delegate
             {
+                dataGridViewOutSignals.RowCount = _auziDInOutSignalsVm.OutputNames.Count;
                 for (int i = 0; i < dataGridViewOutSignals.RowCount; i++)
                 {
                     dataGridViewOutSignals.Rows[i].Cells[1].Style.BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
                     dataGridViewOutSignals.Rows[i].Cells[2].Value = _auziDInOutSignalsVm.OutputNames[i];
                 }
             });
+            //dataGridViewOutSignals.FirstDisplayedCell = dataGridViewOutSignals[0, dataGridViewOutSignals.RowCount - 1];
         }
 
         public void UpdateAuziDControllerParameters(List<Parameters> parameters)

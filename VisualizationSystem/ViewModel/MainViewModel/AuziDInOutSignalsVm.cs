@@ -185,11 +185,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         InputNames.Add(codes[index] + " " + _mineConfig.AuziDSignalsConfig.SignalsNames[index]);
                         if (parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
-                            InputMeanings.Add(Color.LightGray);
+                            InputMeanings.Add(Color.Green);
                         }
                         else if (parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
-                            InputMeanings.Add(Color.Red);
+                            InputMeanings.Add(Color.Silver);
                         }
                         else if (parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
@@ -201,11 +201,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         OutputNames.Add(codes[index] + " " + _mineConfig.AuziDSignalsConfig.SignalsNames[index]);
                         if (parameters.AuziDIOSignalsState[index] == AuziDState.On)
                         {
-                            OutputMeanings.Add(Color.LightGray);
+                            OutputMeanings.Add(Color.Green);
                         }
                         else if (parameters.AuziDIOSignalsState[index] == AuziDState.Off)
                         {
-                            OutputMeanings.Add(Color.Red);
+                            OutputMeanings.Add(Color.Silver);
                         }
                         else if (parameters.AuziDIOSignalsState[index] == AuziDState.Undefind)
                         {
