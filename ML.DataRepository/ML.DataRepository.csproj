@@ -53,6 +53,7 @@
     <Compile Include="DataAccess\MineDbInitializer.cs" />
     <Compile Include="Models\AnalogSignal.cs" />
     <Compile Include="Models\AnalogSignalLog.cs" />
+    <Compile Include="Models\GeneralLog.cs" />
     <Compile Include="Models\InputSignalsLog.cs" />
     <Compile Include="Models\BlockLog.cs" />
     <Compile Include="Models\GenericRepository\DataRepository.cs" />

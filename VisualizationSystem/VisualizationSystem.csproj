@@ -180,6 +180,12 @@
     <Compile Include="View\UserControls\GeneralView\CycleUC.Designer.cs">
       <DependentUpon>CycleUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\GeneralView\LogUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\LogUC.Designer.cs">
+      <DependentUpon>LogUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\GeneralView\MainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\GeneralView\CycleUC.resx">
       <DependentUpon>CycleUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\GeneralView\LogUC.resx">
+      <DependentUpon>LogUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\GeneralView\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>

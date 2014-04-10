@@ -24,10 +24,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             _cycleUc = new CycleUC(){Dock = DockStyle.Fill};
             _cepTpUc = new CepTpUC() {Dock = DockStyle.Fill};
             _auziDUc = new AuziDUC() {Dock = DockStyle.Fill};
+            _logUc = new LogUC() { Dock = DockStyle.Fill };
 
             tabPage1.Controls.Add(_cycleUc);
             tabPage2.Controls.Add(_cepTpUc);
             tabPage3.Controls.Add(_auziDUc);
+            tabPage4.Controls.Add(_logUc);
 
             _dataListener = IoC.Resolve<DataListener>();
             IoC.Resolve<CanStateService>().StartListener();
@@ -91,7 +93,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 _cepTpUc.Refresh(parameters); 
                 _auziDUc.Refresh(parameters);
-                UpdateDefenceDiagramRegimIndication(parameters);
+                UpdateDefenceDiagramRegimIndication(parameters);    
+            }
+            if (update_parameters_flag%100 == 0)
+            {
+                _logUc.Refresh();
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
@@ -482,6 +488,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private CycleUC _cycleUc;
         private CepTpUC _cepTpUc;
         private AuziDUC _auziDUc;
+        private LogUC _logUc;
 
         private DataBaseService _dataBaseService;
         private MineConfig _mineConfig;

@@ -9,6 +9,7 @@ namespace ML.DataRepository.Models.GenericRepository
         private MineContext _context;
         private IDataRepository<BlockLog> _BlockLog;
         private IDataRepository<AnalogSignal> _analogSignal;
+        private IDataRepository<GeneralLog> _GeneralLog;
 
         private MineContext getContext()
         {
@@ -26,6 +27,10 @@ namespace ML.DataRepository.Models.GenericRepository
             get { return _analogSignal ?? (_analogSignal = getRepository<AnalogSignal>()); }
         }
 
+        public IDataRepository<GeneralLog> GeneralLog
+        {
+            get { return _GeneralLog ?? (_GeneralLog = getRepository<GeneralLog>()); }
+        }
 
         public void Commit() {
             try {

@@ -32,9 +32,9 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -108,6 +108,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
+            this.labelLogEvent = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -163,6 +164,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).BeginInit();
             this.splitContainer18.Panel1.SuspendLayout();
+            this.splitContainer18.Panel2.SuspendLayout();
             this.splitContainer18.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -679,6 +681,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // splitContainer18.Panel1
             // 
             this.splitContainer18.Panel1.Controls.Add(this.labelDefenceDiagramRegim);
+            // 
+            // splitContainer18.Panel2
+            // 
+            this.splitContainer18.Panel2.Controls.Add(this.labelLogEvent);
             this.splitContainer18.Size = new System.Drawing.Size(732, 25);
             this.splitContainer18.SplitterDistance = 367;
             this.splitContainer18.TabIndex = 0;
@@ -960,14 +966,14 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.dataGridViewParameters.AllowUserToResizeRows = false;
             this.dataGridViewParameters.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridViewParameters.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewParameters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewParameters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -975,26 +981,26 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.dataGridViewTextBoxColumn3,
             this.Column1,
             this.dataGridViewTextBoxColumn4});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewParameters.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewParameters.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewParameters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewParameters.EnableHeadersVisualStyles = false;
             this.dataGridViewParameters.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewParameters.Name = "dataGridViewParameters";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewParameters.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewParameters.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewParameters.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridViewParameters.Size = new System.Drawing.Size(724, 373);
             this.dataGridViewParameters.TabIndex = 2;
@@ -1210,6 +1216,18 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // labelLogEvent
+            // 
+            this.labelLogEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelLogEvent.AutoSize = true;
+            this.labelLogEvent.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelLogEvent.ForeColor = System.Drawing.Color.Red;
+            this.labelLogEvent.Location = new System.Drawing.Point(3, 1);
+            this.labelLogEvent.Name = "labelLogEvent";
+            this.labelLogEvent.Size = new System.Drawing.Size(78, 23);
+            this.labelLogEvent.TabIndex = 1;
+            this.labelLogEvent.Text = "                 ";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1277,6 +1295,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer17.ResumeLayout(false);
             this.splitContainer18.Panel1.ResumeLayout(false);
             this.splitContainer18.Panel1.PerformLayout();
+            this.splitContainer18.Panel2.ResumeLayout(false);
+            this.splitContainer18.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).EndInit();
             this.splitContainer18.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1381,5 +1401,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private TabPage tabPage7;
         private SplitContainer splitContainer18;
         private Label labelDefenceDiagramRegim;
+        public Label labelLogEvent;
     }
 }

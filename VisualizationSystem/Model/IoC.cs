@@ -9,6 +9,7 @@ using VisualizationSystem.Services;
 using VisualizationSystem.View;
 using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
+using VisualizationSystem.View.UserControls.GeneralView;
 using VisualizationSystem.ViewModel.MainViewModel;
 
 namespace VisualizationSystem.Model

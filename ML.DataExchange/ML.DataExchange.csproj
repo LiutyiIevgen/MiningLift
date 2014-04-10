@@ -53,6 +53,7 @@
     <Compile Include="Model\Parameters.cs" />
     <Compile Include="DataExchangeFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataBaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ComCan\ML.ComCan.csproj">
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\ML.ConfigSettings\ML.ConfigSettings.csproj">
       <Project>{df2bbc87-f5d8-4cee-8446-83cb50edc8a3}</Project>
       <Name>ML.ConfigSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ML.DataRepository\ML.DataRepository.csproj">
+      <Project>{7019515e-b730-41ee-ae4d-80bb89612938}</Project>
+      <Name>ML.DataRepository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

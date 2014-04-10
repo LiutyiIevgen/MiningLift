@@ -15,6 +15,8 @@ namespace ML.DataRepository.DataAccess
         public IDbSet<MainDigitSignalType> MainDigitSignalType { get; set; }
 
         public IDbSet<MainDigitSignalState> MainDigitSignalState { get; set; }
+
+        public IDbSet<GeneralLog> GeneralLog { get; set; }
        // public IDbSet<FanState> FanState { get; set; }
 
         public MineContext()

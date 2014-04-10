@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using ML.Can;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
+using ML.DataExchange.Services;
 
 namespace ML.DataExchange
 {
@@ -42,9 +44,18 @@ namespace ML.DataExchange
                 }
             if (errorCounter.All(e => e == 2)) //mistake
                 return false;
-            if (errorCounter.All(e=>e==0)) //evrithing is correct
+            if (errorCounter.All(e => e == 0)) //evrithing is correct
+            {
+                ind = -1;
                 return true;
+            }
             int index = errorCounter.FindIndex(e => e == 2);
+            if (index >= 0 && index != ind)
+            {
+                var dataBaseService = new DataBaseService();
+                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (index + 1).ToString());
+                ind = index;
+            }
             if (index == _config.LeadingController - 1)
             {
                 if (index == 0)
@@ -194,5 +205,6 @@ namespace ML.DataExchange
 
         //private double _dS = 10; //m
         private MineConfig _config;
+        private int ind = -1; // for log
     }
 }

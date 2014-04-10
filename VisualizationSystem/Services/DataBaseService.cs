@@ -177,6 +177,41 @@ namespace VisualizationSystem.Services
             }
         }
 
+        public void FillGeneralLog(string line)
+        {
+            var generalLog = new GeneralLog
+            {
+                Date = DateTime.Now,
+                LogLine = line
+            };
+            using (var repoUnit = new RepoUnit())
+            {
+                repoUnit.GeneralLog.Save(generalLog);
+            }
+        }
+
+        public List<int> GetGeneralLogIds(DateTime from, DateTime till)
+        {
+            var ids = new List<int>();
+            using (var repoUnit = new RepoUnit())
+            {
+                ids.AddRange(repoUnit.GeneralLog.Load(gl => gl.Date > from && gl.Date < till).Select(r => r.Id));
+            }
+            return ids;
+        }
+
+        public string GetGeneralLogLineById(int id)
+        {
+            GeneralLog glog;
+            string line;
+            using (var repoUnit = new RepoUnit())
+            {
+                glog = repoUnit.GeneralLog.FindFirstBy(gl => gl.Id == id);
+            }
+            line = glog.Date.ToShortDateString() + "   " + glog.Date.ToLongTimeString() + "     " + glog.LogLine;
+            return line;
+        }
+
         private MineConfig _mineConfig;
         private int _fillDataBase;
     }
