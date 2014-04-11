@@ -62,6 +62,15 @@ namespace ML.DataRepository.DataAccess
                 };
             analogSignalType.ForEach(s => context.AnalogSignals.Add(s));
 
+            //Init GeneralLogType table
+            var generalLogType = new List<GeneralLogType>
+                {
+                    new GeneralLogType {Type = "информационное"},
+                    new GeneralLogType {Type = "предупредительное"},
+                    new GeneralLogType {Type = "аварийное"}
+                };
+            generalLogType.ForEach(l => context.GeneralLogType.Add(l));
+
             context.SaveChanges();
         }
     }

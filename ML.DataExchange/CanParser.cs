@@ -53,7 +53,7 @@ namespace ML.DataExchange
             if (index >= 0 && index != ind)
             {
                 var dataBaseService = new DataBaseService();
-                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (index + 1).ToString());
+                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (index + 1).ToString(), GeneralLogEventType.Demage);
                 ind = index;
             }
             if (index == _config.LeadingController - 1)

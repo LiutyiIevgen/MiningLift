@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using ML.DataRepository.Models.GenericRepository;
 using Ninject.Parameters;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.DataBase;
+using GeneralLogEventType = ML.DataExchange.Model.GeneralLogEventType;
 
 namespace VisualizationSystem.Services
 {
@@ -177,11 +179,12 @@ namespace VisualizationSystem.Services
             }
         }
 
-        public void FillGeneralLog(string line)
+        public void FillGeneralLog(string line, GeneralLogEventType type)
         {
             var generalLog = new GeneralLog
             {
                 Date = DateTime.Now,
+                GeneralLogTypeId = Convert.ToInt32(type),
                 LogLine = line
             };
             using (var repoUnit = new RepoUnit())
@@ -200,16 +203,29 @@ namespace VisualizationSystem.Services
             return ids;
         }
 
-        public string GetGeneralLogLineById(int id)
+        public GeneralLogData GetGeneralLogLineById(int id)
         {
             GeneralLog glog;
+            GeneralLogData logData = new GeneralLogData();
             string line;
             using (var repoUnit = new RepoUnit())
             {
                 glog = repoUnit.GeneralLog.FindFirstBy(gl => gl.Id == id);
             }
-            line = glog.Date.ToShortDateString() + "   " + glog.Date.ToLongTimeString() + "     " + glog.LogLine;
-            return line;
+            logData.Text = glog.Date.ToShortDateString() + "   " + glog.Date.ToLongTimeString() + "     " + glog.LogLine;
+            switch (glog.GeneralLogTypeId)
+            {
+                case 1:
+                    logData.TypeColor = Color.Gray;
+                    break;
+                case 2:
+                    logData.TypeColor = Color.Orange;
+                    break;
+                case 3:
+                    logData.TypeColor = Color.Red;
+                    break;
+            }
+            return logData;
         }
 
         private MineConfig _mineConfig;

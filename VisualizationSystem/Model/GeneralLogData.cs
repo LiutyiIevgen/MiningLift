@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace VisualizationSystem.Model
 {
-    public enum CanSubindexes
+    public class GeneralLogData
     {
-        Type = 1, Value = 2, Name = 4
-    }
-
-    public enum GeneralLogEventType
-    {
-        Info = 1, Warning = 2, Demage = 3
+        public Color TypeColor { get; set; }
+        public string Text { get; set; }
     }
 }

@@ -53,10 +53,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
-        public void Refresh()
+        public Color Refresh()
         {
             var refreshThread = new Thread(RefreshThreadHandler) { IsBackground = true, Priority = ThreadPriority.Lowest };
             refreshThread.Start();
+            return _fNewLogEvent;
         }
 
         private void RefreshThreadHandler()
@@ -65,19 +66,25 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             DateTime till = DateTime.Now;
             DateTime from = DateTime.Now.AddDays(-1);
             var ids = dataBaseService.GetGeneralLogIds(from, till);
-            if (ids.Count == 0 || ids.Last() <= lastId)
+            if (ids.Count == 0 || ids.Last() <= _lastId)
+            {
+                _fNewLogEvent = Color.Gray;
                 return;
+            }
             var newIds = new List<int>();
             foreach (var id in ids)
             {
-                if (id > lastId)
+                if (id > _lastId)
                 {
-                    AddLineToLog(dataBaseService.GetGeneralLogLineById(id));
+                    var logData = dataBaseService.GetGeneralLogLineById(id);
+                    AddLineToLog(logData.Text);
+                    _fNewLogEvent = logData.TypeColor;
                 }
             }
-            lastId = ids.Last();
+            _lastId = ids.Last();
         }
 
-        private int lastId = -1;
+        private int _lastId = -1;
+        private Color _fNewLogEvent = Color.Gray;
     }
 }

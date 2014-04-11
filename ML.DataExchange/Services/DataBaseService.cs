@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ML.DataExchange.Model;
 using ML.DataRepository.Models;
 using ML.DataRepository.Models.GenericRepository;
 
@@ -15,11 +16,12 @@ namespace ML.DataExchange.Services
         {
         }
 
-        public void FillGeneralLog(string line)
+        public void FillGeneralLog(string line, GeneralLogEventType type)
         {
             var generalLog = new GeneralLog
             {
                 Date = DateTime.Now,
+                GeneralLogTypeId = Convert.ToInt32(type),
                 LogLine = line
             };
             using (var repoUnit = new RepoUnit())

@@ -13,6 +13,10 @@ namespace ML.DataRepository.Models
 
         public DateTime Date { get; set; }
 
+        public int GeneralLogTypeId { get; set; }
+
         public string LogLine { get; set; }
+
+        public virtual GeneralLogType GeneralLogType { get; set; }
     }
 }

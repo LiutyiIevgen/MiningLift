@@ -97,7 +97,9 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             }
             if (update_parameters_flag%100 == 0)
             {
-                _logUc.Refresh();
+                var logEventColor = _logUc.Refresh();
+                if (logEventColor != Color.Gray)
+                    labelLogEvent.ForeColor = logEventColor;
                 update_parameters_flag = 0;
             }
             update_parameters_flag++;
@@ -303,6 +305,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private void UpdateParametersData(object sender, EventArgs e)
         {
+            //
+            if (tabControl1.SelectedTab == tabPage4)
+                labelLogEvent.ForeColor = Color.Gray;
+            //
             if(tabControl1.SelectedTab != tabPage6)
                 return;
             var parametersSettingsVm = new ParametersSettingsVm();
@@ -453,6 +459,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             treeView1.Nodes.AddRange(IoC.Resolve<ArhivVm>().GetPrevNodesList());
             if (IoC.Resolve<ArhivVm>().RecordsNum != 0)
                 textBoxCurrentRecord.Text = IoC.Resolve<ArhivVm>().CurrentId.ToString();
+        }
+
+        private void tabPage4_Leave(object sender, EventArgs e)
+        {
+            labelLogEvent.ForeColor = Color.Gray;
         }
         #endregion
 
