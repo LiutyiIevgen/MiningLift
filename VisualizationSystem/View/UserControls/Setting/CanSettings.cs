@@ -24,14 +24,13 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             textBox1.Text = _mineConfig.CanName;
             comboBoxCanSpeed.Text = _mineConfig.CanSpeed.ToString();
-            textBoxReceiveDataDelay.Text = _mineConfig.ReceiveDataDelay.ToString();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             _mineConfig.CanName = textBox1.Text;
             _mineConfig.CanSpeed = Convert.ToInt32(comboBoxCanSpeed.Text);
-            _mineConfig.ReceiveDataDelay = Convert.ToInt32(textBoxReceiveDataDelay.Text);
             IoC.Resolve<DataListener>().Init(null);
         }
 

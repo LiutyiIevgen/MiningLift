@@ -181,7 +181,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter(controllerId, index, j);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(15000)))
                         return;
                     j++;
                 }

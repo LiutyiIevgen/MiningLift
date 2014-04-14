@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using ML.ConfigSettings.Model;
@@ -21,6 +22,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         public MainView()
         {
             InitializeComponent();
+            DoubleBuffered(panel1, true);
+            DoubleBuffered(panel6, true);
+            DoubleBuffered(panel7, true);
+            DoubleBuffered(panel2, true);
             _cycleUc = new CycleUC(){Dock = DockStyle.Fill};
             _cepTpUc = new CepTpUC() {Dock = DockStyle.Fill};
             _auziDUc = new AuziDUC() {Dock = DockStyle.Fill};
@@ -484,6 +489,13 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
+        private void DoubleBuffered(Panel dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                  BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
+        }
 
         private LeftPanelVm _leftPanelVm;
         private RightPanelVm _rightPanelVm;

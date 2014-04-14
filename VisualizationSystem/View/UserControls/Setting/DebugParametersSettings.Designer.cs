@@ -34,6 +34,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxMaxDopMismatch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxReceiveDataDelay = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxLeadController
@@ -103,11 +106,46 @@
             this.label1.Text = "Максимально допустимое \r\nрассогласование";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label2.Location = new System.Drawing.Point(490, 184);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 22);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "мс";
+            // 
+            // textBoxReceiveDataDelay
+            // 
+            this.textBoxReceiveDataDelay.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxReceiveDataDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxReceiveDataDelay.Location = new System.Drawing.Point(402, 184);
+            this.textBoxReceiveDataDelay.Name = "textBoxReceiveDataDelay";
+            this.textBoxReceiveDataDelay.Size = new System.Drawing.Size(82, 22);
+            this.textBoxReceiveDataDelay.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Cambria", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label5.Location = new System.Drawing.Point(138, 171);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(200, 44);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Задержка \r\nпри обмене данными";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // DebugParametersSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBoxReceiveDataDelay);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxMaxDopMismatch);
             this.Controls.Add(this.label1);
@@ -116,6 +154,7 @@
             this.Controls.Add(this.label3);
             this.Name = "DebugParametersSettings";
             this.Size = new System.Drawing.Size(758, 541);
+            this.Load += new System.EventHandler(this.DebugParametersSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +168,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxMaxDopMismatch;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxReceiveDataDelay;
+        private System.Windows.Forms.Label label5;
     }
 }

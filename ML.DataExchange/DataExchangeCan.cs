@@ -79,7 +79,7 @@ namespace ML.DataExchange
             while (true)
             {
                 _device.SendData(dataList);
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(220)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(450)))
                 {
                     repeatCount++;
                     if (repeatCount == 10)
@@ -324,7 +324,7 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(250)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(450)))
                 {
                     repeatCount++;
                     if (repeatCount == 10)
@@ -336,7 +336,7 @@ namespace ML.DataExchange
                 }
                 repeatCount = 0;
                 i++;
-                Thread.Sleep(20);
+                Thread.Sleep(30);
             }
         }
 
