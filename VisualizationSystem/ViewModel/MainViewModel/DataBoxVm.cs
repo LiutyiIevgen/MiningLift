@@ -7,6 +7,7 @@ using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.View.UserControls.Setting;
+using GeneralLogEventType = ML.DataExchange.Model.GeneralLogEventType;
 
 namespace VisualizationSystem.ViewModel.MainViewModel
 {

@@ -244,6 +244,8 @@
             this.textBoxMV3.Name = "textBoxMV3";
             this.textBoxMV3.Size = new System.Drawing.Size(119, 22);
             this.textBoxMV3.TabIndex = 23;
+            this.textBoxMV3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMV3.Leave += new System.EventHandler(this.textBoxMV3_Leave);
             // 
             // textBoxMV2
             // 
@@ -253,6 +255,8 @@
             this.textBoxMV2.Name = "textBoxMV2";
             this.textBoxMV2.Size = new System.Drawing.Size(119, 22);
             this.textBoxMV2.TabIndex = 22;
+            this.textBoxMV2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMV2.Leave += new System.EventHandler(this.textBoxMV2_Leave);
             // 
             // textBoxMV1
             // 
@@ -262,6 +266,8 @@
             this.textBoxMV1.Name = "textBoxMV1";
             this.textBoxMV1.Size = new System.Drawing.Size(119, 22);
             this.textBoxMV1.TabIndex = 21;
+            this.textBoxMV1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMV1.Leave += new System.EventHandler(this.textBoxMV1_Leave);
             // 
             // label11
             // 
@@ -326,6 +332,8 @@
             this.textBoxMA3.Name = "textBoxMA3";
             this.textBoxMA3.Size = new System.Drawing.Size(119, 22);
             this.textBoxMA3.TabIndex = 31;
+            this.textBoxMA3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMA3.Leave += new System.EventHandler(this.textBoxMA3_Leave);
             // 
             // textBoxMA2
             // 
@@ -335,6 +343,8 @@
             this.textBoxMA2.Name = "textBoxMA2";
             this.textBoxMA2.Size = new System.Drawing.Size(119, 22);
             this.textBoxMA2.TabIndex = 30;
+            this.textBoxMA2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMA2.Leave += new System.EventHandler(this.textBoxMA2_Leave);
             // 
             // textBoxMA1
             // 
@@ -344,6 +354,8 @@
             this.textBoxMA1.Name = "textBoxMA1";
             this.textBoxMA1.Size = new System.Drawing.Size(119, 22);
             this.textBoxMA1.TabIndex = 29;
+            this.textBoxMA1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxReal_KeyPress);
+            this.textBoxMA1.Leave += new System.EventHandler(this.textBoxMA1_Leave);
             // 
             // label13
             // 

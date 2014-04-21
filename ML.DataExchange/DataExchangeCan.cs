@@ -11,6 +11,7 @@ using ML.Can.Interfaces;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Interfaces;
 using ML.DataExchange.Model;
+using ML.DataExchange.Services;
 
 namespace ML.DataExchange
 {
@@ -79,7 +80,7 @@ namespace ML.DataExchange
             while (true)
             {
                 _device.SendData(dataList);
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(450)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(250)))
                 {
                     repeatCount++;
                     if (repeatCount == 10)
@@ -263,15 +264,31 @@ namespace ML.DataExchange
 
                     msgRead.AddRange(msg);
                     parametersList = canParser.GetParametersList(msgRead);
-                    if (AllCanDataEvent != null && (i%4) == 0)
+                    
+                    /*for (int j = 0; j < parametersList.Count; j++)
+                    {
+                        if (parametersList[j] == null)
+                        {
+                            if (_wasError[j] == 0)
+                            {
+                                var dataBaseService = new DataBaseService();
+                                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (j + 1).ToString(), GeneralLogEventType.Demage);
+                            }
+                            _wasError[j] = 1;
+                        }
+                        else
+                            _wasError[j] = 0;
+                    }*/
+                    var maj = canParser.Majorization(parametersList);
+                    if (AllCanDataEvent != null && (i % 4) == 0)
                     {
                         AllCanDataEvent(parametersList);
                         i = 0;
                     }
-                    if (!canParser.Majorization(parametersList))
+                    if (!maj)
                         parametersList = null;
                     if(parametersList != null)
-                        ReceiveEvent(parametersList[_mineConfig.LeadingController - 1]);
+                        ReceiveEvent(parametersList[_mineConfig.LeadingController - 1]);                    
                     List<CanParameter> canParameters = TryGetParameterValue(msgRead); //параметры can
                     if (canParameters.Count != 0)
                         ParameterReceive(canParameters);
@@ -324,7 +341,7 @@ namespace ML.DataExchange
                         }
                     });
 
-                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(450)))
+                if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(250)))
                 {
                     repeatCount++;
                     if (repeatCount == 10)
@@ -454,5 +471,6 @@ namespace ML.DataExchange
         private List<byte> _codtDomainArray;
         private ushort _codtDomainId;
         private byte _codtDomainSubIndex;
+        private int[] _wasError = new int[3]; // for Log
     }
 }

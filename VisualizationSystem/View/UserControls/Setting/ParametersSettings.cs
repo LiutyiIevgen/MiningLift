@@ -421,6 +421,7 @@ namespace VisualizationSystem.View.UserControls.Setting
                     dataGridViewVariableParameters[4, index - startIndex].Value = "";
 
                 }
+                
                 dataGridViewVariableParameters[2 + subindex, index - startIndex].Value = value;
                 dataGridViewVariableParameters.FirstDisplayedCell =
                     dataGridViewVariableParameters[0, index - startIndex];

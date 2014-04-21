@@ -164,6 +164,36 @@ namespace VisualizationSystem.View.UserControls.Setting
                             break;
                     }
                 }
+                else if (index == startIndex + 0x0f)
+                {
+                    switch (ControllerId)
+                    {
+                        case 1:
+                            textBoxMV1.Text = value;
+                            break;
+                        case 2:
+                            textBoxMV2.Text = value;
+                            break;
+                        case 3:
+                            textBoxMV3.Text = value;
+                            break;
+                    }
+                }
+                else if (index == startIndex + 0x10)
+                {
+                    switch (ControllerId)
+                    {
+                        case 1:
+                            textBoxMA1.Text = value;
+                            break;
+                        case 2:
+                            textBoxMA2.Text = value;
+                            break;
+                        case 3:
+                            textBoxMA3.Text = value;
+                            break;
+                    }
+                }
             });
         }
 
@@ -191,6 +221,24 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter((ushort)j, startIndex + 3);
+                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        return;
+                    j++;
+                }
+                j = 1;
+                while (j < 4)
+                {
+                    Thread.Sleep(200);
+                    UnloadParameter((ushort)j, startIndex + 0x0f);
+                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        return;
+                    j++;
+                }
+                j = 1;
+                while (j < 4)
+                {
+                    Thread.Sleep(200);
+                    UnloadParameter((ushort)j, startIndex + 0x10);
                     if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
                         return;
                     j++;
@@ -355,6 +403,54 @@ namespace VisualizationSystem.View.UserControls.Setting
                 textBoxMA2.ReadOnly = false;
                 textBoxMA3.ReadOnly = false;
             }
+        }
+
+        private void textBoxMV1_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMV1.Text == "" || textBoxMV1.Text == ".")
+                textBoxMV1.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(1, startIndex + 0x0f, 4, textBoxMV1.Text));
+        }
+
+        private void textBoxMV2_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMV2.Text == "" || textBoxMV2.Text == ".")
+                textBoxMV2.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(2, startIndex + 0x0f, 4, textBoxMV2.Text));
+        }
+
+        private void textBoxMV3_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMV3.Text == "" || textBoxMV3.Text == ".")
+                textBoxMV3.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(3, startIndex + 0x0f, 4, textBoxMV3.Text));
+        }
+
+        private void textBoxMA1_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMA1.Text == "" || textBoxMA1.Text == ".")
+                textBoxMA1.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(1, startIndex + 0x10, 5, textBoxMA1.Text));
+        }
+
+        private void textBoxMA2_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMA2.Text == "" || textBoxMA2.Text == ".")
+                textBoxMA2.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(2, startIndex + 0x10, 5, textBoxMA2.Text));
+        }
+
+        private void textBoxMA3_Leave(object sender, EventArgs e)
+        {
+            if (textBoxMA3.Text == "" || textBoxMA3.Text == ".")
+                textBoxMA3.Text = "1";
+            if (checkBoxEdit.CheckState == CheckState.Checked)
+                Task.Run(() => LoadParameter(3, startIndex + 0x10, 5, textBoxMA3.Text));
         }
 
 

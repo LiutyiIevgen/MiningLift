@@ -63,10 +63,13 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             _dataListener.Init(ViewData);
             _dataListener.SetAllCanDataReceive(_auziDUc.UpdateAuziDControllerParameters);
             _dataListener.SetAllCanDataReceive(_dataBaseService.FillDataBase);
+            _dataListener.SetAllCanDataReceive(_auziDUc.Refresh);
             var arhivWriterThread = new Thread(ArhivWriterThread){ IsBackground = true, Priority = ThreadPriority.Lowest};
             arhivWriterThread.Start();
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
+            var generalLogUpdateThread = new Thread(GeneralLogUpdateThread) { IsBackground = true, Priority = ThreadPriority.Lowest };
+            //generalLogUpdateThread.Start();
         }
 
         public void ViewData(Parameters parameters)
@@ -97,15 +100,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             if (update_parameters_flag%20 == 0)
             {
                 _cepTpUc.Refresh(parameters); 
-                _auziDUc.Refresh(parameters);
-                UpdateDefenceDiagramRegimIndication(parameters);    
+                UpdateDefenceDiagramRegimIndication(parameters);
+                update_parameters_flag = 0;
             }
             if (update_parameters_flag%100 == 0)
             {
-                var logEventColor = _logUc.Refresh();
-                if (logEventColor != Color.Gray)
-                    labelLogEvent.ForeColor = logEventColor;
-                update_parameters_flag = 0;
+                 
             }
             update_parameters_flag++;
             //stopwatch.Stop();
@@ -136,6 +136,20 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 });
                 Thread.Sleep(1000);
             }    
+        }
+
+        private void GeneralLogUpdateThread()
+        {
+            while (true)
+            {
+                var logEventColor = _logUc.Refresh();
+                if (logEventColor != Color.Gray)
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        labelLogEvent.ForeColor = logEventColor;
+                    });
+                Thread.Sleep(5000);
+            }
         }
 
         #endregion

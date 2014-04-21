@@ -41,22 +41,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             pi.SetValue(dgv, setting, null);
         }
 
-        public void Refresh(Parameters parameters)
+        public void Refresh(List<Parameters> listParameters)
         {
+            var parameters = listParameters[_mineConfig.LeadingController - 1];
             _auziDInOutSignalsVm.UpDateSignals(parameters);
-            /*this.Invoke((MethodInvoker)delegate
-            {
-                for (int i = 0; i < 32; i++)
-                {
-                    masInTextBox[i].BackColor = _auziDInOutSignalsVm.InputMeanings[i];
-                    masInLabel[i].Text = _auziDInOutSignalsVm.InputNames[i];
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    masOutTextBox[i].BackColor = _auziDInOutSignalsVm.OutputMeanings[i];
-                    masOutLabel[i].Text = _auziDInOutSignalsVm.OutputNames[i];
-                }
-            }); */
             int rowCount = _auziDInOutSignalsVm.InputNames.Count / 2;
             int fChet = 0;
             if (_auziDInOutSignalsVm.InputNames.Count % 2 != 0)

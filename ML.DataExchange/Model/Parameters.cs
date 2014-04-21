@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ML.DataExchange.Model
 {
-    public class Parameters
+    public class  Parameters
     {
         public Parameters()
         {

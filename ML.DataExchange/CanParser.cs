@@ -42,20 +42,19 @@ namespace ML.DataExchange
                     else if (parametersList[i].s < parametersList[j].s - _config.MaxDopMismatch || parametersList[i].s > parametersList[j].s + _config.MaxDopMismatch)
                         errorCounter[i]++;
                 }
-            if (errorCounter.All(e => e == 2)) //mistake
+            if (errorCounter.All(e => e == 2)) //mistake, set leading controller to not null parameter
+            {
+                int i = 0;
+                for (i = 0; i < 2; i++)
+                    if (parametersList[i] != null)
+                        break;
+                _config.LeadingController = i+1;
                 return false;
+            }
+                
             if (errorCounter.All(e => e == 0)) //evrithing is correct
-            {
-                ind = -1;
                 return true;
-            }
             int index = errorCounter.FindIndex(e => e == 2);
-            if (index >= 0 && index != ind)
-            {
-                var dataBaseService = new DataBaseService();
-                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (index + 1).ToString(), GeneralLogEventType.Demage);
-                ind = index;
-            }
             if (index == _config.LeadingController - 1)
             {
                 if (index == 0)
@@ -69,9 +68,9 @@ namespace ML.DataExchange
         }
         public Parameters GetParameters(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
-            if (!CheckMsgCount(msgData,controllerId))
+
+            if (!CheckMsgCount(msgData,controllerId)) //check that all data form controller were received
                 return null;
-            Parameters parameters;
             var param = new double[30];
             var outputSignals = new List<byte>();
             var inputSignals = new List<byte>();
@@ -99,7 +98,7 @@ namespace ML.DataExchange
             {
                 throw new Exception();
             }
-            parameters = new Parameters(param);
+            var parameters = new Parameters(param);
             parameters.SetAuziDISignalsState(inputSignals);
             parameters.SetAuziDOSignalsState(outputSignals);
             
@@ -119,15 +118,39 @@ namespace ML.DataExchange
         private List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
-            byte tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data[6];
-            var byteList = new List<byte> {tpdo3[4], tpdo3[5], tpdo3[6], tpdo3[7], tpdo1};
-            return byteList;
+            //byte tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data[6];
+            byte[] tpdo4_1 = msgData.FindLast(p => p.id == (0x485)).data;
+            byte[] tpdo4_2 = msgData.FindLast(p => p.id == (0x486)).data;
+            byte[] tpdo4_3 = msgData.FindLast(p => p.id == (0x487)).data;
+
+            try
+            {
+                var byteList = new List<byte> { tpdo3[4], tpdo4_1[1], tpdo4_2[1], tpdo4_3[1], 0 };
+                _prevOutputSignals = byteList;
+                return byteList;
+            }
+            catch (Exception)
+            {
+                return _prevOutputSignals;
+            }
         }
         private List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
-            var byteList = new List<byte> {tpdo3[0], tpdo3[1], tpdo3[2], tpdo3[3]};
-            return byteList;
+            byte[] tpdo4_1 = msgData.FindLast(p => p.id == (0x485)).data;
+            byte[] tpdo4_2 = msgData.FindLast(p => p.id == (0x486)).data;
+            byte[] tpdo4_3 = msgData.FindLast(p => p.id == (0x487)).data;
+
+            try
+            {
+                var byteList = new List<byte> { tpdo3[0], tpdo4_1[0], tpdo4_2[0], tpdo4_3[0] };
+                _prevInputSignals = byteList;
+                return byteList;
+            }
+            catch (Exception)
+            {
+                return _prevInputSignals;
+            }
         }
         private double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
@@ -205,6 +228,7 @@ namespace ML.DataExchange
 
         //private double _dS = 10; //m
         private MineConfig _config;
-        private int ind = -1; // for log
+        private List<byte> _prevInputSignals;
+        private List<byte> _prevOutputSignals;
     }
 }

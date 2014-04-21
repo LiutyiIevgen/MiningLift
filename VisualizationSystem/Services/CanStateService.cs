@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
+using GeneralLogEventType = ML.DataExchange.Model.GeneralLogEventType;
 
 namespace VisualizationSystem.Services
 {
@@ -28,9 +29,18 @@ namespace VisualizationSystem.Services
             while (true)
             {
                 if (DateTime.Now - _lastConnectionDate > new TimeSpan(0, 0, 0, 0, 1000))
+                {
+                    if (IsConnected == true)
+                    {
+                        var dataBaseService = new ML.DataExchange.Services.DataBaseService();
+                        //dataBaseService.FillGeneralLog("Прервано соединение по каналу CAN", GeneralLogEventType.Warning);
+                    }
                     IsConnected = false;
+                }
                 else
+                {
                     IsConnected = true;
+                }
                 Thread.Sleep(100);
             }
         }
