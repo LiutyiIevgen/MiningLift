@@ -144,7 +144,7 @@ namespace ML.DataExchange
                     return false;
                 }
                 _device.SendData(new List<CanDriver.canmsg_t> { msg });
-                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(2000)))
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(500)))
                 {
                     repeatCount++;
                     continue;
@@ -280,7 +280,7 @@ namespace ML.DataExchange
                             _wasError[j] = 0;
                     }*/
                     var maj = canParser.Majorization(parametersList);
-                    if (AllCanDataEvent != null && (i % 4) == 0)
+                    if (AllCanDataEvent != null && (i % 3) == 0)
                     {
                         AllCanDataEvent(parametersList);
                         i = 0;
@@ -439,7 +439,7 @@ namespace ML.DataExchange
                         }
                     });
                 }
-                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(5000)))
+                if (!_isLoaded.WaitOne(TimeSpan.FromMilliseconds(500)))
                 {
                     repeatCount++;
                     if (repeatCount == 10)

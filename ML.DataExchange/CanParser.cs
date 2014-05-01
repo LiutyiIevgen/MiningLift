@@ -72,8 +72,8 @@ namespace ML.DataExchange
             if (!CheckMsgCount(msgData,controllerId)) //check that all data form controller were received
                 return null;
             var param = new double[30];
-            var outputSignals = new List<byte>();
-            var inputSignals = new List<byte>();
+            var outputSignals = new List<byte?>();
+            var inputSignals = new List<byte?>();
             for (int i = 0; i < param.Length; i++)
             {
                 param[i] = 0;
@@ -115,7 +115,8 @@ namespace ML.DataExchange
                 return false;
             return true;
         }
-        private List<byte> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+
+        private List<byte?> GetAllOutputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
             //byte tpdo1 = msgData.FindLast(p => p.id == (0x180 + controllerId)).data[6];
@@ -123,35 +124,53 @@ namespace ML.DataExchange
             byte[] tpdo4_2 = msgData.FindLast(p => p.id == (0x486)).data;
             byte[] tpdo4_3 = msgData.FindLast(p => p.id == (0x487)).data;
 
-            try
-            {
-                var byteList = new List<byte> { tpdo3[4], tpdo4_1[1], tpdo4_2[1], tpdo4_3[1], 0 };
-                _prevOutputSignals = byteList;
-                return byteList;
-            }
-            catch (Exception)
-            {
-                return _prevOutputSignals;
-            }
+            var byteList = new List<byte?>() { null, null, null, null, null };
+
+            byteList[0] = tpdo3[4];
+
+            byteList[1] = tpdo4_1 == null ? _prevOutputSignals[1] : ( tpdo4_1[1]);
+            byteList[2] = tpdo4_2 == null ? _prevOutputSignals[2] : ( tpdo4_2[1]);
+            byteList[3] = tpdo4_3 == null ? _prevOutputSignals[3] : ( tpdo4_3[1]);
+
+            _prevOutputSignals = byteList;
+
+            
+            return byteList;
+
         }
-        private List<byte> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
+
+        private List<byte?> GetAllInputSignals(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             byte[] tpdo3 = msgData.FindLast(p => p.id == (0x380 + controllerId)).data;
             byte[] tpdo4_1 = msgData.FindLast(p => p.id == (0x485)).data;
             byte[] tpdo4_2 = msgData.FindLast(p => p.id == (0x486)).data;
             byte[] tpdo4_3 = msgData.FindLast(p => p.id == (0x487)).data;
 
-            try
+
+            var byteList = new List<byte?>() { null, null, null, null, null };
+
+            byteList[0] = tpdo3[0];
+
+            byteList[1] = tpdo4_1 == null ? _prevInputSignals[1] : ( tpdo4_1[0]);
+            byteList[2] = tpdo4_2 == null ? _prevInputSignals[2] : ( tpdo4_2[0]);
+            byteList[3] = tpdo4_3 == null ? _prevInputSignals[3] : ( tpdo4_3[0]);
+
+            _prevInputSignals = byteList;
+
+            if (tpdo4_1 == null && tpdo4_2 == null && tpdo4_3 == null)
+                _nullSignalFromFPK++;
+            else
+                _nullSignalFromFPK = 0;
+
+            if (_nullSignalFromFPK == 5)
             {
-                var byteList = new List<byte> { tpdo3[0], tpdo4_1[0], tpdo4_2[0], tpdo4_3[0] };
-                _prevInputSignals = byteList;
-                return byteList;
+                _prevInputSignals = new List<byte?>() {null, null, null, null};
+                _prevOutputSignals = new List<byte?>() { null, null, null, null, null };
             }
-            catch (Exception)
-            {
-                return _prevInputSignals;
-            }
+
+            return byteList;
         }
+
         private double GetS1(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             double s = 0;
@@ -228,7 +247,8 @@ namespace ML.DataExchange
 
         //private double _dS = 10; //m
         private MineConfig _config;
-        private List<byte> _prevInputSignals;
-        private List<byte> _prevOutputSignals;
+        private int _nullSignalFromFPK = 0;
+        private List<byte?> _prevInputSignals = new List<byte?>() { null, null, null, null };
+        private List<byte?> _prevOutputSignals = new List<byte?>() { null, null, null, null, null };
     }
 }

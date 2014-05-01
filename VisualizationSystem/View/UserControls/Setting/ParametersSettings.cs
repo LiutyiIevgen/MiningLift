@@ -385,7 +385,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             {
                 Encoding ansiCyrillic = Encoding.GetEncoding(1251);
                 string name = ansiCyrillic.GetString(canParameter.Data, 0, canParameter.Data.Count());
-                _deviceInformation.Add(name);
+                if (!_deviceInformation.Contains(name))
+                    _deviceInformation.Add(name);
             }
         }
 
@@ -605,7 +606,7 @@ namespace VisualizationSystem.View.UserControls.Setting
         EventWaitHandle _isUnloaded = new AutoResetEvent(false);
         EventWaitHandle _isLoaded = new AutoResetEvent(false);
         private int _parametersNumber = 0;
-        private int _paramSettingsOperation = 0; // flag
+        public static int _paramSettingsOperation = 0; // flag
 
         
 

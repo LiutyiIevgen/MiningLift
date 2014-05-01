@@ -11,6 +11,7 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using VisualizationSystem.Model;
 using VisualizationSystem.Model.Settings;
+using VisualizationSystem.View.UserControls.Setting;
 using VisualizationSystem.ViewModel;
 
 namespace VisualizationSystem.View.Forms.Setting
@@ -213,6 +214,7 @@ namespace VisualizationSystem.View.Forms.Setting
                 byte[] secondBytes = BitConverter.GetBytes(secondParam);
                 data.AddRange(secondBytes);
             }
+            ParametersSettings._paramSettingsOperation = 1;
             IoC.Resolve<DataListener>()
                 .SetParameter(controllerId,(ushort)_index, 0x02, data.ToArray());
         }

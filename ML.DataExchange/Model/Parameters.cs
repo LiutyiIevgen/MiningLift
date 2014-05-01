@@ -52,8 +52,8 @@ namespace ML.DataExchange.Model
             {
                 AuziDIOSignalsState.Add(AuziDState.Undefind);
             }
-            AuziDIByteList = new List<byte>();
-            AuziDOByteList = new List<byte>();
+            AuziDIByteList = new List<byte?>();
+            AuziDOByteList = new List<byte?>();
             for (int i = 0; i < 9; i++)
             {
                 AuziDIByteList.Add(new byte());
@@ -61,17 +61,18 @@ namespace ML.DataExchange.Model
             }
         }
 
-        public void SetAuziDOSignalsState(List<byte> byteList)
+        public void SetAuziDOSignalsState(List<byte?> byteList)
         {
             AuziDOByteList = byteList;
             var signals = new List<AuziDState>();
             foreach (var _byte in byteList)
             {
-                byte b = _byte;
+                byte? b = _byte;
                 for (int i = 0; i < 8; i++)
                 {
-                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
-                    b = (byte)(b >> 1);
+                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : ((b & 0x01) == null ? AuziDState.Undefind : AuziDState.On));
+                    if (b != null)
+                        b = (byte)(b >> 1);
                 }
             }
             for (int i = 0; i < signals.Count && i < 72; i++)
@@ -80,17 +81,18 @@ namespace ML.DataExchange.Model
             }
         }
 
-        public void SetAuziDISignalsState(List<byte> byteList)
+        public void SetAuziDISignalsState(List<byte?> byteList)
         {
             AuziDIByteList = byteList;
             var signals = new List<AuziDState>();
             foreach (var _byte in byteList)
             {
-                byte b = _byte;
+                byte? b = _byte;
                 for (int i = 0; i < 8; i++)
                 {
-                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : AuziDState.On);
-                    b = (byte)(b >> 1);
+                    signals.Add((b & 0x01) == 1 ? AuziDState.Off : ((b & 0x01) == null ? AuziDState.Undefind : AuziDState.On));
+                    if(b!=null)
+                        b = (byte)(b >> 1);
                 }
             }
             for (int i = 0; i < signals.Count && i < 72; i++)
@@ -121,8 +123,8 @@ namespace ML.DataExchange.Model
         public int[] signal { get; private set; }
         // AUZI-D iput and output signals
         public List<AuziDState> AuziDIOSignalsState { get; private set; }
-        public List<byte> AuziDIByteList { get; private set; }
-        public List<byte> AuziDOByteList { get; private set; }
+        public List<byte?> AuziDIByteList { get; private set; }
+        public List<byte?> AuziDOByteList { get; private set; }
         //номер режима защитной диаграммы
         public int DefenceDiagramRegime { get; private set; }
     }

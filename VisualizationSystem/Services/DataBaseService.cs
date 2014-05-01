@@ -67,10 +67,10 @@ namespace VisualizationSystem.Services
             using (var repoUnit = new RepoUnit())
             {
                 var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);
-                var byteList = new List<byte> { block.InputSignalsLogs.First().Vio0, block.InputSignalsLogs.First().Vio1, block.InputSignalsLogs.First().Vio2, block.InputSignalsLogs.First().Vio3 };
+                var byteList = new List<byte?> { block.InputSignalsLogs.First().Vio0, block.InputSignalsLogs.First().Vio1, block.InputSignalsLogs.First().Vio2, block.InputSignalsLogs.First().Vio3 };
                 foreach (var _byte in byteList)
                 {
-                    byte b = _byte;
+                    byte? b = _byte;
                     for (int i = 0; i < 8; i++)
                     {
                         parameterData.Add(new ParameterData
@@ -91,11 +91,11 @@ namespace VisualizationSystem.Services
             using (var repoUnit = new RepoUnit())
             {
                 var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);
-                var byteList = new List<byte> { block.OutputSignalsLogs.First().Vio7, block.OutputSignalsLogs.First().Vio8, block.OutputSignalsLogs.First().Vio9, 
+                var byteList = new List<byte?> { block.OutputSignalsLogs.First().Vio7, block.OutputSignalsLogs.First().Vio8, block.OutputSignalsLogs.First().Vio9, 
                     block.OutputSignalsLogs.First().Vio11, block.OutputSignalsLogs.First().Vio12 };
                 foreach (var _byte in byteList)
                 {
-                    byte b = _byte;
+                    byte? b = _byte;
                     for (int i = 0; i < 8; i++)
                     {
                         parameterData.Add(new ParameterData
