@@ -140,5 +140,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         };
         private int _wasOstanov;
         private Parameters _parameters;
+
+
     }
 }

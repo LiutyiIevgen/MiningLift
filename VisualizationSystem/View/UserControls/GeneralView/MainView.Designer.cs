@@ -37,8 +37,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.labelCanState = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
@@ -98,6 +96,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox1 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel6 = new VisualizationSystem.Model.MyPanel();
@@ -117,7 +117,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -187,6 +186,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
             this.splitContainer10.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -216,7 +216,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer3.Panel1.Controls.Add(this.labelCanState);
             this.splitContainer3.Panel1.Controls.Add(this.textBox1);
             // 
@@ -227,20 +226,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer3.SplitterDistance = 51;
             this.splitContainer3.TabIndex = 0;
             this.splitContainer3.TabStop = false;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 26);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
-            this.toolStripMenuItem1.Text = "Настройки";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // labelCanState
             // 
@@ -368,7 +353,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer14.Panel1
             // 
-            this.splitContainer14.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer14.Panel1.Controls.Add(this.label6);
             this.splitContainer14.Panel1.Controls.Add(this.label3);
             this.splitContainer14.Panel1.Controls.Add(this.textBox3);
@@ -444,7 +428,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer15.Panel1
             // 
-            this.splitContainer15.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer15.Panel1.Controls.Add(this.label8);
             this.splitContainer15.Panel1.Controls.Add(this.label7);
             this.splitContainer15.Panel1.Controls.Add(this.textBox4);
@@ -520,7 +503,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer16.Panel1
             // 
-            this.splitContainer16.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer16.Panel1.Controls.Add(this.label9);
             this.splitContainer16.Panel1.Controls.Add(this.label10);
             this.splitContainer16.Panel1.Controls.Add(this.textBox5);
@@ -579,7 +561,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer17.Panel1
             // 
-            this.splitContainer17.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer17.Panel1.Controls.Add(this.splitContainer18);
             // 
             // splitContainer17.Panel2
@@ -598,10 +579,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer18.Panel1
             // 
+            this.splitContainer18.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer18.Panel1.Controls.Add(this.labelDefenceDiagramRegim);
             // 
             // splitContainer18.Panel2
             // 
+            this.splitContainer18.Panel2.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer18.Panel2.Controls.Add(this.labelLogEvent);
             this.splitContainer18.Size = new System.Drawing.Size(732, 25);
             this.splitContainer18.SplitterDistance = 367;
@@ -634,7 +617,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tabControl1.ContextMenuStrip = this.contextMenuStrip1;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -667,6 +649,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Gray;
+            this.tabPage2.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -677,6 +660,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.Gray;
+            this.tabPage3.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage3.Location = new System.Drawing.Point(4, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(724, 373);
@@ -685,6 +669,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // tabPage4
             // 
+            this.tabPage4.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage4.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage4.Location = new System.Drawing.Point(4, 4);
             this.tabPage4.Name = "tabPage4";
@@ -697,6 +682,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.Gray;
+            this.tabPage5.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage5.Controls.Add(this.tableLayoutPanel4);
             this.tabPage5.Location = new System.Drawing.Point(4, 4);
             this.tabPage5.Name = "tabPage5";
@@ -882,6 +868,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.Color.Gray;
+            this.tabPage6.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage6.Controls.Add(this.dataGridViewParameters);
             this.tabPage6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage6.Location = new System.Drawing.Point(4, 4);
@@ -978,6 +965,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // tabPage7
             // 
+            this.tabPage7.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage7.Location = new System.Drawing.Point(4, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Size = new System.Drawing.Size(724, 373);
@@ -994,7 +982,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer4.Panel1.Controls.Add(this.labelDate);
             this.splitContainer4.Panel1.Controls.Add(this.labelTime);
             this.splitContainer4.Panel1.Controls.Add(this.textBox2);
@@ -1097,6 +1084,20 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.SplitterDistance = 540;
             this.splitContainer10.TabIndex = 1;
             this.splitContainer10.TabStop = false;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem1.Text = "Настройки";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 26);
             // 
             // panel1
             // 
@@ -1247,7 +1248,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
@@ -1324,6 +1324,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1369,8 +1370,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private MyPanel panel7;
         private MyRichTextBox richTextBox4;
         private MyPanel panel2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Label labelDate;
         private Label labelCanState;
@@ -1404,5 +1403,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private Label labelDefenceDiagramRegim;
         public Label labelLogEvent;
         private TabPage tabPage4;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }
