@@ -71,15 +71,29 @@ namespace VisualizationSystem.Services
                 foreach (var _byte in byteList)
                 {
                     byte? b = _byte;
-                    for (int i = 0; i < 8; i++)
+                    if (b == null)
                     {
-                        parameterData.Add(new ParameterData
+                        for (int i = 0; i < 8; i++)
                         {
-                            Name = "",
-                            Value = (b & 0x01) == 1 ? "Лог '1'": "Лог '0'"
-                        });
-                        b = (byte)(b >> 1);
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = "нет данных"
+                            });
+                        }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = (b & 0x01) == 1 ? "Лог '1'" : "Лог '0'"
+                            });
+                            b = (byte)(b >> 1);
+                        } 
+                    } 
                 }
             }
             return parameterData;
@@ -96,14 +110,28 @@ namespace VisualizationSystem.Services
                 foreach (var _byte in byteList)
                 {
                     byte? b = _byte;
-                    for (int i = 0; i < 8; i++)
+                    if (b == null)
                     {
-                        parameterData.Add(new ParameterData
+                        for (int i = 0; i < 8; i++)
                         {
-                            Name = "",
-                            Value = (b & 0x01) == 1 ? "Лог '1'" : "Лог '0'"
-                        });
-                        b = (byte)(b >> 1);
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = "нет данных"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = (b & 0x01) == 1 ? "Лог '1'" : "Лог '0'"
+                            });
+                            b = (byte)(b >> 1);
+                        }
                     }
                 }
             }
