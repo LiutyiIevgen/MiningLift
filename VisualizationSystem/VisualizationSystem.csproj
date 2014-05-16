@@ -73,6 +73,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BrakeData\CircleData.cs" />
+    <Compile Include="Model\BrakeData\FillCircleData.cs" />
+    <Compile Include="Model\BrakeData\FillPoligonData.cs" />
+    <Compile Include="Model\BrakeData\FillRectData.cs" />
+    <Compile Include="Model\BrakeData\FillTriangleData.cs" />
+    <Compile Include="Model\BrakeData\LineData.cs" />
+    <Compile Include="Model\BrakeData\PolygonData.cs" />
+    <Compile Include="Model\BrakeData\RectData.cs" />
+    <Compile Include="Model\BrakeData\RuleData.cs" />
+    <Compile Include="Model\BrakeData\RuleInscription.cs" />
+    <Compile Include="Model\BrakeData\TextData.cs" />
+    <Compile Include="Model\BrakeData\TriangleData.cs" />
     <Compile Include="Model\DataBase\ParameterData.cs" />
     <Compile Include="Model\DataListener.cs" />
     <Compile Include="Model\Enums.cs" />
@@ -102,6 +114,8 @@
     <Compile Include="ViewModel\MainViewModel\ArhivVm.cs" />
     <Compile Include="ViewModel\MainViewModel\AuziDControllerParametersVm.cs" />
     <Compile Include="ViewModel\MainViewModel\AuziDInOutSignalsVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\BrakeBarsPictureVm.cs" />
+    <Compile Include="ViewModel\MainViewModel\BrakeMainPictureVm.cs" />
     <Compile Include="ViewModel\MainViewModel\CentralSignalsDataVm.cs" />
     <Compile Include="ViewModel\MainViewModel\DataBoxVm.cs" />
     <Compile Include="ViewModel\MainViewModel\DefenceDiagramVm.cs" />
@@ -168,6 +182,12 @@
     </Compile>
     <Compile Include="View\UserControls\GeneralView\AuziDUC.Designer.cs">
       <DependentUpon>AuziDUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\BrakeUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UserControls\GeneralView\BrakeUC.Designer.cs">
+      <DependentUpon>BrakeUC.cs</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\GeneralView\CepTpUC.cs">
       <SubType>UserControl</SubType>
@@ -277,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\GeneralView\AuziDUC.resx">
       <DependentUpon>AuziDUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UserControls\GeneralView\BrakeUC.resx">
+      <DependentUpon>BrakeUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserControls\GeneralView\CepTpUC.resx">
       <DependentUpon>CepTpUC.cs</DependentUpon>

@@ -29,6 +29,11 @@ namespace VisualizationSystem.View.UserControls.Setting
             leftSosudСomboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.LeftSosud);
             rightSosudComboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.RightSosud);
             ArchiveStateComboBox.SelectedIndex = Convert.ToInt32(IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState);
+
+            textBoxGreenZoneRabCyl1.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxGreenZoneRabCyl2.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxGreenZonePredCyl1.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxGreenZonePredCyl2.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value, CultureInfo.GetCultureInfo("en-US"));
         }
 
         private void maxSpeedTextBox_TextChanged(object sender, EventArgs e)
@@ -202,6 +207,88 @@ namespace VisualizationSystem.View.UserControls.Setting
         {
             IoC.Resolve<MineConfig>().MainViewConfig.ArchiveState = (ArchiveState)ArchiveStateComboBox.SelectedIndex;
         }
+
+        //BrakeSystem
+        private void textBoxGreenZoneRabCyl1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxGreenZoneRabCyl1.Text == "" || textBoxGreenZoneRabCyl1.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value = 1;
+            else if (Convert.ToDouble(textBoxGreenZoneRabCyl1.Text, CultureInfo.GetCultureInfo("en-US")) <= 0)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value = 1;
+                textBoxGreenZoneRabCyl1.Text = Convert.ToString(1, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Минимальное давление должно быть больше 0 бар", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            /*else if (Convert.ToDouble(textBoxGreenZoneRabCyl1.Text, CultureInfo.GetCultureInfo("en-US")) >= IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value = 1;
+                textBoxGreenZoneRabCyl1.Text = Convert.ToString(1, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Минимальное давление должно быть меньше максимального", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            } */
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value = Convert.ToDouble(textBoxGreenZoneRabCyl1.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxGreenZoneRabCyl2_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxGreenZoneRabCyl2.Text == "" || textBoxGreenZoneRabCyl2.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value = 6;
+            /*else if (Convert.ToDouble(textBoxGreenZoneRabCyl2.Text, CultureInfo.GetCultureInfo("en-US")) <= IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value = 6;
+                textBoxGreenZoneRabCyl2.Text = Convert.ToString(6, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Максимальное давление должно быть больше минимального", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            } */
+            else if (Convert.ToDouble(textBoxGreenZoneRabCyl2.Text, CultureInfo.GetCultureInfo("en-US")) > 10)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value = 6;
+                textBoxGreenZoneRabCyl2.Text = Convert.ToString(6, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Максимальное давление не должно превышать 10 бар", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value = Convert.ToDouble(textBoxGreenZoneRabCyl2.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxGreenZonePredCyl1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxGreenZonePredCyl1.Text == "" || textBoxGreenZonePredCyl1.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value = 1;
+            else if (Convert.ToDouble(textBoxGreenZonePredCyl1.Text, CultureInfo.GetCultureInfo("en-US")) <= 0)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value = 1;
+                textBoxGreenZonePredCyl1.Text = Convert.ToString(1, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Минимальное давление должно быть больше 0 бар", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+           /* else if (Convert.ToDouble(textBoxGreenZonePredCyl1.Text, CultureInfo.GetCultureInfo("en-US")) >= IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value = 1;
+                textBoxGreenZonePredCyl1.Text = Convert.ToString(1, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Минимальное давление должно быть меньше максимального", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            } */
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value = Convert.ToDouble(textBoxGreenZonePredCyl1.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxGreenZonePredCyl2_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxGreenZonePredCyl2.Text == "" || textBoxGreenZonePredCyl2.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value = 6;
+            /*else if (Convert.ToDouble(textBoxGreenZonePredCyl2.Text, CultureInfo.GetCultureInfo("en-US")) <= IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value = 6;
+                textBoxGreenZonePredCyl2.Text = Convert.ToString(6, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Максимальное давление должно быть больше минимального", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            } */
+            else if (Convert.ToDouble(textBoxGreenZonePredCyl2.Text, CultureInfo.GetCultureInfo("en-US")) > 10)
+            {
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value = 6;
+                textBoxGreenZonePredCyl2.Text = Convert.ToString(6, CultureInfo.GetCultureInfo("en-US"));
+                MessageBox.Show("Максимальное давление не должно превышать 10 бар", "Ошибка ввода параметров", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value = Convert.ToDouble(textBoxGreenZonePredCyl2.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+        //
 
 
 

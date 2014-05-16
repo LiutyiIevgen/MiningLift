@@ -18,6 +18,7 @@ namespace ML.ConfigSettings.Services
         public MainViewConfigSection MainViewConfig { get; set; }
         public AuziDSignalsConfigSection AuziDSignalsConfig { get; set; }
         public ParametersConfigSection ParametersConfig { get; set; }
+        public BrakeSystemConfigSection BrakeSystemConfig { get; set; }
 
         protected override MineConfig GetObject()
         {
@@ -76,6 +77,13 @@ namespace ML.ConfigSettings.Services
             {
                 ParametersFileName = "c:\\Users\\Женя\\Documents\\Work\\MiningLift\\ParametersFiles"
             };
+            BrakeSystemConfig = new BrakeSystemConfigSection()
+            {
+                GreenZoneRabCyl1 = new SimpleParameter() {Value = 4},
+                GreenZoneRabCyl2 = new SimpleParameter() {Value = 6},
+                GreenZonePredCyl1 = new SimpleParameter() {Value = 4},
+                GreenZonePredCyl2 = new SimpleParameter() {Value = 6}
+            };
         }
 
         protected override void CopyObject(MineConfig config)
@@ -88,6 +96,7 @@ namespace ML.ConfigSettings.Services
             MainViewConfig = config.MainViewConfig;
             AuziDSignalsConfig = config.AuziDSignalsConfig;
             ParametersConfig = config.ParametersConfig;
+            BrakeSystemConfig = config.BrakeSystemConfig;
         }
 
     }

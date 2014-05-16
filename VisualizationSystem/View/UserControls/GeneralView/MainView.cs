@@ -26,15 +26,17 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             DoubleBuffered(panel6, true);
             DoubleBuffered(panel7, true);
             DoubleBuffered(panel2, true);
-            _cycleUc = new CycleUC(){Dock = DockStyle.Fill};
+            _cycleUc = new CycleUC() {Dock = DockStyle.Fill};
             _cepTpUc = new CepTpUC() {Dock = DockStyle.Fill};
             _auziDUc = new AuziDUC() {Dock = DockStyle.Fill};
-            _logUc = new LogUC() { Dock = DockStyle.Fill };
+            _logUc = new LogUC() {Dock = DockStyle.Fill};
+            _brakeUc = new BrakeUC() {Dock = DockStyle.Fill};
 
             tabPage1.Controls.Add(_cycleUc);
             tabPage2.Controls.Add(_cepTpUc);
             tabPage3.Controls.Add(_auziDUc);
             tabPage4.Controls.Add(_logUc);
+            tabPage6.Controls.Add(_brakeUc);
 
             _dataListener = IoC.Resolve<DataListener>();
             IoC.Resolve<CanStateService>().StartListener();
@@ -88,10 +90,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             UpdateTokExitationPanel(parameters);
             UpdateLeftDopPanel(parameters);
             UpdateRightDopPanel(parameters);
-            
 
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
+
+            _brakeUc.DrawBars(parameters);
 
             if (update_parameters_flag%3 == 0)
             {
@@ -321,38 +324,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     richTextBox3.Text = _loadDataVm.GetLoadData()[2].Text;
                 });
         }    
-
-        private void UpdateParametersData(object sender, EventArgs e)
-        {
-            //
-            if (tabControl1.SelectedTab == tabPage4)
-                labelLogEvent.ForeColor = Color.Gray;
-            //
-            if(tabControl1.SelectedTab != tabPage6)
-                return;
-            var parametersSettingsVm = new ParametersSettingsVm();
-            try
-            {
-                parametersSettingsVm.ReadFromFile(_mineConfig.ParametersConfig.ParametersFileName);
-            }
-            catch (Exception)
-            {
-                dataGridViewParameters.RowCount = 0;
-                return;
-            }
-            this.Invoke((MethodInvoker)delegate
-            {
-                dataGridViewParameters.RowCount = parametersSettingsVm.ParametersSettingsDatas.Count;
-                for (int i = 0; i < dataGridViewParameters.RowCount; i++)
-                {
-                    dataGridViewParameters[0, i].Value = i;
-                    dataGridViewParameters[1, i].Value = "0x" + Convert.ToString(parametersSettingsVm.ParametersSettingsDatas[i].Id, 16); ;
-                    dataGridViewParameters[2, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Name;
-                    dataGridViewParameters[3, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Type;
-                    dataGridViewParameters[4, i].Value = parametersSettingsVm.ParametersSettingsDatas[i].Value;
-                }
-            });
-        }
         #endregion
 
         #region Handlers
@@ -484,6 +455,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             labelLogEvent.ForeColor = Color.Gray;
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage4)
+                labelLogEvent.ForeColor = Color.Gray;
+        }
         #endregion
 
         private void UpdateDefenceDiagramRegimIndication(Parameters parameters)
@@ -526,6 +503,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private CepTpUC _cepTpUc;
         private AuziDUC _auziDUc;
         private LogUC _logUc;
+        private BrakeUC _brakeUc;
 
         private DataBaseService _dataBaseService;
         private MineConfig _mineConfig;
@@ -545,11 +523,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private Thread cycleThread;
         private volatile Parameters _parameters = new Parameters();
-
-
-
-
-
 
 
     }

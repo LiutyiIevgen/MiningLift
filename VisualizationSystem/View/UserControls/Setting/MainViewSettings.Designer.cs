@@ -58,6 +58,18 @@
             this.label20 = new System.Windows.Forms.Label();
             this.ArchiveStateComboBox = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBoxGreenZoneRabCyl1 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBoxGreenZoneRabCyl2 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.textBoxGreenZonePredCyl1 = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBoxGreenZonePredCyl2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // maxSpeedTextBox
@@ -410,11 +422,159 @@
             this.label5.TabIndex = 33;
             this.label5.Text = "Архив";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label16.Location = new System.Drawing.Point(697, 43);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(44, 19);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "бары";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label21.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label21.Location = new System.Drawing.Point(377, 27);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(182, 38);
+            this.label21.TabIndex = 36;
+            this.label21.Text = "Минимальное давление \r\nв рабочих цилиндрах";
+            // 
+            // textBoxGreenZoneRabCyl1
+            // 
+            this.textBoxGreenZoneRabCyl1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxGreenZoneRabCyl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGreenZoneRabCyl1.Location = new System.Drawing.Point(623, 40);
+            this.textBoxGreenZoneRabCyl1.Name = "textBoxGreenZoneRabCyl1";
+            this.textBoxGreenZoneRabCyl1.Size = new System.Drawing.Size(68, 22);
+            this.textBoxGreenZoneRabCyl1.TabIndex = 35;
+            this.textBoxGreenZoneRabCyl1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxGreenZoneRabCyl1.TextChanged += new System.EventHandler(this.textBoxGreenZoneRabCyl1_TextChanged);
+            this.textBoxGreenZoneRabCyl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label22.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label22.Location = new System.Drawing.Point(697, 95);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(44, 19);
+            this.label22.TabIndex = 40;
+            this.label22.Text = "бары";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label23.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label23.Location = new System.Drawing.Point(377, 79);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(187, 38);
+            this.label23.TabIndex = 39;
+            this.label23.Text = "Максимальное давление \r\nв рабочих цилиндрах";
+            // 
+            // textBoxGreenZoneRabCyl2
+            // 
+            this.textBoxGreenZoneRabCyl2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxGreenZoneRabCyl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGreenZoneRabCyl2.Location = new System.Drawing.Point(623, 92);
+            this.textBoxGreenZoneRabCyl2.Name = "textBoxGreenZoneRabCyl2";
+            this.textBoxGreenZoneRabCyl2.Size = new System.Drawing.Size(68, 22);
+            this.textBoxGreenZoneRabCyl2.TabIndex = 38;
+            this.textBoxGreenZoneRabCyl2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxGreenZoneRabCyl2.TextChanged += new System.EventHandler(this.textBoxGreenZoneRabCyl2_TextChanged);
+            this.textBoxGreenZoneRabCyl2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label24.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label24.Location = new System.Drawing.Point(697, 149);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(44, 19);
+            this.label24.TabIndex = 43;
+            this.label24.Text = "бары";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label25.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label25.Location = new System.Drawing.Point(377, 133);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(234, 38);
+            this.label25.TabIndex = 42;
+            this.label25.Text = "Минимальное давление в \r\nпредохранительных цилиндрах";
+            // 
+            // textBoxGreenZonePredCyl1
+            // 
+            this.textBoxGreenZonePredCyl1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxGreenZonePredCyl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGreenZonePredCyl1.Location = new System.Drawing.Point(623, 146);
+            this.textBoxGreenZonePredCyl1.Name = "textBoxGreenZonePredCyl1";
+            this.textBoxGreenZonePredCyl1.Size = new System.Drawing.Size(68, 22);
+            this.textBoxGreenZonePredCyl1.TabIndex = 41;
+            this.textBoxGreenZonePredCyl1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxGreenZonePredCyl1.TextChanged += new System.EventHandler(this.textBoxGreenZonePredCyl1_TextChanged);
+            this.textBoxGreenZonePredCyl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label26.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label26.Location = new System.Drawing.Point(697, 204);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(44, 19);
+            this.label26.TabIndex = 46;
+            this.label26.Text = "бары";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label27.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label27.Location = new System.Drawing.Point(377, 188);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(234, 38);
+            this.label27.TabIndex = 45;
+            this.label27.Text = "Максимальное давление в \r\nпредохранительных цилиндрах";
+            // 
+            // textBoxGreenZonePredCyl2
+            // 
+            this.textBoxGreenZonePredCyl2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxGreenZonePredCyl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxGreenZonePredCyl2.Location = new System.Drawing.Point(623, 201);
+            this.textBoxGreenZonePredCyl2.Name = "textBoxGreenZonePredCyl2";
+            this.textBoxGreenZonePredCyl2.Size = new System.Drawing.Size(68, 22);
+            this.textBoxGreenZonePredCyl2.TabIndex = 44;
+            this.textBoxGreenZonePredCyl2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxGreenZonePredCyl2.TextChanged += new System.EventHandler(this.textBoxGreenZonePredCyl2_TextChanged);
+            this.textBoxGreenZonePredCyl2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
             // MainViewSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.textBoxGreenZonePredCyl2);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.textBoxGreenZonePredCyl1);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.textBoxGreenZoneRabCyl2);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.textBoxGreenZoneRabCyl1);
             this.Controls.Add(this.ArchiveStateComboBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label20);
@@ -485,5 +645,17 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.ComboBox ArchiveStateComboBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox textBoxGreenZoneRabCyl1;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox textBoxGreenZoneRabCyl2;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox textBoxGreenZonePredCyl1;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBoxGreenZonePredCyl2;
     }
 }

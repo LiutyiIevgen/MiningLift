@@ -35,6 +35,11 @@ namespace ML.DataExchange.Model
             load_state = Convert.ToInt32(param[11]);
             s_two = -param[12];
             defence_diagram = param[13];
+            //
+            BrakeRabCyl1Pressure = 5.55;
+            BrakeRabCyl2Pressure = 5;
+            BrakePredCyl1Pressure = 5;
+            BrakePredCyl2Pressure = 6.1;
         }
 
         public void SetSignals()
@@ -127,5 +132,9 @@ namespace ML.DataExchange.Model
         public List<byte?> AuziDOByteList { get; private set; }
         //номер режима защитной диаграммы
         public int DefenceDiagramRegime { get; private set; }
+        public double BrakeRabCyl1Pressure { get; private set; } //давление воздуха в 1-м рабочем цилиндре тормозной системы
+        public double BrakeRabCyl2Pressure { get; private set; }
+        public double BrakePredCyl1Pressure { get; private set; } //давление воздуха в 1-м предохранительном цилиндре тормозной системы
+        public double BrakePredCyl2Pressure { get; private set; }
     }
 }
