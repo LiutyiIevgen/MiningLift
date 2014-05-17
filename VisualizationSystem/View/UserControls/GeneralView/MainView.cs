@@ -77,7 +77,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         public void ViewData(Parameters parameters)
         {
             _parameters = parameters;
-            
+
+            if (parameters.defence_diagram < 0.1)
+            {
+                _parameters = parameters;
+            }
             //
             Settings.UpZeroZone = _mineConfig.MainViewConfig.UpZeroZone.Value;
             //
@@ -94,11 +98,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             UpdateDataBoxes(parameters);
             UpdateLoadData(parameters);
 
-            _brakeUc.DrawBars(parameters);
+            
 
             if (update_parameters_flag%3 == 0)
             {
                 _cycleUc.Refresh(parameters);
+                _brakeUc.DrawBars(parameters);
             }
             if (update_parameters_flag%20 == 0)
             {
@@ -106,10 +111,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 UpdateDefenceDiagramRegimIndication(parameters);
                 update_parameters_flag = 0;
             }
-            if (update_parameters_flag%100 == 0)
-            {
-                 
-            }
+
             update_parameters_flag++;
             //stopwatch.Stop();
             //stopwatch = null;

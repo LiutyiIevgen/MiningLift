@@ -18,13 +18,10 @@ namespace ML.DataExchange
         public List<Parameters> GetParametersList(List<CanDriver.canmsg_t> msgData)
         {
             var parametersList = new List<Parameters>();
-            int parametersCount = 0;
             for (byte i = 1; i < 4; i++)
             {
                 Parameters parameters = GetParameters(msgData, i);
                 parametersList.Add(parameters);
-                if (parameters != null)
-                    parametersCount++;
             }
             return parametersList;
         }
@@ -91,6 +88,9 @@ namespace ML.DataExchange
                 param[11] = GetLoad(msgData, controllerId);
                 param[12] = GetS2(msgData, controllerId);
                 param[13] = GetDefenceDiagram(msgData, controllerId);
+                var pressures = GetBrakeRabPressure(msgData, controllerId);
+                for (int i = 0; i < pressures.Count(); i++)
+                    param[i + 14] = pressures[i];
                 inputSignals = GetAllInputSignals(msgData, controllerId);
                 outputSignals = GetAllOutputSignals(msgData, controllerId);
             }
@@ -154,6 +154,7 @@ namespace ML.DataExchange
             byteList[1] = tpdo4_1 == null ? _prevInputSignals[1] : ( tpdo4_1[0]);
             byteList[2] = tpdo4_2 == null ? _prevInputSignals[2] : ( tpdo4_2[0]);
             byteList[3] = tpdo4_3 == null ? _prevInputSignals[3] : ( tpdo4_3[0]);
+
 
             _prevInputSignals = byteList;
 
@@ -236,6 +237,21 @@ namespace ML.DataExchange
             return 0;
         }
 
+        private double[] GetBrakeRabPressure(List<CanDriver.canmsg_t> msgData, byte controllerId)
+        {
+            var ret = new double[4];
+            byte[] tpdo4_1 = msgData.FindLast(p => p.id == (0x485)).data;
+            if (tpdo4_1 != null)
+            {
+                for (int i = 0; i < ret.Count(); i++)
+                    ret[i] = tpdo4_1[i + 4]*16*0.00122;
+                _prevPressures = ret;
+            }
+            else
+                ret = _prevPressures;
+            return ret;
+        }
+
         private double GetUnload(List<CanDriver.canmsg_t> msgData, byte controllerId)
         {
             return 0;
@@ -250,5 +266,6 @@ namespace ML.DataExchange
         private int _nullSignalFromFPK = 0;
         private List<byte?> _prevInputSignals = new List<byte?>() { null, null, null, null };
         private List<byte?> _prevOutputSignals = new List<byte?>() { null, null, null, null, null };
+        private double[] _prevPressures = new double[4]{0,0,0,0};
     }
 }

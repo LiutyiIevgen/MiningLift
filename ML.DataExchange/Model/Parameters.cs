@@ -36,10 +36,10 @@ namespace ML.DataExchange.Model
             s_two = -param[12];
             defence_diagram = param[13];
             //
-            BrakeRabCyl1Pressure = 5.55;
-            BrakeRabCyl2Pressure = 5;
-            BrakePredCyl1Pressure = 5;
-            BrakePredCyl2Pressure = 6.1;
+            BrakeRabCyl1Pressure = param[14];
+            BrakeRabCyl2Pressure = param[15];
+            BrakePredCyl1Pressure = param[16];
+            BrakePredCyl2Pressure = param[17];
         }
 
         public void SetSignals()
