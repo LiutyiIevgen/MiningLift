@@ -70,6 +70,15 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.textBoxGreenZonePredCyl2 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxAdcZero = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.textBoxAdcMaximum = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.textBoxAdcValueToBarrKoef = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // maxSpeedTextBox
@@ -558,11 +567,122 @@
             this.textBoxGreenZonePredCyl2.TextChanged += new System.EventHandler(this.textBoxGreenZonePredCyl2_TextChanged);
             this.textBoxGreenZonePredCyl2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
             // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label28.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label28.Location = new System.Drawing.Point(697, 264);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(18, 19);
+            this.label28.TabIndex = 49;
+            this.label28.Text = "V";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label29.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label29.Location = new System.Drawing.Point(377, 248);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(218, 38);
+            this.label29.TabIndex = 48;
+            this.label29.Text = "0 АЦП давления в цилиндрах \r\nтормозной системы";
+            // 
+            // textBoxAdcZero
+            // 
+            this.textBoxAdcZero.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxAdcZero.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxAdcZero.Location = new System.Drawing.Point(623, 261);
+            this.textBoxAdcZero.Name = "textBoxAdcZero";
+            this.textBoxAdcZero.Size = new System.Drawing.Size(68, 22);
+            this.textBoxAdcZero.TabIndex = 47;
+            this.textBoxAdcZero.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxAdcZero.TextChanged += new System.EventHandler(this.textBoxAdcZero_TextChanged);
+            this.textBoxAdcZero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label30.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label30.Location = new System.Drawing.Point(697, 319);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(18, 19);
+            this.label30.TabIndex = 52;
+            this.label30.Text = "V";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label31.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label31.Location = new System.Drawing.Point(377, 303);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(239, 38);
+            this.label31.TabIndex = 51;
+            this.label31.Text = "Макс. значение АЦП давления в \r\nцилиндрах тормозной системы";
+            // 
+            // textBoxAdcMaximum
+            // 
+            this.textBoxAdcMaximum.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxAdcMaximum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxAdcMaximum.Location = new System.Drawing.Point(623, 316);
+            this.textBoxAdcMaximum.Name = "textBoxAdcMaximum";
+            this.textBoxAdcMaximum.Size = new System.Drawing.Size(68, 22);
+            this.textBoxAdcMaximum.TabIndex = 50;
+            this.textBoxAdcMaximum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxAdcMaximum.TextChanged += new System.EventHandler(this.textBoxAdcMaximum_TextChanged);
+            this.textBoxAdcMaximum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label32.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label32.Location = new System.Drawing.Point(697, 371);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(21, 19);
+            this.label32.TabIndex = 55;
+            this.label32.Text = "   ";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label33.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label33.Location = new System.Drawing.Point(377, 355);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(234, 38);
+            this.label33.TabIndex = 54;
+            this.label33.Text = "Коэффициент преобразования \r\nзначения АЦП в барры";
+            // 
+            // textBoxAdcValueToBarrKoef
+            // 
+            this.textBoxAdcValueToBarrKoef.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxAdcValueToBarrKoef.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxAdcValueToBarrKoef.Location = new System.Drawing.Point(623, 368);
+            this.textBoxAdcValueToBarrKoef.Name = "textBoxAdcValueToBarrKoef";
+            this.textBoxAdcValueToBarrKoef.Size = new System.Drawing.Size(68, 22);
+            this.textBoxAdcValueToBarrKoef.TabIndex = 53;
+            this.textBoxAdcValueToBarrKoef.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxAdcValueToBarrKoef.TextChanged += new System.EventHandler(this.textBoxAdcValueToBarrKoef_TextChanged);
+            this.textBoxAdcValueToBarrKoef.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.maxSpeedTextBox_KeyPress);
+            // 
             // MainViewSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.label33);
+            this.Controls.Add(this.textBoxAdcValueToBarrKoef);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.textBoxAdcMaximum);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.textBoxAdcZero);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.textBoxGreenZonePredCyl2);
@@ -657,5 +777,14 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox textBoxGreenZonePredCyl2;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBoxAdcZero;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox textBoxAdcMaximum;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox textBoxAdcValueToBarrKoef;
     }
 }

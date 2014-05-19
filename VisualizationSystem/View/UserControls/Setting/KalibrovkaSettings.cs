@@ -357,12 +357,12 @@ namespace VisualizationSystem.View.UserControls.Setting
         private void TextBoxInt_KeyPress(object sender, KeyPressEventArgs e)
         {
             char c = e.KeyChar;
-            e.Handled = !(char.IsDigit(c) || c == '\b');
+            e.Handled = !(char.IsDigit(c) || c == '\b' || c == '-');
         }
         private void TextBoxReal_KeyPress(object sender, KeyPressEventArgs e)
         {
             char c = e.KeyChar;
-            e.Handled = !(char.IsDigit(c) || c == '.' || c == '\b');
+            e.Handled = !(char.IsDigit(c) || c == '.' || c == '\b' || c == '-');
         }
 
         private void checkBoxEdit_CheckedChanged(object sender, EventArgs e)

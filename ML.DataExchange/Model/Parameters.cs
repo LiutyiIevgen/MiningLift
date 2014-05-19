@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ML.ConfigSettings.Services;
 
 namespace ML.DataExchange.Model
 {

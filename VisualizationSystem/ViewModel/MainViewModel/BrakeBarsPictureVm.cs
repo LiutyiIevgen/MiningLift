@@ -18,6 +18,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         {
             this.panelWidth = panelWidth;
             this.panelHeight = panelHeight;
+            _mineConfig = IoC.Resolve<MineConfig>();
             BarsBackground = new List<FillRectData>();
             BarsContur = new List<RectData>();
             BarsContent = new List<FillRectData>();
@@ -58,10 +59,14 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             BindingLine.Clear();
 
             _parameters = parameters;
-            _greenZoneRabCyl1 = IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl1.Value;
-            _greenZoneRabCyl2 = IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value;
-            _greenZonePredCyl1 = IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value;
-            _greenZonePredCyl2 = IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value;
+            _greenZoneRabCyl1 = _mineConfig.BrakeSystemConfig.GreenZoneRabCyl1.Value;
+            _greenZoneRabCyl2 = _mineConfig.BrakeSystemConfig.GreenZoneRabCyl2.Value;
+            _greenZonePredCyl1 = _mineConfig.BrakeSystemConfig.GreenZonePredCyl1.Value;
+            _greenZonePredCyl2 = _mineConfig.BrakeSystemConfig.GreenZonePredCyl2.Value;
+            _rabCyl1Pressure = (_parameters.BrakeRabCyl1Pressure - _mineConfig.BrakeSystemConfig.AdcZero.Value) * _mineConfig.BrakeSystemConfig.AdcValueToBarrKoef.Value;
+            _rabCyl2Pressure = (_parameters.BrakeRabCyl2Pressure - _mineConfig.BrakeSystemConfig.AdcZero.Value) * _mineConfig.BrakeSystemConfig.AdcValueToBarrKoef.Value;
+            _predCyl1Pressure = (_parameters.BrakePredCyl1Pressure - _mineConfig.BrakeSystemConfig.AdcZero.Value) * _mineConfig.BrakeSystemConfig.AdcValueToBarrKoef.Value;
+            _predCyl2Pressure = (_parameters.BrakePredCyl2Pressure - _mineConfig.BrakeSystemConfig.AdcZero.Value) * _mineConfig.BrakeSystemConfig.AdcValueToBarrKoef.Value;
         }
 
         public List<FillRectData> GetBarsBackgroundDatas()
@@ -90,8 +95,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 Width = width + 2,
                 Pen = new Pen(Color.FromArgb(255, color, color, color), 2)
             });
-            width = Convert.ToInt32((_barWidth / _maxPressure)*_parameters.BrakeRabCyl1Pressure);
-            if (_parameters.BrakeRabCyl1Pressure < _greenZoneRabCyl1 || _parameters.BrakeRabCyl1Pressure > _greenZoneRabCyl2)
+            width = Convert.ToInt32((_barWidth / _maxPressure) * _rabCyl1Pressure);
+            if (_rabCyl1Pressure < _greenZoneRabCyl1 || _parameters.BrakeRabCyl1Pressure > _rabCyl1Pressure)
                 col = Color.IndianRed;
             else
                 col = Color.Green;
@@ -107,7 +112,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 LeftTopX = x + _barWidth/2 - 15,
                 LeftTopY = y,
-                Text = Convert.ToString(Math.Round(_parameters.BrakeRabCyl1Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
+                Text = Convert.ToString(Math.Round(_rabCyl1Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
             });
             //PredCyl1
             x = _x - 70;
@@ -132,8 +137,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 Width = width + 2,
                 Pen = new Pen(Color.FromArgb(255, color, color, color), 2)
             });
-            width = Convert.ToInt32((_barWidth / _maxPressure) * _parameters.BrakePredCyl1Pressure);
-            if (_parameters.BrakePredCyl1Pressure < _greenZonePredCyl1 || _parameters.BrakePredCyl1Pressure > _greenZonePredCyl2)
+            width = Convert.ToInt32((_barWidth / _maxPressure) * _predCyl1Pressure);
+            if (_predCyl1Pressure < _greenZonePredCyl1 || _predCyl1Pressure > _greenZonePredCyl2)
                 col = Color.IndianRed;
             else
                 col = Color.Green;
@@ -149,7 +154,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 LeftTopX = x + _barWidth / 2 - 15,
                 LeftTopY = y,
-                Text = Convert.ToString(Math.Round(_parameters.BrakePredCyl1Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
+                Text = Convert.ToString(Math.Round(_predCyl1Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
             });
             //RabCyl2
             x = _x - 70 + _barWidth + 50;
@@ -174,8 +179,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 Width = width + 2,
                 Pen = new Pen(Color.FromArgb(255, color, color, color), 2)
             });
-            width = Convert.ToInt32((_barWidth / _maxPressure) * _parameters.BrakeRabCyl2Pressure);
-            if (_parameters.BrakeRabCyl2Pressure < _greenZoneRabCyl1 || _parameters.BrakeRabCyl2Pressure > _greenZoneRabCyl2)
+            width = Convert.ToInt32((_barWidth / _maxPressure) * _rabCyl2Pressure);
+            if (_rabCyl2Pressure < _greenZoneRabCyl1 || _rabCyl2Pressure > _greenZoneRabCyl2)
                 col = Color.IndianRed;
             else
                 col = Color.Green;
@@ -191,7 +196,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 LeftTopX = x + _barWidth / 2 - 15,
                 LeftTopY = y,
-                Text = Convert.ToString(Math.Round(_parameters.BrakeRabCyl2Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
+                Text = Convert.ToString(Math.Round(_rabCyl2Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
             });
             //PredCyl2
             x = _x - 70 + _barWidth + 50;
@@ -216,8 +221,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 Width = width + 2,
                 Pen = new Pen(Color.FromArgb(255, color, color, color), 2)
             });
-            width = Convert.ToInt32((_barWidth / _maxPressure) * _parameters.BrakePredCyl2Pressure);
-            if (_parameters.BrakePredCyl2Pressure < _greenZonePredCyl1 || _parameters.BrakePredCyl2Pressure > _greenZonePredCyl2)
+            width = Convert.ToInt32((_barWidth / _maxPressure) * _predCyl2Pressure);
+            if (_predCyl2Pressure < _greenZonePredCyl1 || _predCyl2Pressure > _greenZonePredCyl2)
                 col = Color.IndianRed;
             else
                 col = Color.Green;
@@ -233,7 +238,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             {
                 LeftTopX = x + _barWidth / 2 - 15,
                 LeftTopY = y,
-                Text = Convert.ToString(Math.Round(_parameters.BrakePredCyl2Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
+                Text = Convert.ToString(Math.Round(_predCyl2Pressure, 2), CultureInfo.GetCultureInfo("en-US"))
             });
             return BarsBackground;
         }
@@ -586,11 +591,16 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public List<LineData> BindingLine { get; private set; }
         private int panelWidth;
         private int panelHeight;
+        private MineConfig _mineConfig;
         private Parameters _parameters;
         private double _greenZoneRabCyl1 = 0; // допустимые границы рабочего цилиндра
         private double _greenZoneRabCyl2 = 0;
         private double _greenZonePredCyl1 = 0; // допустимые границы предохранительного цилиндра
         private double _greenZonePredCyl2 = 0;
+        private double _rabCyl1Pressure = 0;
+        private double _rabCyl2Pressure = 0;
+        private double _predCyl1Pressure = 0;
+        private double _predCyl2Pressure = 0;
         private int _barWidth;
         private int _barHight;
         private int _indent;

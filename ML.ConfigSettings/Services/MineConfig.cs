@@ -82,7 +82,10 @@ namespace ML.ConfigSettings.Services
                 GreenZoneRabCyl1 = new SimpleParameter() {Value = 4},
                 GreenZoneRabCyl2 = new SimpleParameter() {Value = 6},
                 GreenZonePredCyl1 = new SimpleParameter() {Value = 4},
-                GreenZonePredCyl2 = new SimpleParameter() {Value = 6}
+                GreenZonePredCyl2 = new SimpleParameter() {Value = 6},
+                AdcZero = new SimpleParameter() {Value = 0},
+                AdcMaximum = new SimpleParameter() {Value = 5},
+                AdcValueToBarrKoef = new SimpleParameter() {Value = 1}
             };
         }
 

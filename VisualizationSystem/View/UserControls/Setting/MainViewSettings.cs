@@ -34,6 +34,9 @@ namespace VisualizationSystem.View.UserControls.Setting
             textBoxGreenZoneRabCyl2.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZoneRabCyl2.Value, CultureInfo.GetCultureInfo("en-US"));
             textBoxGreenZonePredCyl1.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl1.Value, CultureInfo.GetCultureInfo("en-US"));
             textBoxGreenZonePredCyl2.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxAdcZero.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcZero.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxAdcMaximum.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcMaximum.Value, CultureInfo.GetCultureInfo("en-US"));
+            textBoxAdcValueToBarrKoef.Text = Convert.ToString(IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcValueToBarrKoef.Value, CultureInfo.GetCultureInfo("en-US"));
         }
 
         private void maxSpeedTextBox_TextChanged(object sender, EventArgs e)
@@ -287,6 +290,30 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
             else
                 IoC.Resolve<MineConfig>().BrakeSystemConfig.GreenZonePredCyl2.Value = Convert.ToDouble(textBoxGreenZonePredCyl2.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxAdcZero_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxAdcZero.Text == "" || textBoxAdcZero.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcZero.Value = 0;
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcZero.Value = Convert.ToDouble(textBoxAdcZero.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxAdcMaximum_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxAdcMaximum.Text == "" || textBoxAdcMaximum.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcMaximum.Value = 0;
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcMaximum.Value = Convert.ToDouble(textBoxAdcMaximum.Text, CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void textBoxAdcValueToBarrKoef_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxAdcValueToBarrKoef.Text == "" || textBoxAdcValueToBarrKoef.Text == ".")
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcValueToBarrKoef.Value = 0;
+            else
+                IoC.Resolve<MineConfig>().BrakeSystemConfig.AdcValueToBarrKoef.Value = Convert.ToDouble(textBoxAdcValueToBarrKoef.Text, CultureInfo.GetCultureInfo("en-US"));
         }
         //
 

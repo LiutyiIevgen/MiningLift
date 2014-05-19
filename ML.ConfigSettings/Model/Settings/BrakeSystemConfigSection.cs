@@ -12,5 +12,8 @@ namespace ML.ConfigSettings.Model.Settings
         public SimpleParameter GreenZoneRabCyl2 { get; set; }
         public SimpleParameter GreenZonePredCyl1 { get; set; }
         public SimpleParameter GreenZonePredCyl2 { get; set; }
+        public SimpleParameter AdcZero { get; set; }
+        public SimpleParameter AdcMaximum { get; set; }
+        public SimpleParameter AdcValueToBarrKoef { get; set; } 
     }
 }
