@@ -70,7 +70,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 if (param.f_start == 1 || param.f_back == 1)
                 {
                     //var defenceDiagramVm = new DefenceDiagramVm(param);
-                    if (_wasOstanov == 1)
+                    if ((_fStartPrev != param.f_start) || (_fBackPrev != param.f_back))
                     {
                         this.Invoke((MethodInvoker) delegate
                         {
@@ -84,10 +84,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                             //s4.Points.Clear();
                         });
                         _wasOstanov = 0;
+                        _fStartPrev = param.f_start;
+                        _fBackPrev = param.f_back;
                     }
                     this.Invoke((MethodInvoker) delegate
                     {
-
                         lineSerie1.Points.Add(new DataPoint(-param.s,
                             param.v/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
                         lineSerie2.Points.Add(new DataPoint(-param.s,
@@ -106,7 +107,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         }
                     });
                 }
-                if (param.f_ostanov == 1)
+                /*if (param.f_ostanov == 1)
+                {
+                    _wasOstanov = 1;
+                } */
+                if(param.v == 0)
                 {
                     _wasOstanov = 1;
                 }
@@ -139,6 +144,9 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             Maximum = 120
         };
         private int _wasOstanov;
+        private int _fStartPrev = 1;
+        private int _fBackPrev = 0;
+        private int _prevDirection = 0;
         private Parameters _parameters;
 
 
