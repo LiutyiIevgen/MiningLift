@@ -32,8 +32,8 @@ namespace VisualizationSystem.Services
                 {
                     if (IsConnected == true)
                     {
-                        var dataBaseService = new ML.DataExchange.Services.DataBaseService();
-                        //dataBaseService.FillGeneralLog("Прервано соединение по каналу CAN", GeneralLogEventType.Warning);
+                        var dataBaseService = new DataBaseService();
+                        dataBaseService.FillGeneralLog("Прервано соединение по каналу CAN", "Прервано соединение по каналу CAN", GeneralLogEventType.Demage);
                     }
                     IsConnected = false;
                 }

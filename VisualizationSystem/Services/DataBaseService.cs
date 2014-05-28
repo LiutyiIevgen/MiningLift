@@ -207,13 +207,14 @@ namespace VisualizationSystem.Services
             }
         }
 
-        public void FillGeneralLog(string line, GeneralLogEventType type)
+        public void FillGeneralLog(string line, string shortLine, GeneralLogEventType type)
         {
             var generalLog = new GeneralLog
             {
                 Date = DateTime.Now,
                 GeneralLogTypeId = Convert.ToInt32(type),
-                LogLine = line
+                LogLine = line,
+                LogShortLine = shortLine
             };
             using (var repoUnit = new RepoUnit())
             {
@@ -241,10 +242,11 @@ namespace VisualizationSystem.Services
                 glog = repoUnit.GeneralLog.FindFirstBy(gl => gl.Id == id);
             }
             logData.Text = glog.Date.ToShortDateString() + "   " + glog.Date.ToLongTimeString() + "     " + glog.LogLine;
+            logData.ShortText = glog.LogShortLine;
             switch (glog.GeneralLogTypeId)
             {
                 case 1:
-                    logData.TypeColor = Color.Gray;
+                    logData.TypeColor = Color.LimeGreen;
                     break;
                 case 2:
                     logData.TypeColor = Color.Orange;

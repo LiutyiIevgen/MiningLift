@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
+using ML.DataExchange.Services;
 using VisualizationSystem.Model;
+using GeneralLogEventType = ML.DataExchange.Model.GeneralLogEventType;
 
 namespace VisualizationSystem.ViewModel.MainViewModel
 {
@@ -214,6 +216,45 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     }
                     
                 }
+                if (parameters.AuziDIOSignalsState[73] == AuziDState.Off)
+                {
+                    if (_leftPerepodiom == 0)
+                    {
+                        var dataBaseService = new DataBaseService();
+                        dataBaseService.FillGeneralLog("Левый переподъём", "Левый переподъём", GeneralLogEventType.Demage);
+                    }
+                    _leftPerepodiom = 1;
+                }
+                else
+                {
+                    _leftPerepodiom = 0;
+                }
+                if (parameters.AuziDIOSignalsState[72] == AuziDState.Off)
+                {
+                    if (_rightPerepodiom == 0)
+                    {
+                        var dataBaseService = new DataBaseService();
+                        dataBaseService.FillGeneralLog("Правый переподъём", "Правый переподъём", GeneralLogEventType.Demage);
+                    }
+                    _rightPerepodiom = 1;
+                }
+                else
+                {
+                    _rightPerepodiom = 0;
+                }
+                if (parameters.AuziDIOSignalsState[78] == AuziDState.Off)
+                {
+                    if (_prevSpeed == 0)
+                    {
+                        var dataBaseService = new DataBaseService();
+                        dataBaseService.FillGeneralLog("Превышение скорости", "Превышение скорости", GeneralLogEventType.Demage);
+                    }
+                    _prevSpeed = 1;
+                }
+                else
+                {
+                    _prevSpeed = 0;
+                }
             }
            /* int numEdded = InputNames.Count;
             for (int i = numEdded; i < 32; i++)
@@ -237,5 +278,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         string[] codes;
 
         private MineConfig _mineConfig;
+        private int _prevSpeed;
+        private int _leftPerepodiom;
+        private int _rightPerepodiom;
     }
 }

@@ -16,6 +16,7 @@ namespace ML.DataRepository.Models
         public int GeneralLogTypeId { get; set; }
 
         public string LogLine { get; set; }
+        public string LogShortLine { get; set; }
 
         public virtual GeneralLogType GeneralLogType { get; set; }
     }

@@ -86,6 +86,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                         _wasOstanov = 0;
                         _fStartPrev = param.f_start;
                         _fBackPrev = param.f_back;
+                     
                     }
                     this.Invoke((MethodInvoker) delegate
                     {

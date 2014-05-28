@@ -71,7 +71,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             var timeThread = new Thread(TimeThread) {IsBackground = true, Priority = ThreadPriority.Lowest};
             timeThread.Start();
             var generalLogUpdateThread = new Thread(GeneralLogUpdateThread) { IsBackground = true, Priority = ThreadPriority.Lowest };
-            //generalLogUpdateThread.Start();
+            generalLogUpdateThread.Start();
         }
 
         public void ViewData(Parameters parameters)
@@ -147,13 +147,16 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             while (true)
             {
-                var logEventColor = _logUc.Refresh();
-                if (logEventColor != Color.Gray)
-                    this.Invoke((MethodInvoker)delegate
+                var logEvent = _logUc.Refresh();
+                if (logEvent.TypeColor != Color.Gray)
+                {
+                    this.Invoke((MethodInvoker) delegate
                     {
-                        labelLogEvent.ForeColor = logEventColor;
+                        labelLogEvent.Text = logEvent.ShortText;
+                        labelLogEvent.ForeColor = logEvent.TypeColor;
                     });
-                Thread.Sleep(5000);
+                }
+                Thread.Sleep(3000);
             }
         }
 

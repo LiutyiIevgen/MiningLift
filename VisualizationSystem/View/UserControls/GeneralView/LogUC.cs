@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisualizationSystem.Model;
 using VisualizationSystem.Services;
 using VisualizationSystem.ViewModel;
 
@@ -20,6 +21,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         {
             InitializeComponent();
             DoubleBuffered(GeneralLog, true);
+            _progStart = 1;
         }
 
         private void LogUC_Load(object sender, EventArgs e)
@@ -53,11 +55,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
-        public Color Refresh()
+        public GeneralLogData Refresh()
         {
-            var refreshThread = new Thread(RefreshThreadHandler) { IsBackground = true, Priority = ThreadPriority.Lowest };
-            refreshThread.Start();
-            return _fNewLogEvent;
+            //var refreshThread = new Thread(RefreshThreadHandler) { IsBackground = true, Priority = ThreadPriority.Lowest };
+            //refreshThread.Start();
+            RefreshThreadHandler();
+            return _logData;
         }
 
         private void RefreshThreadHandler()
@@ -68,7 +71,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             var ids = dataBaseService.GetGeneralLogIds(from, till);
             if (ids.Count == 0 || ids.Last() <= _lastId)
             {
-                _fNewLogEvent = Color.Gray;
+                //_fNewLogEvent = Color.Gray;
+                _logData.TypeColor = Color.Gray;
+                _logData.Text = "";
+                _logData.ShortText = "";
                 return;
             }
             var newIds = new List<int>();
@@ -78,13 +84,25 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 {
                     var logData = dataBaseService.GetGeneralLogLineById(id);
                     AddLineToLog(logData.Text);
-                    _fNewLogEvent = logData.TypeColor;
+                    //_fNewLogEvent = logData.TypeColor;
+                        _logData.TypeColor = logData.TypeColor;
+                        _logData.Text = logData.Text;
+                        _logData.ShortText = logData.ShortText;
                 }
             }
-            _lastId = ids.Last();
+            if (_progStart == 1)
+            {
+                _logData.TypeColor = Color.Gray;
+                _logData.Text = "";
+                _logData.ShortText = "";
+                _progStart = 0;
+            }
+            _lastId = ids.Last(); 
         }
 
         private int _lastId = -1;
+        private int _progStart;
         private Color _fNewLogEvent = Color.Gray;
+        private GeneralLogData _logData = new GeneralLogData();
     }
 }

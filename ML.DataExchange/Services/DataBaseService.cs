@@ -16,13 +16,14 @@ namespace ML.DataExchange.Services
         {
         }
 
-        public void FillGeneralLog(string line, GeneralLogEventType type)
+        public void FillGeneralLog(string line, string shortLine, GeneralLogEventType type)
         {
             var generalLog = new GeneralLog
             {
                 Date = DateTime.Now,
                 GeneralLogTypeId = Convert.ToInt32(type),
-                LogLine = line
+                LogLine = line,
+                LogShortLine = shortLine
             };
             using (var repoUnit = new RepoUnit())
             {

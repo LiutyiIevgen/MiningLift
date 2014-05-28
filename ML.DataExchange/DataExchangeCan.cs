@@ -264,21 +264,20 @@ namespace ML.DataExchange
 
                     msgRead.AddRange(msg);
                     parametersList = canParser.GetParametersList(msgRead);
-                    
-                    /*for (int j = 0; j < parametersList.Count; j++)
+                    for (int j = 0; j < parametersList.Count; j++)
                     {
                         if (parametersList[j] == null)
                         {
                             if (_wasError[j] == 0)
                             {
                                 var dataBaseService = new DataBaseService();
-                                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (j + 1).ToString(), GeneralLogEventType.Demage);
+                                dataBaseService.FillGeneralLog("Вышел из строя канал ОС" + (j + 1).ToString(), "Вышел из строя канал ОС" + (j + 1).ToString(), GeneralLogEventType.Demage);
                             }
                             _wasError[j] = 1;
                         }
                         else
                             _wasError[j] = 0;
-                    }*/
+                    }
                     var maj = canParser.Majorization(parametersList);
                     if (AllCanDataEvent != null && (i % 3) == 0)
                     {
