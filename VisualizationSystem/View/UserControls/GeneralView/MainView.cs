@@ -418,10 +418,19 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) //настройки
         {
             IoC.Resolve<FormSettingsParol>().ShowDialog();
             //new FormSettingsParol().Show();
+        }
+        private void toolStripMenuItem2_Click(object sender, EventArgs e) //выход
+        {
+            var MineCon = IoC.Resolve<MineConfig>();
+            MineCon.Save();
+            if (MessageBox.Show("Вы действительно хотите закрыть программу?", "Выход из программы", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
         private void buttonFind_Click(object sender, EventArgs e)
         {
@@ -528,7 +537,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private Thread cycleThread;
         private volatile Parameters _parameters = new Parameters();
-
 
     }
 }

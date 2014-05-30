@@ -100,6 +100,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -244,14 +246,16 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.toolStripMenuItem2});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 76);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem1.Text = "Настройки";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -672,7 +676,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer18.Panel2.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer18.Panel2.Controls.Add(this.labelLogEvent);
             this.splitContainer18.Size = new System.Drawing.Size(732, 25);
-            this.splitContainer18.SplitterDistance = 323;
+            this.splitContainer18.SplitterDistance = 273;
             this.splitContainer18.TabIndex = 0;
             // 
             // labelDefenceDiagramRegim
@@ -681,7 +685,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.labelDefenceDiagramRegim.AutoSize = true;
             this.labelDefenceDiagramRegim.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelDefenceDiagramRegim.ForeColor = System.Drawing.Color.Red;
-            this.labelDefenceDiagramRegim.Location = new System.Drawing.Point(17, 1);
+            this.labelDefenceDiagramRegim.Location = new System.Drawing.Point(6, 1);
             this.labelDefenceDiagramRegim.Name = "labelDefenceDiagramRegim";
             this.labelDefenceDiagramRegim.Size = new System.Drawing.Size(69, 23);
             this.labelDefenceDiagramRegim.TabIndex = 0;
@@ -693,7 +697,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.labelLogEvent.AutoSize = true;
             this.labelLogEvent.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelLogEvent.ForeColor = System.Drawing.Color.Gray;
-            this.labelLogEvent.Location = new System.Drawing.Point(7, 1);
+            this.labelLogEvent.Location = new System.Drawing.Point(3, 1);
             this.labelLogEvent.Name = "labelLogEvent";
             this.labelLogEvent.Size = new System.Drawing.Size(73, 23);
             this.labelLogEvent.TabIndex = 1;
@@ -1133,6 +1137,18 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "Выход";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1299,5 +1315,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private TabPage tabPage4;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }

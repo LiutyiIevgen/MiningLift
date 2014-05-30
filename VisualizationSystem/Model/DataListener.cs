@@ -22,11 +22,11 @@ namespace VisualizationSystem.Model
             _dataExchange = IoC.Resolve<IDataExchange>(new ConstructorArgument("mineConfig",IoC.Resolve<MineConfig>()));
         }
 
-        ~DataListener()
+        /* ~DataListener()
         {
             var MineCon = IoC.Resolve<MineConfig>();
             MineCon.Save();
-        }
+        } */
 
         public void Init(ReceiveHandler Function)
         {
