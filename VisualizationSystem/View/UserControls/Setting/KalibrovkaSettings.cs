@@ -212,8 +212,8 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter((ushort)j, startIndex + 1);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
-                        return;
+                    //if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        //return;
                     j++;
                 }
                 j = 1;
@@ -221,8 +221,8 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter((ushort)j, startIndex + 3);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
-                        return;
+                    //if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        //return;
                     j++;
                 }
                 j = 1;
@@ -230,8 +230,8 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter((ushort)j, startIndex + 0x0f);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
-                        return;
+                    //if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        //return;
                     j++;
                 }
                 j = 1;
@@ -239,8 +239,8 @@ namespace VisualizationSystem.View.UserControls.Setting
                 {
                     Thread.Sleep(200);
                     UnloadParameter((ushort)j, startIndex + 0x10);
-                    if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
-                        return;
+                    //if (!_isUnloaded.WaitOne(TimeSpan.FromMilliseconds(10000)))
+                        //return;
                     j++;
                 }
         }
