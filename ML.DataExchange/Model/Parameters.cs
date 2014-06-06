@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using ML.ConfigSettings.Services;
 
 namespace ML.DataExchange.Model
@@ -22,7 +23,7 @@ namespace ML.DataExchange.Model
 
         private void set_parameters(double[] param)
         {
-            s = -param[0];
+            s = -param[0]; 
             v = param[1];
             a = param[2];
             f_slowdown_zone = Convert.ToInt32(param[3]);
@@ -32,8 +33,8 @@ namespace ML.DataExchange.Model
             f_dot_zone_back = Convert.ToInt32(param[7]);
             f_back = Convert.ToInt32(param[8]);
             f_ostanov = Convert.ToInt32(param[9]);
-            unload_state = Convert.ToInt32(param[10]);
-            load_state = Convert.ToInt32(param[11]);
+            //unload_state = Convert.ToInt32(param[10]);
+            //load_state = Convert.ToInt32(param[11]);
             s_two = -param[12];
             defence_diagram = param[13];
             //
@@ -105,6 +106,57 @@ namespace ML.DataExchange.Model
             {
                 AuziDIOSignalsState[i] = signals[i];
             }
+            unload_state = SetUnloadState(AuziDIOSignalsState[14], AuziDIOSignalsState[15]);
+            load_state = SetLoadState(AuziDIOSignalsState[13]);
+        }
+
+        private int SetUnloadState(AuziDState RKZD, AuziDState RKR)
+        {
+            if (RKZD == AuziDState.On && RKR == AuziDState.On && tek_unload_state == 5)
+                tek_unload_state = 0;
+            else if (RKZD == AuziDState.Off && RKR == AuziDState.On && tek_unload_state == 0)
+                tek_unload_state = 1;
+            else if (RKZD == AuziDState.Off && RKR == AuziDState.Off && tek_unload_state == 1)
+                tek_unload_state = 2;
+            else if (RKZD == AuziDState.Off && RKR == AuziDState.On && tek_unload_state == 2)
+                tek_unload_state = 3;
+            else if (RKZD == AuziDState.On && RKR == AuziDState.On && (tek_unload_state == 3 || (tek_unload_state == 4 && unload_delay != 0)))
+            {
+                tek_unload_state = 4;
+                unload_delay++;
+                if (unload_delay > 200)
+                    unload_delay = 0;
+            }
+            else if (RKZD == AuziDState.On && RKR == AuziDState.On && tek_unload_state == 4 && unload_delay == 0)
+                tek_unload_state = 5;
+            return tek_unload_state;
+        }
+
+        private int SetLoadState(AuziDState RZA)
+        {
+            if (RZA == AuziDState.On && tek_load_state == 5)
+                tek_load_state = 0;
+            else if (RZA == AuziDState.On && tek_load_state == 0)
+                tek_load_state = 1;
+            else if (RZA == AuziDState.Off && tek_load_state == 1)
+                tek_load_state = 2;
+            else if (RZA == AuziDState.On && (tek_load_state == 2) || (tek_load_state == 3 && load_delay != 0))
+            {
+                tek_load_state = 3;
+                load_delay++;
+                if (load_delay > 200)
+                    load_delay = 0;
+            }
+            else if (RZA == AuziDState.On && ((tek_load_state == 3 && load_delay == 0) || (tek_load_state == 4 && load_delay != 0)))
+            {
+                tek_load_state = 4;
+                load_delay++;
+                if (load_delay > 200)
+                    load_delay = 0;
+            }
+            else if (RZA == AuziDState.On && tek_load_state == 4 && load_delay == 0)
+                tek_load_state = 5;
+            return tek_load_state;
         }
 
         public double s { get; private set; }//текущее значение пути клеть 1
@@ -119,8 +171,11 @@ namespace ML.DataExchange.Model
         public int f_ostanov { get; private set; }
         public int unload_state { get; private set; }
         public int load_state { get; private set; }
+        private static int tek_unload_state { get; set; }
+        private static int unload_delay { get; set; }
+        private static int tek_load_state { get; set; }
+        private static int load_delay { get; set; }
         public double s_two { get; private set; }//текущее значение пути клеть 2
-
         public double defence_diagram { get; private set; }//защитная диаграма
         //
         public double tok_anchor { get; set; } //ток якоря 

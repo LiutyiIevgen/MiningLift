@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.IO;
+using System.Threading;
 using ML.ConfigSettings.Model;
 using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
@@ -12,9 +14,11 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public LoadDataVm()
         {
             _mineConfig = IoC.Resolve<MineConfig>();
-            colors = new Color[]{ Color.Red, Color.Red, Color.Red, Color.Green, Color.Gray };
+            colors = new Color[] { Color.Red, Color.Red, Color.Green, Color.Green, Color.Gray };
+            colors2 = new Color[] { Color.Gray, Color.Red, Color.Green, Color.Gray, Color.Gray };
             textFirst = new string[]{ "ЗАТВОР \r\nОТКРЫТ", "СКИП \r\nРАЗГРУЖАЕТСЯ", "СКИП \r\nРАЗГРУЗИЛСЯ", "ЗАТВОР \r\nЗАКРЫТ", "" };
-            textSecod = new string[]{ "ДОЗАТОР \r\nОТКРЫТ", "СКИП \r\nЗАГРУЖАЕТСЯ", "СКИП \r\nЗАГРУЖЕН", "ДОЗАТОР \r\nЗАКРЫТ", "" };
+            //textSecod = new string[]{ "ДОЗАТОР \r\nОТКРЫТ", "СКИП \r\nЗАГРУЖАЕТСЯ", "СКИП \r\nЗАГРУЖЕН", "ДОЗАТОР \r\nЗАКРЫТ", "" };
+            textSecod = new string[] { "", "СКИП \r\nЗАГРУЖАЕТСЯ", "СКИП \r\nЗАГРУЖЕН", "", "" };
         }
 
         public void SolveLoadData(Parameters parameters)
@@ -35,9 +39,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             LoadData[0].BackColor = colors[i1];
                             LoadData[0].Text = textFirst[i1];
                         }
+                    }
+                    if (parameters.load_state == i)
+                    {
+                        int i1 = i - 1;
                         if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
                         {
-                            LoadData[3].BackColor = colors[i1];
+                            LoadData[3].BackColor = colors2[i1];
                             LoadData[3].Text = textSecod[i1];
                         }
                     }
@@ -66,9 +74,13 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         int i1 = i - 1;
                         if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
                         {
-                            LoadData[1].BackColor = colors[i1];
+                            LoadData[1].BackColor = colors2[i1];
                             LoadData[1].Text = textSecod[i1];
                         }
+                    }
+                    if (parameters.unload_state == i)
+                    {
+                        int i1 = i - 1;
                         if (_mineConfig.MainViewConfig.RightSosud == SosudType.Skip && RightPanelVm._firstTime == 1)
                         {
                             LoadData[2].BackColor = colors[i1];
@@ -100,6 +112,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
         public RichTextBoxData[] LoadData { get; private set; }
         private MineConfig _mineConfig;
         private Color[] colors;
+        private Color[] colors2;
         private string[] textFirst;
         private string[] textSecod;
     }

@@ -317,8 +317,8 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state > 0 &&
-                    _parameters.unload_state < 4)
+                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.load_state > 1 &&
+                    _parameters.load_state < 4)
                 {
                     RulePointerLine.Add(new RuleData
                         {
@@ -382,7 +382,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                             Height = 20
                         });
                 }
-                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state >= 4)
+                if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.load_state >= 4)
                 {
                     RulePointerLine.Add(new RuleData
                         {
@@ -448,7 +448,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         });
                 }
                 if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) &&
-                    _parameters.load_state > 0 && _parameters.load_state < 4)
+                    _parameters.unload_state > 1 && _parameters.unload_state < 4)
                 {
                     RulePointerLine.Add(new RuleData
                         {
@@ -513,7 +513,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                         });
                 }
                 else if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) &&
-                         _parameters.load_state >= 4)
+                         _parameters.unload_state >= 4)
                 {
                     RulePointerLine.Add(new RuleData
                         {

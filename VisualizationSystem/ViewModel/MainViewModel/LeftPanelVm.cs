@@ -290,7 +290,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Height = 20
                 });
             }
-            if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.1) && _parameters.unload_state > 0 && _parameters.unload_state < 4)
+            if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state > 1 && _parameters.unload_state < 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
@@ -326,7 +326,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     LeftTopY = (Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * _parameters.s)),
                     Width = Convert.ToInt32(UnLoadCageWidth),
                     Height = 20
-                });
+                }); 
             }
             if (_parameters.f_ostanov == 1 && _parameters.s < (_mineConfig.MainViewConfig.BorderZero.Value + 0.5) && _parameters.unload_state >= 4)
             {
@@ -367,7 +367,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                     Height = 20
                 });
             }
-            if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) && _parameters.load_state > 0 && _parameters.load_state < 4)
+            if (_parameters.f_ostanov == 1 && _parameters.s > (_mineConfig.MainViewConfig.Border.Value - 0.5) && _parameters.load_state > 1 && _parameters.load_state < 4)
             {
                 RulePointerLine.Add(new RuleData
                 {
