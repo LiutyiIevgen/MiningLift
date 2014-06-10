@@ -38,32 +38,27 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new VisualizationSystem.Model.MyPanel();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-            this.richTextBox1 = new VisualizationSystem.Model.MyRichTextBox();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.panel6 = new VisualizationSystem.Model.MyPanel();
-            this.richTextBox2 = new VisualizationSystem.Model.MyRichTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer11 = new System.Windows.Forms.SplitContainer();
             this.splitContainer14 = new System.Windows.Forms.SplitContainer();
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.panel3 = new VisualizationSystem.Model.MyPanel();
             this.splitContainer12 = new System.Windows.Forms.SplitContainer();
             this.splitContainer15 = new System.Windows.Forms.SplitContainer();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.panel4 = new VisualizationSystem.Model.MyPanel();
             this.splitContainer13 = new System.Windows.Forms.SplitContainer();
             this.splitContainer16 = new System.Windows.Forms.SplitContainer();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.panel5 = new VisualizationSystem.Model.MyPanel();
             this.splitContainer17 = new System.Windows.Forms.SplitContainer();
             this.splitContainer18 = new System.Windows.Forms.SplitContainer();
             this.labelDefenceDiagramRegim = new System.Windows.Forms.Label();
@@ -95,13 +90,22 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
-            this.richTextBox3 = new VisualizationSystem.Model.MyRichTextBox();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer19 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer20 = new System.Windows.Forms.SplitContainer();
+            this.labelTP = new System.Windows.Forms.Label();
+            this.labelTR = new System.Windows.Forms.Label();
+            this.panel1 = new VisualizationSystem.Model.MyPanel();
+            this.richTextBox1 = new VisualizationSystem.Model.MyRichTextBox();
+            this.panel6 = new VisualizationSystem.Model.MyPanel();
+            this.richTextBox2 = new VisualizationSystem.Model.MyRichTextBox();
+            this.panel3 = new VisualizationSystem.Model.MyPanel();
+            this.panel4 = new VisualizationSystem.Model.MyPanel();
+            this.panel5 = new VisualizationSystem.Model.MyPanel();
+            this.richTextBox3 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -178,6 +182,14 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
             this.splitContainer10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).BeginInit();
+            this.splitContainer19.Panel1.SuspendLayout();
+            this.splitContainer19.Panel2.SuspendLayout();
+            this.splitContainer19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).BeginInit();
+            this.splitContainer20.Panel1.SuspendLayout();
+            this.splitContainer20.Panel2.SuspendLayout();
+            this.splitContainer20.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -250,14 +262,26 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.toolStripSeparator1,
             this.toolStripMenuItem2});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 54);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.toolStripMenuItem1.Text = "Настройки";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(131, 6);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem2.Text = "Выход";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // splitContainer5
             // 
@@ -276,17 +300,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer5.SplitterDistance = 164;
             this.splitContainer5.TabIndex = 0;
             this.splitContainer5.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.ContextMenuStrip = this.contextMenuStrip1;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(164, 607);
-            this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // splitContainer7
             // 
@@ -307,21 +320,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer7.TabIndex = 0;
             this.splitContainer7.TabStop = false;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.Color.Gray;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.ContextMenuStrip = this.contextMenuStrip1;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox1.ForeColor = System.Drawing.Color.White;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(134, 29);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.TabStop = false;
-            this.richTextBox1.Text = "";
-            // 
             // splitContainer9
             // 
             this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -340,32 +338,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer9.SplitterDistance = 540;
             this.splitContainer9.TabIndex = 0;
             this.splitContainer9.TabStop = false;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.Gray;
-            this.panel6.ContextMenuStrip = this.contextMenuStrip1;
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(0, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(134, 540);
-            this.panel6.TabIndex = 0;
-            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
-            // 
-            // richTextBox2
-            // 
-            this.richTextBox2.BackColor = System.Drawing.Color.Gray;
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.ContextMenuStrip = this.contextMenuStrip1;
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox2.ForeColor = System.Drawing.Color.White;
-            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(134, 30);
-            this.richTextBox2.TabIndex = 1;
-            this.richTextBox2.TabStop = false;
-            this.richTextBox2.Text = "";
             // 
             // splitContainer2
             // 
@@ -460,16 +432,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox3.TabIndex = 0;
             this.textBox3.TabStop = false;
             // 
-            // panel3
-            // 
-            this.panel3.ContextMenuStrip = this.contextMenuStrip1;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(522, 53);
-            this.panel3.TabIndex = 0;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
-            // 
             // splitContainer12
             // 
             this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -544,16 +506,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox4.Size = new System.Drawing.Size(110, 47);
             this.textBox4.TabIndex = 1;
             this.textBox4.TabStop = false;
-            // 
-            // panel4
-            // 
-            this.panel4.ContextMenuStrip = this.contextMenuStrip1;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(522, 51);
-            this.panel4.TabIndex = 0;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // splitContainer13
             // 
@@ -630,16 +582,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox5.TabIndex = 1;
             this.textBox5.TabStop = false;
             // 
-            // panel5
-            // 
-            this.panel5.ContextMenuStrip = this.contextMenuStrip1;
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(522, 52);
-            this.panel5.TabIndex = 0;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
-            // 
             // splitContainer17
             // 
             this.splitContainer17.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -669,14 +611,14 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // splitContainer18.Panel1
             // 
             this.splitContainer18.Panel1.ContextMenuStrip = this.contextMenuStrip1;
-            this.splitContainer18.Panel1.Controls.Add(this.labelDefenceDiagramRegim);
+            this.splitContainer18.Panel1.Controls.Add(this.splitContainer19);
             // 
             // splitContainer18.Panel2
             // 
             this.splitContainer18.Panel2.ContextMenuStrip = this.contextMenuStrip1;
             this.splitContainer18.Panel2.Controls.Add(this.labelLogEvent);
             this.splitContainer18.Size = new System.Drawing.Size(732, 25);
-            this.splitContainer18.SplitterDistance = 273;
+            this.splitContainer18.SplitterDistance = 341;
             this.splitContainer18.TabIndex = 0;
             // 
             // labelDefenceDiagramRegim
@@ -685,7 +627,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.labelDefenceDiagramRegim.AutoSize = true;
             this.labelDefenceDiagramRegim.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelDefenceDiagramRegim.ForeColor = System.Drawing.Color.Red;
-            this.labelDefenceDiagramRegim.Location = new System.Drawing.Point(6, 1);
+            this.labelDefenceDiagramRegim.Location = new System.Drawing.Point(7, 0);
             this.labelDefenceDiagramRegim.Name = "labelDefenceDiagramRegim";
             this.labelDefenceDiagramRegim.Size = new System.Drawing.Size(69, 23);
             this.labelDefenceDiagramRegim.TabIndex = 0;
@@ -742,7 +684,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(724, 373);
+            this.tabPage2.Size = new System.Drawing.Size(724, 415);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Цепь ТП";
             // 
@@ -752,7 +694,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage3.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage3.Location = new System.Drawing.Point(4, 4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(724, 373);
+            this.tabPage3.Size = new System.Drawing.Size(724, 415);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "АУЗИ-Д";
             // 
@@ -762,7 +704,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage4.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage4.Location = new System.Drawing.Point(4, 4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(724, 373);
+            this.tabPage4.Size = new System.Drawing.Size(724, 415);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Журнал";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -775,7 +717,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage5.Controls.Add(this.tableLayoutPanel4);
             this.tabPage5.Location = new System.Drawing.Point(4, 4);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(724, 373);
+            this.tabPage5.Size = new System.Drawing.Size(724, 415);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Архив";
             // 
@@ -815,7 +757,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65.51064F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.00523F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.00523F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(724, 373);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(724, 415);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // dateTimePicker1
@@ -846,10 +788,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tableLayoutPanel4.SetColumnSpan(this.treeView1, 5);
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.treeView1.Location = new System.Drawing.Point(14, 69);
+            this.treeView1.Location = new System.Drawing.Point(14, 71);
             this.treeView1.Name = "treeView1";
             this.tableLayoutPanel4.SetRowSpan(this.treeView1, 3);
-            this.treeView1.Size = new System.Drawing.Size(594, 301);
+            this.treeView1.Size = new System.Drawing.Size(594, 341);
             this.treeView1.TabIndex = 3;
             // 
             // label61
@@ -881,7 +823,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tableLayoutPanel4.SetColumnSpan(this.label62, 2);
             this.label62.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label62.Location = new System.Drawing.Point(14, 33);
+            this.label62.Location = new System.Drawing.Point(14, 34);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(197, 30);
             this.label62.TabIndex = 6;
@@ -892,7 +834,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             this.textBoxRecordsCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxRecordsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxRecordsCount.Location = new System.Drawing.Point(217, 36);
+            this.textBoxRecordsCount.Location = new System.Drawing.Point(217, 37);
             this.textBoxRecordsCount.Name = "textBoxRecordsCount";
             this.textBoxRecordsCount.Size = new System.Drawing.Size(151, 26);
             this.textBoxRecordsCount.TabIndex = 7;
@@ -902,7 +844,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.label63.AutoSize = true;
             this.label63.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label63.Location = new System.Drawing.Point(374, 33);
+            this.label63.Location = new System.Drawing.Point(374, 34);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(77, 30);
             this.label63.TabIndex = 8;
@@ -912,7 +854,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // textBoxCurrentRecord
             // 
             this.textBoxCurrentRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxCurrentRecord.Location = new System.Drawing.Point(457, 36);
+            this.textBoxCurrentRecord.Location = new System.Drawing.Point(457, 37);
             this.textBoxCurrentRecord.Name = "textBoxCurrentRecord";
             this.textBoxCurrentRecord.Size = new System.Drawing.Size(76, 26);
             this.textBoxCurrentRecord.TabIndex = 9;
@@ -934,7 +876,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             this.buttonNext.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonNext.Location = new System.Drawing.Point(682, 36);
+            this.buttonNext.Location = new System.Drawing.Point(682, 37);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(39, 24);
             this.buttonNext.TabIndex = 11;
@@ -946,7 +888,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             this.buttonPrevious.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonPrevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonPrevious.Location = new System.Drawing.Point(635, 36);
+            this.buttonPrevious.Location = new System.Drawing.Point(635, 37);
             this.buttonPrevious.Name = "buttonPrevious";
             this.buttonPrevious.Size = new System.Drawing.Size(41, 24);
             this.buttonPrevious.TabIndex = 10;
@@ -961,7 +903,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage6.Location = new System.Drawing.Point(4, 4);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(724, 373);
+            this.tabPage6.Size = new System.Drawing.Size(724, 415);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Тормоз";
             // 
@@ -1068,21 +1010,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer8.TabIndex = 1;
             this.splitContainer8.TabStop = false;
             // 
-            // richTextBox3
-            // 
-            this.richTextBox3.BackColor = System.Drawing.Color.Gray;
-            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox3.ContextMenuStrip = this.contextMenuStrip1;
-            this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox3.ForeColor = System.Drawing.Color.White;
-            this.richTextBox3.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(134, 29);
-            this.richTextBox3.TabIndex = 1;
-            this.richTextBox3.TabStop = false;
-            this.richTextBox3.Text = "";
-            // 
             // splitContainer10
             // 
             this.splitContainer10.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1101,6 +1028,161 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.SplitterDistance = 540;
             this.splitContainer10.TabIndex = 1;
             this.splitContainer10.TabStop = false;
+            // 
+            // splitContainer19
+            // 
+            this.splitContainer19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer19.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer19.Name = "splitContainer19";
+            // 
+            // splitContainer19.Panel1
+            // 
+            this.splitContainer19.Panel1.Controls.Add(this.splitContainer20);
+            // 
+            // splitContainer19.Panel2
+            // 
+            this.splitContainer19.Panel2.Controls.Add(this.labelDefenceDiagramRegim);
+            this.splitContainer19.Size = new System.Drawing.Size(341, 25);
+            this.splitContainer19.SplitterDistance = 67;
+            this.splitContainer19.TabIndex = 0;
+            // 
+            // splitContainer20
+            // 
+            this.splitContainer20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer20.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer20.Name = "splitContainer20";
+            // 
+            // splitContainer20.Panel1
+            // 
+            this.splitContainer20.Panel1.Controls.Add(this.labelTP);
+            // 
+            // splitContainer20.Panel2
+            // 
+            this.splitContainer20.Panel2.Controls.Add(this.labelTR);
+            this.splitContainer20.Size = new System.Drawing.Size(67, 25);
+            this.splitContainer20.SplitterDistance = 31;
+            this.splitContainer20.TabIndex = 0;
+            // 
+            // labelTP
+            // 
+            this.labelTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTP.AutoSize = true;
+            this.labelTP.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTP.ForeColor = System.Drawing.Color.Gray;
+            this.labelTP.Location = new System.Drawing.Point(-3, -3);
+            this.labelTP.Name = "labelTP";
+            this.labelTP.Size = new System.Drawing.Size(37, 27);
+            this.labelTP.TabIndex = 1;
+            this.labelTP.Text = "ТП";
+            // 
+            // labelTR
+            // 
+            this.labelTR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTR.AutoSize = true;
+            this.labelTR.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTR.ForeColor = System.Drawing.Color.Gray;
+            this.labelTR.Location = new System.Drawing.Point(-1, -3);
+            this.labelTR.Name = "labelTR";
+            this.labelTR.Size = new System.Drawing.Size(35, 27);
+            this.labelTR.TabIndex = 2;
+            this.labelTR.Text = "ТР";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.ContextMenuStrip = this.contextMenuStrip1;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(164, 607);
+            this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.Color.Gray;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.ContextMenuStrip = this.contextMenuStrip1;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox1.ForeColor = System.Drawing.Color.White;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(134, 29);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.TabStop = false;
+            this.richTextBox1.Text = "";
+            // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.Color.Gray;
+            this.panel6.ContextMenuStrip = this.contextMenuStrip1;
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(134, 540);
+            this.panel6.TabIndex = 0;
+            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.BackColor = System.Drawing.Color.Gray;
+            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox2.ContextMenuStrip = this.contextMenuStrip1;
+            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox2.ForeColor = System.Drawing.Color.White;
+            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(134, 30);
+            this.richTextBox2.TabIndex = 1;
+            this.richTextBox2.TabStop = false;
+            this.richTextBox2.Text = "";
+            // 
+            // panel3
+            // 
+            this.panel3.ContextMenuStrip = this.contextMenuStrip1;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(522, 53);
+            this.panel3.TabIndex = 0;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // panel4
+            // 
+            this.panel4.ContextMenuStrip = this.contextMenuStrip1;
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(522, 51);
+            this.panel4.TabIndex = 0;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
+            // 
+            // panel5
+            // 
+            this.panel5.ContextMenuStrip = this.contextMenuStrip1;
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(522, 52);
+            this.panel5.TabIndex = 0;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.BackColor = System.Drawing.Color.Gray;
+            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox3.ContextMenuStrip = this.contextMenuStrip1;
+            this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox3.ForeColor = System.Drawing.Color.White;
+            this.richTextBox3.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.Size = new System.Drawing.Size(134, 29);
+            this.richTextBox3.TabIndex = 1;
+            this.richTextBox3.TabStop = false;
+            this.richTextBox3.Text = "";
             // 
             // panel7
             // 
@@ -1136,18 +1218,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel2.Size = new System.Drawing.Size(164, 607);
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "Выход";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // MainView
             // 
@@ -1215,7 +1285,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer17)).EndInit();
             this.splitContainer17.ResumeLayout(false);
             this.splitContainer18.Panel1.ResumeLayout(false);
-            this.splitContainer18.Panel1.PerformLayout();
             this.splitContainer18.Panel2.ResumeLayout(false);
             this.splitContainer18.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).EndInit();
@@ -1241,6 +1310,17 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
+            this.splitContainer19.Panel1.ResumeLayout(false);
+            this.splitContainer19.Panel2.ResumeLayout(false);
+            this.splitContainer19.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).EndInit();
+            this.splitContainer19.ResumeLayout(false);
+            this.splitContainer20.Panel1.ResumeLayout(false);
+            this.splitContainer20.Panel1.PerformLayout();
+            this.splitContainer20.Panel2.ResumeLayout(false);
+            this.splitContainer20.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).EndInit();
+            this.splitContainer20.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1317,5 +1397,9 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem toolStripMenuItem2;
+        private SplitContainer splitContainer19;
+        private SplitContainer splitContainer20;
+        private Label labelTP;
+        private Label labelTR;
     }
 }

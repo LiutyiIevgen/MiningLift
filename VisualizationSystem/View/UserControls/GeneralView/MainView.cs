@@ -109,6 +109,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 _cepTpUc.Refresh(parameters); 
                 UpdateDefenceDiagramRegimIndication(parameters);
+                UpdateTPIndication(parameters);
                 update_parameters_flag = 0;
             }
 
@@ -175,7 +176,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             _leftPanelVm.GetMainRuleInscription().ForEach(s => g.DrawString(s.Text, s.Font, s.Brush, s.Position));
             _leftPanelVm.GetMainRuleZones().ForEach(z => g.FillRectangle(z.Brush, z.LeftTopX, z.LeftTopY, z.Width, z.Height));
             if (_mineConfig.MainViewConfig.LeftSosud == SosudType.Skip)
-                _leftPanelVm.GetMainRulePointerLineSkip().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
+                 _leftPanelVm.GetMainRulePointerLineSkip().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             else
                 _leftPanelVm.GetMainRulePointerLineBackBalance().ForEach(pl => g.DrawLine(pl.Pen, pl.FirstPoint, pl.SecondPoint));
             _leftPanelVm.GetMainRulePointer().ForEach(p => g.DrawPolygon(p.Pen, p.Triangle));
@@ -492,6 +493,17 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                 else
                     labelDefenceDiagramRegim.Text = "Режим";
             });
+        }
+
+        private void UpdateTPIndication(Parameters parameters)
+        {
+            this.Invoke((MethodInvoker) delegate
+            {
+                if (parameters.AuziDIOSignalsState[24] == AuziDState.On)
+                    labelTP.ForeColor = Color.LimeGreen;
+                else
+                    labelTP.ForeColor = Color.Red;
+            });        
         }
 
         private void DoubleBuffered(Panel dgv, bool setting)
