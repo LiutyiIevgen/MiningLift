@@ -109,7 +109,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             {
                 _cepTpUc.Refresh(parameters); 
                 UpdateDefenceDiagramRegimIndication(parameters);
-                UpdateTPIndication(parameters);
+                UpdateTPandTRIndication(parameters);
                 update_parameters_flag = 0;
             }
 
@@ -495,7 +495,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             });
         }
 
-        private void UpdateTPIndication(Parameters parameters)
+        private void UpdateTPandTRIndication(Parameters parameters)
         {
             this.Invoke((MethodInvoker) delegate
             {
@@ -503,6 +503,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                     labelTP.ForeColor = Color.LimeGreen;
                 else
                     labelTP.ForeColor = Color.Red;
+                if (parameters.AuziDIOSignalsState[84] == AuziDState.On)
+                    labelTR.ForeColor = Color.LimeGreen;
+                else
+                    labelTR.ForeColor = Color.Red;
             });        
         }
 
