@@ -120,7 +120,7 @@ namespace ML.DataExchange.Model
                 tek_unload_state = 2;
             else if (RKZD == AuziDState.Off && RKR == AuziDState.On && tek_unload_state == 2)
                 tek_unload_state = 3;
-            else if (RKZD == AuziDState.On && RKR == AuziDState.On && (tek_unload_state == 3 || (tek_unload_state == 4 && unload_delay != 0)))
+            else if (RKZD == AuziDState.On && RKR == AuziDState.On && (tek_unload_state == 3 || tek_unload_state == 1 || (tek_unload_state == 4 && unload_delay != 0)))
             {
                 tek_unload_state = 4;
                 unload_delay++;
