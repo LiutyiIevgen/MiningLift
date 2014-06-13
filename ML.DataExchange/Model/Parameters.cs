@@ -26,11 +26,11 @@ namespace ML.DataExchange.Model
             s = -param[0]; 
             v = param[1];
             a = param[2];
-            f_slowdown_zone = Convert.ToInt32(param[3]);
-            f_dot_zone = Convert.ToInt32(param[4]);
+            //f_slowdown_zone = Convert.ToInt32(param[3]);
+            //f_dot_zone = Convert.ToInt32(param[4]);
             f_start = Convert.ToInt32(param[5]);
-            f_slowdown_zone_back = Convert.ToInt32(param[6]);
-            f_dot_zone_back = Convert.ToInt32(param[7]);
+            //f_slowdown_zone_back = Convert.ToInt32(param[6]);
+            //f_dot_zone_back = Convert.ToInt32(param[7]);
             f_back = Convert.ToInt32(param[8]);
             f_ostanov = Convert.ToInt32(param[9]);
             //unload_state = Convert.ToInt32(param[10]);
@@ -86,9 +86,11 @@ namespace ML.DataExchange.Model
             {
                 AuziDIOSignalsState[i + 72] = signals[i];
             }
+            //slowdown and dotiajka zones flags
+            SetSlowdownAndDotZonesFlags(AuziDIOSignalsState[93], AuziDIOSignalsState[94], AuziDIOSignalsState[1], AuziDIOSignalsState[0]);
         }
 
-        public void SetAuziDISignalsState(List<byte?> byteList)
+        public void SetAuziDISignalsState(List<byte?> byteList)                                            
         {
             AuziDIByteList = byteList;
             var signals = new List<AuziDState>();
@@ -159,6 +161,32 @@ namespace ML.DataExchange.Model
             return tek_load_state;
         }
 
+        private void SetSlowdownAndDotZonesFlags(AuziDState slowdownSignal, AuziDState dotSignal, AuziDState vOstanov, AuziDState nOstanov)
+        {
+            if (slowdownSignal == AuziDState.On && _previousSlowdownZone == AuziDState.Off && (f_start == 1 || nOstanov == AuziDState.Off))
+                _fSlowdown = 1;
+            else if (slowdownSignal == AuziDState.Off && _previousSlowdownZone == AuziDState.On)
+                _fSlowdown = 0;
+            if (dotSignal == AuziDState.On && _previousDotZone == AuziDState.Off && (f_start == 1 || nOstanov == AuziDState.Off))
+                _fDot = 1;
+            else if (dotSignal == AuziDState.Off && _previousDotZone == AuziDState.On)
+                _fDot = 0;
+            if (slowdownSignal == AuziDState.On && _previousSlowdownZone == AuziDState.Off && (f_back == 1 || vOstanov == AuziDState.Off))
+                _fSlowdownBack = 1;
+            else if (slowdownSignal == AuziDState.Off && _previousSlowdownZone == AuziDState.On)
+                _fSlowdownBack = 0;
+            if (dotSignal == AuziDState.On && _previousDotZone == AuziDState.Off && (f_back == 1 || vOstanov == AuziDState.Off))
+                _fDotBack = 1;
+            else if (dotSignal == AuziDState.Off && _previousDotZone == AuziDState.On)
+                _fDotBack = 0;
+            _previousSlowdownZone = slowdownSignal;
+            _previousDotZone = dotSignal;
+            f_slowdown_zone = _fSlowdown;
+            f_dot_zone = _fDot;
+            f_slowdown_zone_back = _fSlowdownBack;
+            f_dot_zone_back = _fDotBack;
+        }
+
         public double s { get; private set; }//текущее значение пути клеть 1
         public double v { get; private set; }//текущее значение скорости
         public double a { get; private set; } //текущее значение ускорения
@@ -192,5 +220,12 @@ namespace ML.DataExchange.Model
         public double BrakeRabCyl2Pressure { get; private set; }
         public double BrakePredCyl1Pressure { get; private set; } //давление воздуха в 1-м предохранительном цилиндре тормозной системы
         public double BrakePredCyl2Pressure { get; private set; }
+
+        private static AuziDState _previousSlowdownZone;
+        private static AuziDState _previousDotZone;
+        private static int _fSlowdown;
+        private static int _fDot;
+        private static int _fSlowdownBack;
+        private static int _fDotBack;
     }
 }

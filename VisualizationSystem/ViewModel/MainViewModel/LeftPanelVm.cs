@@ -114,7 +114,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 dot_zone_back = _parameters.s;
             if (_parameters.f_dot_zone_back == 0)
                 dot_zone_back = 0;
-        }
+        } 
 
         private void SolveDirection()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using ML.ConfigSettings.Services;
@@ -28,7 +29,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
             blue_pen_two = new Pen(Color.DarkViolet, 2);
             green_pen_two = new Pen(Color.FromArgb(255, 100, 200, 50), 2);
             red_pen_two = new Pen(Color.Red, 2);
-            drawFont = new Font("Arial", 17);
+            drawFont = new Font("Arial", 16);
             black = new SolidBrush(Color.Black);
             red = new SolidBrush(Color.Red);
             green = new SolidBrush(Color.FromArgb(255, 100, 200, 50));
@@ -228,7 +229,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_yellow,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Distance.Value - slowdown_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Border.Value - (-_mineConfig.MainViewConfig.BorderZero.Value + slowdown_zone_back)))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (slowdown_zone_back - _parameters.s)))
                 });
@@ -239,7 +240,7 @@ namespace VisualizationSystem.ViewModel.MainViewModel
                 {
                     Brush = p_orange,
                     LeftTopX = panelWidth / 2 - 30,
-                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Distance.Value - dot_zone_back))),
+                    LeftTopY = (10 + Convert.ToInt32(pixel_pro_meter * (-_mineConfig.MainViewConfig.BorderZero.Value + Settings.UpZeroZone)) + Convert.ToInt32(pixel_pro_meter * (_mineConfig.MainViewConfig.Border.Value - (-_mineConfig.MainViewConfig.BorderZero.Value + dot_zone_back)))),
                     Width = 30,
                     Height = (Convert.ToInt32(pixel_pro_meter * (dot_zone_back - _parameters.s)))
                 });
