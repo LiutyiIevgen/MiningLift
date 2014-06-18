@@ -171,10 +171,12 @@ namespace VisualizationSystem.Services
                 int j = 0;
                 foreach (var param in parameters)
                 {
-                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 1, SignalValue = param.s});
-                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 2, SignalValue = param.s_two});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 1, SignalValue = -param.s});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 2, SignalValue = -param.s_two});
                     analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 3, SignalValue = param.v});
                     analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 4, SignalValue = param.a});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 5, SignalValue = param.tok_anchor});
+                    analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 6, SignalValue = param.tok_excitation});
                     j++;
                 }
                 var inputSignals = new InputSignalsLog

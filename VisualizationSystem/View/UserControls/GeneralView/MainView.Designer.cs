@@ -38,7 +38,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
@@ -61,6 +60,10 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.splitContainer17 = new System.Windows.Forms.SplitContainer();
             this.splitContainer18 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer19 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer20 = new System.Windows.Forms.SplitContainer();
+            this.labelTP = new System.Windows.Forms.Label();
+            this.labelTR = new System.Windows.Forms.Label();
             this.labelDefenceDiagramRegim = new System.Windows.Forms.Label();
             this.labelLogEvent = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -91,10 +94,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer19 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer20 = new System.Windows.Forms.SplitContainer();
-            this.labelTP = new System.Windows.Forms.Label();
-            this.labelTR = new System.Windows.Forms.Label();
             this.panel1 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox1 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel6 = new VisualizationSystem.Model.MyPanel();
@@ -106,6 +105,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel7 = new VisualizationSystem.Model.MyPanel();
             this.richTextBox4 = new VisualizationSystem.Model.MyRichTextBox();
             this.panel2 = new VisualizationSystem.Model.MyPanel();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -163,6 +164,14 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer18.Panel1.SuspendLayout();
             this.splitContainer18.Panel2.SuspendLayout();
             this.splitContainer18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).BeginInit();
+            this.splitContainer19.Panel1.SuspendLayout();
+            this.splitContainer19.Panel2.SuspendLayout();
+            this.splitContainer19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).BeginInit();
+            this.splitContainer20.Panel1.SuspendLayout();
+            this.splitContainer20.Panel2.SuspendLayout();
+            this.splitContainer20.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -182,14 +191,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
             this.splitContainer10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).BeginInit();
-            this.splitContainer19.Panel1.SuspendLayout();
-            this.splitContainer19.Panel2.SuspendLayout();
-            this.splitContainer19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).BeginInit();
-            this.splitContainer20.Panel1.SuspendLayout();
-            this.splitContainer20.Panel2.SuspendLayout();
-            this.splitContainer20.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -259,28 +260,24 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
             this.toolStripSeparator1,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem3});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 54);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem1.Text = "Настройки";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(131, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(134, 22);
-            this.toolStripMenuItem2.Text = "Выход";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "Архив";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // splitContainer5
@@ -621,6 +618,64 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer18.SplitterDistance = 341;
             this.splitContainer18.TabIndex = 0;
             // 
+            // splitContainer19
+            // 
+            this.splitContainer19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer19.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer19.Name = "splitContainer19";
+            // 
+            // splitContainer19.Panel1
+            // 
+            this.splitContainer19.Panel1.Controls.Add(this.splitContainer20);
+            // 
+            // splitContainer19.Panel2
+            // 
+            this.splitContainer19.Panel2.Controls.Add(this.labelDefenceDiagramRegim);
+            this.splitContainer19.Size = new System.Drawing.Size(341, 25);
+            this.splitContainer19.SplitterDistance = 67;
+            this.splitContainer19.TabIndex = 0;
+            // 
+            // splitContainer20
+            // 
+            this.splitContainer20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer20.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer20.Name = "splitContainer20";
+            // 
+            // splitContainer20.Panel1
+            // 
+            this.splitContainer20.Panel1.Controls.Add(this.labelTP);
+            // 
+            // splitContainer20.Panel2
+            // 
+            this.splitContainer20.Panel2.Controls.Add(this.labelTR);
+            this.splitContainer20.Size = new System.Drawing.Size(67, 25);
+            this.splitContainer20.SplitterDistance = 31;
+            this.splitContainer20.TabIndex = 0;
+            // 
+            // labelTP
+            // 
+            this.labelTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTP.AutoSize = true;
+            this.labelTP.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTP.ForeColor = System.Drawing.Color.Gray;
+            this.labelTP.Location = new System.Drawing.Point(-3, -3);
+            this.labelTP.Name = "labelTP";
+            this.labelTP.Size = new System.Drawing.Size(37, 27);
+            this.labelTP.TabIndex = 1;
+            this.labelTP.Text = "ТП";
+            // 
+            // labelTR
+            // 
+            this.labelTR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTR.AutoSize = true;
+            this.labelTR.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTR.ForeColor = System.Drawing.Color.Gray;
+            this.labelTR.Location = new System.Drawing.Point(-1, -3);
+            this.labelTR.Name = "labelTR";
+            this.labelTR.Size = new System.Drawing.Size(35, 27);
+            this.labelTR.TabIndex = 2;
+            this.labelTR.Text = "ТР";
+            // 
             // labelDefenceDiagramRegim
             // 
             this.labelDefenceDiagramRegim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -684,7 +739,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(724, 415);
+            this.tabPage2.Size = new System.Drawing.Size(724, 373);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Цепь ТП";
             // 
@@ -694,7 +749,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage3.ContextMenuStrip = this.contextMenuStrip1;
             this.tabPage3.Location = new System.Drawing.Point(4, 4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(724, 415);
+            this.tabPage3.Size = new System.Drawing.Size(724, 373);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "АУЗИ-Д";
             // 
@@ -704,7 +759,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage4.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage4.Location = new System.Drawing.Point(4, 4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(724, 415);
+            this.tabPage4.Size = new System.Drawing.Size(724, 373);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Журнал";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -717,7 +772,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage5.Controls.Add(this.tableLayoutPanel4);
             this.tabPage5.Location = new System.Drawing.Point(4, 4);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(724, 415);
+            this.tabPage5.Size = new System.Drawing.Size(724, 373);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Архив";
             // 
@@ -903,7 +958,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.tabPage6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage6.Location = new System.Drawing.Point(4, 4);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(724, 415);
+            this.tabPage6.Size = new System.Drawing.Size(724, 373);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Тормоз";
             // 
@@ -1028,64 +1083,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.SplitterDistance = 540;
             this.splitContainer10.TabIndex = 1;
             this.splitContainer10.TabStop = false;
-            // 
-            // splitContainer19
-            // 
-            this.splitContainer19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer19.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer19.Name = "splitContainer19";
-            // 
-            // splitContainer19.Panel1
-            // 
-            this.splitContainer19.Panel1.Controls.Add(this.splitContainer20);
-            // 
-            // splitContainer19.Panel2
-            // 
-            this.splitContainer19.Panel2.Controls.Add(this.labelDefenceDiagramRegim);
-            this.splitContainer19.Size = new System.Drawing.Size(341, 25);
-            this.splitContainer19.SplitterDistance = 67;
-            this.splitContainer19.TabIndex = 0;
-            // 
-            // splitContainer20
-            // 
-            this.splitContainer20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer20.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer20.Name = "splitContainer20";
-            // 
-            // splitContainer20.Panel1
-            // 
-            this.splitContainer20.Panel1.Controls.Add(this.labelTP);
-            // 
-            // splitContainer20.Panel2
-            // 
-            this.splitContainer20.Panel2.Controls.Add(this.labelTR);
-            this.splitContainer20.Size = new System.Drawing.Size(67, 25);
-            this.splitContainer20.SplitterDistance = 31;
-            this.splitContainer20.TabIndex = 0;
-            // 
-            // labelTP
-            // 
-            this.labelTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTP.AutoSize = true;
-            this.labelTP.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelTP.ForeColor = System.Drawing.Color.Gray;
-            this.labelTP.Location = new System.Drawing.Point(-3, -3);
-            this.labelTP.Name = "labelTP";
-            this.labelTP.Size = new System.Drawing.Size(37, 27);
-            this.labelTP.TabIndex = 1;
-            this.labelTP.Text = "ТП";
-            // 
-            // labelTR
-            // 
-            this.labelTR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTR.AutoSize = true;
-            this.labelTR.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelTR.ForeColor = System.Drawing.Color.Gray;
-            this.labelTR.Location = new System.Drawing.Point(-1, -3);
-            this.labelTR.Name = "labelTR";
-            this.labelTR.Size = new System.Drawing.Size(35, 27);
-            this.labelTR.TabIndex = 2;
-            this.labelTR.Text = "ТР";
             // 
             // panel1
             // 
@@ -1219,6 +1216,18 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Text = "Выход";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1289,6 +1298,17 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer18.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer18)).EndInit();
             this.splitContainer18.ResumeLayout(false);
+            this.splitContainer19.Panel1.ResumeLayout(false);
+            this.splitContainer19.Panel2.ResumeLayout(false);
+            this.splitContainer19.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).EndInit();
+            this.splitContainer19.ResumeLayout(false);
+            this.splitContainer20.Panel1.ResumeLayout(false);
+            this.splitContainer20.Panel1.PerformLayout();
+            this.splitContainer20.Panel2.ResumeLayout(false);
+            this.splitContainer20.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).EndInit();
+            this.splitContainer20.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -1310,17 +1330,6 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             this.splitContainer10.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
-            this.splitContainer19.Panel1.ResumeLayout(false);
-            this.splitContainer19.Panel2.ResumeLayout(false);
-            this.splitContainer19.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer19)).EndInit();
-            this.splitContainer19.ResumeLayout(false);
-            this.splitContainer20.Panel1.ResumeLayout(false);
-            this.splitContainer20.Panel1.PerformLayout();
-            this.splitContainer20.Panel2.ResumeLayout(false);
-            this.splitContainer20.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer20)).EndInit();
-            this.splitContainer20.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1395,11 +1404,12 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         private TabPage tabPage4;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem toolStripMenuItem2;
         private SplitContainer splitContainer19;
         private SplitContainer splitContainer20;
         private Label labelTP;
         private Label labelTR;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolStripMenuItem3;
     }
 }

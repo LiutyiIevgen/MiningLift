@@ -11,6 +11,7 @@ using ML.ConfigSettings.Services;
 using ML.DataExchange.Model;
 using VisualizationSystem.Model;
 using VisualizationSystem.Services;
+using VisualizationSystem.View.Forms;
 using VisualizationSystem.View.Forms.Setting;
 using VisualizationSystem.ViewModel;
 using VisualizationSystem.ViewModel.MainViewModel;
@@ -424,7 +425,11 @@ namespace VisualizationSystem.View.UserControls.GeneralView
             IoC.Resolve<FormSettingsParol>().ShowDialog();
             //new FormSettingsParol().Show();
         }
-        private void toolStripMenuItem2_Click(object sender, EventArgs e) //выход
+        private void toolStripMenuItem2_Click(object sender, EventArgs e) //архив
+        {
+            IoC.Resolve<FormArchiv>().ShowDialog();
+        }
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)//выход
         {
             var MineCon = IoC.Resolve<MineConfig>();
             MineCon.Save();
@@ -553,6 +558,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
 
         private Thread cycleThread;
         private volatile Parameters _parameters = new Parameters();
+
 
     }
 }
