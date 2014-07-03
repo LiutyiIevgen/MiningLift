@@ -58,7 +58,8 @@ namespace ML.DataRepository.DataAccess
                     new AnalogSignal {Type = "Скорость V(м/с)"},
                     new AnalogSignal {Type = "Ускорение (м/с2)"},
                     new AnalogSignal {Type = "Ток якоря (кА)"},
-                    new AnalogSignal {Type = "Ток возбуждения (А)"}
+                    new AnalogSignal {Type = "Ток возбуждения (А)"},
+                    new AnalogSignal {Type = "Защитная диаграмма (м/с)"}
                 };
             analogSignalType.ForEach(s => context.AnalogSignals.Add(s));
 

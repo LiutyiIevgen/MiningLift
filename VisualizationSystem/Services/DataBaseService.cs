@@ -32,6 +32,15 @@ namespace VisualizationSystem.Services
             }
             return ids;
         }
+        public List<DateTime> GetBlocksDateTimes(DateTime from, DateTime till)
+        {
+            var dates = new List<DateTime>();
+            using (var repoUnit = new RepoUnit())
+            {
+                dates.AddRange(repoUnit.BlockLog.Load(blc => blc.Date > from && blc.Date < till).Select(r => r.Date));
+            }
+            return dates;
+        }
         public List<List<ParameterData>> GetAnalogSignalsById(int id)
         {
             var parameterData = new List<List<ParameterData>>();
@@ -158,6 +167,16 @@ namespace VisualizationSystem.Services
             return parameterData;
         }
 
+        public List<string> GetAnalogSignalsNames()
+        {
+            var names = new List<string>();
+            using (var repoUnit = new RepoUnit())
+            {
+                names.AddRange(repoUnit.AnalogSignal.Load().Select(an => an.Type));
+            }
+            return names;
+        }
+
         public void LetFillDataBase()
         {
             _fillDataBase = 1;
@@ -177,6 +196,7 @@ namespace VisualizationSystem.Services
                     analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 4, SignalValue = param.a});
                     analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 5, SignalValue = param.tok_anchor});
                     analogSignals.Add(new AnalogSignalLog {NodeId = j + 1, SignalTypeId = 6, SignalValue = param.tok_excitation});
+                    analogSignals.Add(new AnalogSignalLog { NodeId = j + 1, SignalTypeId = 7, SignalValue = param.defence_diagram});
                     j++;
                 }
                 var inputSignals = new InputSignalsLog
