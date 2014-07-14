@@ -157,7 +157,8 @@ namespace VisualizationSystem.View.Forms.Setting
             }
             // add Series and Axis to plot model
             plotDefenceDiagram.Model.Series.Add(s1);
-            plotDefenceDiagram.RefreshPlot(true);
+            //plotDefenceDiagram.RefreshPlot(true);
+            plotDefenceDiagram.InvalidatePlot(true);
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)

@@ -106,7 +106,8 @@ namespace VisualizationSystem.View.UserControls.Setting
             }
             // add Series and Axis to plot model
             plotDefenceDiagram.Model.Series.Add(s1);
-            plotDefenceDiagram.RefreshPlot(true);
+            //plotDefenceDiagram.RefreshPlot(true);
+            plotDefenceDiagram.InvalidatePlot(true);
         }
 
        // private void MakeGraphic()

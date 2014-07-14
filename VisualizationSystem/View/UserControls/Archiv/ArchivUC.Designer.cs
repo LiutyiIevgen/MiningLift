@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label61 = new System.Windows.Forms.Label();
@@ -42,13 +43,13 @@
             this.listViewAnalogSignals = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
-            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
+            this.panelIOnames = new System.Windows.Forms.Panel();
+            this.contextMenuStripIOsignals = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelIOplots = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,15 +69,14 @@
             this.splitContainer7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
-            this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
+            this.contextMenuStripIOsignals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -287,33 +287,35 @@
             // 
             // splitContainer6.Panel1
             // 
-            this.splitContainer6.Panel1.Controls.Add(this.checkedListBox2);
-            // 
-            // splitContainer6.Panel2
-            // 
-            this.splitContainer6.Panel2.Controls.Add(this.checkedListBox3);
+            this.splitContainer6.Panel1.Controls.Add(this.panelIOnames);
             this.splitContainer6.Size = new System.Drawing.Size(193, 293);
-            this.splitContainer6.SplitterDistance = 140;
+            this.splitContainer6.SplitterDistance = 213;
             this.splitContainer6.SplitterWidth = 2;
             this.splitContainer6.TabIndex = 0;
             // 
-            // checkedListBox2
+            // panelIOnames
             // 
-            this.checkedListBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(0, 0);
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(193, 140);
-            this.checkedListBox2.TabIndex = 1;
+            this.panelIOnames.BackColor = System.Drawing.Color.Silver;
+            this.panelIOnames.ContextMenuStrip = this.contextMenuStripIOsignals;
+            this.panelIOnames.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelIOnames.Location = new System.Drawing.Point(0, 0);
+            this.panelIOnames.Name = "panelIOnames";
+            this.panelIOnames.Size = new System.Drawing.Size(193, 213);
+            this.panelIOnames.TabIndex = 0;
             // 
-            // checkedListBox3
+            // contextMenuStripIOsignals
             // 
-            this.checkedListBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBox3.FormattingEnabled = true;
-            this.checkedListBox3.Location = new System.Drawing.Point(0, 0);
-            this.checkedListBox3.Name = "checkedListBox3";
-            this.checkedListBox3.Size = new System.Drawing.Size(193, 151);
-            this.checkedListBox3.TabIndex = 1;
+            this.contextMenuStripIOsignals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuStripIOsignals.Name = "contextMenuStripIOsignals";
+            this.contextMenuStripIOsignals.Size = new System.Drawing.Size(172, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(171, 22);
+            this.toolStripMenuItem1.Text = "Выбрать сигналы";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // splitContainer3
             // 
@@ -352,33 +354,20 @@
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.panel2);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.panel3);
+            this.splitContainer4.Panel1.Controls.Add(this.panelIOplots);
             this.splitContainer4.Size = new System.Drawing.Size(704, 293);
-            this.splitContainer4.SplitterDistance = 140;
+            this.splitContainer4.SplitterDistance = 213;
             this.splitContainer4.SplitterWidth = 2;
             this.splitContainer4.TabIndex = 0;
             // 
-            // panel2
+            // panelIOplots
             // 
-            this.panel2.BackColor = System.Drawing.Color.Silver;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(704, 140);
-            this.panel2.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.Silver;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(704, 151);
-            this.panel3.TabIndex = 1;
+            this.panelIOplots.BackColor = System.Drawing.Color.Silver;
+            this.panelIOplots.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelIOplots.Location = new System.Drawing.Point(0, 0);
+            this.panelIOplots.Name = "panelIOplots";
+            this.panelIOplots.Size = new System.Drawing.Size(704, 213);
+            this.panelIOplots.TabIndex = 1;
             // 
             // ArchivUC
             // 
@@ -408,15 +397,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
             this.splitContainer6.Panel1.ResumeLayout(false);
-            this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
+            this.contextMenuStripIOsignals.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -438,13 +426,13 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.CheckedListBox checkedListBox2;
-        private System.Windows.Forms.CheckedListBox checkedListBox3;
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.ComboBox comboBoxOC;
         private System.Windows.Forms.ListView listViewAnalogSignals;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.Panel panelIOnames;
+        private System.Windows.Forms.Panel panelIOplots;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripIOsignals;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

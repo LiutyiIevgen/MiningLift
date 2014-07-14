@@ -98,7 +98,8 @@ namespace VisualizationSystem.View.UserControls.GeneralView
                             param.tok_excitation/(_mineConfig.MainViewConfig.MaxTokExcitation.Value/100)));
                         lineSerie4.Points.Add(new DataPoint(-param.s,
                             param.defence_diagram/(_mineConfig.MainViewConfig.MaxSpeed.Value/100)));
-                        plotCycle.RefreshPlot(true);
+                       // plotCycle.RefreshPlot(true);
+                        plotCycle.InvalidatePlot(true);
 
                         int j = 0;
                         foreach (object item in checkedListBoxGraphic.Items)

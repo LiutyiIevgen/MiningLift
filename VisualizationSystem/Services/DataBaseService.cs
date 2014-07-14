@@ -98,11 +98,49 @@ namespace VisualizationSystem.Services
                             parameterData.Add(new ParameterData
                             {
                                 Name = "",
-                                Value = (b & 0x01) == 1 ? "Лог '1'" : "Лог '0'"
+                                Value = (b & 0x01) == 1 ? "Лог '0'" : "Лог '1'"
                             });
                             b = (byte)(b >> 1);
                         } 
                     } 
+                }
+            }
+            return parameterData;
+        }
+
+        public List<ParameterData> GetInputSignalsByIdArchiv(int id)
+        {
+            var parameterData = new List<ParameterData>();
+            using (var repoUnit = new RepoUnit())
+            {
+                var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);
+                var byteList = new List<byte?> { block.InputSignalsLogs.First().Vio0, block.InputSignalsLogs.First().Vio1, block.InputSignalsLogs.First().Vio2, block.InputSignalsLogs.First().Vio3 };
+                foreach (var _byte in byteList)
+                {
+                    byte? b = _byte;
+                    if (b == null)
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = "нет данных"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = (b & 0x01) == 1 ? Convert.ToString(0) : Convert.ToString(1)
+                            });
+                            b = (byte)(b >> 1);
+                        }
+                    }
                 }
             }
             return parameterData;
@@ -137,7 +175,46 @@ namespace VisualizationSystem.Services
                             parameterData.Add(new ParameterData
                             {
                                 Name = "",
-                                Value = (b & 0x01) == 1 ? "Лог '1'" : "Лог '0'"
+                                Value = (b & 0x01) == 1 ? "Лог '0'" : "Лог '1'"
+                            });
+                            b = (byte)(b >> 1);
+                        }
+                    }
+                }
+            }
+            return parameterData;
+        }
+
+        public List<ParameterData> GetOutputSignalsByIdArchiv(int id)
+        {
+            var parameterData = new List<ParameterData>();
+            using (var repoUnit = new RepoUnit())
+            {
+                var block = repoUnit.BlockLog.FindFirstBy(blc => blc.Id == id);
+                var byteList = new List<byte?> { block.OutputSignalsLogs.First().Vio7, block.OutputSignalsLogs.First().Vio8, block.OutputSignalsLogs.First().Vio9, 
+                    block.OutputSignalsLogs.First().Vio11, block.OutputSignalsLogs.First().Vio12 };
+                foreach (var _byte in byteList)
+                {
+                    byte? b = _byte;
+                    if (b == null)
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = "нет данных"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            parameterData.Add(new ParameterData
+                            {
+                                Name = "",
+                                Value = (b & 0x01) == 1 ? Convert.ToString(0) : Convert.ToString(1)
                             });
                             b = (byte)(b >> 1);
                         }
