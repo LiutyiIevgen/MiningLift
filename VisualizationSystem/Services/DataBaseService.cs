@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -340,7 +341,7 @@ namespace VisualizationSystem.Services
             {
                 glog = repoUnit.GeneralLog.FindFirstBy(gl => gl.Id == id);
             }
-            logData.Text = glog.Date.ToShortDateString() + "   " + glog.Date.ToLongTimeString() + "     " + glog.LogLine;
+            logData.Text = glog.Date.ToShortDateString() + "   " + glog.Date.ToString("HH:mm:ss") + "     " + glog.LogLine;
             logData.ShortText = glog.LogShortLine;
             switch (glog.GeneralLogTypeId)
             {

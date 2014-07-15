@@ -35,7 +35,7 @@
             this.buttonFind = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.ArhivLog = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -56,7 +56,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.ArhivLog);
             this.splitContainer1.Size = new System.Drawing.Size(899, 511);
             this.splitContainer1.SplitterDistance = 36;
             this.splitContainer1.TabIndex = 0;
@@ -121,6 +121,7 @@
             this.buttonFind.TabIndex = 13;
             this.buttonFind.Text = "Поиск";
             this.buttonFind.UseVisualStyleBackColor = false;
+            this.buttonFind.Click += new System.EventHandler(this.buttonFind_Click);
             // 
             // dateTimePicker1
             // 
@@ -144,16 +145,16 @@
             this.dateTimePicker2.Size = new System.Drawing.Size(263, 26);
             this.dateTimePicker2.TabIndex = 6;
             // 
-            // richTextBox1
+            // ArhivLog
             // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(899, 471);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.ArhivLog.BackColor = System.Drawing.Color.Gainsboro;
+            this.ArhivLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ArhivLog.Location = new System.Drawing.Point(0, 0);
+            this.ArhivLog.Name = "ArhivLog";
+            this.ArhivLog.ReadOnly = true;
+            this.ArhivLog.Size = new System.Drawing.Size(899, 471);
+            this.ArhivLog.TabIndex = 0;
+            this.ArhivLog.Text = "";
             // 
             // GeneralLogArchivUC
             // 
@@ -163,6 +164,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "GeneralLogArchivUC";
             this.Size = new System.Drawing.Size(899, 511);
+            this.Load += new System.EventHandler(this.GeneralLogArchivUC_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -182,6 +184,6 @@
         private System.Windows.Forms.Button buttonFind;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox ArhivLog;
     }
 }
