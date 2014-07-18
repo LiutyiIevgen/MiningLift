@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 //using System.Windows.Forms.DataVisualization.Charting;
 using ML.ConfigSettings.Services;
@@ -29,11 +30,11 @@ namespace VisualizationSystem.View.UserControls.Archiv
         private void ArchivUC_Load(object sender, EventArgs e)
         {
             SetAnalogSignalsNamesList();
-            InitIOLineSeries();
+            //InitIOLineSeries();
             comboBoxOC.SelectedIndex = 0;
         }
 
-        private void InitIOLineSeries()
+        /*private void InitIOLineSeries()
         {
             _ioSeries[0] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Blue, MarkerFill = OxyColors.Blue, MarkerSize = 2 };
             _ioSeries[1] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Magenta, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Magenta, MarkerFill = OxyColors.Magenta, MarkerSize = 2 };
@@ -45,7 +46,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
             _ioSeries[7] = new LineSeries { StrokeThickness = 1, Color = OxyColors.LimeGreen, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.LimeGreen, MarkerFill = OxyColors.Red, MarkerSize = 2 };
             _ioSeries[8] = new LineSeries { StrokeThickness = 1, Color = OxyColors.DeepSkyBlue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DeepSkyBlue, MarkerFill = OxyColors.Red, MarkerSize = 2 };
             _ioSeries[9] = new LineSeries { StrokeThickness = 1, Color = OxyColors.BlueViolet, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.BlueViolet, MarkerFill = OxyColors.Red, MarkerSize = 2 };
-        }
+        } */
 
         private void SetAnalogSignalsNamesList()
         {
@@ -68,10 +69,13 @@ namespace VisualizationSystem.View.UserControls.Archiv
 
         private void MakeAnalogSignalsGraphic(List<List<List<string>>> analogSignals, List<DateTime> dateTimes)
         {
+            this.Invoke((MethodInvoker)delegate
+            {
             plotAnalogSignals = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
             panel1.Controls.Clear(); 
             plotAnalogSignals.Model.PlotType = PlotType.XY;
             int oc = comboBoxOC.SelectedIndex;
+            
             //Legend
             //Axis
             plotAnalogSignals.Model.Axes.Clear();
@@ -131,9 +135,16 @@ namespace VisualizationSystem.View.UserControls.Archiv
             }
             plotAnalogSignals.InvalidatePlot(true);
             panel1.Controls.Add(plotAnalogSignals);
+            });
         } 
 
         private void buttonFind_Click(object sender, EventArgs e)
+        {
+            var findThread = new Thread(Find) { IsBackground = true, Priority = ThreadPriority.Lowest };
+            findThread.Start();
+        }
+
+        private void Find()
         {
             var blocksIds = _dataBaseService.GetBlocksIds(dateTimePicker1.Value, dateTimePicker2.Value);
             _blocksDates = _dataBaseService.GetBlocksDateTimes(dateTimePicker1.Value, dateTimePicker2.Value);
@@ -168,7 +179,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
             var signalsNames = _mineConfig.AuziDSignalsConfig.SignalsNames;
             var ioNames = new List<string>();
             var inputSignalsList = new List<ParameterData>();
-            var outputSignalsList = new List<ParameterData>(); 
+            var outputSignalsList = new List<ParameterData>();
             if (blocksIds.Count > 0)
             {
                 inputSignalsList = _dataBaseService.GetInputSignalsByIdArchiv(blocksIds[0]);
@@ -258,89 +269,96 @@ namespace VisualizationSystem.View.UserControls.Archiv
 
         private void MakeIOSignalsGraphics(List<List<string>> ioSignals, List<DateTime> dateTimes)
         {
-            int rowCount = _checkedIOIndexes.Count;
-            if (rowCount == 0)
-                rowCount = 1;
-            //plots
-            var tlpIOplots = new TableLayoutPanel();
-            tlpIOplots.Dock = DockStyle.Fill;
-            tlpIOplots.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
-            tlpIOplots.ColumnCount = 1;
-            tlpIOplots.RowCount = rowCount;
-            for (int i = 0; i < rowCount; i++)
+            this.Invoke((MethodInvoker)delegate
             {
-                tlpIOplots.RowStyles.Add(new RowStyle());
-            }
-            float rowHight = 100 / rowCount;
-            TableLayoutRowStyleCollection styles = tlpIOplots.RowStyles;
-            foreach (RowStyle style in styles)
-            {
-                style.SizeType = SizeType.Percent;
-                style.Height = rowHight;
-            }
-            panelIOplots.Controls.Clear();
-            panelIOplots.Controls.Add(tlpIOplots);
-            _ioSeries[0] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Blue, MarkerFill = OxyColors.Blue, MarkerSize = 2 };
-            _ioSeries[1] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Magenta, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Magenta, MarkerFill = OxyColors.Magenta, MarkerSize = 2 };
-            _ioSeries[2] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Green, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Green, MarkerFill = OxyColors.Green, MarkerSize = 2 };
-            _ioSeries[3] = new LineSeries { StrokeThickness = 1, Color = OxyColors.IndianRed, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.IndianRed, MarkerFill = OxyColors.IndianRed, MarkerSize = 2 };
-            _ioSeries[4] = new LineSeries { StrokeThickness = 1, Color = OxyColors.DarkOrange, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DarkOrange, MarkerFill = OxyColors.DarkOrange, MarkerSize = 2 };
-            _ioSeries[5] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Yellow, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Yellow, MarkerFill = OxyColors.Yellow, MarkerSize = 2 };
-            _ioSeries[6] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Red, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Red, MarkerFill = OxyColors.Red, MarkerSize = 2 };
-            _ioSeries[7] = new LineSeries { StrokeThickness = 1, Color = OxyColors.LimeGreen, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.LimeGreen, MarkerFill = OxyColors.LimeGreen, MarkerSize = 2 };
-            _ioSeries[8] = new LineSeries { StrokeThickness = 1, Color = OxyColors.DeepSkyBlue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DeepSkyBlue, MarkerFill = OxyColors.DeepSkyBlue, MarkerSize = 2 };
-            _ioSeries[9] = new LineSeries { StrokeThickness = 1, Color = OxyColors.BlueViolet, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.BlueViolet, MarkerFill = OxyColors.BlueViolet, MarkerSize = 2 };
-            for (int i = 0; i < _checkedIOIndexes.Count; i++)
-            {
-                xAxis[i] = new DateTimeAxis(AxisPosition.Bottom, dateTimes[0], dateTimes[dateTimes.Count - 1], null, null, DateTimeIntervalType.Auto)
+                var plotIOSignals = new Plot[10];
+                var _ioSeries = new LineSeries[10];
+                var xAxis = new DateTimeAxis[10];
+                var yAxis = new LinearAxis[10];
+                int rowCount = _checkedIOIndexes.Count;
+                if (rowCount == 0)
+                    rowCount = 1;
+                //plots
+                var tlpIOplots = new TableLayoutPanel();
+                tlpIOplots.Dock = DockStyle.Fill;
+                tlpIOplots.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
+                tlpIOplots.ColumnCount = 1;
+                tlpIOplots.RowCount = rowCount;
+                for (int i = 0; i < rowCount; i++)
                 {
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot,
-                    //Title = "Дата",
-                    StringFormat = "dd-MM-yyyy HH:mm:ss",
-                    FontSize = 10,
-                    IsZoomEnabled = true,
-                    MajorStep = 1.0 / 24 / 60 / 2,
-                    MinorStep = 1.0 / 24 / 60 / 12,
-                    Minimum = DateTimeAxis.ToDouble(dateTimes[0]),
-                    Maximum = DateTimeAxis.ToDouble(dateTimes[dateTimes.Count - 1])
-                };
-                yAxis[i] = new LinearAxis(AxisPosition.Left, 0)
-                {
-                    MajorGridlineStyle = LineStyle.Solid,
-                    MinorGridlineStyle = LineStyle.Dot,
-                    //Title = "%",
-                    Minimum = -0.2,
-                    Maximum = 1.2
-                };
-                plotIOSignals[i] = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
-                plotIOSignals[i].Model.PlotType = PlotType.XY;
-                plotIOSignals[i].Model.Axes.Clear();
-                plotIOSignals[i].Model.Axes.Add(xAxis[i]);
-                plotIOSignals[i].Model.Axes.Add(yAxis[i]);
-            }
-            for (int i = 0; i < _ioSeries.Count(); i++)
-            {
-                _ioSeries[i].Points.Clear();
-            }
-            for (int i = 0; i < _checkedIOIndexes.Count; i++)
-            {
-                plotIOSignals[i].Model.Series.Clear();
-            }
-            for (int i = 0; i < _checkedIOIndexes.Count; i++)
-            {
-                for (int j = 0; j < dateTimes.Count; j++)
-                {
-                    if (ioSignals[_checkedIOIndexes[i]][j] != "нет данных")
-                        _ioSeries[i].Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[j]), Convert.ToDouble(ioSignals[_checkedIOIndexes[i]][j])));
+                    tlpIOplots.RowStyles.Add(new RowStyle());
                 }
-            }
-            for (int i = 0; i < _checkedIOIndexes.Count; i++)
-            {
-                plotIOSignals[i].Model.Series.Add(_ioSeries[i]);
-                plotIOSignals[i].InvalidatePlot(true);
-                tlpIOplots.Controls.Add(plotIOSignals[i], 0, i);
-            }
+                float rowHight = 100 / rowCount;
+                TableLayoutRowStyleCollection styles = tlpIOplots.RowStyles;
+                foreach (RowStyle style in styles)
+                {
+                    style.SizeType = SizeType.Percent;
+                    style.Height = rowHight;
+                }
+                panelIOplots.Controls.Clear();
+                panelIOplots.Controls.Add(tlpIOplots);
+                _ioSeries[0] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Blue, MarkerFill = OxyColors.Blue, MarkerSize = 2 };
+                _ioSeries[1] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Magenta, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Magenta, MarkerFill = OxyColors.Magenta, MarkerSize = 2 };
+                _ioSeries[2] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Green, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Green, MarkerFill = OxyColors.Green, MarkerSize = 2 };
+                _ioSeries[3] = new LineSeries { StrokeThickness = 1, Color = OxyColors.IndianRed, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.IndianRed, MarkerFill = OxyColors.IndianRed, MarkerSize = 2 };
+                _ioSeries[4] = new LineSeries { StrokeThickness = 1, Color = OxyColors.DarkOrange, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DarkOrange, MarkerFill = OxyColors.DarkOrange, MarkerSize = 2 };
+                _ioSeries[5] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Yellow, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Yellow, MarkerFill = OxyColors.Yellow, MarkerSize = 2 };
+                _ioSeries[6] = new LineSeries { StrokeThickness = 1, Color = OxyColors.Red, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Red, MarkerFill = OxyColors.Red, MarkerSize = 2 };
+                _ioSeries[7] = new LineSeries { StrokeThickness = 1, Color = OxyColors.LimeGreen, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.LimeGreen, MarkerFill = OxyColors.LimeGreen, MarkerSize = 2 };
+                _ioSeries[8] = new LineSeries { StrokeThickness = 1, Color = OxyColors.DeepSkyBlue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DeepSkyBlue, MarkerFill = OxyColors.DeepSkyBlue, MarkerSize = 2 };
+                _ioSeries[9] = new LineSeries { StrokeThickness = 1, Color = OxyColors.BlueViolet, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.BlueViolet, MarkerFill = OxyColors.BlueViolet, MarkerSize = 2 };
+                for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                {
+                    xAxis[i] = new DateTimeAxis(AxisPosition.Bottom, dateTimes[0], dateTimes[dateTimes.Count - 1], null, null, DateTimeIntervalType.Auto)
+                    {
+                        MajorGridlineStyle = LineStyle.Solid,
+                        MinorGridlineStyle = LineStyle.Dot,
+                        //Title = "Дата",
+                        StringFormat = "dd-MM-yyyy HH:mm:ss",
+                        FontSize = 10,
+                        IsZoomEnabled = true,
+                        MajorStep = 1.0 / 24 / 60 / 2,
+                        MinorStep = 1.0 / 24 / 60 / 12,
+                        Minimum = DateTimeAxis.ToDouble(dateTimes[0]),
+                        Maximum = DateTimeAxis.ToDouble(dateTimes[dateTimes.Count - 1])
+                    };
+                    yAxis[i] = new LinearAxis(AxisPosition.Left, 0)
+                    {
+                        MajorGridlineStyle = LineStyle.Solid,
+                        MinorGridlineStyle = LineStyle.Dot,
+                        //Title = "%",
+                        Minimum = -0.2,
+                        Maximum = 1.2
+                    };
+                    plotIOSignals[i] = new OxyPlot.WindowsForms.Plot { Model = new PlotModel(), Dock = DockStyle.Fill };
+                    plotIOSignals[i].Model.PlotType = PlotType.XY;
+                    plotIOSignals[i].Model.Axes.Clear();
+                    plotIOSignals[i].Model.Axes.Add(xAxis[i]);
+                    plotIOSignals[i].Model.Axes.Add(yAxis[i]);
+                }
+                for (int i = 0; i < _ioSeries.Count(); i++)
+                {
+                    _ioSeries[i].Points.Clear();
+                }
+                for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                {
+                    plotIOSignals[i].Model.Series.Clear();
+                }
+                for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                {
+                    for (int j = 0; j < dateTimes.Count; j++)
+                    {
+                        if (ioSignals[_checkedIOIndexes[i]][j] != "нет данных")
+                            _ioSeries[i].Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[j]), Convert.ToDouble(ioSignals[_checkedIOIndexes[i]][j])));
+                    }
+                }
+                for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                {
+                    plotIOSignals[i].Model.Series.Add(_ioSeries[i]);
+                    plotIOSignals[i].InvalidatePlot(true);
+                    tlpIOplots.Controls.Add(plotIOSignals[i], 0, i);
+                }
+            });
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)//choose IO signals
@@ -387,10 +405,10 @@ namespace VisualizationSystem.View.UserControls.Archiv
         private List<List<string>> _IOSignals;
         private List<int> _checkedIOIndexes; 
         private List<DateTime> _blocksDates;
-        private OxyPlot.WindowsForms.Plot[] plotIOSignals = new Plot[10];
+        //private OxyPlot.WindowsForms.Plot[] plotIOSignals; //= new Plot[10];
         private Color[] _colors = new Color[] { Color.Blue, Color.Magenta, Color.Green, Color.IndianRed, Color.DarkOrange, Color.Yellow, Color.Red, Color.LimeGreen, Color.DeepSkyBlue, Color.BlueViolet };
-        private LineSeries[] _ioSeries = new LineSeries[10];
-        private DateTimeAxis[] xAxis = new DateTimeAxis[10];
-        private LinearAxis[] yAxis = new LinearAxis[10];
+        //private LineSeries[] _ioSeries; //= new LineSeries[10];
+        //private DateTimeAxis[] xAxis; //= new DateTimeAxis[10];
+        //private LinearAxis[] yAxis;// = new LinearAxis[10];
     }
 }
