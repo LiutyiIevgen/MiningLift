@@ -65,6 +65,13 @@ namespace VisualizationSystem.View.UserControls.Archiv
             listViewAnalogSignals.Items[4].ForeColor = Color.DarkOrange;
             listViewAnalogSignals.Items[5].ForeColor = Color.Yellow;
             listViewAnalogSignals.Items[6].ForeColor = Color.Red;
+            listViewAnalogSignals.Items[0].SubItems.Add((_mineConfig.MainViewConfig.Distance.Value + 10).ToString());
+            listViewAnalogSignals.Items[1].SubItems.Add((_mineConfig.MainViewConfig.Distance.Value + 10).ToString());
+            listViewAnalogSignals.Items[2].SubItems.Add(_mineConfig.MainViewConfig.MaxSpeed.Value.ToString());
+            listViewAnalogSignals.Items[3].SubItems.Add(_maxSpeedUp.ToString());
+            listViewAnalogSignals.Items[4].SubItems.Add(_mineConfig.MainViewConfig.MaxTokAnchor.Value.ToString());
+            listViewAnalogSignals.Items[5].SubItems.Add(_mineConfig.MainViewConfig.MaxTokExcitation.Value.ToString());
+            listViewAnalogSignals.Items[6].SubItems.Add(_mineConfig.MainViewConfig.MaxSpeed.Value.ToString());
         }
 
         private void MakeAnalogSignalsGraphic(List<List<List<string>>> analogSignals, List<DateTime> dateTimes)
@@ -97,7 +104,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Title = "%",
-                Minimum = 0,
+                Minimum = -100,
                 Maximum = 100
             };
             plotAnalogSignals.Model.Axes.Add(yAxis);
@@ -111,13 +118,13 @@ namespace VisualizationSystem.View.UserControls.Archiv
             var s7 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Red, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Red, MarkerFill = OxyColors.Red, MarkerSize = 2 };
             for (int i = 0; i < dateTimes.Count; i++)
             {
-                s1.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][0][i])));
-                s2.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][1][i])));
-                s3.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][2][i])));
-                s4.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][3][i])));
-                s5.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][4][i])));
-                s6.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][5][i])));
-                s7.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][6][i])));
+                s1.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][0][i]) / ((_mineConfig.MainViewConfig.Distance.Value + 10) / 100)));
+                s2.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][1][i]) / ((_mineConfig.MainViewConfig.Distance.Value + 10) / 100)));
+                s3.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][2][i]) / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100)));
+                s4.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][3][i]) / (_maxSpeedUp / 100)));
+                s5.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][4][i]) / (_mineConfig.MainViewConfig.MaxTokAnchor.Value / 100)));
+                s6.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][5][i]) / (_mineConfig.MainViewConfig.MaxTokExcitation.Value / 100)));
+                s7.Points.Add(new DataPoint(DateTimeAxis.ToDouble(dateTimes[i]), Convert.ToDouble(analogSignals[oc][6][i]) / (_mineConfig.MainViewConfig.MaxSpeed.Value / 100)));
             }
             //Series
             plotAnalogSignals.Model.Series.Add(s1);
@@ -399,6 +406,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
         //
 
         private MineConfig _mineConfig;
+        private double _maxSpeedUp = 2;
         readonly DataBaseService _dataBaseService = IoC.Resolve<DataBaseService>();
         private OxyPlot.WindowsForms.Plot plotAnalogSignals;
         private List<List<List<string>>> _analogSignals;

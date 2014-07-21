@@ -50,6 +50,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panelIOplots = new System.Windows.Forms.Panel();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -263,7 +264,8 @@
             this.listViewAnalogSignals.BackColor = System.Drawing.Color.Silver;
             this.listViewAnalogSignals.CheckBoxes = true;
             this.listViewAnalogSignals.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
+            this.columnHeader1,
+            this.columnHeader2});
             this.listViewAnalogSignals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewAnalogSignals.Location = new System.Drawing.Point(0, 0);
             this.listViewAnalogSignals.Name = "listViewAnalogSignals";
@@ -276,7 +278,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Аналоговые сигналы";
-            this.columnHeader1.Width = 188;
+            this.columnHeader1.Width = 121;
             // 
             // splitContainer6
             // 
@@ -369,6 +371,11 @@
             this.panelIOplots.Size = new System.Drawing.Size(704, 213);
             this.panelIOplots.TabIndex = 1;
             // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Максимум";
+            this.columnHeader2.Width = 67;
+            // 
             // ArchivUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -434,5 +441,6 @@
         private System.Windows.Forms.Panel panelIOplots;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripIOsignals;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
