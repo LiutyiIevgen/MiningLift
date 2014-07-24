@@ -42,6 +42,7 @@
             this.comboBoxOC = new System.Windows.Forms.ComboBox();
             this.listViewAnalogSignals = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.panelIOnames = new System.Windows.Forms.Panel();
             this.contextMenuStripIOsignals = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -50,7 +51,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panelIOplots = new System.Windows.Forms.Panel();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxSync = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,11 +81,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -96,7 +103,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(899, 511);
-            this.splitContainer1.SplitterDistance = 32;
+            this.splitContainer1.SplitterDistance = 35;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -119,7 +126,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(899, 32);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(899, 35);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label61
@@ -129,7 +136,7 @@
             this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label61.Location = new System.Drawing.Point(361, 0);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(83, 32);
+            this.label61.Size = new System.Drawing.Size(83, 35);
             this.label61.TabIndex = 5;
             this.label61.Text = "До:";
             this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -142,7 +149,7 @@
             this.label60.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label60.Location = new System.Drawing.Point(3, 0);
             this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(83, 32);
+            this.label60.Size = new System.Drawing.Size(83, 35);
             this.label60.TabIndex = 2;
             this.label60.Text = "От:";
             this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -157,7 +164,7 @@
             this.buttonFind.ForeColor = System.Drawing.Color.Silver;
             this.buttonFind.Location = new System.Drawing.Point(719, 3);
             this.buttonFind.Name = "buttonFind";
-            this.buttonFind.Size = new System.Drawing.Size(177, 26);
+            this.buttonFind.Size = new System.Drawing.Size(177, 29);
             this.buttonFind.TabIndex = 13;
             this.buttonFind.Text = "Поиск";
             this.buttonFind.UseVisualStyleBackColor = false;
@@ -169,7 +176,7 @@
             this.dateTimePicker1.CustomFormat = "dd.MM.yyyy  HH:mm";
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(92, 3);
+            this.dateTimePicker1.Location = new System.Drawing.Point(92, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(263, 26);
             this.dateTimePicker1.TabIndex = 3;
@@ -180,7 +187,7 @@
             this.dateTimePicker2.CustomFormat = "dd.MM.yyyy  HH:mm";
             this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(450, 3);
+            this.dateTimePicker2.Location = new System.Drawing.Point(450, 4);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(263, 26);
             this.dateTimePicker2.TabIndex = 6;
@@ -198,7 +205,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(899, 478);
+            this.splitContainer2.Size = new System.Drawing.Size(899, 475);
             this.splitContainer2.SplitterDistance = 193;
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 0;
@@ -217,8 +224,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
-            this.splitContainer5.Size = new System.Drawing.Size(193, 478);
-            this.splitContainer5.SplitterDistance = 183;
+            this.splitContainer5.Size = new System.Drawing.Size(193, 475);
+            this.splitContainer5.SplitterDistance = 181;
             this.splitContainer5.SplitterWidth = 2;
             this.splitContainer5.TabIndex = 0;
             // 
@@ -232,12 +239,12 @@
             // 
             // splitContainer7.Panel1
             // 
-            this.splitContainer7.Panel1.Controls.Add(this.comboBoxOC);
+            this.splitContainer7.Panel1.Controls.Add(this.comboBoxSync);
             // 
             // splitContainer7.Panel2
             // 
-            this.splitContainer7.Panel2.Controls.Add(this.listViewAnalogSignals);
-            this.splitContainer7.Size = new System.Drawing.Size(193, 183);
+            this.splitContainer7.Panel2.Controls.Add(this.splitContainer8);
+            this.splitContainer7.Size = new System.Drawing.Size(193, 181);
             this.splitContainer7.SplitterDistance = 25;
             this.splitContainer7.SplitterWidth = 1;
             this.splitContainer7.TabIndex = 0;
@@ -269,7 +276,7 @@
             this.listViewAnalogSignals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewAnalogSignals.Location = new System.Drawing.Point(0, 0);
             this.listViewAnalogSignals.Name = "listViewAnalogSignals";
-            this.listViewAnalogSignals.Size = new System.Drawing.Size(193, 157);
+            this.listViewAnalogSignals.Size = new System.Drawing.Size(193, 129);
             this.listViewAnalogSignals.TabIndex = 0;
             this.listViewAnalogSignals.UseCompatibleStateImageBehavior = false;
             this.listViewAnalogSignals.View = System.Windows.Forms.View.Details;
@@ -279,6 +286,11 @@
             // 
             this.columnHeader1.Text = "Аналоговые сигналы";
             this.columnHeader1.Width = 121;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Максимум";
+            this.columnHeader2.Width = 67;
             // 
             // splitContainer6
             // 
@@ -290,8 +302,8 @@
             // splitContainer6.Panel1
             // 
             this.splitContainer6.Panel1.Controls.Add(this.panelIOnames);
-            this.splitContainer6.Size = new System.Drawing.Size(193, 293);
-            this.splitContainer6.SplitterDistance = 213;
+            this.splitContainer6.Size = new System.Drawing.Size(193, 292);
+            this.splitContainer6.SplitterDistance = 212;
             this.splitContainer6.SplitterWidth = 2;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -302,7 +314,7 @@
             this.panelIOnames.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelIOnames.Location = new System.Drawing.Point(0, 0);
             this.panelIOnames.Name = "panelIOnames";
-            this.panelIOnames.Size = new System.Drawing.Size(193, 213);
+            this.panelIOnames.Size = new System.Drawing.Size(193, 212);
             this.panelIOnames.TabIndex = 0;
             // 
             // contextMenuStripIOsignals
@@ -333,8 +345,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(704, 478);
-            this.splitContainer3.SplitterDistance = 183;
+            this.splitContainer3.Size = new System.Drawing.Size(704, 475);
+            this.splitContainer3.SplitterDistance = 181;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -344,7 +356,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(704, 183);
+            this.panel1.Size = new System.Drawing.Size(704, 181);
             this.panel1.TabIndex = 0;
             // 
             // splitContainer4
@@ -357,8 +369,8 @@
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.panelIOplots);
-            this.splitContainer4.Size = new System.Drawing.Size(704, 293);
-            this.splitContainer4.SplitterDistance = 213;
+            this.splitContainer4.Size = new System.Drawing.Size(704, 292);
+            this.splitContainer4.SplitterDistance = 212;
             this.splitContainer4.SplitterWidth = 2;
             this.splitContainer4.TabIndex = 0;
             // 
@@ -368,13 +380,44 @@
             this.panelIOplots.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelIOplots.Location = new System.Drawing.Point(0, 0);
             this.panelIOplots.Name = "panelIOplots";
-            this.panelIOplots.Size = new System.Drawing.Size(704, 213);
+            this.panelIOplots.Size = new System.Drawing.Size(704, 212);
             this.panelIOplots.TabIndex = 1;
             // 
-            // columnHeader2
+            // splitContainer8
             // 
-            this.columnHeader2.Text = "Максимум";
-            this.columnHeader2.Width = 67;
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.comboBoxOC);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.listViewAnalogSignals);
+            this.splitContainer8.Size = new System.Drawing.Size(193, 155);
+            this.splitContainer8.SplitterDistance = 25;
+            this.splitContainer8.SplitterWidth = 1;
+            this.splitContainer8.TabIndex = 1;
+            // 
+            // comboBoxSync
+            // 
+            this.comboBoxSync.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxSync.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxSync.FormattingEnabled = true;
+            this.comboBoxSync.Items.AddRange(new object[] {
+            "Синхронизация выключена",
+            "Синхронизация включена"});
+            this.comboBoxSync.Location = new System.Drawing.Point(0, 0);
+            this.comboBoxSync.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxSync.Name = "comboBoxSync";
+            this.comboBoxSync.Size = new System.Drawing.Size(193, 21);
+            this.comboBoxSync.TabIndex = 1;
+            this.comboBoxSync.SelectedIndexChanged += new System.EventHandler(this.comboBoxSync_SelectedIndexChanged);
             // 
             // ArchivUC
             // 
@@ -414,6 +457,10 @@
             this.splitContainer4.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -442,5 +489,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripIOsignals;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ComboBox comboBoxSync;
+        private System.Windows.Forms.SplitContainer splitContainer8;
     }
 }

@@ -32,6 +32,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
             SetAnalogSignalsNamesList();
             //InitIOLineSeries();
             comboBoxOC.SelectedIndex = 0;
+            comboBoxSync.SelectedIndex = 0;
         }
 
         /*private void InitIOLineSeries()
@@ -91,7 +92,8 @@ namespace VisualizationSystem.View.UserControls.Archiv
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 //Title = "Дата",
-                StringFormat = "dd-MM-yyyy\nHH:mm:ss",
+                StringFormat = "dd-MM-yyyy HH:mm:ss",
+                FontSize = 10,
                 IsZoomEnabled = true,
                 MajorStep = 1.0 / 24 / 60 / 2,
                 MinorStep = 1.0 / 24 / 60 / 12,
@@ -108,6 +110,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
                 Maximum = 100
             };
             plotAnalogSignals.Model.Axes.Add(yAxis);
+            plotAnalogSignals.Model.Axes[0].AxisChanged += new EventHandler<AxisChangedEventArgs>(xAxis_AxisChanged);
             // Create Line series
             var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Blue, MarkerFill = OxyColors.Blue, MarkerSize = 2};
             var s2 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Magenta, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Magenta, MarkerFill = OxyColors.Magenta, MarkerSize = 2 };
@@ -242,6 +245,13 @@ namespace VisualizationSystem.View.UserControls.Archiv
                 MakeAnalogSignalsGraphic(_analogSignals, _blocksDates);
         }
 
+        private void comboBoxSync_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _plotsSynchronized = comboBoxSync.SelectedIndex;
+            if (_plotsSynchronized == 1)
+                SynchronizePlotsByTimeAxis();
+        }
+
         //IOsignals
         private void DrawIOsignals(List<string> names)
         {
@@ -278,10 +288,6 @@ namespace VisualizationSystem.View.UserControls.Archiv
         {
             this.Invoke((MethodInvoker)delegate
             {
-                var plotIOSignals = new Plot[10];
-                var _ioSeries = new LineSeries[10];
-                var xAxis = new DateTimeAxis[10];
-                var yAxis = new LinearAxis[10];
                 int rowCount = _checkedIOIndexes.Count;
                 if (rowCount == 0)
                     rowCount = 1;
@@ -333,7 +339,8 @@ namespace VisualizationSystem.View.UserControls.Archiv
                     {
                         MajorGridlineStyle = LineStyle.Solid,
                         MinorGridlineStyle = LineStyle.Dot,
-                        //Title = "%",
+                        Title = "value",
+                        StringFormat = "00#",
                         Minimum = -0.2,
                         Maximum = 1.2
                     };
@@ -403,6 +410,39 @@ namespace VisualizationSystem.View.UserControls.Archiv
             if (_blocksDates != null && _blocksDates.Count > 0)
                 MakeIOSignalsGraphics(_IOSignals, _blocksDates);
         }
+       /* private void toolStripMenuItem2_Click(object sender, EventArgs e)//sinchronize plots by time axis
+        {
+            DateTime fistPoint = new DateTime();
+            DateTime secondPoint = new DateTime();
+            fistPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMinimum);
+            secondPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMaximum);
+            for (int i = 0; i < _checkedIOIndexes.Count; i++)
+            {
+                plotIOSignals[i].Model.Axes[0].Minimum = DateTimeAxis.ToDouble(fistPoint);
+                plotIOSignals[i].Model.Axes[0].Maximum = DateTimeAxis.ToDouble(secondPoint);
+                plotIOSignals[i].InvalidatePlot(true);
+            }
+        } */
+
+        private void xAxis_AxisChanged(object sender, AxisChangedEventArgs args)
+        {
+            if (_plotsSynchronized == 1)
+                SynchronizePlotsByTimeAxis();
+        }
+
+        private void SynchronizePlotsByTimeAxis()
+        {
+            DateTime fistPoint = new DateTime();
+            DateTime secondPoint = new DateTime();
+            fistPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMinimum);
+            secondPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMaximum);
+            for (int i = 0; i < _checkedIOIndexes.Count; i++)
+            {
+                plotIOSignals[i].Model.Axes[0].Minimum = DateTimeAxis.ToDouble(fistPoint);
+                plotIOSignals[i].Model.Axes[0].Maximum = DateTimeAxis.ToDouble(secondPoint);
+                plotIOSignals[i].InvalidatePlot(true);
+            }
+        }
         //
 
         private MineConfig _mineConfig;
@@ -413,10 +453,11 @@ namespace VisualizationSystem.View.UserControls.Archiv
         private List<List<string>> _IOSignals;
         private List<int> _checkedIOIndexes; 
         private List<DateTime> _blocksDates;
-        //private OxyPlot.WindowsForms.Plot[] plotIOSignals; //= new Plot[10];
+        private OxyPlot.WindowsForms.Plot[] plotIOSignals = new Plot[10];
         private Color[] _colors = new Color[] { Color.Blue, Color.Magenta, Color.Green, Color.IndianRed, Color.DarkOrange, Color.Yellow, Color.Red, Color.LimeGreen, Color.DeepSkyBlue, Color.BlueViolet };
-        //private LineSeries[] _ioSeries; //= new LineSeries[10];
-        //private DateTimeAxis[] xAxis; //= new DateTimeAxis[10];
-        //private LinearAxis[] yAxis;// = new LinearAxis[10];
+        private LineSeries[] _ioSeries = new LineSeries[10];
+        private DateTimeAxis[] xAxis = new DateTimeAxis[10];
+        private LinearAxis[] yAxis = new LinearAxis[10];
+        private int _plotsSynchronized = 0;
     }
 }
