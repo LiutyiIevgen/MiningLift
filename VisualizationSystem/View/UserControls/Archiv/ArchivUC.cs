@@ -7,6 +7,7 @@ using System.Windows.Forms;
 //using System.Windows.Forms.DataVisualization.Charting;
 using ML.ConfigSettings.Services;
 using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
@@ -15,6 +16,7 @@ using VisualizationSystem.Model.DataBase;
 using VisualizationSystem.Services;
 using VisualizationSystem.View.Forms.Archiv;
 using DataPoint = OxyPlot.DataPoint;
+using SelectionMode = OxyPlot.SelectionMode;
 
 namespace VisualizationSystem.View.UserControls.Archiv
 {
@@ -33,6 +35,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
             //InitIOLineSeries();
             comboBoxOC.SelectedIndex = 0;
             comboBoxSync.SelectedIndex = 0;
+            comboBoxMarkers.SelectedIndex = 0;
         }
 
         /*private void InitIOLineSeries()
@@ -111,6 +114,75 @@ namespace VisualizationSystem.View.UserControls.Archiv
             };
             plotAnalogSignals.Model.Axes.Add(yAxis);
             plotAnalogSignals.Model.Axes[0].AxisChanged += new EventHandler<AxisChangedEventArgs>(xAxis_AxisChanged);
+            //annotations
+            lineAnnotationVertical = new LineAnnotation { Type = LineAnnotationType.Vertical, Color = OxyColors.Brown, Layer = AnnotationLayer.BelowSeries};
+            lineAnnotationVertical.X = DateTimeAxis.ToDouble(dateTimes[1]);
+            lineAnnotationVertical.MouseDown += (s, e) =>
+            {
+                if (e.ChangedButton != OxyMouseButton.Left)
+                {
+                    return;
+                }
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationVertical.StrokeThickness *= 3;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            lineAnnotationVertical.MouseMove += (s, e) =>
+            {
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationVertical.X = lineAnnotationVertical.InverseTransform(e.Position).X;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            lineAnnotationVertical.MouseUp += (s, e) =>
+            {
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationVertical.StrokeThickness /= 3;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            lineAnnotationHorizontal = new LineAnnotation { Type = LineAnnotationType.Horizontal, Color = OxyColors.Brown, Layer = AnnotationLayer.BelowSeries};
+            lineAnnotationHorizontal.Y = 90;
+            lineAnnotationHorizontal.MouseDown += (s, e) =>
+            {
+                if (e.ChangedButton != OxyMouseButton.Left)
+                {
+                    return;
+                }
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationHorizontal.StrokeThickness *= 3;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            lineAnnotationHorizontal.MouseMove += (s, e) =>
+            {
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationHorizontal.Y = lineAnnotationHorizontal.InverseTransform(e.Position).Y;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            lineAnnotationHorizontal.MouseUp += (s, e) =>
+            {
+                if (_isMarkersActive == 1)
+                {
+                    lineAnnotationHorizontal.StrokeThickness /= 3;
+                    plotAnalogSignals.Model.InvalidatePlot(false);
+                    e.Handled = true;
+                }
+            };
+            plotAnalogSignals.Model.Annotations.Add(lineAnnotationVertical);
+            plotAnalogSignals.Model.Annotations.Add(lineAnnotationHorizontal);
             // Create Line series
             var s1 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Blue, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Blue, MarkerFill = OxyColors.Blue, MarkerSize = 2};
             var s2 = new LineSeries { StrokeThickness = 1, Color = OxyColors.Magenta, MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.Magenta, MarkerFill = OxyColors.Magenta, MarkerSize = 2 };
@@ -147,7 +219,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
             panel1.Controls.Add(plotAnalogSignals);
             });
         } 
-
+         
         private void buttonFind_Click(object sender, EventArgs e)
         {
             var findThread = new Thread(Find) { IsBackground = true, Priority = ThreadPriority.Lowest };
@@ -250,6 +322,11 @@ namespace VisualizationSystem.View.UserControls.Archiv
             _plotsSynchronized = comboBoxSync.SelectedIndex;
             if (_plotsSynchronized == 1)
                 SynchronizePlotsByTimeAxis();
+        }
+        
+        private void comboBoxMarkers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _isMarkersActive = comboBoxMarkers.SelectedIndex;
         }
 
         //IOsignals
@@ -450,6 +527,8 @@ namespace VisualizationSystem.View.UserControls.Archiv
         readonly DataBaseService _dataBaseService = IoC.Resolve<DataBaseService>();
         private OxyPlot.WindowsForms.Plot plotAnalogSignals;
         private List<List<List<string>>> _analogSignals;
+        private LineAnnotation lineAnnotationVertical;
+        private LineAnnotation lineAnnotationHorizontal;
         private List<List<string>> _IOSignals;
         private List<int> _checkedIOIndexes; 
         private List<DateTime> _blocksDates;
@@ -459,5 +538,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
         private DateTimeAxis[] xAxis = new DateTimeAxis[10];
         private LinearAxis[] yAxis = new LinearAxis[10];
         private int _plotsSynchronized = 0;
+        private int _isMarkersActive = 0;
+
     }
 }

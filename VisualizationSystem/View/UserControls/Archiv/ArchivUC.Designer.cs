@@ -39,6 +39,8 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxSync = new System.Windows.Forms.ComboBox();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.comboBoxOC = new System.Windows.Forms.ComboBox();
             this.listViewAnalogSignals = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,8 +53,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panelIOplots = new System.Windows.Forms.Panel();
-            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
-            this.comboBoxSync = new System.Windows.Forms.ComboBox();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxMarkers = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,6 +72,10 @@
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.SuspendLayout();
@@ -81,10 +87,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
-            this.splitContainer8.Panel1.SuspendLayout();
-            this.splitContainer8.Panel2.SuspendLayout();
-            this.splitContainer8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
+            this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
+            this.splitContainer9.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -249,6 +255,42 @@
             this.splitContainer7.SplitterWidth = 1;
             this.splitContainer7.TabIndex = 0;
             // 
+            // comboBoxSync
+            // 
+            this.comboBoxSync.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxSync.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxSync.FormattingEnabled = true;
+            this.comboBoxSync.Items.AddRange(new object[] {
+            "Синхронизация выключена",
+            "Синхронизация включена"});
+            this.comboBoxSync.Location = new System.Drawing.Point(0, 0);
+            this.comboBoxSync.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxSync.Name = "comboBoxSync";
+            this.comboBoxSync.Size = new System.Drawing.Size(193, 21);
+            this.comboBoxSync.TabIndex = 1;
+            this.comboBoxSync.SelectedIndexChanged += new System.EventHandler(this.comboBoxSync_SelectedIndexChanged);
+            // 
+            // splitContainer8
+            // 
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.splitContainer9);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.listViewAnalogSignals);
+            this.splitContainer8.Size = new System.Drawing.Size(193, 155);
+            this.splitContainer8.SplitterDistance = 25;
+            this.splitContainer8.SplitterWidth = 1;
+            this.splitContainer8.TabIndex = 1;
+            // 
             // comboBoxOC
             // 
             this.comboBoxOC.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -262,7 +304,7 @@
             this.comboBoxOC.Location = new System.Drawing.Point(0, 0);
             this.comboBoxOC.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxOC.Name = "comboBoxOC";
-            this.comboBoxOC.Size = new System.Drawing.Size(193, 21);
+            this.comboBoxOC.Size = new System.Drawing.Size(64, 21);
             this.comboBoxOC.TabIndex = 0;
             this.comboBoxOC.SelectedIndexChanged += new System.EventHandler(this.comboBoxOC_SelectedIndexChanged);
             // 
@@ -383,41 +425,39 @@
             this.panelIOplots.Size = new System.Drawing.Size(704, 212);
             this.panelIOplots.TabIndex = 1;
             // 
-            // splitContainer8
+            // splitContainer9
             // 
-            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer8.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer8.Name = "splitContainer8";
-            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer9.Name = "splitContainer9";
             // 
-            // splitContainer8.Panel1
+            // splitContainer9.Panel1
             // 
-            this.splitContainer8.Panel1.Controls.Add(this.comboBoxOC);
+            this.splitContainer9.Panel1.Controls.Add(this.comboBoxOC);
             // 
-            // splitContainer8.Panel2
+            // splitContainer9.Panel2
             // 
-            this.splitContainer8.Panel2.Controls.Add(this.listViewAnalogSignals);
-            this.splitContainer8.Size = new System.Drawing.Size(193, 155);
-            this.splitContainer8.SplitterDistance = 25;
-            this.splitContainer8.SplitterWidth = 1;
-            this.splitContainer8.TabIndex = 1;
+            this.splitContainer9.Panel2.Controls.Add(this.comboBoxMarkers);
+            this.splitContainer9.Size = new System.Drawing.Size(193, 25);
+            this.splitContainer9.SplitterDistance = 64;
+            this.splitContainer9.SplitterWidth = 1;
+            this.splitContainer9.TabIndex = 0;
             // 
-            // comboBoxSync
+            // comboBoxMarkers
             // 
-            this.comboBoxSync.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxSync.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBoxSync.FormattingEnabled = true;
-            this.comboBoxSync.Items.AddRange(new object[] {
-            "Синхронизация выключена",
-            "Синхронизация включена"});
-            this.comboBoxSync.Location = new System.Drawing.Point(0, 0);
-            this.comboBoxSync.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxSync.Name = "comboBoxSync";
-            this.comboBoxSync.Size = new System.Drawing.Size(193, 21);
-            this.comboBoxSync.TabIndex = 1;
-            this.comboBoxSync.SelectedIndexChanged += new System.EventHandler(this.comboBoxSync_SelectedIndexChanged);
+            this.comboBoxMarkers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxMarkers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMarkers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxMarkers.FormattingEnabled = true;
+            this.comboBoxMarkers.Items.AddRange(new object[] {
+            "Маркеры неактивны",
+            "Маркеры активны"});
+            this.comboBoxMarkers.Location = new System.Drawing.Point(0, 0);
+            this.comboBoxMarkers.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxMarkers.Name = "comboBoxMarkers";
+            this.comboBoxMarkers.Size = new System.Drawing.Size(128, 21);
+            this.comboBoxMarkers.TabIndex = 1;
+            this.comboBoxMarkers.SelectedIndexChanged += new System.EventHandler(this.comboBoxMarkers_SelectedIndexChanged);
             // 
             // ArchivUC
             // 
@@ -446,6 +486,10 @@
             this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
             this.splitContainer6.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
@@ -457,10 +501,10 @@
             this.splitContainer4.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            this.splitContainer8.Panel1.ResumeLayout(false);
-            this.splitContainer8.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
-            this.splitContainer8.ResumeLayout(false);
+            this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
+            this.splitContainer9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -491,5 +535,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ComboBox comboBoxSync;
         private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.SplitContainer splitContainer9;
+        private System.Windows.Forms.ComboBox comboBoxMarkers;
     }
 }
