@@ -128,6 +128,14 @@ namespace VisualizationSystem.View.UserControls.Archiv
                     lineAnnotationVertical.StrokeThickness *= 3;
                     plotAnalogSignals.Model.InvalidatePlot(false);
                     e.Handled = true;
+                    if (_plotsSynchronized == 1)
+                    {
+                        for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                        {
+                            lineAnnotationsIO[i].StrokeThickness *= 3;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                        }
+                    }
                 }
             };
             lineAnnotationVertical.MouseMove += (s, e) =>
@@ -137,6 +145,14 @@ namespace VisualizationSystem.View.UserControls.Archiv
                     lineAnnotationVertical.X = lineAnnotationVertical.InverseTransform(e.Position).X;
                     plotAnalogSignals.Model.InvalidatePlot(false);
                     e.Handled = true;
+                    if (_plotsSynchronized == 1)
+                    {
+                        for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                        {
+                            lineAnnotationsIO[i].X = lineAnnotationVertical.X;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                        }
+                    }
                 }
             };
             lineAnnotationVertical.MouseUp += (s, e) =>
@@ -146,6 +162,14 @@ namespace VisualizationSystem.View.UserControls.Archiv
                     lineAnnotationVertical.StrokeThickness /= 3;
                     plotAnalogSignals.Model.InvalidatePlot(false);
                     e.Handled = true;
+                    if (_plotsSynchronized == 1)
+                    {
+                        for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                        {
+                            lineAnnotationsIO[i].StrokeThickness /= 3;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                        }
+                    }
                 }
             };
             lineAnnotationHorizontal = new LineAnnotation { Type = LineAnnotationType.Horizontal, Color = OxyColors.Brown, Layer = AnnotationLayer.BelowSeries};
@@ -321,7 +345,14 @@ namespace VisualizationSystem.View.UserControls.Archiv
         {
             _plotsSynchronized = comboBoxSync.SelectedIndex;
             if (_plotsSynchronized == 1)
+            {
                 SynchronizePlotsByTimeAxis();
+                for (int i = 0; i < _checkedIOIndexes.Count; i++)
+                {
+                    lineAnnotationsIO[i].X = lineAnnotationVertical.X;
+                    plotIOSignals[i].Model.InvalidatePlot(false);
+                }
+            }
         }
         
         private void comboBoxMarkers_SelectedIndexChanged(object sender, EventArgs e)
@@ -426,6 +457,41 @@ namespace VisualizationSystem.View.UserControls.Archiv
                     plotIOSignals[i].Model.Axes.Clear();
                     plotIOSignals[i].Model.Axes.Add(xAxis[i]);
                     plotIOSignals[i].Model.Axes.Add(yAxis[i]);
+                    //annotations
+                    lineAnnotationsIO[i] = new LineAnnotation { Type = LineAnnotationType.Vertical, Color = OxyColors.Brown, Layer = AnnotationLayer.BelowSeries };
+                    lineAnnotationsIO[i].X = lineAnnotationVertical.X;
+                   /* lineAnnotationsIO[i].MouseDown += (s, e) =>
+                    {
+                        if (e.ChangedButton != OxyMouseButton.Left)
+                        {
+                            return;
+                        }
+                        if (_isMarkersActive == 1)
+                        {
+                            lineAnnotationsIO[i].StrokeThickness *= 3;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                            e.Handled = true;
+                        }
+                    };
+                    lineAnnotationsIO[i].MouseMove += (s, e) =>
+                    {
+                        if (_isMarkersActive == 1)
+                        {
+                            lineAnnotationsIO[i].X = lineAnnotationsIO[i].InverseTransform(e.Position).X;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                            e.Handled = true;
+                        }
+                    };
+                    lineAnnotationsIO[i].MouseUp += (s, e) =>
+                    {
+                        if (_isMarkersActive == 1)
+                        {
+                            lineAnnotationsIO[i].StrokeThickness /= 3;
+                            plotIOSignals[i].Model.InvalidatePlot(false);
+                            e.Handled = true;
+                        }
+                    }; */
+                    plotIOSignals[i].Model.Annotations.Add(lineAnnotationsIO[i]);
                 }
                 for (int i = 0; i < _ioSeries.Count(); i++)
                 {
@@ -487,19 +553,6 @@ namespace VisualizationSystem.View.UserControls.Archiv
             if (_blocksDates != null && _blocksDates.Count > 0)
                 MakeIOSignalsGraphics(_IOSignals, _blocksDates);
         }
-       /* private void toolStripMenuItem2_Click(object sender, EventArgs e)//sinchronize plots by time axis
-        {
-            DateTime fistPoint = new DateTime();
-            DateTime secondPoint = new DateTime();
-            fistPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMinimum);
-            secondPoint = DateTimeAxis.ToDateTime(plotAnalogSignals.Model.Axes[0].ActualMaximum);
-            for (int i = 0; i < _checkedIOIndexes.Count; i++)
-            {
-                plotIOSignals[i].Model.Axes[0].Minimum = DateTimeAxis.ToDouble(fistPoint);
-                plotIOSignals[i].Model.Axes[0].Maximum = DateTimeAxis.ToDouble(secondPoint);
-                plotIOSignals[i].InvalidatePlot(true);
-            }
-        } */
 
         private void xAxis_AxisChanged(object sender, AxisChangedEventArgs args)
         {
@@ -529,6 +582,7 @@ namespace VisualizationSystem.View.UserControls.Archiv
         private List<List<List<string>>> _analogSignals;
         private LineAnnotation lineAnnotationVertical;
         private LineAnnotation lineAnnotationHorizontal;
+        private LineAnnotation[] lineAnnotationsIO = new LineAnnotation[10];
         private List<List<string>> _IOSignals;
         private List<int> _checkedIOIndexes; 
         private List<DateTime> _blocksDates;
