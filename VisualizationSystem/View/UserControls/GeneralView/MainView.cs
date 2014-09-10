@@ -47,7 +47,7 @@ namespace VisualizationSystem.View.UserControls.GeneralView
         public void MainView_Load()
         {
 
-            //view models creation
+            //view models creation орлш
             _leftPanelVm = new LeftPanelVm(panel1.Width, panel1.Height);
             _rightPanelVm = new RightPanelVm(panel2.Width, panel2.Height);
             _leftDopPanelVm = new LeftDopPanelVm(panel6.Width, panel6.Height);
