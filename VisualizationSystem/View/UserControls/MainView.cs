@@ -37,7 +37,7 @@ namespace VisualizationSystem.View.UserControls
             CreateAuziDIOSignalsMassiv();
             SetGraphicInterval(); 
 
-            //view models creation
+            //view models creation чпап
             _leftPanelVm = new LeftPanelVm(panel1.Width, panel1.Height);
             _rightPanelVm = new RightPanelVm(panel2.Width, panel2.Height);
             _leftDopPanelVm = new LeftDopPanelVm(panel6.Width, panel6.Height);
